@@ -6,7 +6,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { timerSliderData } from '@/data';
-import { TimerSliderItem } from '@/types/sliderTypes';
 import { TimeRemaining, TimeRemainingArray } from '@/types/timerTypes';
 
 const settings = {

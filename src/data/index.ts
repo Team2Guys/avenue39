@@ -80,7 +80,6 @@ export const slides: TSlide[] = [
   },
   {
     image: banner2,
-    bannerHeading: 'Build Your Home With Furniture',
     bannerSubHeading: 'Making Beautiful Your Home',
     text: 'Slide 2 Text',
     buttonText: 'Shop Now',
@@ -88,7 +87,7 @@ export const slides: TSlide[] = [
   },
   {
     image: banner3,
-    bannerHeading: 'Build Your Home With Furniture',
+
     bannerSubHeading: 'Making Beautiful Your Home',
     text: 'Slide 3 Text',
     buttonText: 'Shop Now',

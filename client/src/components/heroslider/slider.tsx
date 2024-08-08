@@ -5,23 +5,32 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
 import { Button } from '../ui/button';
-import {  saleitems, slides } from '@/data';
+import { saleitems, slides } from '@/data';
 import Salecard from '../ui/sale-card';
 import { ISaleItems } from '@/types/types';
-import profile1 from '@images/profile/Ellipse 4.png'
+import profile1 from '@images/profile/Ellipse 4.png';
+import { useRouter } from 'next/navigation';
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
 
 const SimpleSlider: React.FC = () => {
+  const router = useRouter();
+
+  const handleButtonNavigation = () => {
+    router.push('/products');
+  };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  
+
   return (
     <div className="flex flex-wrap md:flex-nowrap gap-2 md:gap-4 justify-between">
-      <div className="overflow-hidden w-full md::w-8/12">
+      <div className="overflow-hidden w-full md:w-8/12">
         <Slider
           {...settings}
           className="hero-slider-wrapper relative min-h-[250px] sm:min-h-[300px] h-full"
@@ -33,15 +42,15 @@ const SimpleSlider: React.FC = () => {
                 className="min-h-[350px] w-full h-full"
                 alt="image"
               />
-              <div className="absolute xl:left-32 lg:20 left-10 inset-0 flex flex-col items-start justify-center text-secondary">
+              <div className="absolute xl:left-32 lg:left-0 left-10 inset-0 flex flex-col items-start justify-center text-secondary">
                 <h3 className="md:text lg:text-xl mb-4">
                   {slide.bannerSubHeading}
                 </h3>
-                {/* <h2 className="xl:leading-relaxed text-2xl xl:text-5xl mb-4 font-bold w-3/4 sm:w-1/2 lg:w-[480px]">
+                <h2 className="xl:leading-relaxed text-left text-2xl xl:text-5xl mb-4 font-bold w-3/4 sm:w-1/2 lg:w-[480px]">
                   {slide.bannerHeading}
-                </h2> */}
+                </h2>
                 <span className="grid grid-cols-1 xs:flex xs:flex-wrap xs:items-center gap-2 sm:gap-4">
-                  <Button variant={'link'}>
+                  <Button variant={'link'} onClick={handleButtonNavigation}>
                     {slide.buttonText}
                   </Button>
                   <span className='flex items-center gap-2 sm:gap-4'>
@@ -74,7 +83,7 @@ const SimpleSlider: React.FC = () => {
 
       <div className="w-full md:w-4/12 md:mt-1 bg-lightforeground text-center rounded-e-xl md:rounded-e-none rounded-s-xl py-4 md:p-5 flex flex-col justify-center items-center mx-2 md:mx-0">
         <p className="text-2xl font-semibold mb-5">Pay Your Way</p>
-        <div className="flex justify-center gap-4 px-2">
+        <div className="flex justify-center gap-4 px-1 w-full">
           {saleitems.map((item) => (
             <Salecard key={item.id} cards={item} />
           ))}
@@ -92,9 +101,12 @@ const SimpleSlider: React.FC = () => {
             </span>
           </h2>
         </div>
-        <Button className="mt-3" variant={'link'}>
-          Shop Now
-        </Button>
+        <div
+          onClick={() => router.push('/products')}
+          className="pt-6 block bg-lightforeground hover:bg-lightforeground text-black text-lg font-bold border-black cursor-pointer py-0 border-b-2 h-12 rounded-none p-0 tracking-widest"
+        >
+          SHOP NOW
+        </div>
       </div>
     </div>
   );

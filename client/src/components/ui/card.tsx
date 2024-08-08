@@ -77,16 +77,16 @@ const Card: React.FC<CardProps> = ({ card, isModel }) => {
         <Image
           src={card.posterImageUrl}
           alt={card.name}
-          width={320}
-          height={200}
-          className="object-cover rounded-t-lg w-full"
+          width={300}
+          height={600}
+          className="object-cover lg:w-[528px] lg:h-[672px] rounded-3xl "
         />
       </div>
       <h3 className="text-lg font-semibold mt-2">{card.name}</h3>
       <p className="text-md font-semibold mt-1">
         AED{card.discountPrice}
         <span className="line-through text-secondary-foreground ms-2">
-          {card.price}
+          AED{card.price}
         </span>
       </p>
       <div className="flex gap-1 mt-2 items-center justify-center h-8">

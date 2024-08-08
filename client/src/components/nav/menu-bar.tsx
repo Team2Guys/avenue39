@@ -66,12 +66,14 @@ const handleMenuClick = (menu: string) => {
             className='font-semibold text-19 uppercase hover:underline flex gap-2 items-center cursor-pointer' 
             onClick={() => handleMenuClick('bedroom')}
           >
-            BEDROOM <MdOutlineKeyboardArrowDown size={25} />
+            LIVING <MdOutlineKeyboardArrowDown size={25} />
           </div>
           <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>BEDROOM</Link>
-          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>BEDROOM</Link>
-          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>DINING</Link>
-          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>DINING</Link>
+          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>CHAIRS</Link>
+          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>TABLES</Link>
+          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>HOME OFFICE</Link>
+          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>TV CABINETS</Link>
+          <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>CLEARANCE</Link>
           <button 
             className='font-semibold text-19 uppercase hover:underline text-red-600'
             onClick={() => handleMenuClick('megaSale')}
@@ -91,7 +93,7 @@ const handleMenuClick = (menu: string) => {
               </p>
               <div className='border-b-4 w-14 border-red-600'/>
               <div className='grid grid-cols-3 space-y-3'>
-                <MenuLink menudata={menuData[activeMenu]} />  
+                <MenuLink menudata={menuData[activeMenu]} /> 
               </div>
             </div>
             {activeMenu === 'bedroom' && (

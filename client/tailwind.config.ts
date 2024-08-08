@@ -56,6 +56,10 @@ const config = {
           DEFAULT: 'var(--light-foreground)',
           foreground: 'var(--light-foreground)',
         },
+        lighttextforeground: {
+          DEFAULT: 'var(--light-textforeground)',
+          foreground: 'var(--light-textforeground)',
+        },
         lightbackground: {
           DEFAULT: 'var(--light-background)',
           foreground: 'var(--light-background)',

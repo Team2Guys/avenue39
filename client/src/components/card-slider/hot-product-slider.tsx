@@ -15,8 +15,8 @@ import { fetchProducts } from '@/config/fetch';
 const settings = {
   arrows: true,
   infinite: true,
-  slidesToShow: 4,
-  slidesToScroll: 4,
+  slidesToShow: 3,
+  slidesToScroll: 3,
   speed: 500,
   rows: 2,
   slidesPerRow: 1,

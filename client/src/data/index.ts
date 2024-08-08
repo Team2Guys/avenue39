@@ -60,6 +60,7 @@ export const timerSliderData: TimerSliderItem[] = [
     buttonText: 'ADD TO CART',
     image: timerImage,
     endDate: '2024-12-31T23:59:59',
+    productId: 5,
   },
   {
     discountText: 'UPTO 50% OFF',
@@ -70,6 +71,7 @@ export const timerSliderData: TimerSliderItem[] = [
     buttonText: 'ADD TO CART',
     image: timerImage,
     endDate: '2024-11-30T23:59:59',
+    productId: 5,
   },
   // Add more items as needed
 ];
@@ -77,7 +79,7 @@ export const timerSliderData: TimerSliderItem[] = [
 export const slides: TSlide[] = [
   {
     image: banner1,
-    // bannerHeading: 'Build Your Home With Furniture',
+    bannerHeading: 'Build Your Home With Furniture',
     bannerSubHeading: 'Making Beautiful Your Home',
     text: 'Slide 1 Text 2',
     buttonText: 'Shop Now',
@@ -85,6 +87,7 @@ export const slides: TSlide[] = [
   },
   {
     image: banner2,
+    bannerHeading: 'Build Your Home With Furniture',
     bannerSubHeading: 'Making Beautiful Your Home',
     text: 'Slide 2 Text',
     buttonText: 'Shop Now',
@@ -92,7 +95,7 @@ export const slides: TSlide[] = [
   },
   {
     image: banner3,
-
+    bannerHeading: 'Build Your Home With Furniture',
     bannerSubHeading: 'Making Beautiful Your Home',
     text: 'Slide 3 Text',
     buttonText: 'Shop Now',

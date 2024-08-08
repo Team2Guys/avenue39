@@ -3,12 +3,12 @@ import React from 'react'
 import { MdStar, MdStarBorder } from 'react-icons/md'
 import testimonialIcon from '@icons/Group1425.png'
 import { ITestimonialCard } from '@/types/types'
+import { useRouter } from 'next/navigation';
 
 
 interface CardProps {
     card: ITestimonialCard;
   }
-
 
 const TestimonialCard: React.FC<CardProps> = ({card}) => {
 
@@ -24,14 +24,16 @@ const TestimonialCard: React.FC<CardProps> = ({card}) => {
         return stars;
       };
   return (
-    <div className='relative bg-white rounded-lg drop-shadow-md text-start py-10 ps-8 pe-10 mx-3 max-w-[400px]'>
+    <div className='relative bg-white rounded-3xl text-start py-20 ps-8 pe-10 mx-3 max-w-[400px] shadow-lg lg:mb-4 mb-2'>
         <Image src={testimonialIcon} alt='testimonial icon' className='absolute top-5 right-8'/>
-        <Image src={card.profile.src} alt='profile image' width={card.profile.width} height={card.profile.height}/>
+        <div >
+        <Image src={card.profile.src} className='!flex justify-start !m-0' alt='profile image' width={card.profile.width} height={card.profile.height}/>
         <h4 className='font-medium text-20 mt-4'>{card.name}</h4>
-        <p className='mt-4 text-17 text-lightforeground font-normal'>Customer</p>
+        <p className='mt-4 text-17 text-lighttextforeground font-normal'>Customer</p>
         <p className='mt-4 text-17 leading-9'>{card.comment}</p>
-        <div className="flex items-center gap-2 mt-9">
+        <div className="flex items-center gap-2 mt-10">
             {renderStars()}
+        </div>
         </div>
     </div>
   )

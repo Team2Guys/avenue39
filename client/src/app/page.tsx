@@ -1,3 +1,4 @@
+'use client'
 import Services from '@/components/services/services';
 import React, { Fragment } from 'react';
 import SimpleSlider from '@/components/heroslider/slider';
@@ -17,8 +18,14 @@ import HotProductSlider from '@/components/card-slider/hot-product-slider';
 import Testimonial from '@/components/testimonial/testimonial';
 import CardsTabes from '@/components/card-tabs/card-slider';
 import TimerSlider from '@/components/timer-slider/TimerSlider';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleBuyNowClick = () => {
+    router.push('/checkout');
+  }
   return (
     <Fragment>
       <SimpleSlider />
@@ -48,12 +55,12 @@ export default function Home() {
             <p className="text-xs sm:text-14 font-normal text-primary-foreground text-white">
               Get Discount Up to 80%
             </p>
-            <h3 className="font-semibold text-xl sm:text-2xl mt-1 text-white">
+            <h3 className="font-semibold lg:text-4xl sm:text-2xl mt-1 text-white">
               White Minimalist Combo Sofa
             </h3>
             <Button
-              className="text-black rounded-full px-9 mt-3 font-normal"
-              variant={'link'}
+              className="text-black rounded-2xl px-9 mt-3 font-normal"
+              variant={'link'}  onClick={handleBuyNowClick}
             >
               Buy Now
             </Button>

@@ -56,7 +56,7 @@ const Navbar = (props: INav) => {
             />
           </Link>
         </div>
-        <div className="w-0/12 md:w-4/12 lg:w-5/12 ">
+        <div className="w-0/12 md:w-4/12 lg:w-5/12 ml-auto lg:-mr-8">
           <div className="relative rounded-md hidden md:block">
             <input
               type="text"
@@ -110,10 +110,10 @@ const Navbar = (props: INav) => {
             </Drawer>
           </div>
         </div>
-        <div className=" md:w-2/12 lg:w-1/12 hidden md:flex justify-center">
+        <div className=" md:w-2/12 lg:w-1/12 hidden md:flex justify-end">
           <CartItems />
         </div>
-        <div className="w-5/12 md:w-5/12 lg:w-3/12 gap-2 flex justify-end items-center ">
+        <div className="w-5/12 md:w-5/12 lg:w-96 gap-2 flex justify-end items-center ">
           <Drawer>
             <DrawerTrigger asChild>
               <IoSearchSharp

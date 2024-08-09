@@ -60,7 +60,7 @@ export type BRAND = {
 
 export type TSlide = {
   image: any;
-  bannerHeading: string;
+  bannerHeading: any;
   bannerSubHeading: any;
   text: string;
   buttonText: string;

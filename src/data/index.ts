@@ -56,7 +56,6 @@ export const timerSliderData: TimerSliderItem[] = [
     dealText: 'Deal of the Day',
     price: '$99.99',
     productName: 'Trent Luxury Armchair',
-    // bannerHeading: 'Amazing Offer Just for You!',
     buttonText: 'ADD TO CART',
     image: timerImage,
     endDate: '2024-12-31T23:59:59',
@@ -67,13 +66,11 @@ export const timerSliderData: TimerSliderItem[] = [
     dealText: 'Limited Time Offer',
     price: '$79.99',
     productName: 'Trent Luxury Armchair',
-    // bannerHeading: 'Don’t Miss Out!',
     buttonText: 'ADD TO CART',
     image: timerImage,
     endDate: '2024-11-30T23:59:59',
     productId: 5,
   },
-  // Add more items as needed
 ];
 
 export const slides: TSlide[] = [

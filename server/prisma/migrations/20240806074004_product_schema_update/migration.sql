@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE "Products" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "sale" TEXT DEFAULT '0',
-ADD COLUMN     "saleDuration" INTEGER;

@@ -1,0 +1,328 @@
+/* If need to use classes */
+.hero-slider-wrapper .slick-dots {
+  position: absolute;
+  bottom: 35px !important;
+  left: 10px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  border: #000;
+}
+.hero-slider-wrapper .slick-dots li button {
+  border: none;
+}
+
+.hero-slider-wrapper .slick-dots li button:before {
+  font-family: 'slick';
+  background: white;
+  width: 8px;
+  height: 8px;
+  content: '';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: 50%;
+  border: white;
+}
+.hero-slider-wrapper .slick-list {
+  position: relative;
+  height: 100%;
+}
+.hero-slider-wrapper .slick-list .slick-track {
+  height: 100%;
+}
+.hero-slider-wrapper .slick-list .slick-track .slick-slide div {
+  height: 100%;
+}
+.hero-slider-wrapper .slick-dots {
+  display: flex !important;
+  justify-content: end;
+  transform: translateX(-30px);
+  height: 8px;
+}
+.hero-slider-wrapper .sliderTabes__dots .slick-dots li {
+  position: relative;
+  width: 8px;
+  margin: 0px;
+  padding: 0;
+  cursor: pointer;
+}
+.hero-slider-wrapper .slick-dots .slick-active button::before {
+  width: 25px;
+  /* background-color: white; */
+  border: none;
+  opacity: 1;
+  transition: all 0.5s;
+}
+.hero-slider-wrapper .slick-dots .slick-active {
+  width: 25px !important;
+  border: none;
+  background-color: none;
+}
+.hero-slider-wrapper .slick-dots .slick-active button:before {
+  border-radius: 25% !important;
+}
+
+.sliderTabes .slick-prev:before,
+.slick-next:before {
+  font-family: 'slick';
+  font-size: 37px !important;
+  line-height: 1;
+  opacity: 0.75;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  z-index: 1;
+}
+.sliderTabes .slick-prev:before,
+.sliderTabes .slick-next:before {
+  font-family: 'slick';
+  font-size: 37px;
+  line-height: 1;
+  opacity: 0.75;
+  color: black !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  z-index: 1;
+}
+.sliderTabes .slick-prev,
+.sliderTabes .slick-next {
+  z-index: 1;
+}
+.custom-scrollbar {
+  overflow-y: scroll;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 4px;
+  border: 3px solid black;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+.custom-scroll::-webkit-scrollbar {
+  width: 4px !important;
+  height: 5px !important;
+  overflow-y: scroll;
+  /* Optional: Adding padding, margin, and other styles */
+}
+
+/* Custom scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Width of the entire scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the scrollbar track */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: black; /* Color of the scrollbar thumb */
+  border-radius: 4px;
+  border: 3px solid black; /* Padding around the thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+.sliderTabes .slick-next {
+  right: -10px;
+}
+.discount-product-wrapper::-webkit-scrollbar {
+  width: 4px !important;
+  height: 5px !important;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #c6c6c6 !important;
+  border-radius: 5px !important;
+}
+/* .product-hover-icons {
+  display: none;
+}
+.product-card:hover .product-hover-icons {
+  display: flex;
+} */
+.hot-products .slick-slide .product-card {
+  margin-bottom: 40px;
+}
+.hot-product-prev-arrow svg,
+.hot-product-next-arrow svg {
+  height: 13px !important;
+  font-weight: bolder;
+}
+.custom-prev-arrow,
+.custom-next-arrow {
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0px 6px 12px #19181833;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  cursor: pointer;
+}
+.custom-prev-arrow:hover,
+.custom-next-arrow:hover {
+  filter: invert(1);
+}
+.custom-prev-arrow {
+  left: -10px;
+}
+.custom-next-arrow {
+  right: -10px;
+}
+.star-rating {
+  display: flex;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.2s;
+  stroke: gold;
+  color: white;
+  stroke-width: 30;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star.disabled {
+  cursor: not-allowed;
+  color: white;
+  stroke: gray;
+}
+/* global.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent; /* You can change the color as per your design */
+  border-radius: 1px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* You can change the color as per your design */
+  border-radius: 1px;
+}
+
+.column-swipper .swiper-wrapper {
+  flex-direction: column !important;
+  /* gap: 10px; */
+  overflow: hidden !important;
+}
+
+.text-outline-border {
+  text-shadow:
+    -3px 3px 0 #000,
+    3px 3px 0 #000,
+    3px -3px 0 #000,
+    -3px -3px 0 #000;
+}
+.column-swiper-slider {
+  width: 100% !important;
+  height: fit-content !important;
+}
+.product_starts {
+  display: flex !important;
+  gap: 15px !important;
+  svg {
+    width: 33px;
+    height: 30px;
+  }
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.product-swiper .swiper-slide-thumb-active img {
+  border: 2px solid #979797;
+}
+.slick-initialized .slick-slide {
+  display: inline-block !important;
+  text-align: center;
+  margin: auto;
+}
+.slick-initialized .slick-slide img {
+  margin: auto;
+}
+.timer_slider .slick-dots {
+  position: absolute;
+  bottom: 35px !important;
+  left: 30%;
+  /* transform: translateX(-50%); */
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+
+  /* justify-content: end; */
+
+  /* height: 8px; */
+}
+.timer_slider .slick-dots .slick-active button::before {
+  width: 25px;
+  background-color: rgb(0, 0, 0);
+  opacity: 1;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.timer_slider .slick-dots li button:before {
+  font-family: 'slick';
+  background: rgb(0, 0, 0);
+  overflow: hidden;
+  width: 10px;
+  height: 10px;
+  content: '';
+  border: 1px solid #e3e4e6;
+  /* background-color:#e3e4e6; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: 50%;
+}
+.timer_slider .slick-dots li button {
+  height: 0px;
+  padding: 0px;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  margin: 0 6px !important;
+  border: 1px solid #e3e4e6;
+  background-color: #e3e4e6;
+}
+.timer_slider .slick-dots .slick-active button:before {
+  border-radius: 25% !important;
+}

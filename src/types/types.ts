@@ -272,3 +272,14 @@ export interface USRPROPS {
   setadminType?: React.Dispatch<SetStateAction<string | undefined>>;
   adminType?: string | undefined;
 }
+
+export interface IReview {
+  id: number;
+  name: string;
+  email: string;
+  review: string;
+  star: number;
+  createdAt: string;
+  productId: number;
+  userProfileImg?: string;
+}

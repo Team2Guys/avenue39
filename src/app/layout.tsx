@@ -10,6 +10,7 @@ import TopNav from '@/components/nav/top-nav';
 import BottomBar from '@/components/nav/bottom-bar';
 import Providers from '@/redux/provider';
 import PathnameWrapper from '@/components/PathnameWrapper';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Open_Sans({ subsets: ['latin'] });
 
@@ -27,7 +28,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <PathnameWrapper>{children}</PathnameWrapper>
+          <PathnameWrapper>
+            {children}
+            <ToastContainer />
+          </PathnameWrapper>
         </Providers>
       </body>
     </html>

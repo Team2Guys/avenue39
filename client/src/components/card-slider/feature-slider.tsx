@@ -5,11 +5,15 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import FeatureCard from '../feature-card/feature-card';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { Feature } from '@/types/types';
+import { Feature, IProduct } from '@/types/types';
+import { cards, features, products } from '@/data';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '@/config/fetch';
 
-interface FeatureSliderProps {
-    features: Feature[];
-  }
+interface SliderProps {
+  cards: IProduct[];
+  isModel?: boolean;
+}
 
 const settings = {
   arrows: false,
@@ -45,7 +49,15 @@ const settings = {
   ],
 };
 
-const FeatureSlider: React.FC<FeatureSliderProps> = ({ features }) => {
+const FeatureSlider: React.FC = () => {
+  const {
+    data: products = [],
+    error: productsError,
+    isLoading: isProductsLoading,
+  } = useQuery<IProduct[], Error>({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
   const sliderRef = useRef<Slider | null>(null);
 
   const next = () => {
@@ -77,18 +89,13 @@ const FeatureSlider: React.FC<FeatureSliderProps> = ({ features }) => {
         }}
         {...settings}
       >
-        {features.map((feature, index) => (
-          <div key={index}>
-            <FeatureCard
-              image={feature.image}
-              title={feature.title}
-              rating={feature.rating}
-              currentPrice={feature.currentPrice}
-              originalPrice={feature.originalPrice}
-              discount={feature.discount}
-            />
-          </div>
-        ))}
+           {products.map((card) => (
+            <div key={card.id}>
+              <FeatureCard card={card} />
+            </div>
+          ))}
+         
+
       </Slider>
   
     </div>

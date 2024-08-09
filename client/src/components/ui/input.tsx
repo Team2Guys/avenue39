@@ -4,7 +4,6 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { FaRegEnvelopeOpen, FaRegUser } from 'react-icons/fa';
 import { IoPhonePortraitOutline, IoSearchSharp } from 'react-icons/io5';
 import { RiLockPasswordLine } from 'react-icons/ri';
-import { PiUserCircleLight } from "react-icons/pi";
 
 import { cn } from '@/lib/utils';
 

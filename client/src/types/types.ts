@@ -80,7 +80,7 @@ export interface IServiceItem {
 }
 export interface MenuItem {
   title: string;
-  icon: string;
+  icon: any;
   link: string;
 }
 
@@ -199,6 +199,7 @@ export interface City {
   name: string;
 }
 export interface Feature {
+  link: string;
   image: any;
   title: string;
   rating: number;

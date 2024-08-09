@@ -268,7 +268,7 @@ const ProductPage = ({ params }: { params: IProductDetail }) => {
       <div className="mt-10 pt-10 mb-20 border-t-2">
       <Container>
         <p className="text-3xl sm:text-4xl md:text-[51px] font-medium text-center mb-4 sm:mb-0">Similar Products</p>
-        <FeatureSlider features={features} />
+        <FeatureSlider />
       </Container>
       </div>
       <Services />

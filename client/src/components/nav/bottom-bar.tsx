@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiSolidToTop } from 'react-icons/bi';
 import { FaRegHeart } from 'react-icons/fa';
@@ -7,6 +7,9 @@ import { IoBagOutline } from 'react-icons/io5';
 import { MdCategory } from 'react-icons/md';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Avatar, Popover } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { CgLogIn } from 'react-icons/cg';
 
 
 interface AccordionItemType {
@@ -57,6 +60,15 @@ const menuData: MenuData[] = [
 ];
 
 const BottomBar: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
+  const hide = () => {
+    setOpen(false);
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
   return (
     <div className='flex justify-between items-center px-5 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-50'>
       <Link href={"/"}><AiOutlineHome size={25} /></Link>
@@ -102,9 +114,35 @@ const BottomBar: React.FC = () => {
           </div>
         </SheetContent>
       </Sheet>
-
+            
       <Link href={"/"}><IoBagOutline size={25} /></Link>
-      <Link href={"/"}><BiSolidToTop size={25} /></Link>
+      {/* <Link href={"/"}><CgLogIn size={25} /></Link> */}
+      <Popover
+              content={
+                <>
+                  <div className="flex flex-col gap-2 w-auto px-5 ">
+                    <Link className='text-black hover:text-primary' href="/profile" onClick={hide}>
+                      Profile
+                    </Link>
+                    <Link className='text-black hover:text-primary' href="/order-history" onClick={hide}>
+                      Order History
+                    </Link>
+                    <Link className='text-black hover:text-primary' href="/login" onClick={hide}>
+                      Logout
+                    </Link>
+                  </div>
+                </>
+              }
+              title=""
+              placement='bottomRight'
+              trigger="click"
+              open={open}
+              onOpenChange={handleOpenChange}
+            >
+              <div className="flex gap-2 items-center whitespace-nowrap cursor-pointer">
+                <Avatar icon={<UserOutlined />} />
+              </div>
+        </Popover>
     </div>
   );
 };

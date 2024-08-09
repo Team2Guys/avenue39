@@ -10,13 +10,14 @@ export interface MenuItem {
 
 interface MenuLinkProps {
   menudata: MenuItem[];
+  onLinkClick:  any;
 }
 
-const MenuLink: React.FC<MenuLinkProps> = ({ menudata }) => {
+const MenuLink: React.FC<MenuLinkProps> = ({ menudata,onLinkClick }) => {
   return (
     <>
       {menudata.map((item, index) => (
-        <Link href={item.link} className='flex gap-2 items-center' key={index}>
+        <Link href={item.link} className='flex gap-2 items-center' key={index} onClick={onLinkClick}>
           <div className='rounded-md h-20 w-20 border'>
             <Image src={item.icon} alt='menu' width={80} height={80} />
           </div>

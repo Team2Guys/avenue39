@@ -50,7 +50,7 @@ const DetailTabs: FC<DetailTabsProps> = ({ tabs }) => {
             {tabs[activeTab].content}
             <div className="w-full relative">
               <h1 className="text-2xl py-3 text-left font-semibold absolute -top-3">Best Seller</h1>
-              <FeatureSlider features={features} />
+              <FeatureSlider  />
             </div>
           </div>
           <div className="w-1/3 lg:w-1/4 hidden sm:block ">

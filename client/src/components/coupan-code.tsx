@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 
 const Coupan = ({label}:any) => {
   return (
-    <div className="flex w-full items-end space-x-2">
+    <div className="flex flex-wrap sm:flex-nowrap w-full items-end space-x-2 space-y-1 md:space-y-0">
             <LabelInput
               labelClass="px-2"
               label={label}

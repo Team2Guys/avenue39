@@ -17,11 +17,11 @@ const Cart = () => {
       <Container className="mt-10 flex flex-wrap md:flex-nowrap gap-0 md:gap-10">
         <div className="w-full md:w-7/12 space-y-4">
           <CartItems isCartPage={true} />
-          <div className="flex flex-wrap justify-between">
-            <div className="w-full md:w-6/12">
+          <div className="flex flex-wrap lg:flex-nowrap gap-5 justify-between items-center">
+            <div className="">
               <Coupan />
             </div>
-            <div className="w-full md:w-3/12 mt-4 md:mt-0">
+            <div className="">
               <Link
                 href="/"
                 className="bg-[#F6F6F6] px-6 flex justify-center items-center text-[#666666] h-[73px]"
@@ -37,7 +37,7 @@ const Cart = () => {
       </Container>
       <Container className="mt-10 mb-20">
         <p className="text-[51px] font-medium text-center">Similar Products</p>
-        <FeatureSlider features={features} />
+        <FeatureSlider />
       </Container>
       <Services />
     </>

@@ -67,6 +67,12 @@ const config = {
         red: {
           DEFAULT: 'var(--red)',
         },
+        warning: {
+          DEFAULT: 'var(--warning)',
+        },
+        lightdark: {
+          DEFAULT: 'var(--light-dark)',
+        },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',

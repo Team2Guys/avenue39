@@ -113,7 +113,7 @@ const Card: React.FC<CardProps> = ({ card, isModel }) => {
               </button>
             </DialogTrigger>
             <DialogOverlay />
-            <DialogContent className="max-w-7xl w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
+            <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
               <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                 <ProductDetail params={card} isZoom={false} />
               </div>

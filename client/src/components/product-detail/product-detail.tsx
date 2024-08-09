@@ -37,6 +37,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { State } from '@/redux/store';
 import { selectTotalPrice, updateItemQuantity } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
+import paymenticons from '@icons/payment-icons.png';
 
 
 const ProductDetail = ({
@@ -75,12 +76,12 @@ const ProductDetail = ({
     }
   };
   return (
-    <div className="flex flex-col md:flex-row w-full justify-between gap-8 my-10">
+    <div className="flex flex-col md:flex-row w-full justify-between gap-8 md:gap-32 my-6">
       <div className="flex-grow md:w-1/2">
         <Thumbnail thumbs={product?.productImages} isZoom={isZoom} />
       </div>
 
-      <div className="w-full md:w-1/2 lg:w-[30%] flex flex-col gap-4">
+      <div className="w-full md:w-1/2 lg:w-[35%] flex flex-col gap-2">
         <div className="flex gap-2">
           <div className="bg-[#00AEEF] p-2 rounded-sm text-white text-xs">
             New
@@ -94,10 +95,10 @@ const ProductDetail = ({
         </div>
         <ProductName>{product?.name}</ProductName>
 
-        <div className="flex gap-6 items-center justify-between">
+        <div className="flex gap-2 items-center justify-between">
           <div className="flex gap-2">
             <span className="flex">{renderStars()}</span>
-            <span className="text-[#999999] text-11 font-medium mt-1">
+            <span className="text-[#999999] text-11 font-medium mt-1 text-nowrap">
               20 reviews
             </span>
           </div>
@@ -107,9 +108,9 @@ const ProductDetail = ({
           </h3>
         </div>
 
-        <ProductPrice className="flex gap-2">
+        <ProductPrice className="flex items-center gap-2">
           AED{product?.discountPrice}
-          <NormalText className="font-normal text-slate-400 line-through">
+          <NormalText className="font-normal text-base text-slate-400 line-through">
             AED{product?.price}
           </NormalText>
         </ProductPrice>
@@ -117,52 +118,49 @@ const ProductDetail = ({
           <span>AVAILABLE:</span>
           <span className="text-[#56B400]">PRE-ORDER ONLY WHATSAPP</span>
         </div>
-        <p className="mb-4 text-[#666666] text-16 tracking-wide leading-6">
+        <p className=" text-lightdark text-14 tracking-wide leading-6">
           {product?.description}
         </p>
 
-        <NormalText className="mb-3">Hurry Up! Sale ends in:</NormalText>
+        <NormalText className="">Hurry Up! Sale ends in:</NormalText>
         <span className="flex gap-2 mb-3">
           {['25 Days', '25 HOUR', '25 MIN', '25 SEC'].map((time, index) => (
             <div
               key={index}
-              className="bg-[#F5F5F5] p-2 rounded-md w-14 text-center font-normal text-[#666666]"
+              className="bg-[#F5F5F5] p-2 rounded-md w-14 text-center font-normal text-13 text-lightdark"
             >
               {time}
             </div>
           ))}
         </span>
 
-        <NormalText className="mb-4">
-          Hurry Up! Only <span className="text-red-600">12</span> left in stock:
-        </NormalText>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between gap-4 mb-2">
           <span>counter</span>
           <Link
             href="https://wa.me/1XXXXXXXXXX"
-            className="w-full h-14 text-white bg-[#64B161] rounded-full flex justify-center items-center gap-2 hover:bg-[#56B400]"
+            className="w-fit ps-5 pe-10 h-12 text-white bg-[#64B161] rounded-full flex justify-center items-center gap-2 hover:bg-[#56B400]"
           >
             <BsWhatsapp size={35} />
             <span className="font-light">PRE-ORDER ONLY</span>
           </Link>
         </div>
 
-        <Button className="bg-primary text-white flex gap-3 justify-center items-center w-full h-14 rounded-2xl mb-3 font-light">
+        <Button className="bg-primary text-white flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light">
           <IoBagOutline size={20} /> BUY IT NOW
         </Button>
         <div className="flex gap-2 mb-4">
           <Button
             variant={'outline'}
-            className="text-primary w-1/2 h-14 rounded-2xl flex gap-3"
+            className="text-primary w-1/2 h-12 rounded-2xl flex gap-3"
           >
             Add to cart
           </Button>
-          <Button className="bg-yellow-500 w-1/2 text-white flex gap-3 h-14 rounded-2xl">
+          <Button className="bg-yellow-500 w-1/2 text-white flex gap-3 h-12 rounded-2xl">
             TRY AT HOME
           </Button>
         </div>
 
-        <div className="flex items-center justify-center relative my-3">
+        <div className="flex items-center justify-center relative mb-2">
           <span className="absolute left-0 w-1/4 border-t border-gray-300"></span>
           <NormalText className="text-center px-4">
             Guaranteed Safe Checkout
@@ -171,22 +169,17 @@ const ProductDetail = ({
         </div>
 
         <div className="flex gap-2 mb-4">
-          <div className="relative w-1/2 border-4 border-[#00FFBC] p-4 rounded-lg">
-           
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className='cursor-pointer'>
-                  <span className="absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
+          <div className="relative w-1/2 border-4 border-[#00FFBC] p-4 rounded-lg shadow">
+            <span className="absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
               tabby
             </span>
-            <p>
-              Pay 4 interest-free payments of AED 396.25.
-              </p>
+            <p className='text-14 pe-2'>
+              Pay 4 interest-free payments of AED 396.25.{' '}
+              <Dialog>
+                <DialogTrigger asChild>
                   <span className="text-red-600 underline cursor-pointer">
                     Learn more
                   </span>
-                  </div>
-               
                 </DialogTrigger>
                 <DialogOverlay className="bg-white/80" />
                 <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
@@ -239,24 +232,19 @@ const ProductDetail = ({
                   </div>
                 </DialogContent>
               </Dialog>
-            
+            </p>
           </div>
-          <div className="relative w-1/2 border-4 border-[#D47C84] p-4 rounded-lg">
-          
-              <Dialog>
-                <DialogTrigger asChild>
-               <div className='cursor-pointer'>
-               <span className="absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
+          <div className="relative w-1/2 border-4 border-[#D47C84] p-4 rounded-lg shadow">
+            <span className="absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
               tamara
             </span>
-            <p>
-              Pay 4 interest-free payments of AED 396.25.
-              </p>
+            <p className='text-14 pe-2'>
+              Pay 4 interest-free payments of AED 396.25.{' '}
+              <Dialog>
+                <DialogTrigger asChild>
                   <span className="text-red-600 underline cursor-pointer">
                     Learn more
                   </span>
-               </div>
-                  
                 </DialogTrigger>
                 <DialogOverlay className="bg-white/80" />
                 <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
@@ -322,30 +310,12 @@ const ProductDetail = ({
                   </div>
                 </DialogContent>
               </Dialog>
+            </p>
           </div>
         </div>
 
-        <div className="p-4">
-          <div className="flex items-center space-x-4 justify-center">
-            <FaLock className="text-green-600 text-xl" />
-            <NormalText className="text-gray-600">Secure Checkout</NormalText>
-            <div className="flex items-center space-x-2">
-              <Image
-                src={VisaCard.src}
-                height={50}
-                width={50}
-                alt="Visa Card"
-              />
-              <Image
-                src={MasterCard.src}
-                height={50}
-                width={50}
-                alt="MasterCard"
-              />
-              <FaCcPaypal className="text-blue-500 text-3xl" />
-              <FaStripe className="text-blue-500 text-4xl" />
-            </div>
-          </div>
+        <div className="flex justify-center">
+          <Image src={paymenticons} alt='payment icons' />
         </div>
       </div>
     </div>

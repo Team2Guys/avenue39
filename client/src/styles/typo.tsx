@@ -35,7 +35,7 @@ export function H1({ children, className }: ITypo) {
 export function ProductName({ children, className }: ITypo) {
   return (
     <div
-      className={`${productName.className} font-[24px] text-justify text-primary  ${className}`}
+      className={`${productName.className} text-[26px] text-justify text-primary  ${className}`}
     >
       {children}
     </div>
@@ -44,7 +44,7 @@ export function ProductName({ children, className }: ITypo) {
 export function ProductPrice({ children, className }: ITypo) {
   return (
     <div
-      className={`${productName.className} font-[20px] text-justify text-primary  ${className}`}
+      className={`${productName.className} text-[20px] text-justify text-primary  ${className}`}
     >
       {children}
     </div>
@@ -53,7 +53,7 @@ export function ProductPrice({ children, className }: ITypo) {
 export function NormalText({ children, className }: ITypo) {
   return (
     <div
-      className={`${normal.className} font-[20px] text-justify text-primary  ${className}`}
+      className={`${normal.className} text-[20px] text-justify text-primary  ${className}`}
     >
       {children}
     </div>

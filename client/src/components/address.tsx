@@ -24,15 +24,14 @@ const Address = () => {
         <ul>
           <li>
             <Link
-            target='_blank'
-              href="mailto:cs@avenue.com"
+              href="mailto:cs@avenue.com" target='_blank'
               className="text-[19px] text-[#666666] font-medium"
             >
               Email :<span>cs@avenue.com</span>
             </Link>
           </li>
           <li>
-            <Link href="https://wa.me/+971505974495" target='_blank'  className="text-[19px] text-[#666666] font-medium">
+            <Link href="https://wa.me/+971505974495" target='_blank' className="text-[19px] text-[#666666] font-medium">
               WhatsApp :<span>+971 50 597 4495</span>
             </Link>
           </li>

@@ -21,15 +21,15 @@ export const TotalProducts = () => {
   return <Fragment>{totalPrice}</Fragment>;
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const productsRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
-  );
-  const products = await productsRes.json();
-
-  return {
-    props: {
-      products,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const productsRes = await fetch(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
+//   );
+//   const products = await productsRes.json();
+// console.log(products, "products")
+//   return {
+//     props: {
+//       products,
+//     },
+//   };
+// };

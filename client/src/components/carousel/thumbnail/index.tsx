@@ -65,9 +65,9 @@ const Thumbnail: React.FC<ThumbProps> = ({ thumbs , isZoom }) => {
   };
 
   return (
-    <div className="relative p-2">
-      <div className="w-full flex gap-4">
-        <div className="w-1/5 flex-shrink-0 relative mb-8">
+    <div className="relative">
+      <div className="w-full flex gap-4 max-h-[600px]">
+        <div className="w-1/5 flex-shrink-0 relative">
           <Swiper
             onSwiper={(swiper) => {
               setThumbsSwiper(swiper);
@@ -84,7 +84,7 @@ const Thumbnail: React.FC<ThumbProps> = ({ thumbs , isZoom }) => {
             {thumbs.map((thumb, index) => (
               <SwiperSlide
                 key={index}
-                className="column-swiper-slider swiper-slide p-2"
+                className="column-swiper-slider swiper-slide py-2 pe-2"
               >
                 <Image
                   className="rounded-lg shadow-lg"
@@ -128,12 +128,12 @@ const Thumbnail: React.FC<ThumbProps> = ({ thumbs , isZoom }) => {
           >
             {thumbs.map((thumb, index) => (
               <SwiperSlide key={index}>
-                <div className={`relative w-full ${isZoom ? 'cursor-zoom-in' : ''}`}>
+                <div className={`relative w-full h-full ${isZoom ? 'cursor-zoom-in' : ''}`}>
                   <Image
                     onMouseEnter={() => handleMouseEnter(thumb.imageUrl || '')}
                     onMouseMove={handleMouseMove}
                     onMouseLeave={handleMouseLeave}
-                    className="rounded-lg shadow h-full w-full border-2 border-gray-100"
+                    className="rounded-lg shadow h-full w-full border-2 border-gray-100 max-h-[600px]"
                     src={thumb.imageUrl || '/default-image.jpg'}
                     width={550}
                     height={550}

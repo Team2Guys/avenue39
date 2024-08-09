@@ -19,6 +19,7 @@ import Testimonial from '@/components/testimonial/testimonial';
 import CardsTabes from '@/components/card-tabs/card-slider';
 import TimerSlider from '@/components/timer-slider/TimerSlider';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
@@ -51,19 +52,20 @@ export default function Home() {
             backgroundPosition: 'center center',
           }}
         >
-          <div className="text-center">
+          <div className="text-center space-y-3">
             <p className="text-xs sm:text-14 font-normal text-primary-foreground text-white">
               Get Discount Up to 80%
             </p>
             <h3 className="font-semibold lg:text-4xl sm:text-2xl mt-1 text-white">
               White Minimalist Combo Sofa
             </h3>
-            <Button
-              className="text-black rounded-2xl px-9 mt-3 font-normal"
-              variant={'link'}  onClick={handleBuyNowClick}
+            <div>
+            <Link href="/products"
+              className=' py-2 px-3 rounded-full bg-transparent '
             >
               Buy Now
-            </Button>
+            </Link>
+            </div>
           </div>
         </div>
       </section>

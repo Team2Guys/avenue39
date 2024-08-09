@@ -4,21 +4,13 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
-import { Button } from '../ui/button';
 import { saleitems, slides } from '@/data';
 import Salecard from '../ui/sale-card';
-import { ISaleItems } from '@/types/types';
 import profile1 from '@images/profile/Ellipse 4.png';
-import { useRouter } from 'next/navigation';
 
+import Link from 'next/link';
 
 const SimpleSlider: React.FC = () => {
-  const router = useRouter();
-
-  const handleButtonNavigation = () => {
-    router.push('/products');
-  };
-
   const settings = {
     dots: true,
     infinite: true,
@@ -50,9 +42,9 @@ const SimpleSlider: React.FC = () => {
                   {slide.bannerHeading}
                 </h2>
                 <span className="grid grid-cols-1 xs:flex xs:flex-wrap xs:items-center gap-2 sm:gap-4">
-                  <Button variant={'link'} onClick={handleButtonNavigation}>
+                  <Link href="/products" className='bg-white py-2 px-3 rounded-full text-black hover:bg-black hover:text-white' >
                     {slide.buttonText}
-                  </Button>
+                  </Link>
                   <span className='flex items-center gap-2 sm:gap-4'>
                   <span className='flex relative'>
                     <span className='bg-white w-12 h-12 rounded-full flex items-center justify-center'>
@@ -94,19 +86,16 @@ const SimpleSlider: React.FC = () => {
             <br />
             <span className="font-bold">SALE</span>
           </h2>
-          <h2 className="text-red-500 text-6xl md:text-7xl 2xl:text-9xl font-extrabold relative">
+          <h2 className="text-red-500 text-6xl md:text-7xl 2xl:text- font-extrabold relative">
             50%
             <span className="absolute -top-1 lg:top-0 right-2 lg:right-5 text-xs font-medium text-black">
               UPTO
             </span>
           </h2>
         </div>
-        <div
-          onClick={() => router.push('/products')}
-          className="pt-6 block bg-lightforeground hover:bg-lightforeground text-black text-lg font-bold border-black cursor-pointer py-0 border-b-2 h-12 rounded-none p-0 tracking-widest"
-        >
-          SHOP NOW
-        </div>
+        <Link href="/products" className='bg-white py-2 px-3 rounded-full text-black hover:bg-black hover:text-white'>
+          Shop Now
+        </Link>
       </div>
     </div>
   );

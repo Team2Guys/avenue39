@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { FaRegEnvelopeOpen, FaRegUser } from 'react-icons/fa';
-import { IoPhonePortraitOutline } from 'react-icons/io5';
+import { IoPhonePortraitOutline, IoSearchSharp } from 'react-icons/io5';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { PiUserCircleLight } from "react-icons/pi";
 
@@ -27,6 +27,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           return <FaRegUser className="h-6 w-6 text-black" />;
         case 'email':
           return <FaRegEnvelopeOpen className="h-6 w-6 text-black" />;
+          case 'search':
+            return <IoSearchSharp className="h-6 w-6 text-black" />;
         case 'username':
           return <FaRegUser className="h-6 w-6 text-black" />;
         case 'phone':

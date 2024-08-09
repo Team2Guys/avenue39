@@ -12,7 +12,7 @@ const Coupan = ({label}:any) => {
               type="text"
               placeholder="Enter your coupon code"
             />
-            <Button className="h-[58px] px-10 text-white">Apply Coupon</Button>
+            <Button className="h-[73px] px-10" variant={"black"}>Apply Coupon</Button>
           </div>
   )
 }

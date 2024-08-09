@@ -54,7 +54,7 @@ const ProductPage = ({ params }: { params: IProductDetail }) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      if (i <= (4 || 0)) {
+      if (i <= (4) || i <= (0)) {
         stars.push(<MdStar key={i} size={20} className="text-yellow-400" />);
       } else {
         stars.push(

@@ -56,7 +56,7 @@ const ProductDetail = ({
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      if (i <= (4 || 0)) {
+      if (i <= (4) || i <= ( 0)) {
         stars.push(<MdStar key={i} size={20} className="text-yellow-400" />);
       } else {
         stars.push(
@@ -172,16 +172,21 @@ const ProductDetail = ({
 
         <div className="flex gap-2 mb-4">
           <div className="relative w-1/2 border-4 border-[#00FFBC] p-4 rounded-lg">
-            <span className="absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
+           
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className='cursor-pointer'>
+                  <span className="absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
               tabby
             </span>
             <p>
-              Pay 4 interest-free payments of AED 396.25.{' '}
-              <Dialog>
-                <DialogTrigger asChild>
+              Pay 4 interest-free payments of AED 396.25.
+              </p>
                   <span className="text-red-600 underline cursor-pointer">
                     Learn more
                   </span>
+                  </div>
+               
                 </DialogTrigger>
                 <DialogOverlay className="bg-white/80" />
                 <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
@@ -234,19 +239,24 @@ const ProductDetail = ({
                   </div>
                 </DialogContent>
               </Dialog>
-            </p>
+            
           </div>
           <div className="relative w-1/2 border-4 border-[#D47C84] p-4 rounded-lg">
-            <span className="absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
+          
+              <Dialog>
+                <DialogTrigger asChild>
+               <div className='cursor-pointer'>
+               <span className="absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
               tamara
             </span>
             <p>
-              Pay 4 interest-free payments of AED 396.25.{' '}
-              <Dialog>
-                <DialogTrigger asChild>
+              Pay 4 interest-free payments of AED 396.25.
+              </p>
                   <span className="text-red-600 underline cursor-pointer">
                     Learn more
                   </span>
+               </div>
+                  
                 </DialogTrigger>
                 <DialogOverlay className="bg-white/80" />
                 <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
@@ -312,7 +322,6 @@ const ProductDetail = ({
                   </div>
                 </DialogContent>
               </Dialog>
-            </p>
           </div>
         </div>
 

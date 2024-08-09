@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const Footer: React.FC = () => {
   return (
-    <section className="pt-16 border-t border-[#EEEEEE]">
+    <section className="pt-16 border-t border-[#EEEEEE] bg-white text-black dark:text-black">
       <Container className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-8 px-4">
         <div className="">
           <div>
@@ -38,8 +38,8 @@ const Footer: React.FC = () => {
           <ul  className="leading-[45px] font-normal text-19 text-primary-foreground mt-6">
             <li><Link href='/profile' target='_self' className='hover:underline'>My Account</Link></li>
             <li><Link href='/about' target='_self' className='hover:underline'>About Us</Link></li>
-            <li><Link href='/' target='_self' className='hover:underline'>Shopping Cart</Link></li>
-            <li><Link href='/' target='_self' className='hover:underline'>Order History</Link></li>
+            <li><Link href='/cart' target='_self' className='hover:underline'>Shopping Cart</Link></li>
+            <li><Link href='/order-history' target='_self' className='hover:underline'>Order History</Link></li>
           </ul>
         </div>
         <div className="">

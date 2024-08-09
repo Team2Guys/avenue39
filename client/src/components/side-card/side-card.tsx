@@ -21,7 +21,7 @@ const SideCard: React.FC<SideCardProps> = ({ data }) => {
   return (
     <div className='mt-4 flex flex-col gap-2'>
       {data.map((item:any, index:any) => (
-        <Link href={"/"} key={index} className='flex gap-4 '>
+        <Link href={"/product/5"} key={index} className='flex gap-4 '>
           <Image width={170} height={170} src={item.image} alt={item.name} />
           <div className='gap-2 space-y-4 mt-3'>
             <p className='text-[13px] font-semibold'>{item.name}</p>

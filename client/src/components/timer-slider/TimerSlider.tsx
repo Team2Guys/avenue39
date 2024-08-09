@@ -9,6 +9,7 @@ import { Button } from '../ui/button';
 import { timerSliderData } from '@/data';
 import { TTimeRemainingArray } from '@/types/types';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const settings = {
   dots: true,
@@ -105,13 +106,15 @@ const TimerSlider: React.FC = () => {
                         </div>
                       </div>
                       <Button 
-                        className="w-fit lg:px-12 lg:mt-8 tracking-widest text-17 font-bold" 
-                        variant={'link'}
+                        className="w-fit lg:px-12 lg:mt-8 tracking-widest text-17 font-bold" variant={"link"}          
                         onClick={() => handleButtonClick(slide.productId)}
                       >
                         {slide.buttonText}
                       </Button>
                     </div>
+                    {/* <Link href="/cart" className='w-fit lg:px-12 lg:mt-8 tracking-widest text-17 font-bold' >
+                      {slide.buttonText}
+                    </Link> */}
                   </div>
                   <div className="w-full lg:order-2 order-1 lg:p-16">
                     <Image src={slide.image} className="object-cover " alt="image" width={1000} height={800} />

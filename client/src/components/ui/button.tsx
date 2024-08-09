@@ -20,6 +20,7 @@ const buttonVariants = cva(
         link: 'bg-white text-black underline-offset-4 hover:bg-black hover:text-white rounded-3xl text-sm',
         login: 'bg-black text-white underline-offset-4 hover:bg-black hover:text-white rounded-full text-sm',
         underline: 'bg-transparent text-black hover:underline text-sm',
+        black: 'bg-black text-white hover:text-black hover:bg-white text-sm rounded-md border-2 border-black ',
       },
       size: {
         default: 'h-10 px-4 py-2',

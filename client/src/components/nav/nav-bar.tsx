@@ -43,8 +43,8 @@ import { TotalProducts } from '@/config/index';
 
 const Navbar = (props: INav) => {
   return (
-    <>
-      <Container className="flex items-center justify-between p-2 md:p-4 gap-4">
+    <div className='bg-white dark:text-black'>
+      <Container className="flex items-center justify-between p-2 md:p-4 gap-4  dark:bg-white   ">
         <div className="w-4/12 md:w-2/12">
           <Link href={'/'}>
             <Image
@@ -161,20 +161,20 @@ const Navbar = (props: INav) => {
 
           <div className="hidden md:flex gap-10 items-center">
             <Link
-              className="gap-2 flex items-center text-14 font-semibold hover:underline"
+              className="gap-2 flex items-center text-14 font-semibold hover:underline text-black dark:text-black"
               href={'/login'}
             >
               <FaRegUser size={25} />
               <span>Login/Register</span>
             </Link>
             <Link
-              className="text-14 font-semibold hover:underline"
+              className="text-14 font-semibold hover:underline text-black dark:text-black"
               href={'/about'}
             >
               About us
             </Link>
             <Link
-              className="text-14 font-semibold hover:underline"
+              className="text-14 font-semibold hover:underline text-black dark:text-black"
               href={'/contact'}
             >
               Contact Us
@@ -223,7 +223,7 @@ const Navbar = (props: INav) => {
           </div>
         </div>
       </Container>
-    </>
+    </div>
   );
 };
 

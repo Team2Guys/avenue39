@@ -16,7 +16,7 @@ const Address = () => {
         </p>
         <p className="text-[19px] text-[#666666] font-medium">
           23 22nd St - Al Quoz Industrial Area 4 - Dubai–{' '}
-          <span className="text-red-600">Map</span>
+          <Link target='_blank' href={"https://www.google.com/maps/place/23+22nd+St+-+Al+Quoz+-+Al+Quoz+Industrial+Area+4+-+Dubai+-+United+Arab+Emirates/@25.1175706,55.2355789,17z/data=!3m1!4b1!4m6!3m5!1s0x3e5f695b15582993:0x6bd9e9b7b6605c6!8m2!3d25.1175706!4d55.2355789!16s%2Fg%2F11csl2pb0x?entry=ttu"} className="text-red-600">Map</Link>
         </p>
       </div>
       <div className="mt-5">
@@ -24,6 +24,7 @@ const Address = () => {
         <ul>
           <li>
             <Link
+            target='_blank'
               href="mailto:cs@avenue.com"
               className="text-[19px] text-[#666666] font-medium"
             >
@@ -31,13 +32,13 @@ const Address = () => {
             </Link>
           </li>
           <li>
-            <Link href="https://wa.me/+971505974495" className="text-[19px] text-[#666666] font-medium">
+            <Link href="https://wa.me/+971505974495" target='_blank'  className="text-[19px] text-[#666666] font-medium">
               WhatsApp :<span>+971 50 597 4495</span>
             </Link>
           </li>
           <li>
             <Link
-              href="tel:+971 50 597 4495"
+              href="tel:+971 50 597 4495" target='_blank'
               className="text-[19px] text-[#666666] font-medium"
             >
               Phone :<span>+971 50 597 4495</span>

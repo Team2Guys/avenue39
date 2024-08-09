@@ -11,6 +11,11 @@ interface CardProps {
   }
 
 const TestimonialCard: React.FC<CardProps> = ({card}) => {
+  const router = useRouter();
+
+  const handleBuyNowClick = () => {
+    router.push('/checkout'); 
+  };
 
     const renderStars = () => {
         const stars = [];

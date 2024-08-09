@@ -17,8 +17,8 @@ import CustomTestimonal from '@/components/testimonial/custom-testimonal';
 const About= () => {
   return (
     <>
-      <TopHero title="About Us" breadcrumbs={aboutbreadcrumbs} />
-      
+      <TopHero  breadcrumbs={aboutbreadcrumbs} />
+      <h1 className='text-center text-[40px] font-bold mt-10'>About Us</h1>
       <Container className="flex flex-wrap md:flex-nowrap items-center md:gap-10 mt-4">
         <div className="w-full md:w-7/12">
           <h2 className="text-14 text-[#999999]">OUR STORY</h2>

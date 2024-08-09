@@ -48,3 +48,6 @@
   align-items: center;
   border: 1px solid #ccc; /* Adjust the border color as needed */
 }
+.ant-input-outlined:focus, .ant-input-outlined:focus-within{
+  border-color:black !important;
+}

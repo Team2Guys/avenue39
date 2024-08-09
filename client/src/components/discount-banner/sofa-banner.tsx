@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import banner2 from '@assets/images/banners/banner2.png'
 import banner3 from '@assets/images/banners/banner3.png'
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SofaBanner: React.FC = () => {
     const router = useRouter();
@@ -13,12 +14,17 @@ const SofaBanner: React.FC = () => {
       router.push('/checkout');
     };
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 mt-2 gap-4 relative">        
-        <div className="bg-lightforeground rounded-r-2xl flex items-center ps-5 xs:px-10 sm:ps-20 2xl:ps-28 min-h-[300px]">
-            <div className="w-1/2 xs:w-1/3 px-3">
-                <p className="text-xs sm:text-14 font-normal text-primary-foreground">Get Discount Up to 80%</p>
+    <section className="grid grid-cols-1 lg:grid-cols-2 mt-2 gap-4 relative">
+        
+        <div className="bg-lightforeground rounded-r-2xl flex items-center ps-5 xs:px-10 sm:ps-20 2xl:ps-32 min-h-[300px]">
+            <div className="w-1/2 xs:w-1/3">
+             <div className="space-y-3">
+             <p className="text-xs sm:text-14 font-normal text-primary-foreground">Get Discount Up to 80%</p>
                 <h3 className="font-semibold text-xl sm:text-2xl mt-1">White Minimalist<br></br>Combo Sofa</h3>
-                <Button onClick={handleBuyNowClick} className="text-white rounded-full px-9 mt-4 sm:mt-12 font-normal">Buy Now</Button>
+                <div>
+                <Link href="/product/5" className='bg-black py-2 px-3 rounded-full text-white hover:bg-white hover:text-black'>Buy Now</Link>
+                </div>
+             </div>
             </div>
             <div className="w-1/2 xs:w-2/3 relative">
             <Image src={sofa1} alt="sofa image" className="w-full h-full"/>
@@ -28,20 +34,25 @@ const SofaBanner: React.FC = () => {
             <div className="w-full h-full rounded-2xl flex justify-center items-center" style={{ backgroundImage: `url(${banner2.src})`, backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center' }}>
-            <div className="text-center">
+
+            <div className="text-center space-y-3">
                 <p className="text-xs sm:text-14 font-normal text-primary-foreground text-white">Get Discount Up to 80%</p>
                 <h3 className="font-semibold text-xl sm:text-2xl mt-1 text-white">White Minimalist Combo Sofa</h3>
-                <Button onClick={handleBuyNowClick} className="text-black rounded-full px-9 mt-3 font-normal" variant={"link"}>Buy Now</Button>
+                <div>
+                <Link href="/product/5" className='bg-white py-2 px-3 rounded-full text-black hover:bg-black hover:text-white'>Buy Now</Link>
+                </div>
             </div>
             </div>
             <div className="w-full h-full rounded-2xl flex justify-center items-center" style={{ backgroundImage: `url(${banner3.src})`, backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center' }}>
             
-            <div className="text-center">
+            <div className="text-center space-y-3">
                 <p className="text-xs sm:text-14 font-normal text-primary-foreground text-white">Get Discount Up to 80%</p>
                 <h3 className="font-semibold text-xl sm:text-2xl mt-1 text-white">White Minimalist Combo Sofa</h3>
-                <Button onClick={handleBuyNowClick} className="text-black rounded-full px-9 mt-3 font-normal" variant={"link"}>Buy Now</Button>
+                <div>
+                <Link href="/product/5" className='bg-white py-2 px-3 rounded-full text-black hover:bg-black hover:text-white'>Buy Now</Link>
+                </div>
             </div>
             </div>
         </div>

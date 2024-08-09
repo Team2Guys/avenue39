@@ -43,6 +43,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
   };
 
   const { loggedInUser }: any = useAppSelector((state) => state.usersSlice);
+  
 
   const canAddProduct=loggedInUser && (loggedInUser.role =='Admin' ?   loggedInUser.canAddProduct : true ) 
   const canDeleteProduct=loggedInUser && (loggedInUser.role =='Admin' ?  loggedInUser.canDeleteProduct : true )

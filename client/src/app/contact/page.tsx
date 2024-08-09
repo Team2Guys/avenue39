@@ -11,11 +11,11 @@ const Contact = () => {
   return (
     <>
       <TopHero title="Contact Us" breadcrumbs={breadcrumbs} />
-      <Container className="flex flex-wrap md:flex-nowrap items-center md:gap-10 ">
+      <Container className="flex flex-wrap md:flex-nowrap items-start md:gap-20 ">
         <div className="w-full md:w-9/12">
           <ContactForm />
         </div>
-        <div className="w-full md:w-3/12">
+        <div className="w-full md:w-3/12 mt-10">
           <Address />
         </div>
       </Container>

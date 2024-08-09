@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/select';
 import { LabelInput } from '@/components/ui/label-input';
 import { Label } from '@/components/ui/label';
+import Link from 'next/link';
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(15);
@@ -74,17 +75,18 @@ const Checkout = () => {
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />
-      <Container className="grid grid-cols-1 md:grid-cols-2 mt-2 md:gap-10">
+      <Container className="grid grid-cols-1 md:grid-cols-2 mt-10 md:gap-10 mb-10">
         <div>
           <h2 className="text-[33px]">Checkout</h2>
           <form onSubmit={formik.handleSubmit} className="space-y-5 mt-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <LabelInput
+              
                 label="First Name"
                 id="firstName"
                 name="firstName"
                 type="text"
-                placeholder="Enter First Name"
+                
                 onChange={formik.handleChange}
                 value={formik.values.firstName}
               />
@@ -93,7 +95,7 @@ const Checkout = () => {
                 id="lastName"
                 name="lastName"
                 type="text"
-                placeholder="Enter last Name"
+              
                 onChange={formik.handleChange}
                 value={formik.values.lastName}
               />
@@ -103,18 +105,18 @@ const Checkout = () => {
               id="email"
               name="email"
               type="text"
-              placeholder="Enter Email address"
+             
               onChange={formik.handleChange}
               value={formik.values.email}
             />
 
-            <div className=" flex gap-1 flex-col md:flex-row">
+            <div className=" flex gap-5 flex-col md:flex-row">
               <LabelInput
                 label="Phone Number"
                 id="phone"
                 name="phone"
                 type="number"
-                placeholder="+971 00 000 0000"
+              
                 onChange={formik.handleChange}
                 value={formik.values.phone}
               />
@@ -123,12 +125,12 @@ const Checkout = () => {
                 id="address"
                 name="address"
                 type="text"
-                placeholder="Building, street, city etc (Optional)"
+              
                 onChange={formik.handleChange}
                 value={formik.values.address}
               />
             </div>
-            <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex flex-col md:flex-row gap-5">
               <div className="flex-1">
                 <Label
                   htmlFor="country"
@@ -137,11 +139,12 @@ const Checkout = () => {
                   Country/Region
                 </Label>
                 <Select
+                
                   onValueChange={(value: any) =>
                     formik.setFieldValue('country', value)
                   }
                 >
-                  <SelectTrigger className="flex-grow h-full rounded-full border-0 bg-[#F6F6F6] pl-8 pr-12 py-2  focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
+                  <SelectTrigger className="flex-grow h-full mt-3 rounded-full border-0 bg-[#F6F6F6] pl-8 pr-12 py-2  focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
                     <SelectValue placeholder="Country/Region" className="" />
                   </SelectTrigger>
                   <SelectContent className="rounded-3xl">
@@ -157,7 +160,7 @@ const Checkout = () => {
                 </Select>
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 ">
                 <Label
                   htmlFor="state"
                   className="mb-1 px-8 text-sm font-semibold text-17 text-[#666666]"
@@ -170,7 +173,7 @@ const Checkout = () => {
                     setSelectedState(value);
                   }}
                 >
-                  <SelectTrigger className="flex-grow h-full rounded-full border-0 bg-[#F6F6F6] pl-8 pr-12 py-1  focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
+                  <SelectTrigger className="flex-grow h-full mt-3 rounded-full border-0 bg-[#F6F6F6] pl-8 pr-10 py-2   focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
                     <SelectValue placeholder="Select your state" />
                   </SelectTrigger>
                   <SelectContent className="rounded-3xl">
@@ -208,8 +211,8 @@ const Checkout = () => {
           </form>
         </div>
         <div>
-          {/* <h2 className="text-[33px] mb-10">Promotional Code</h2> */}
-          {/* <Coupan label="Have a coupon?" /> */}
+          <h2 className="text-[33px] mb-10">Promotional Code</h2> 
+          <Coupan label="Have a coupon?" /> 
           <div className="mt-10 space-y-6">
             <div className="bg-[#EEEEEE] px-4 py-4 space-y-3">
               <p className="text-center text-2xl font-extrabold">Your Order</p>
@@ -268,9 +271,9 @@ const Checkout = () => {
                 </div>
               </div>
               <div>
-                <Button className="h-[58px] text-16 px-16 text-white">
+                <Link href={"/thanks"} className='bg-black text-white hover:text-black hover:bg-white text-sm rounded-md border-2 border-black h-[58px] py-5 text-16 px-16  ' >
                   Pay Now
-                </Button>
+                </Link>
               </div>
             </div>
           </div>

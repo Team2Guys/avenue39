@@ -16,6 +16,7 @@ import { City } from '@/types/types';
 import { SubTotal, TotalProducts } from '@/config';
 import { useRouter } from 'next/navigation';
 import CustomButtom from '../ui/custom-button';
+import Link from 'next/link';
 
 const CartOrder: React.FC = () => {
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
@@ -116,14 +117,14 @@ const CartOrder: React.FC = () => {
           .00
         </p>
       </div>
-      <div className="flex justify-between items-center border-t-2 pt-4">
-        <CustomButtom
-          variant="dark"
-          className="text-18 text-white w-full mt-2 h-[71px] rounded-sm"
+      <div className="border-t-2">
+        <Link href={"/checkout"}
+        
+          className="text-18 bg-black hover:bg-white border-2 border-black hover:text-black text-white w-full mt-2 h-[71px] rounded-sm flex justify-center items-center " 
           onClick={() => Navigate.push('/checkout')}
-        >
+        > 
           Proceed to Checkout
-        </CustomButtom>
+        </Link>
       </div>
     </div>
   );

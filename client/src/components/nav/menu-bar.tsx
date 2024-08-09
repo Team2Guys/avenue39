@@ -59,7 +59,7 @@ const handleMenuClick = (menu: string) => {
 
   return (
     <>
-      <div className='bg-white shadow-md mb-1 pt-3 pb-2 hidden md:block sticky top-0 z-50'>
+      <div className='bg-white text-black dark:text-black shadow-md mb-1 pt-3 pb-2 hidden md:block sticky top-0 z-50'>
         <Container className='flex gap-10 items-center justify-between '>
           <Link className='font-semibold text-19 uppercase hover:underline' href={"/"}>DINING</Link>
           <div 
@@ -84,16 +84,16 @@ const handleMenuClick = (menu: string) => {
       </div>
 
       {activeMenu && (
-        <div ref={menuRef} className='w-full bg-white shadow-lg p-10 z-50 sticky top-[49px]'>
+        <div ref={menuRef} className='w-full bg-white shadow-lg p-10 z-50 sticky top-[49px] text-black dark:text-black'>
           <Container className='flex gap-4'>
             <div className='w-8/12 space-y-4'>
-              <p className='text-19 font-bold w-96'>
+              <p className='text-19 font-bold w-96 text-black dark:text-black'>
                 {activeMenu === 'bedroom' ? 'Our Living Room Signature Style Premium Furniture' : 
                  'Our Bedroom Collection'}
               </p>
               <div className='border-b-4 w-14 border-red-600'/>
-              <div className='grid grid-cols-3 space-y-3'>
-                <MenuLink menudata={menuData[activeMenu]} /> 
+              <div className='grid grid-cols-3 space-y-3 text-black dark:text-black'>
+                <MenuLink menudata={menuData[activeMenu]} />  
               </div>
             </div>
             {activeMenu === 'bedroom' && (

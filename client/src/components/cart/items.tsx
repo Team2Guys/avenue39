@@ -105,7 +105,6 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
 
             <div className="flex-1 overflow-auto mr-6 scrollbar-hidden">
               <ul className="space-y-4">
-                {' '}
                 {cartItems.map((item: any) => (
                   <li
                     key={item.id}

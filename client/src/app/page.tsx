@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Services from '@/components/services/services';
 import React, { Fragment } from 'react';
 import SimpleSlider from '@/components/heroslider/slider';
@@ -26,7 +26,7 @@ export default function Home() {
 
   const handleBuyNowClick = () => {
     router.push('/checkout');
-  }
+  };
   return (
     <Fragment>
       <SimpleSlider />
@@ -53,18 +53,19 @@ export default function Home() {
           }}
         >
           <div className="text-center space-y-3">
-            <p className="text-xs sm:text-14 font-normal text-primary-foreground text-white">
+            <p className="text-xs sm:text-14 lg:text-lg font-normal text-primary-foreground text-white">
               Get Discount Up to 80%
             </p>
             <h3 className="font-semibold lg:text-4xl sm:text-2xl mt-1 text-white">
               White Minimalist Combo Sofa
             </h3>
-            <div>
-            <Link href="/products"
-              className=' py-2 px-3 rounded-full bg-transparent '
-            >
-              Buy Now
-            </Link>
+            <div className="lg:pt-3">
+              <Link
+                href="/products"
+                className=" bg-white text-black font-semibold text-base py-2 px-8 rounded-2xl hover:bg-black hover:text-white "
+              >
+                Buy Now
+              </Link>
             </div>
           </div>
         </div>

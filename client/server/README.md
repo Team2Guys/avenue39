@@ -1,0 +1,3 @@
+- npx prisma migrate dev --name "init"
+- touch primsa (e.g. seed)
+- npx prisma db seed

@@ -17,7 +17,11 @@ const CardsTabes: React.FC = () => {
     queryFn: fetchProducts,
   });
 
-  const { data: categories = [],error: categoriesError,isLoading: isCategoriesLoading,} = useQuery<ICategory[], Error>({
+  const {
+    data: categories = [],
+    error: categoriesError,
+    isLoading: isCategoriesLoading,
+  } = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
     queryFn: fetchCategories,
   });
@@ -41,10 +45,9 @@ const CardsTabes: React.FC = () => {
 
   return (
     <Container>
-{(productsError || categoriesError ) ? null : 
-      <Tabs slidersData={slidersData2} />
-}
-
+      {productsError || categoriesError ? null : (
+        <Tabs slidersData={slidersData2} />
+      )}
     </Container>
   );
 };

@@ -6,14 +6,14 @@
   :root {
     --background: #fbfbfb;
     --foreground: #e2e3e5;
-    --light-background: #F6F6F6;
-    --light-foreground: #E3E4E6;
-    --light-textforeground: #AAAAAA;
+    --light-background: #f6f6f6;
+    --light-foreground: #e3e4e6;
+    --light-textforeground: #aaaaaa;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: #121A25;
+    --primary: #121a25;
     --primary-foreground: #707070;
     --secondary: #fbfbfb;
     --secondary-foreground: #47474729;
@@ -33,7 +33,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --red: #ff000029;
-    --warning: #FEB53E;
+    --warning: #feb53e;
     --light-dark: #666666;
   }
 }
@@ -44,12 +44,21 @@
   transform: translateX(-50%);
   width: 60px;
   height: 60px;
-  clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);;
+  clip-path: polygon(
+    50% 0%,
+    90% 20%,
+    100% 60%,
+    75% 100%,
+    25% 100%,
+    0% 60%,
+    10% 20%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #ccc; /* Adjust the border color as needed */
 }
-.ant-input-outlined:focus, .ant-input-outlined:focus-within{
-  border-color:black !important;
+.ant-input-outlined:focus,
+.ant-input-outlined:focus-within {
+  border-color: black !important;
 }

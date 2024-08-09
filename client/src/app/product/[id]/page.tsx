@@ -61,12 +61,11 @@ import profileImg from '@images/profile/Ellipse 7.png';
 import { Rate } from 'antd';
 
 const ProductPage = ({ params }: { params: IProductDetail }) => {
-  
   const productId = Number(params.id);
   const [formData, setFormData] = useState({
     productId: productId,
     name: '',
-    email:'',
+    email: '',
     review: '',
     star: 0,
   });
@@ -151,7 +150,7 @@ const ProductPage = ({ params }: { params: IProductDetail }) => {
         <div>
           <div className="px-2 py-6 flex flex-col sm:flex-row items-center gap-6 md:gap-10 max-w-full lg:max-w-[750px]">
             <div className="w-full xs:w-fit flex flex-col gap-4">
-              {productReviews.map((item , index) => (
+              {productReviews.map((item, index) => (
                 <div className="flex items-center gap-3" key={index}>
                   <span className="text-nowrap">{item.lebal}</span>
                   <Progress value={item.ratingValue} className="w-72 md:w-80" />
@@ -171,22 +170,40 @@ const ProductPage = ({ params }: { params: IProductDetail }) => {
                     Write a Review
                   </Button>
                 </DialogTrigger>
-                <DialogContent className='bg-white'>
+                <DialogContent className="bg-white">
                   <DialogHeader>
                     <DialogTitle>Add a Review</DialogTitle>
                   </DialogHeader>
                   <div>
                     <p>Your Email Address Will Not Be Published.</p>
-                    <form action="" className='flex flex-col gap-4 mt-4'>
-                    <Rate onChange={handleStarChange} value={formData.star} />
-                    <div>
-                        <input type="text" name='name' placeholder='Your Name' value={formData.name}  className='border px-2 w-full h-10 rounded-md'/>
+                    <form action="" className="flex flex-col gap-4 mt-4">
+                      <Rate onChange={handleStarChange} value={formData.star} />
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Your Name"
+                          value={formData.name}
+                          className="border px-2 w-full h-10 rounded-md"
+                        />
                       </div>
                       <div>
-                        <input type="email" name='email' placeholder='Your Email' value={formData.email} className='border px-2 w-full h-10 rounded-md' />
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Your Email"
+                          value={formData.email}
+                          className="border px-2 w-full h-10 rounded-md"
+                        />
                       </div>
                       <div>
-                        <textarea name="review" className='border px-2 py-2 w-full rounded-md' rows={4} placeholder='Write a Review' value={formData.review}></textarea>
+                        <textarea
+                          name="review"
+                          className="border px-2 py-2 w-full rounded-md"
+                          rows={4}
+                          placeholder="Write a Review"
+                          value={formData.review}
+                        ></textarea>
                       </div>
                       <Button variant={'default'}>Submit</Button>
                     </form>
@@ -216,7 +233,10 @@ const ProductPage = ({ params }: { params: IProductDetail }) => {
           </div>
           <div className="flex flex-col gap-6">
             {productReviewers.map((item) => (
-              <div className="flex items-start gap-4 border-b-2 py-10" key={item.id}>
+              <div
+                className="flex items-start gap-4 border-b-2 py-10"
+                key={item.id}
+              >
                 <div>
                   <Image
                     src={item.profileImg}
@@ -266,7 +286,7 @@ const ProductPage = ({ params }: { params: IProductDetail }) => {
       <div>
         <DetailTabs tabs={tabs} />
       </div>
-   
+
       <Container className="text-center p-3 flex flex-col md:flex-row gap-10 lg:gap-16">
         <div className="w-full md:w-7/12 lg:w-8/12 2xl:w-9/12">
           <h1 className="text-xl py-3  text-left font-bold">Best Seller</h1>

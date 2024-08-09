@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import SliderComponent from './card-slider'; // Make sure to use the correct path
+import SliderComponent from './card-slider';
 import { ISliderData } from '@/types/types';
 import { useSelector } from 'react-redux';
 import { State } from '@/redux/store';

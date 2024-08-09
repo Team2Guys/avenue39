@@ -13,14 +13,12 @@ interface SliderProps {
   isModel?: boolean;
 }
 
-
-
 const SliderComponent: React.FC<SliderProps> = ({ cards, isModel }) => {
-console.log(cards.length, "length")
+  console.log(cards.length, 'length');
 
-let cardFlag = cards.length >= 0 ? 3 : 3
+  let cardFlag = cards.length >= 0 ? 3 : 3;
 
-console.log(cardFlag, "carFlag")
+  console.log(cardFlag, 'carFlag');
 
   const sliderSettings = {
     dots: false,

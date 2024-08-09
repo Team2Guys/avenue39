@@ -39,7 +39,6 @@ import { selectTotalPrice, updateItemQuantity } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
 import paymenticons from '@icons/payment-icons.png';
 
-
 const ProductDetail = ({
   params,
   isZoom,
@@ -57,7 +56,7 @@ const ProductDetail = ({
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      if (i <= (4) || i <= ( 0)) {
+      if (i <= 4 || i <= 0) {
         stars.push(<MdStar key={i} size={20} className="text-yellow-400" />);
       } else {
         stars.push(
@@ -173,7 +172,7 @@ const ProductDetail = ({
             <span className="absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
               tabby
             </span>
-            <p className='text-14 pe-2'>
+            <p className="text-14 pe-2">
               Pay 4 interest-free payments of AED 396.25.{' '}
               <Dialog>
                 <DialogTrigger asChild>
@@ -238,7 +237,7 @@ const ProductDetail = ({
             <span className="absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
               tamara
             </span>
-            <p className='text-14 pe-2'>
+            <p className="text-14 pe-2">
               Pay 4 interest-free payments of AED 396.25.{' '}
               <Dialog>
                 <DialogTrigger asChild>
@@ -315,7 +314,7 @@ const ProductDetail = ({
         </div>
 
         <div className="flex justify-center">
-          <Image src={paymenticons} alt='payment icons' />
+          <Image src={paymenticons} alt="payment icons" />
         </div>
       </div>
     </div>

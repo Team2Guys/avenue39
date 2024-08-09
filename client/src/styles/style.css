@@ -16,8 +16,6 @@
   border: none;
 }
 
-
-
 .hero-slider-wrapper .slick-dots li button:before {
   font-family: 'slick';
   background: white;
@@ -62,7 +60,7 @@
 .hero-slider-wrapper .slick-dots .slick-active {
   width: 25px !important;
   border: none;
-  background-color:none;
+  background-color: none;
 }
 .hero-slider-wrapper .slick-dots .slick-active button:before {
   border-radius: 25% !important;
@@ -143,7 +141,7 @@
   background: black;
 }
 .sliderTabes .slick-next {
-    right: -10px;
+  right: -10px;
 }
 .discount-product-wrapper::-webkit-scrollbar {
   width: 4px !important;
@@ -165,7 +163,8 @@
 .hot-products .slick-slide .product-card {
   margin-bottom: 40px;
 }
-.hot-product-prev-arrow svg, .hot-product-next-arrow svg {
+.hot-product-prev-arrow svg,
+.hot-product-next-arrow svg {
   height: 13px !important;
   font-weight: bolder;
 }
@@ -266,18 +265,18 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.product-swiper .swiper-slide-thumb-active img{
+.product-swiper .swiper-slide-thumb-active img {
   border: 2px solid #979797;
 }
-.slick-initialized .slick-slide{
-    display: inline-block !important;
-    text-align: center;
-    margin: auto;
+.slick-initialized .slick-slide {
+  display: inline-block !important;
+  text-align: center;
+  margin: auto;
 }
-.slick-initialized .slick-slide img{
-    margin:auto
+.slick-initialized .slick-slide img {
+  margin: auto;
 }
-.timer_slider .slick-dots  {
+.timer_slider .slick-dots {
   position: absolute;
   bottom: 35px !important;
   left: 30%;
@@ -289,10 +288,10 @@
   margin: 0;
   list-style: none;
   text-align: center;
-  
+
   /* justify-content: end; */
-   
-    /* height: 8px; */
+
+  /* height: 8px; */
 }
 .timer_slider .slick-dots .slick-active button::before {
   width: 25px;
@@ -314,7 +313,7 @@
   -moz-osx-font-smoothing: grayscale;
   border-radius: 50%;
 }
-.timer_slider .slick-dots li button{
+.timer_slider .slick-dots li button {
   height: 0px;
   padding: 0px;
   outline: none;
@@ -322,7 +321,7 @@
   box-shadow: none;
   margin: 0 6px !important;
   border: 1px solid #e3e4e6;
-  background-color:#e3e4e6;
+  background-color: #e3e4e6;
 }
 .timer_slider .slick-dots .slick-active button:before {
   border-radius: 25% !important;

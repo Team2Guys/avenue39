@@ -43,7 +43,7 @@ import { TotalProducts } from '@/config/index';
 
 const Navbar = (props: INav) => {
   return (
-    <div className='bg-white dark:text-black'>
+    <div className="bg-white dark:text-black">
       <Container className="flex items-center justify-between p-2 md:p-4 gap-4  dark:bg-white   ">
         <div className="w-4/12 md:w-2/12">
           <Link href={'/'}>

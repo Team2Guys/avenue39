@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  name             String
+  email            String    @unique
+  password         String
+  phone            String?
+  resetToken       String?
+  resetTokenExpiry DateTime?
+}
+
+model Products {
+  id Int @id @default(autoincrement())
+
+  name          String @unique
+  price         Int
+  description   String
+  stock         Int
+  discountPrice Int?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+  sale         String?  @default("0")
+  saleDuration DateTime @default(now())
+
+  posterImageUrl      String
+  posterImagePublicId String
+
+  hoverImageUrl      String
+  hoverImagePublicId String
+
+  productImages         Json[]
+  additionalInformation Json[]
+
+  reviews      Reviews[]
+  Categories   Categories? @relation(fields: [categoriesId], references: [id])
+  categoriesId Int?
+}
+
+model Categories {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  posterImageUrl      String?
+  posterImagePublicId String?
+
+  products Products[]
+}
+
+model Reviews {
+  id        Int      @unique @default(autoincrement())
+  name      String
+  email     String
+  review    String
+  star      Int
+  createdAt DateTime @default(now())
+
+  Products  Products? @relation(fields: [productId], references: [id])
+  productId Int?
+}
+
+model Admins {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+
+  canAddProduct          Boolean @default(false)
+  canEditProduct         Boolean @default(false)
+  canDeleteProduct       Boolean @default(false)
+  canAddCategory         Boolean @default(false)
+  canDeleteCategory      Boolean @default(false)
+  canEditCategory        Boolean @default(false)
+  canCheckProfit         Boolean @default(false)
+  canCheckRevenue        Boolean @default(false)
+  canCheckVisitors       Boolean @default(false)
+  canViewUsers           Boolean @default(false)
+  canViewSales           Boolean @default(false)
+  canViewAdmins          Boolean @default(false)
+  canViewTotalProducts   Boolean @default(false)
+  canViewTotalCategories Boolean @default(false)
+
+  posterImageUrl      String?
+  posterImagePublicId String?
+
+  role String @default("Admin")
+}

@@ -118,11 +118,11 @@ const CartOrder: React.FC = () => {
         </p>
       </div>
       <div className="border-t-2">
-        <Link href={"/checkout"}
-        
-          className="text-18 bg-black hover:bg-white border-2 border-black hover:text-black text-white w-full mt-2 h-[71px] rounded-sm flex justify-center items-center " 
+        <Link
+          href={'/checkout'}
+          className="text-18 bg-black hover:bg-white border-2 border-black hover:text-black text-white w-full mt-2 h-[60px] rounded-sm flex justify-center items-center "
           onClick={() => Navigate.push('/checkout')}
-        > 
+        >
           Proceed to Checkout
         </Link>
       </div>

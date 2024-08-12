@@ -18,13 +18,11 @@ const Cart = () => {
         <div className="w-full md:w-7/12 space-y-4">
           <CartItems isCartPage={true} />
           <div className="flex flex-wrap lg:flex-nowrap gap-5 justify-between items-center">
-            <div className="">
-              <Coupan />
-            </div>
+            <div className="">{/* <Coupan /> */}</div>
             <div className="">
               <Link
                 href="/"
-                className="bg-[#F6F6F6] px-6 flex justify-center items-center text-[#666666] h-[73px]"
+                className="bg-[#F6F6F6] px-6 flex justify-center items-center text-[#666666] h-[60px]"
               >
                 Continue Shopping
               </Link>

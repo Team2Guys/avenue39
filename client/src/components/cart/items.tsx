@@ -182,10 +182,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                 <Image
                   width={isCheckoutPage ? 50 : 100}
                   height={isCheckoutPage ? 50 : 100}
-                  // src={item.posterImageUrl}
-                  src={
-                    'https://furniturezone.pk/wp-content/uploads/2024/03/4-Seater-Interchangeable-L-Shape-Sofa-Set3.jpg'
-                  }
+                  src={item.posterImageUrl}
                   alt={item.name}
                 />
                 <div className="">
@@ -234,7 +231,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               </div>
               <div className="hidden lg:flex items-center gap-6 pr-4">
                 <p className="text-16 xl:text-[22px] font-bold">
-                  AED.<span>{item?.discount * item.quantity}</span>
+                  AED.<span>{item?.discountPrice * item.quantity}</span>
                 </p>
                 <p className="text-12 xl:text-16 font-normal line-through text-[#A5A5A5]">
                   AED.<span>{item?.price * item.quantity}</span>

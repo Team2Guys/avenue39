@@ -321,31 +321,31 @@ const ProductDetail = ({
                 <DialogOverlay className="bg-white/80" />
                 <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
                   <DialogHeader>
-                    <DialogTitle className="text-xl xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-wide border-b-2 pb-3 sm:ps-5 md:ps-10 pe-10">
+                    <DialogTitle className="text-xl xs:text-xl sm:text-2xl font-bold tracking-wide border-b-2 pb-3 sm:ps-5 md:ps-10 pe-10">
                       Easy Monthly Installments
                     </DialogTitle>
                   </DialogHeader>
-                  <div className="py-8 ps-5 xs:ps-10 md:ps-20 pe-4 me-4 xs:me-7 max-h-[80vh] overflow-y-auto custom-scroll">
+                  <div className="py-4 ps-5 xs:ps-10 md:ps-20 pe-4 me-4 xs:me-7 max-h-[80vh] overflow-y-auto custom-scroll">
                     <Image src={tabbyLogo} alt="logo" />
-                    <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-bold mt-8 leading-10 xs:leading-tight">
+                    <h2 className="text-2xl xs:text-3xl  font-bold mt-8 leading-10 xs:leading-tight">
                       <span className="rounded-full bg-[#3BFFC1] px-4 py-0 text-nowrap">
                         Shop now,
                       </span>
                       <br />
-                      <span className="text-[#3BFFC1] text-outline-border  tracking-wider">
+                      <span className="text-[#3BFFC1] text-outline-border text-4xl  tracking-wider">
                         pay over time.
                       </span>
                     </h2>
-                    <ul className='mt-14 font-bold text-2xl xs:text-3xl sm:text-4xl md:text-5xl list-["–"] list-inside leading-normal md:leading-normal'>
+                    <ul className='mt-5 font-bold text-lg sm:text-xl md:text-2xl list-["–"] list-inside leading-normal md:leading-normal'>
                       {tabbyfeature.map((item) => (
                         <li key={item.id}>{item.para}</li>
                       ))}
                     </ul>
-                    <div className="mt-12">
-                      <h3 className="font-bold text-4xl sm:text-5xl">
+                    <div className="mt-5">
+                      <h3 className="font-bold text-2xl sm:text-4xl">
                         How it works
                       </h3>
-                      <ul className="font-medium text-xl xs:text-2xl md:text-3xl mt-8 md:leading-relaxed">
+                      <ul className="font-medium text-base xs:text-lg md:text-xl mt-8 md:leading-relaxed">
                         {tabbyhowitwork.map((item) => (
                           <li className="flex items-center gap-2" key={item.id}>
                             <span className="rounded-full bg-lightbackground min-w-10 h-10 flex items-center justify-center">
@@ -356,7 +356,7 @@ const ProductDetail = ({
                         ))}
                       </ul>
                     </div>
-                    <div className="flex justify-end gap-2 mt-20 px-6">
+                    <div className="flex justify-end gap-2 mt-10 px-6">
                       {tabbypayicon.map((item, index) => (
                         <Image
                           src={item.imageUrl}
@@ -396,19 +396,19 @@ const ProductDetail = ({
                     <div className="text-center">
                       <Image src={tamaraLogo} alt="logo" className="mx-auto" />
                     </div>
-                    <h2 className="text-center font-bold text-5xl mt-12">
+                    <h2 className="text-center font-bold text-4xl mt-8">
                       Pay easier with Tamara
                     </h2>
-                    <div className="px-4 py-2 bg-gradient-to-r from-orange-300 via-blue-300 to-pink-300 mt-12 rounded-[70px]">
-                      <div className="bg-gradient-to-r from-orange-100 via-blue-100 to-pink-100 pb-6 pt-2 px-8 rounded-[70px] flex flex-col gap-4">
+                    <div className="px-4 py-2 bg-gradient-to-r from-orange-300 via-blue-300 to-pink-300 mt-8 rounded-[70px]">
+                      <div className="bg-gradient-to-r from-orange-100 via-blue-100 to-pink-100 pb-4 pt-2 px-8 rounded-[70px] flex flex-col gap-4">
                         <div className="w-10/12 mx-auto">
                           {tamarafeature.map((item) => (
                             <div
-                              className="flex justify-between items-center py-4"
+                              className="flex justify-between items-center py-2"
                               key={item.id}
                             >
                               <div>
-                                <h3 className="font-bold text-2xl">
+                                <h3 className="font-bold text-xl">
                                   {item.title}
                                 </h3>
                                 <p className="text-md font-light mt-2">
@@ -420,7 +420,7 @@ const ProductDetail = ({
                         </div>
                       </div>
                     </div>
-                    <div className="mt-10 px-5 xs:px-10 2xl:px-20">
+                    <div className="mt-5 px-5 xs:px-10 2xl:px-20">
                       <h3 className="font-bold text-2xl">Why Tamara?</h3>
                       <div className="flex items-center flex-wrap 2xl:flex-nowrap justify-center 2xl:justify-between gap-4 pt-6">
                         {tamarawhy.map((item) => (
@@ -432,8 +432,8 @@ const ProductDetail = ({
                           </div>
                         ))}
                       </div>
-                      <div className="mt-10">
-                        <ul className="font-20 font-normal">
+                      <div className="mt-5">
+                        <ul className="font-16 font-normal">
                           {tamaralist.map((item) => (
                             <li
                               className="flex items-center gap-2"

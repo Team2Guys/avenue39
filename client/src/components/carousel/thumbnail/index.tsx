@@ -139,7 +139,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
     <div>
       <div className="relative w-full">
         <div className={`w-full flex gap-3 ${swiperGap} `}>
-          <div className="w-3/12 2xl:w-2/12  relative h-fit">
+          <div className="w-3/12 2xl:w-2/12  relative h-fit max-h-[280px] xs:max-h-[400px] sm:max-h-[550px] md:max-h-[400px] lg:max-h-[520px] xl:max-h-[600px] 2xl:max-h-[700px] ">
             {loading ? (
               <div className="flex flex-col space-y-4 pb-2">
                 <Skeleton className="h-36 w-36" />
@@ -149,7 +149,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
               </div>
             ) : (
               <Swiper
-            
+               style={{overflowY:"scroll"}}
                 onSwiper={(swiper) => {
                   setThumbsSwiper(swiper);
                   swiperRef.current = swiper;
@@ -160,15 +160,15 @@ const Thumbnail: React.FC<ThumbProps> = ({
                 freeMode={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className=" column-swipper swiper-container product-swiper px-3"
+                className=" column-swipper swiper-container product-swiper px-3 max-h-[280px] xs:max-h-[400px] sm:max-h-[550px] md:max-h-[400px] lg:max-h-[520px] xl:max-h-[600px] 2xl:max-h-[700px] overflow-y-scroll custom-scrollbar"
               >
                 {thumbs.map((thumb, index) => (
                   <SwiperSlide
                     key={index}
-                    className="column-swiper-slider swiper-slide"
+                    className="column-swiper-slider swiper-slide "
                   >
                     <Image
-                      className="rounded-lg shadow-md"
+                      className="rounded-lg shadow-md md:h-[120px] 2xl:h-[140px]"
                       src={thumb.imageUrl || '/default-image.jpg'}
                       width={150}
                       height={150}
@@ -179,7 +179,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
               </Swiper>
             )}
             <div
-              className="absolute -bottom-5 right-1/3 z-10 cursor-pointer bg-[#F6F6F6] w-12 h-12 flex justify-center items-center"
+              className="absolute -bottom-5 right-36 md:right-1/3 z-10 cursor-pointer bg-[#F6F6F6] w-12 h-12 flex justify-center items-center"
               // onClick={() => scrollToSlide('up')}
               onClick={scrollToNextImage}
             >
@@ -243,7 +243,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
                       }
                     >
                       <Image
-                        className={`rounded-lg h-full object-cover w-full ${isZoom ? ' md:min-h-[700px]' : 'md:min-h-[450px]'}  pointer-events-none md:pointer-events-auto  ${zoomEnabled ? 'cursor-none' : ''} ${isZoom ? 'cursor-default' : ''} ${!zoomEnabled && isZoom ? 'cursor-zoom-in' : ''}`}
+                        className={`rounded-lg h-full object-cover w-full   pointer-events-none md:pointer-events-auto  ${zoomEnabled ? 'cursor-none' : ''} ${isZoom ? 'cursor-default' : ''} ${!zoomEnabled && isZoom ? 'cursor-zoom-in' : ''} md:max-h-[600px] 2xl:max-h-[700px]`}
                         src={thumb.imageUrl || '/default-image.jpg'}
                         width={700}
                         height={700}

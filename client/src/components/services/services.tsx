@@ -13,7 +13,7 @@ const Services: React.FC = () => {
               className="flex flex-col justify-center items-center gap-3 px-10 bg-white py-10 drop-shadow-sm rounded-sm h-28 xs:h-36"
             >
               <Image src={item.icon} width={30} height={30} alt="icon" />
-              <div className="text-xs xs:text-16 md:text-20 font-medium text-center xs:text-start">
+              <div className="text-xs xs:text-16 md:text-18 2xl:text-20   font-medium text-center xs:text-start">
                 {item.title}
               </div>
             </div>

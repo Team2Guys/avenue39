@@ -242,7 +242,7 @@ console.log(fullUrl, "fullUrl"
                           category={true}
                         />
                       ) : (
-                        <LandscapeCard card={card} />
+                        <LandscapeCard card={card} isLoading={false} />
                       )}
                     </div>
                   ))

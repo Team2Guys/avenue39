@@ -11,6 +11,8 @@ export class NewslettersController {
     return this.newslettersService.addEmail(createNewsletterDto);
   }
 
+  
+
   @Get('get-all')
   async getAllUsers() {
     return this.newslettersService.getAllUsers();

@@ -18,7 +18,7 @@ async function bootstrap() {
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     preflightContinue: false,
-    credentials: true,
+    credentials: false,
   });
 
 

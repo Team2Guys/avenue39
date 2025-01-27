@@ -13,8 +13,6 @@ export class NewslettersController {
 
 
 
-  
-
   @Get('get-all')
   async getAllUsers() {
     return this.newslettersService.getAllUsers();

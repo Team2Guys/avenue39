@@ -9,7 +9,6 @@ export class ProductsService {
   constructor(private prisma: PrismaService) {}
  async getProducts() {
     try {
-      console.log(this.prisma.products.findMany({}));
       return await this.prisma.products.findMany({
         include: {
           categories: {
@@ -21,7 +20,7 @@ export class ProductsService {
           subcategories: { 
             include: {
               categories: true,
-            products: true,
+              products: true,
           },},
         },
       });

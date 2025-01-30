@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  name              String
+  email             String    @unique
+  password          String
+  phone             String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  userImagePublicId String?
+  userImageUrl      String?
+}
+
+model Products {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique
+  price                 Int
+  description           String
+  stock                 Int
+  discountPrice         Int?
+  posterImageUrl        String
+  posterImagePublicId   String
+  hoverImageUrl         String
+  hoverImagePublicId    String
+  productImages         Json[]
+  additionalInformation Json[]
+  colors                Json[]                  @default([])
+  spacification         Json[]                  @default([])
+  createdAt             DateTime                @default(now())
+  sale                  String?                 @default("0")
+  updatedAt             DateTime                @default(now())
+  saleDuration          DateTime                @default(now())
+  Canonical_Tag         String?
+  Meta_Description      String?
+  Meta_Title            String?
+  Og_Image              String?
+  Og_Url                String?
+  Og_title              String?
+  hoverImageAltText     String?
+  posterImageAltText    String?
+  Images_Alt_Text       String?
+  sections              Json[]                  @default([])
+  sale_counter          String?
+  reviews               Reviews[]
+  categories            Categories[]            @relation("ProductCategories")
+  subcategories         SubCategories[]         @relation("ProductSubCategories")
+  salesRecords          sales_record_products[] @relation("ProductsTosales_record_products")
+  last_editedBy         String?
+}
+
+model Categories {
+  id                  Int             @id @default(autoincrement())
+  name                String          @unique
+  createdAt           DateTime        @default(now())
+  posterImageUrl      String?
+  posterImagePublicId String?
+  description         String?
+  subcategories       SubCategories[] @relation("CategorySubCategories")
+  products            Products[]      @relation("ProductCategories")
+  meta_title          String?
+  meta_description    String?
+  canonical_tag       String?
+  images_alt_text     String?
+  updatedAt           DateTime        @default(now())
+  last_editedBy       String?
+}
+
+model SubCategories {
+  id                  Int          @id @default(autoincrement())
+  name                String       @unique
+  createdAt           DateTime     @default(now())
+  posterImageUrl      String?
+  posterImagePublicId String?
+  categories          Categories[] @relation("CategorySubCategories")
+  products            Products[]   @relation("ProductSubCategories")
+  meta_title          String?
+  meta_description    String?
+  canonical_tag       String?
+  images_alt_text     String?
+  updatedAt           DateTime     @default(now())
+  last_editedBy       String?
+}
+
+model Reviews {
+  id        Int       @unique @default(autoincrement())
+  review    String
+  star      Int
+  productId Int?
+  email     String
+  name      String
+  createdAt DateTime  @default(now())
+  Products  Products? @relation(fields: [productId], references: [id])
+}
+
+model Admins {
+  id                     Int     @id @default(autoincrement())
+  fullname               String
+  email                  String  @unique
+  password               String
+  canAddProduct          Boolean @default(false)
+  canEditProduct         Boolean @default(false)
+  canDeleteProduct       Boolean @default(false)
+  canAddCategory         Boolean @default(false)
+  canDeleteCategory      Boolean @default(false)
+  canEditCategory        Boolean @default(false)
+  canCheckProfit         Boolean @default(false)
+  canCheckRevenue        Boolean @default(false)
+  canCheckVisitors       Boolean @default(false)
+  canViewUsers           Boolean @default(false)
+  canViewSales           Boolean @default(false)
+  canVeiwAdmins          Boolean @default(false)
+  canVeiwTotalproducts   Boolean @default(false)
+  canVeiwTotalCategories Boolean @default(false)
+  posterImageUrl         String?
+  posterImagePublicId    String?
+  role                   String  @default("Admin")
+}
+
+model sales_record {
+  id            Int                     @id @default(autoincrement())
+  user_email    String
+  createdAt     DateTime                @default(now())
+  address       String?
+  orderId       String                  @unique
+  paymentStatus Json?
+  phoneNumber   String?
+  products      sales_record_products[]
+}
+
+model sales_record_products {
+  id            Int          @id @default(autoincrement())
+  quantity      Int
+  productData   Json
+  salesRecordId Int
+  createdAt     DateTime     @default(now())
+  orderId       String
+  salesRecord   sales_record @relation(fields: [salesRecordId], references: [id])
+  Products      Products[]   @relation("ProductsTosales_record_products")
+}
+
+model Payment {
+  id              String    @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String
+  phoneNumber     String
+  state           String
+  country         String
+  address         String?
+  orderId         String    @unique
+  checkout        Boolean   @default(false)
+  paymentStatus   Boolean   @default(false)
+  isRefund        Boolean   @default(false)
+  currency        String?
+  transactionId   String?
+  integrationId   String?
+  amountCents     String?
+  success         Boolean   @default(false)
+  pending         Boolean   @default(false)
+  is3DSecure      Boolean?
+  createdAt       DateTime  @default(now())
+  transactionDate DateTime?
+  shipmentFee     String?
+  deliveryStatus  Boolean   @default(false)
+}
+
+model NewsLetters {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

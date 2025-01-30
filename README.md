@@ -1,0 +1,5 @@
+- npx prisma migrate dev --name "init"
+- touch primsa (e.g. seed)
+- npx prisma db seed
+- pg_dump "url" --file=backup.sql
+- psql "url" -f backup.sql

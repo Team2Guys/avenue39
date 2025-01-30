@@ -7,8 +7,6 @@ import { AddProductDto, UpdateProductDto } from './dto/product.dto';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
-  
-
 
   getProducts() {
     try {

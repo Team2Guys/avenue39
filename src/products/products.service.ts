@@ -9,7 +9,7 @@ export class ProductsService {
   constructor(private prisma: PrismaService) {}
  async getProducts() {
     try {
-      return await this.prisma.products.findMany({
+  let products = this.prisma.products.findMany({
         include: {
           categories: {
             include: {
@@ -24,6 +24,8 @@ export class ProductsService {
           },},
         },
       });
+
+      return products
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }

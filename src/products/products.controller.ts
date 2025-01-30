@@ -18,8 +18,8 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get('/get-all')
-  getProducts() {
-    return this.productsService.getProducts();
+  async getProducts() {
+    return await this.productsService.getProducts();
   }
 
   @Post('add-product')

@@ -19,7 +19,6 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
 
     return isNameMatch && belongsToCategory;
   });
-
   if (!findSubCategory) {
     let products = await fetchProducts()
     const findProduct = products.find((item: IProduct) => generateSlug(item.name) === subcategoryName);
@@ -29,7 +28,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
     }
 
     console.log(findProduct, "findProduct")
-    const similarProducts: IProduct[] = products.filter((prod: IProduct) => {
+    const similarProducts: IProduct[] = products?.filter((prod: IProduct) => {
       const hasMatchingCategory = prod?.categories && prod?.categories.some((prodCategory) => (prodCategory?.name.trim().toLocaleLowerCase() === category));
       return hasMatchingCategory && prod.id !== findProduct.id;
     });
@@ -43,8 +42,8 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   return (
 
     <Shop
-      productBanner={<ProductBanner subCategoriesName={findSubCategory.name} />}
-
+      productBanner={<ProductBanner
+         subCategoriesName={findSubCategory.name} />}
       ProductData={findSubCategory.products}
       categories={findSubCategory.categories}
       isCategory={false}

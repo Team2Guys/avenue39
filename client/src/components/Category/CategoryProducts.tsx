@@ -11,18 +11,17 @@ const CategoryProducts = async ({ slug }: { slug: string[]  }) => {
    const name = slug[0];
    const categories = await fetchCategories()
 
-console.log(categories, "categories")  
+
    const findCategory = categories && categories?.find((item:any) => generateSlug(item.name) === name);
    if (!findCategory) {
       return <NotFound />
    }
 
-
-
+   console.log(findCategory, "findCategory")  
    const categoryName = name === 'lighting' ? 'Lighting' : name === 'home-office' ? 'homeOffice' : name;
    const subcategory = menuData[categoryName] || []
 
-   const sortProducts = findCategory.products.map((prod:any) => {
+   const sortProducts = findCategory?.products?.map((prod:any) => {
       const clonedProd = { ...prod, subcategories: [...prod.subcategories] };
       const clonedSubcategories = clonedProd.subcategories ? JSON.parse(JSON.stringify(clonedProd.subcategories)) : [];
 

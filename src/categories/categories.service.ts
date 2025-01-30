@@ -19,7 +19,7 @@ export class CategoriesService {
     }
   }
 
-  async addCategory(categoryData: AddCategoryDto) {
+  async addCategory(categoryData: AddCategoryDto,userEmail:string) {
     console.log('Update category triggered');
     console.log(categoryData);
     try {
@@ -38,6 +38,7 @@ export class CategoriesService {
           ...categoryData,
           posterImageUrl: categoryData.posterImageUrl.imageUrl ?? null,
           posterImagePublicId: categoryData.posterImageUrl.public_id ?? null,
+          last_editedBy: userEmail,
         },
       });
       return {
@@ -48,9 +49,10 @@ export class CategoriesService {
       customHttpException(error.message, 'BAD_REQUEST');
     }
   }
-  async updateCategory(categoryData: UpdateCategoryDto) {
+
+  async updateCategory(categoryData: UpdateCategoryDto, userEmail:string) {
     console.log('Update category triggered');
-    console.log(categoryData);
+    console.log(userEmail);
     try {
       const { id, name } = categoryData;
 
@@ -85,6 +87,7 @@ export class CategoriesService {
           ...categoryData,
           posterImageUrl: categoryData.posterImageUrl.imageUrl ?? null,
           posterImagePublicId: categoryData.posterImageUrl.public_id ?? null,
+          last_editedBy: userEmail,
         },
       });
 

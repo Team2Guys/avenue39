@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { AddProductDto, UpdateProductDto } from './dto/product.dto';
@@ -22,12 +23,14 @@ export class ProductsController {
   }
 
   @Post('add-product')
-  addProduct(@Body() addProductData: AddProductDto) {
-    return this.productsService.addProduct(addProductData);
+  addProduct(@Body() addProductData: AddProductDto, @Req() req:Request) {
+    const user=req['user'];
+    return this.productsService.addProduct(addProductData,user.email);
   }
   @Post('update-product')
-  updateProduct(@Body() addProductData: UpdateProductDto) {
-    return this.productsService.updateProduct(addProductData);
+  updateProduct(@Body() addProductData: UpdateProductDto, @Req() req:Request) {
+    const user=req['user'];
+    return this.productsService.updateProduct(addProductData, user.email);
   }
 
   @Delete('delete-product')

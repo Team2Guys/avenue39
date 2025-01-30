@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { SubcategoriesService } from './subcategories.service';
 import { AddSubCategoryDto, UpdateSubCategoryDto } from './dto/subcategory.dto';
@@ -22,12 +23,15 @@ export class SubcategoriesController {
   }
 
   @Post('add-subcategory')
-  addSubCategory(@Body() addCategoryData: AddSubCategoryDto) {
-    return this.subcategoriesService.addSubCategory(addCategoryData);
+  addSubCategory(@Body() addCategoryData: AddSubCategoryDto,@Req() req:Request) {
+      const user=req['user'];
+    return this.subcategoriesService.addSubCategory(addCategoryData,user.email);
   }
+  
   @Post('update-subcategory')
-  updateSubCategory(@Body() addCategoryData: UpdateSubCategoryDto) {
-    return this.subcategoriesService.updateSubCategory(addCategoryData);
+  updateSubCategory(@Body() addCategoryData: UpdateSubCategoryDto,@Req() req:Request) {
+    const user=req['user'];
+    return this.subcategoriesService.updateSubCategory(addCategoryData,user.email);
   }
 
   @Delete('delete-subcategory')

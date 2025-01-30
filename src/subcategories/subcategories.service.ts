@@ -19,9 +19,8 @@ export class SubcategoriesService {
     }
   }
 
-  async addSubCategory(categoryData: AddSubCategoryDto) {
-    console.log('Add sub category triggered!');
-    console.log(categoryData);
+  async addSubCategory(categoryData: AddSubCategoryDto, userEmail: string) {
+
     try {
       const { name, posterImageUrl } = categoryData;
       const { description, categories, categoriesId, ...Data } = categoryData;
@@ -37,8 +36,6 @@ export class SubcategoriesService {
         };
       }
 
-      console.log('DATA');
-      console.log(Data);
       if (!Array.isArray(categoriesId) || categoriesId.length === 0) {
         return {
           message: 'You must provide at least one category ID!',
@@ -67,10 +64,11 @@ export class SubcategoriesService {
           categories: {
             connect: categoriesId.map((id) => ({ id })),
           },
+          last_editedBy: userEmail,
+          
         },
       });
 
-      // Link the subcategory to the remaining categories, if any
       for (let i = 1; i < categoriesId.length; i++) {
         await this.prisma.subCategories.update({
           where: { id: newSubCategory.id },
@@ -91,8 +89,7 @@ export class SubcategoriesService {
     }
   }
 
-  async updateSubCategory(subCategoryData: UpdateSubCategoryDto) {
-    console.log('Update subcategory triggered!');
+  async updateSubCategory(subCategoryData: UpdateSubCategoryDto,userEmail: string) {
     try {
       const { id, name, categoriesId, posterImageUrl, description, ...Data } =
         subCategoryData;
@@ -155,6 +152,7 @@ export class SubcategoriesService {
           categories: {
             set: categoriesId.map((categoryId) => ({ id: categoryId })),
           },
+          last_editedBy: userEmail,
         },
       });
 

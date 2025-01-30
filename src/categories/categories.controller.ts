@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { AddCategoryDto, UpdateCategoryDto } from './dto/category.dto';
@@ -20,13 +21,15 @@ export class CategoriesController {
   }
 
   @Post('add-category')
-  addCategory(@Body() addCategoryData: AddCategoryDto) {
-    return this.categoriesService.addCategory(addCategoryData);
+  addCategory(@Body() addCategoryData: AddCategoryDto,@Req() req:Request) {
+    const user=req['user'];
+    return this.categoriesService.addCategory(addCategoryData,user.email);
   }
 
   @Post('update-category')
-  updateCategory(@Body() addCategoryData: UpdateCategoryDto) {
-    return this.categoriesService.updateCategory(addCategoryData);
+  updateCategory(@Body() addCategoryData: UpdateCategoryDto,@Req() req:Request) {
+    const user=req['user'];
+    return this.categoriesService.updateCategory(addCategoryData,user.email);
   }
 
   @Delete('delete-category')

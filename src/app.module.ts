@@ -49,7 +49,11 @@ export class AppModule implements NestModule {
         {path: "sales-record/trackorder/:id", method:RequestMethod.GET},
         {path: "sales-record/add_sales", method:RequestMethod.POST},
         {path: "sales-record/update-payment-status", method:RequestMethod.PATCH},
+        {path: "category/get-all", method:RequestMethod.GET},
+        {path: "subcategories/get-all", method:RequestMethod.GET},
+        {path: "product/get-all", method:RequestMethod.GET},
+        
       )
-      .forRoutes('sales-record');
+      .forRoutes('sales-record','category','subcategories','product');
   }
 }

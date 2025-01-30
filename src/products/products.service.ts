@@ -26,7 +26,7 @@ export class ProductsService {
     }
   }
 
-  async addProduct(productData: AddProductDto) {
+  async addProduct(productData: AddProductDto, userEmail: string) {
     console.log('Add product triggered');
     console.log(productData);
     try {
@@ -54,6 +54,8 @@ export class ProductsService {
           subcategories: {
             connect: productData.subcategories.map((id) => ({ id })),
           },
+          last_editedBy: userEmail,
+
         },
       });
 
@@ -65,7 +67,7 @@ export class ProductsService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
-  async updateProduct(productData: UpdateProductDto) {
+  async updateProduct(productData: UpdateProductDto, userEmail: string) {
     console.log('Update product triggered');
     console.log(productData);
     try {
@@ -100,7 +102,10 @@ export class ProductsService {
           subcategories: {
             set: productData.subcategories?.map((id) => ({ id })) ?? [],
           },
+          last_editedBy: userEmail,
         },
+       
+        
       });
 
       return {

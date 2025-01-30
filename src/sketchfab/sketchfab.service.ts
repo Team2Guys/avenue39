@@ -58,7 +58,7 @@ export class SketchfabService {
       modelFileResponse.data.pipe(writer);
 
       await new Promise((resolve, reject) => {
-        writer.on('finish', resolve);
+        // writer.on('finish', resolve);
         writer.on('error', reject);
       });
 

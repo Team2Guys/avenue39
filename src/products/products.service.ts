@@ -7,11 +7,10 @@ import { AddProductDto, UpdateProductDto } from './dto/product.dto';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
-
-  getProducts() {
+ async getProducts() {
     try {
       console.log(this.prisma.products.findMany({}));
-      return this.prisma.products.findMany({
+      return await this.prisma.products.findMany({
         include: {
           categories: {
             include: {
@@ -32,8 +31,6 @@ export class ProductsService {
   }
 
   async addProduct(productData: AddProductDto, userEmail: string) {
-    console.log('Add product triggered');
-    console.log(productData);
     try {
       const existingProduct = await this.prisma.products.findFirst({
         where: { name: productData.name },
@@ -75,8 +72,7 @@ export class ProductsService {
     }
   }
   async updateProduct(productData: UpdateProductDto, userEmail: string) {
-    console.log('Update product triggered');
-    console.log(productData);
+
     try {
       const existingProduct: any = await this.prisma.products.findFirst({
         where: { id: productData.id },

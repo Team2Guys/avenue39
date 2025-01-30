@@ -7,9 +7,9 @@ import { AddSubCategoryDto, UpdateSubCategoryDto } from './dto/subcategory.dto';
 export class SubcategoriesService {
   constructor(private prisma: PrismaService) {}
 
-  getSubCategories() {
+  async getSubCategories() {
     try {
-      return this.prisma.subCategories.findMany({
+      return await this.prisma.subCategories.findMany({
         include: {
           categories: { include:{subcategories: true,products: true}},
           products: {
@@ -196,4 +196,5 @@ export class SubcategoriesService {
       customHttpException(error.message, 'BAD_REQUEST');
     }
   }
+  
 }

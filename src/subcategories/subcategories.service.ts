@@ -11,7 +11,13 @@ export class SubcategoriesService {
     try {
       return this.prisma.subCategories.findMany({
         include: {
-          categories: true,
+          categories: { include:{subcategories: true,products: true}},
+          products: {
+            include: {
+              subcategories: true, 
+              categories: true,
+            },
+          }
         },
       });
     } catch (error) {

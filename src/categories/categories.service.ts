@@ -11,8 +11,15 @@ export class CategoriesService {
     try {
       return this.prisma.categories.findMany({
         include: {
-          subcategories: true,
+          subcategories: { include:{categories: true,products: true}},
+          products: {
+            include: {
+              subcategories: true, 
+              categories: true,
+            },
+          }
         },
+        
       });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);

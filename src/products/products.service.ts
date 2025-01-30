@@ -9,7 +9,7 @@ export class ProductsService {
   constructor(private prisma: PrismaService) {}
   
 
-  
+
   getProducts() {
     try {
       console.log(this.prisma.products.findMany({}));
@@ -18,9 +18,14 @@ export class ProductsService {
           categories: {
             include: {
               subcategories: true,
+              products: true,
             },
           },
-          subcategories: true,
+          subcategories: { 
+            include: {
+              categories: true,
+            products: true,
+          },},
         },
       });
     } catch (error) {

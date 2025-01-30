@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3300:3300"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://avenue_39_owner:8RW5EXBwkMxQ@ep-misty-bar-a5nt0eq0.us-east-2.aws.neon.tech/avenue_39?sslmode=require"
+      PASSWORD_SECRET: avenue39_secret
+      TOKEN_SECRET: avenue39_token
+      FRONTEND_URL: http://localhost:3000
+      PORT: 3300
+      EMAIL_USER: info@artiart.ae
+      EMAIL_PASS: Queryart@035
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    command: ["node", "dist/src/main"]
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: avenue_39_owner
+      POSTGRES_PASSWORD: 8RW5EXBwkMxQ
+      POSTGRES_DB: avenue_39
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

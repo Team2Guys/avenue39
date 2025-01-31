@@ -43,7 +43,7 @@ export class ProductsService {
         };
       }
       //@ts-expect-error
-      const { sizes, filters, ...filteredData } = Data;
+      const {  filters,filtere, ...filteredData } = Data;
 
       await this.prisma.products.create({
         data: {
@@ -94,7 +94,7 @@ export class ProductsService {
         ) ?? [];
 
         //@ts-expect-error
-      const { sizes, filters, ...filteredData } = Data;
+      const {  filters, ...filteredData } = Data;
 
       await this.prisma.products.update({
         where: { id: productData.id },

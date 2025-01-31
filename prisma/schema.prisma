@@ -54,8 +54,8 @@ model Products {
   subcategories         SubCategories[]         @relation("ProductSubCategories")
   salesRecords          sales_record_products[] @relation("ProductsTosales_record_products")
   last_editedBy         String?
-  // sizes                 Json[]                  @default([])
-  // filters               Json[]                  @default([])
+  sizes                 Json[]                  @default([])
+  filter                Json[]                  @default([])
 }
 
 model Categories {

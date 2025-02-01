@@ -7,12 +7,19 @@ import { customHttpException } from '../utils/helper';
 export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
-  getCategories() {
+ async getCategories() {
     try {
-      return this.prisma.categories.findMany({
+      return await this.prisma.categories.findMany({
         include: {
-          subcategories: true,
+          subcategories: { include:{categories: true,products: true}},
+          products: {
+            include: {
+              subcategories: true, 
+              categories: true,
+            },
+          }
         },
+        
       });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);

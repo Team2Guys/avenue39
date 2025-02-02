@@ -15,6 +15,7 @@ async function bootstrap() {
       'https://avenue39-eight.vercel.app',
       'https://avenue39-eight.vercel.app/',
       'http://192.168.1.18:3000',
+      'http://185.151.51.28:5004'
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     preflightContinue: false,

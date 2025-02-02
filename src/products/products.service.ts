@@ -25,6 +25,7 @@ export class ProductsService {
         },
       });
 
+      console.log(products, "products")
       return products
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);

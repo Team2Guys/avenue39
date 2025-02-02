@@ -8,6 +8,7 @@ import {
   IsInt,
   ArrayNotEmpty,
   isString,
+  isArray,
 } from 'class-validator';
 
 export class AddProductDto {
@@ -127,6 +128,12 @@ export class AddProductDto {
   @IsOptional()
   @IsString()
   images_alt_text: string;
+
+
+  @IsOptional()
+  @IsArray()
+  sizes: [];
+
 }
 
 export class UpdateProductDto extends AddProductDto {

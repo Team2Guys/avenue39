@@ -509,8 +509,8 @@ export const Bedroom = [
   'Cipriani Floor Lamp',
 ];
 export const Accessories = [
-  'A Pair of Droplet Stands',
-  'Pair of Monolith Sphere Towers',
+  'Droplet Stand ',
+  'Monolith Sphere Tower ',
   'A Pair of Layered Elegance',
   'Pair of Rooted Egg Stands',
   'Abstract Vase',

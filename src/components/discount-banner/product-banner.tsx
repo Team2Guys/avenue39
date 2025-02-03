@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { Navigation, Pagination } from 'swiper/modules';
-import banner8 from '@/assets/images/banners/banner8.png';
+import banner8 from '@assets/images/banners/banner8.png';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { categories } from '@/data/data';
 import Image from 'next/image';

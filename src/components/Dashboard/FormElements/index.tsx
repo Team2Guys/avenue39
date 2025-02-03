@@ -31,9 +31,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
   const [imagesUrl, setImagesUrl] = useState<any[]>(
     EditInitialValues ? EditInitialValues.productImages : [],
   );
-  const [posterimageUrl, setposterimageUrl] = useState<
-    any[] | undefined | null
-  >(
+  const [posterimageUrl, setposterimageUrl] = useState<any[] | undefined | null>(
     EditInitialValues
       ? [
           {
@@ -101,11 +99,12 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
 
     CategoryHandler();
   }, []);
+
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
   let finalToken = token ? token : superAdminToken;
+
   const onSubmit = async (values: any, { resetForm }: any) => {
-    console.log(values, 'sale_counter');
     values.categories = selectedCategoryIds;
     values.subcategories = selectedSubcategoryIds;
 

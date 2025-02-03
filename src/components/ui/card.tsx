@@ -86,6 +86,7 @@ const Card: React.FC<CardProps> = ({
     console.log(cardImage, 'cardImage');
     setCardStaticData(cardImage);
   }, [productImages]);
+
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find((item) => item.id === card?.id);
@@ -138,9 +139,6 @@ const Card: React.FC<CardProps> = ({
       card?.subcategories &&
       card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
     let url;
-
-    console.log(redirectedMain, 'redirectedMain', mainCategory);
-
     if (!mainCategory)
       return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
 

@@ -45,23 +45,6 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     const target = event.target as HTMLElement;
-  //     if (
-  //       target.closest('.megamenu-container') === null &&
-  //       target.closest('.menu-item') === null
-  //     ) {
-  //       setActiveMenu(null);
-  //     }
-  //   };
-  //   document.addEventListener('click', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
-
   const handleMouseEnter = (menu: string) => {
     setActiveMenu(menu);
   };
@@ -71,8 +54,6 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
       setActiveMenu(null);
     }
   };
-
-  console.log(staticHeaderCategories, 'staticHeaderCategories');
   return (
     <div
       className={`${isSticky ? `sticky ${userDetails ? 'top-20' : 'top-16'} z-20` : 'relative md:pb-12'}`}

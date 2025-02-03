@@ -35,4 +35,7 @@ const PathnameWrapper = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Authhook(PathnameWrapper);
+export default PathnameWrapper
+// Authhook(
+//   PathnameWrapper
+// );

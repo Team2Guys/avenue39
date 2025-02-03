@@ -1532,77 +1532,69 @@ export const policySections = [
 ];
 export const ReturnPolicy = [
   {
-    title: '',
+    title: 'Return Policy',
     description: [
-      'Avenue39 is a brand people can trust as we keep their experience of our products beyond their expectations. However, we come to terms with the fact that occasionally, it is just impossible to prevent returns.',
-      'Avenue39 has a fair and logical return and refund policy. As we make our payment policy quite transparent to everyone, possible returns within 7 days of acceptance or purchase of your item for a full refund or exchange. The policy requires that you return items that are unworn and in the same new condition as when they were delivered to you.',
-      'All rights, the initiators of returns are asked to return the products to their usual store when they do not achieve the expected result.',
-      'To start the return procedure, follow these steps:',
-      '1. Send an email to us with your concerns and complaints due to which you made the decision to return the product.',
-      '2. The customer care service will contact you as soon as they receive the email you have sent to [[EMAIL_LINK]] within 24 hours from getting the product.',
-      '3. Within the email textbox area include details such as your name, order number and the phone number used to process your purchase.',
-      'We will always emphasize on the promptity with Avenue39. You will receive the detailed guidance within 1 working day. Even more, they will inform you if your product can be accepted or not.',
+      'Avenue39 is a brand that people can trust, as we keep their experience with our products beyond their expectations. However, we come to terms with the fact that, occasionally, it is just impossible to prevent returns. Avenue39 has a fair and logical return and refund policy.',
+      'Please read through the following details to learn how we handle returns and refunds.',
     ],
   },
   {
-    title: 'Conditions for returning items; what items can be returned?',
+    title: 'Our Commitment to Quality',
     description: [
-      'To qualify for a full refund of your purchase with Avenue39, you need to check the following conditions, to find whether your product is eligible or not:',
-      '1. These provided items must not have been worn and nor altered by the customer.',
-      '2. Products cannot be altered after purchase, any dismantling will result in the item being deemed ineligible for a return or refund.',
-      'You have the product to be delivered to us via courier, in the same conditions as the way you originally bought them. Submitted products must be accompanied by the original packaging, manuals, and other accessories if there is any.',
-      'If I have a quality question about the item, please let us know.',
+      'Every product we make meets the highest standards of craftsmanship and is durable. Our staff visits the factories personally to make sure not only that the products are good, but also that the employees are paid on time and other ethics are upheld. Our supply chain is immediately terminated if a supplier doesn&apost meet our strong criteria. Upon reaching our warehouse in Dubai, every product is given a second inspection to ensure that it is in perfect condition. You can be assured that if there&aposs a problem with your purchase, we&aposll work with you to fix it.',
     ],
   },
   {
-    title: 'What should I do if I receive a faulty or damaged product?',
+    title: 'Return Eligibility',
     description: [
-      'We are a team that ensures each customer will receive A1 product in A1 condition for sure. You have the option to request for a refund or replacement of the Avenue39 product that arrives to you in a faulty or damaged state by notifying the Avenue39 team within 24 hours of you having received the product.',
+      'We have two options when it comes to returns. At the time of delivery, we can assemble the furniture for you and give you 30 minutes to decide if you are happy to keep your purchase. If you are, then great, we’ll consider that as accepted and leave you to enjoy your shiny new piece of furniture. If you decide you don’t wish to keep your purchase, no problem at all; our team will disassemble and re-pack your furniture, and a refund will be issued right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)',
+      'If you aren’t available or don&apost have the time to view, we can deliver your furniture without assembly and let you take your time deciding. If within 7 days you wish to return your purchase, you can contact the team at [[EMAIL_LINK]] and receive a return number. Once your item is received back and confirmed to be in its brand-new condition, we will process your refund right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)',
     ],
   },
   {
-    title: 'How to notify us:',
+    title: 'Non-Returnable Items',
     description: [
-      'Email us at [[EMAIL_LINK]] to get your product fixed in case of any damages or faults. Please attach a short description about the problem and photos of the damage to make the process go smoothly.',
-      'Importantly, we would like to point out that all the claims for faulty and damaged goods mentioned by customers after the 24-hour time have expired cannot be accepted by us. Avenue39 will not have any part in it, which means the return will no longer be on them and therefore will not be liable to fulfil it.',
+      'Certain products are excluded from our return policy due to their customised nature or other considerations. These include items that have been altered, assembled, or installed after delivery, as well as custom orders and personalised furniture. ',
     ],
   },
   {
-    title: 'How are refunds processed?',
+    title: 'Contact Us',
     description: [
-      'You can enjoy your purchase with confidence knowing that we stand ready to serve if any undesirable conditions are found. We will send you an email to specify in the order received the returned item. Besides, we will give you an update about your refund whether it is approved or not. Please note that we will refund your money in case it is approved. The cash or store credit which will be refunded to you according to the refund policy, will automatically be applied back to your original processing place within certain periods.',
+      'If you have any questions about our Return Policy or need assistance with a return, our dedicated Customer Support Team is here to help. You can reach us via email at [[EMAIL_LINK]]. Our team is committed to making your experience with Avenue39 as smooth and enjoyable as possible, from your initial purchase to any post-sale concerns.',
     ],
   },
 ];
 export const ShippingPolicy = [
   {
-    title: '',
-    description: ['Delivery takes 5 days within UAE'],
-  },
-  {
-    title: 'General Information for Delivery of our Products',
-    description: [
-      'All orders placed by the customers with Avenue39 through the website are subject to product availability at the time of order. If an item in your order is unavailable at the time of purchase, we will notify you through email or website product page.',
-    ],
+    title: 'General Information For Delivery Of Our Products',
+    description: ['All orders made through the Avenue39 website depend on product availability at the time of purchase. If any item in your order is not available, we will quickly inform you via email or provide updates on the product page.'],
   },
   {
     title: 'Delivery Policy',
     description: [
-      'Below are Avenue39 delivery guidelines, according to the laws and regulations:',
-      '1. After you place an order through our website(avenue39.com) and an invoice will be generated including the details. Our customer service team will contact you to schedule the delivery time and date.',
-      '2. We aim to deliver all orders within 2 working days for addresses within Dubai city limits.',
-      '3.  In the case the customer has pre-order requirements, the specific delivery times will be mentioned on the product’s detail page.',
-      '4.  Delivery times often get affected by unforeseen circumstances, in some cases beyond our control, resulting in unexpected delays of the delivery of your product. In such severe cases, Avenue39’s customer support team will make sure to keep you informed and reschedule the delivery at the earliest available opportunity.',
-      '5.  While making a purchase, customers are responsible for providing accurate and correct address details on the order confirmation page. Avenue39 is not liable or responsible for any delays, misplacements, or incorrect deliveries if they arise. The customer is solely responsible for incorrect or incomplete information, resulting in delay or cancellation of the ordered item.',
-      '6.  It will be your responsibility to thoroughly examine the product, its parts or any other details, at the time of delivery before signing the delivery receipt. ',
-      '7. By signing the delivery receipt, customers agree to this policy and acknowledge that they have inspected the product(s) at the time of delivery. They agree that the product is free from any visible faults or undisclosed issues.  ',
-      '8.  If a product is found to be faulty, damaged, not the same product ordered by customers upon delivery, notify our customer service at [[EMAIL_LINK]].',
+      'The following are Avenue39&aposs delivery guidelines in accordance with applicable laws and regulations:',
+      '1. After you make a purchase on our website avenue39.com, we&aposll generate an invoice for your order. Our customer service staff will get in touch with you to set up and verify the delivery date and time.',
+      '2. We offer next-day delivery in Dubai and 2-day delivery to all other Emirates.',
+      '3. For items available for pre-order, you&aposll find specific delivery timeframes on the product detail page.',
+      '4. Sometimes unexpected events out of our hands might affect delivery times causing delays we didn&apost plan for. If this happens, Avenue39&aposs customer support team will keep you in the loop and try to reschedule the delivery as as possible.',
+      '5. Buyers need to give correct and full address details when they check out. Avenue39 can&apost take responsibility for delays lost orders, or wrong deliveries because of wrong or incomplete information from the customer.',
+      '6. When the delivery arrives, it&aposs up to the customer to check the product, its parts, or any related info before they sign the delivery receipt.',
+      '7. By signing the delivery receipt, customers show they&aposve looked over the product(s) and agree that the product doesn&apost have any visible flaws or problems that weren&apost mentioned at delivery time.',
+      '8. If a product is faulty, damaged, or incorrect upon delivery, please contact our customer service team immediately at cs@avenue39.com.',
     ],
   },
   {
     title: 'Additional Services and Charges',
     description: [
-      "After you have successfully placed an order on our website, we will make sure to ship the product immediately. Once your order is shipped by Avenue39, you can track its progress through the courier company's website using the tracking details available on the order confirmation page.",
+      "1. Our team will assemble your items during the delivery. Should you require assembly on a date other than the delivery date, an additional charge of AED 150 will apply. ",
+      '2. For items that are eligible under our "Try Before You Buy" offer, we will assemble the item and then give you 20 minutes to decide whether you will keep your purchase.',
+      "3. If you decide not to buy, the item will be disassembled and repackaged. A full refund will also be initiated on our end within 24 hours, given the bank processing time."
+    ],
+  },
+  {
+    title: 'Tracking Your Order ',
+    description: [
+      'Once you place your order, Avenue39 will quickly process and ship your product. After your order is shipped, you will receive a tracking number through email or on the order confirmation page. This tracking number will allow you to track your shipment on the courier company’s website.',
     ],
   },
   {

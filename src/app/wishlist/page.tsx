@@ -78,11 +78,11 @@ const Wishlist = () => {
       const updatedCart = cart.map((item: IProduct) =>
         item.id === product.id
           ? {
-              ...item,
-              count: totalQuantity,
-              totalPrice:
-                (product.discountPrice || product.price) * totalQuantity,
-            }
+            ...item,
+            count: totalQuantity,
+            totalPrice:
+              (product.discountPrice || product.price) * totalQuantity,
+          }
           : item,
       );
       localStorage.setItem('cart', JSON.stringify(updatedCart));

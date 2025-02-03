@@ -4,7 +4,6 @@ import { generateSlug } from '@/config';
 import { fetchProducts, fetchSubCategories } from '@/config/fetch';
 import { IProduct } from '@/types/types';
 import React from 'react';
-import ProductBanner from '../discount-banner/product-banner';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
 
@@ -79,12 +78,8 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
       />
     );
   }
-
-  console.log(findSubCategory.name, 'findSubCategory', newCategory, newsubCat);
   return (
-    <Shop
-      productBanner={<ProductBanner subCategoriesName={findSubCategory.name} />}
-      ProductData={
+    <Shop      ProductData={
         find_Redirected ? find_Redirected.products : findSubCategory.products
       }
       categories={findSubCategory.categories}

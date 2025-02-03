@@ -489,7 +489,7 @@ const ProductDetail = ({
               >
                 Add to cart
               </Button>
-
+{/* 
               <div className="w-full mx-auto md:w-full">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -515,9 +515,9 @@ const ProductDetail = ({
                     />
                   </DialogContent>
                 </Dialog>
-              </div>
+              </div> */}
             </div>
-            <Dialog>
+            {/* <Dialog>
               <DialogTrigger asChild>
                 <Button
                   className="bg-[#afa183] text-white flex gap-3 justify-center w-full sm:w-1/2 items-center lg:w-full h-12 rounded-2xl mb-3 font-light  md:w-full"
@@ -538,7 +538,7 @@ const ProductDetail = ({
                   <Product3D modelUrl="/3dmodel/model.glb" />
                 </div>
               </DialogContent>
-            </Dialog>
+            </Dialog> */}
           </>
         )}
 

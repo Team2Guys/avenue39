@@ -1,7 +1,6 @@
 import React from 'react';
 import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
-import ProductBanner from '@/components/discount-banner/product-banner';
 import { generateSlug } from '@/config';
 import { fetchCategories } from '@/config/fetch';
 import { menuData } from '@/data/menu';
@@ -11,15 +10,12 @@ const CategoryProducts = async ({ slug }: { slug: string[] }) => {
   const name = slug[0];
   const categories = await fetchCategories();
 
-  const findCategory =
-    categories &&
-    categories?.find((item: any) => generateSlug(item.name) === name);
+  const findCategory =categories &&categories?.find((item: any) => generateSlug(item.name) === name);
   if (!findCategory) {
     return <NotFound />;
   }
 
-  const categoryName =
-    name === 'lighting'
+  const categoryName =name === 'lighting'
       ? 'Lighting'
       : name === 'home-office'
         ? 'homeOffice'
@@ -69,7 +65,6 @@ const CategoryProducts = async ({ slug }: { slug: string[] }) => {
 
   return (
     <Shop
-      productBanner={<ProductBanner />}
       ProductData={sortProducts}
       isCategory={true}
       categories={categories}

@@ -1,17 +1,15 @@
 'use client';
 import ProductPage from '@/components/product-page/product';
-import React, { ReactNode, useState } from 'react';
+import React, {useState } from 'react';
 import { ICategory, IProduct } from '@/types/types';
 
 const Shop = ({
-  productBanner,
   categories,
   ProductData,
   isCategory,
   findCategory,
   categoryName,
 }: {
-  productBanner?: ReactNode;
   categories?: ICategory[];
   ProductData: IProduct[];
   isCategory?: boolean;
@@ -22,7 +20,6 @@ const Shop = ({
   return (
     <>
       <ProductPage
-        productBanner={productBanner}
         layout={layout}
         Setlayout={Setlayout}
         category={categories}

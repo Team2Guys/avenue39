@@ -21,9 +21,6 @@ const SingleProduct = async ({ slug }: { slug: string[] }) => {
   const findProduct = products.find(
     (item: IProduct) => generateSlug(item.name) === productName,
   );
-  // const findCategory = findProduct.categories.find((item: ICategory) => generateSlug(item.name) === categoryName);
-  // const findSubCategory = findCategory?.subcategories?.find((item: ICategory) => generateSlug(item.name) === subcategoryName);
-
   if (!findProduct) {
     return <NotFound />;
   }

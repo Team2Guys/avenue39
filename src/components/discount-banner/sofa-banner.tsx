@@ -8,8 +8,6 @@ import Calda from '@assets/images/banners/Calda.jpg';
 import Magia from '@assets/images/banners/Magia.jpg';
 import Moderno from '@assets/images/banners/Moderno.jpg';
 import Bergen from '@assets/images/banners/Bergen.jpg';
-import banner2 from '@assets/images/banners/laptop-table.jpg';
-import banner3 from '@assets/images/banners/freepik__enhance__60779.webp';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';

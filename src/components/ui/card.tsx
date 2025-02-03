@@ -9,14 +9,10 @@ import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
-import {
-  calculateRatingsPercentage,
-  generateSlug,
-  renderStars,
-} from '@/config';
+import { calculateRatingsPercentage, renderStars } from '@/config';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
@@ -32,7 +28,6 @@ import {
 } from '../ui/dialog';
 import { message } from 'antd';
 import Link from 'next/link';
-import { re_Calling_products } from '@/data/Re_call_prod';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;

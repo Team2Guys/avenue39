@@ -21,11 +21,7 @@ import { Skeleton } from '@/components/ui/skeleton'; // Adjust the path as neces
 import { IProduct, IReview } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
-import {
-  calculateRatingsPercentage,
-  generateSlug,
-  renderStars,
-} from '@/config';
+import { calculateRatingsPercentage, renderStars } from '@/config';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { message } from 'antd';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';

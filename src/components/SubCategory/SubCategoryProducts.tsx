@@ -14,13 +14,15 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   let newsubCat: string | undefined;
 
   const subCategories = await fetchSubCategories();
+
   const SubCategoriesFinder = re_Calling_products.find(
     (value) =>
       generateSlug(value.mainCategory).trim().toLocaleLowerCase() ===
-        category &&
+      category &&
       generateSlug(value.subCategory).trim().toLocaleLowerCase() ==
-        subcategoryName,
+      subcategoryName,
   );
+
   if (SubCategoriesFinder) {
     newsubCat = generateSlug(
       SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase(),
@@ -29,6 +31,9 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
       SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase(),
     );
   }
+
+
+  console.log(newCategory, 'newCategory', newsubCat);
 
   const findSubCategory: any = subCategories?.find((item: any) => {
     const isNameMatch = generateSlug(item.name) === subcategoryName;
@@ -41,10 +46,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
 
   const find_Redirected: any = subCategories?.find((item: any) => {
     const isNameMatch = generateSlug(item.name) === subcategoryName;
-    const belongsToCategory = item.categories.some(
-      (value: any) =>
-        generateSlug(value.name).trim().toLocaleLowerCase() === category,
-    );
+    const belongsToCategory = item.categories.some((value: any) => generateSlug(value.name).trim().toLocaleLowerCase() === category);
     return isNameMatch && belongsToCategory;
   });
 
@@ -79,9 +81,9 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
     );
   }
   return (
-    <Shop      ProductData={
-        find_Redirected ? find_Redirected.products : findSubCategory.products
-      }
+    <Shop ProductData={
+      find_Redirected ? find_Redirected.products : findSubCategory.products
+    }
       categories={findSubCategory.categories}
       isCategory={false}
       categoryName={findSubCategory}

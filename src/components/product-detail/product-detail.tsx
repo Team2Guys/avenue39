@@ -5,7 +5,7 @@ import { CiShoppingCart } from 'react-icons/ci';
 import { IProduct, IProductDetail, IReview } from '@/types/types';
 import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
-import QRScanner from '../QR-reader/QR';
+// import QRScanner from '../QR-reader/QR';
 import {
   Dialog,
   DialogContent,
@@ -36,8 +36,8 @@ import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
 import { calculateRatingsPercentage, renderStars } from '@/config';
-import { TbCube3dSphere } from 'react-icons/tb';
-import Product3D from '../3DView/Product3D';
+// import { TbCube3dSphere } from 'react-icons/tb';
+// import Product3D from '../3DView/Product3D';
 // import ARExperience from '../ARModelViewer';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
@@ -226,9 +226,9 @@ const ProductDetail = ({
     dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
-  const handle3D = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-  };
+  // const handle3D = (e: React.MouseEvent<HTMLElement>) => {
+  //   e.stopPropagation();
+  // };
 
   return (
     <div

@@ -7,7 +7,6 @@ const nextConfig = {
       'res.cloudinary.com',
       'unsplash.com',
     ],
-    unoptimized: true,
   },
 };
 

@@ -20,7 +20,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'; // Adjust the path as necessary
 import { IProduct, IReview } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
-import { fetchReviews } from '@/config/fetch';
+import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
 import {
   calculateRatingsPercentage,
   generateSlug,
@@ -89,8 +89,9 @@ const FeatureCard: React.FC<CardProps> = ({
     : [];
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
 
-  const handleNavigation = () => {
-    Navigate.push(`/product/${generateSlug(card.name)}`);
+  const handleNavigation = (product: IProduct) => {
+    let url = ChangeUrlHandler(product);
+    Navigate.push(url);
   };
 
   const handleAddToWishlist = (product: IProduct) => {
@@ -189,7 +190,10 @@ const FeatureCard: React.FC<CardProps> = ({
             </div>
           )}
 
-          <div onClick={() => handleNavigation()} className="cursor-pointer">
+          <div
+            onClick={() => handleNavigation(card)}
+            className="cursor-pointer"
+          >
             <Image
               width={400}
               height={400}

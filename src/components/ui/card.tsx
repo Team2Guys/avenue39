@@ -9,7 +9,7 @@ import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
 import {
@@ -18,7 +18,7 @@ import {
   renderStars,
 } from '@/config';
 import { useQuery } from '@tanstack/react-query';
-import { fetchReviews } from '@/config/fetch';
+import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import 'swiper/css/pagination';
@@ -62,14 +62,15 @@ const Card: React.FC<CardProps> = ({
   calculateHeight,
   portSpace,
   productImages,
-  redirect,
+  // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State) => state.cart.items);
   const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(
     undefined,
   );
-  const pathname = usePathname();
+  const Navigate = useRouter();
+  // const pathname = usePathname();
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -113,56 +114,60 @@ const Card: React.FC<CardProps> = ({
 
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
 
-  const handleNavigation = (): string => {
-    let main_Category = redirect
-      ? redirect
-      : isHomepage
-        ? card?.categories && card?.categories[0]
-        : pathname.split('/')[1].trim().toLocaleLowerCase();
-    let subCategory = pathname.split('/')[2]?.trim().toLocaleLowerCase();
+  // const handleNavigation = (): string => {
+  //   let main_Category = redirect
+  //     ? redirect
+  //     : isHomepage
+  //       ? card?.categories && card?.categories[0]
+  //       : pathname.split('/')[1].trim().toLocaleLowerCase();
+  //   let subCategory = pathname.split('/')[2]?.trim().toLocaleLowerCase();
 
-    let redirectedMain = re_Calling_products.find(
-      (value: any) =>
-        generateSlug(value.mainCategory).trim().toLowerCase() ===
-          main_Category &&
-        subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
-    );
-    let mainCategory = card?.categories?.find(
-      (value) =>
-        value.name.trim().toLocaleLowerCase() ===
-        (redirectedMain
-          ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
-          : main_Category),
-    );
-    let subcategory =
-      card?.subcategories &&
-      card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
-    let url;
+  //   let redirectedMain = re_Calling_products.find(
+  //     (value: any) =>
+  //       generateSlug(value.mainCategory).trim().toLowerCase() ===
+  //         main_Category &&
+  //       subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
+  //   );
+  //   let mainCategory = card?.categories?.find(
+  //     (value) =>
+  //       value.name.trim().toLocaleLowerCase() ===
+  //       (redirectedMain
+  //         ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
+  //         : main_Category),
+  //   );
+  //   let subcategory =
+  //     card?.subcategories &&
+  //     card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
+  //   let url;
 
-    console.log(redirectedMain, 'redirectedMain', mainCategory);
+  //   console.log(redirectedMain, 'redirectedMain', mainCategory);
 
-    if (!mainCategory)
-      return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
+  //   if (!mainCategory)
+  //     return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
 
-    if (subcategory) {
-      url =
-        '/' +
-        generateSlug(mainCategory.name || '') +
-        '/' +
-        generateSlug(subcategory || '') +
-        '/' +
-        generateSlug(card?.name || '');
+  //   if (subcategory) {
+  //     url =
+  //       '/' +
+  //       generateSlug(mainCategory.name || '') +
+  //       '/' +
+  //       generateSlug(subcategory || '') +
+  //       '/' +
+  //       generateSlug(card?.name || '');
 
-      return url;
-    }
+  //     return url;
+  //   }
 
-    url =
-      '/' +
-      generateSlug(mainCategory.name || '') +
-      '/' +
-      generateSlug(card?.name || '');
+  //   url =
+  //     '/' +
+  //     generateSlug(mainCategory.name || '') +
+  //     '/' +
+  //     generateSlug(card?.name || '');
 
-    return url;
+  //   return url;
+  // };
+  const handleNavigation = (product: IProduct) => {
+    let url = ChangeUrlHandler(product);
+    Navigate.push(url);
   };
 
   if (!card) {
@@ -171,7 +176,7 @@ const Card: React.FC<CardProps> = ({
   const imgIndex = card.productImages.slice(-1)[0];
   return (
     <Link
-      href={handleNavigation()}
+      href={ChangeUrlHandler(card)}
       className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}
     >
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
@@ -188,7 +193,7 @@ const Card: React.FC<CardProps> = ({
               {isLandscape ? (
                 <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px]">
                   <Link
-                    href={handleNavigation()}
+                    href={ChangeUrlHandler(card)}
                     className={`${cardImageHeight} flex justify-center items-center px-2`}
                   >
                     <Image
@@ -214,13 +219,13 @@ const Card: React.FC<CardProps> = ({
                 <div
                   className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] ${portSpace ? portSpace : 'px-2'}`}
                 >
-                  <Link href={handleNavigation()}>
+                  <Link href={ChangeUrlHandler(card)}>
                     <Image
                       src={
                         cardStaticData?.posterImageUrl || card.posterImageUrl
                       }
                       alt={card?.posterImageAltText || 'image'}
-                      onClick={() => handleNavigation()}
+                      // onClick={() => handleNavigation()}
                       width={600}
                       height={600}
                       className={cn(
@@ -242,7 +247,10 @@ const Card: React.FC<CardProps> = ({
               )}
               <div className="space-y-3">
                 <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
-                  <Link className="cursor-pointer" href={handleNavigation()}>
+                  <Link
+                    className="cursor-pointer"
+                    href={ChangeUrlHandler(card)}
+                  >
                     {' '}
                     {card.name}
                   </Link>
@@ -392,7 +400,7 @@ const Card: React.FC<CardProps> = ({
                   <Image
                     src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
                     alt={card.posterImageAltText || card.name}
-                    onClick={() => handleNavigation()}
+                    onClick={() => handleNavigation(card)}
                     width={600}
                     height={600}
                     className={
@@ -406,11 +414,11 @@ const Card: React.FC<CardProps> = ({
                   />
                 </div>
               ) : (
-                <Link href={handleNavigation()}>
+                <Link href={ChangeUrlHandler(card)}>
                   <Image
                     src={card.posterImageUrl}
                     alt={card.posterImageAltText || card.name}
-                    onClick={() => handleNavigation()}
+                    // onClick={() => handleNavigation()}
                     width={600}
                     height={600}
                     className={cn(
@@ -425,7 +433,7 @@ const Card: React.FC<CardProps> = ({
             </div>
             <div className="space-y-3">
               <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
-                <Link className="cursor-pointer" href={handleNavigation()}>
+                <Link className="cursor-pointer" href={ChangeUrlHandler(card)}>
                   {' '}
                   {card.name}
                 </Link>

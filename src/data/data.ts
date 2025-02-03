@@ -488,14 +488,13 @@ export const Living = [
   'Marlin Rocking Chair',
   'Capri Leather Swivel Chair',
   'Braga Armchair',
-  'The Lisbon Sofa Set',
-  'Hallie Sofa Set',
+  'Lisbon Sofa',
+  'Hallie Sofa',
   'Nordic Coffee Table with the Side Table',
   'Torino Coffee Table',
-  'Lucius Coffee Table Set',
+  'Arti Side Table',
   'Finestra Side Table',
   'Vaunchy Side Table',
-  'Arti Side Table',
 ];
 export const Bedroom = [
   'Yakuba Side Table',

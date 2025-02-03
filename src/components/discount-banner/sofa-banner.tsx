@@ -4,6 +4,10 @@ import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.png';
 import Marlin from '@assets/images/banners/Marlin.png';
 import rafael from '@assets/images/banners/rafael.png';
+import Calda from '@assets/images/banners/Calda.jpg';
+import Magia from '@assets/images/banners/Magia.jpg';
+import Moderno from '@assets/images/banners/Moderno.jpg';
+import Bergen from '@assets/images/banners/Bergen.jpg';
 import banner2 from '@assets/images/banners/laptop-table.jpg';
 import banner3 from '@assets/images/banners/freepik__enhance__60779.webp';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -40,18 +44,20 @@ const sliderDataa_sofa = [
     id: 1,
     slides: [
       {
-        backgroundImage: banner2.src,
+        backgroundImage: Magia.src,
         pro_price: 'AED 6,250',
         subtitle: 'Magia Office Desk',
         link: '/home-office/office-tables/magia-office-desk',
         buttonPosition: 'top',
+        ImagePosition: 'center',
       },
       {
-        backgroundImage: banner3.src,
+        backgroundImage: Calda.src,
         pro_price: 'AED 1,950',
         subtitle: 'Calda Side Table',
         link: '/tables/side-tables/calda-side-table',
         buttonPosition: 'bottom',
+        ImagePosition: 'top',
       },
     ],
   },
@@ -59,18 +65,20 @@ const sliderDataa_sofa = [
     id: 2,
     slides: [
       {
-        backgroundImage: banner2.src,
+        backgroundImage: Moderno.src,
         pro_price: 'AED 799',
         subtitle: 'Moderno Bedside Table',
         link: '/bedroom/bedside-tables/moderno-bedside-table',
         buttonPosition: 'top',
+        ImagePosition: 'center',
       },
       {
-        backgroundImage: banner3.src,
+        backgroundImage: Bergen.src,
         pro_price: 'AED 3,500',
         subtitle: 'Bergen Sintered Stone Dining Table',
         link: '/dining/dining-table/bergen-sintered-stone-dining-table',
         buttonPosition: 'bottom',
+        ImagePosition: 'center',
       },
     ],
   },
@@ -171,7 +179,7 @@ const SofaBanner: React.FC = () => {
                       backgroundImage: `url(${slide.backgroundImage})`,
                       backgroundSize: 'cover',
                       backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'center',
+                      backgroundPosition: slide.ImagePosition,
                     }}
                   >
                     <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">

@@ -276,7 +276,7 @@ export const homeProducts: IHomeProducts[] = [
     name: 'living',
     products: [
       {
-        name: 'The Lisbon Sofa Set',
+        name: 'Lisbon Sofa',
         posterImageUrl: '/images/HomeProducts/Living/Lisbon.png',
       },
       {
@@ -316,7 +316,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Living/Capri.png',
       },
       {
-        name: 'Hallie Sofa Set',
+        name: 'Hallie Sofa',
         posterImageUrl: '/images/HomeProducts/Living/Hallie.png',
       },
       {

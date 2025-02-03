@@ -82,6 +82,7 @@ const Card: React.FC<CardProps> = ({
     console.log(cardImage, 'cardImage');
     setCardStaticData(cardImage);
   }, [productImages]);
+
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find((item) => item.id === card?.id);
@@ -117,6 +118,7 @@ const Card: React.FC<CardProps> = ({
   //       : pathname.split('/')[1].trim().toLocaleLowerCase();
   //   let subCategory = pathname.split('/')[2]?.trim().toLocaleLowerCase();
 
+
   //   let redirectedMain = re_Calling_products.find(
   //     (value: any) =>
   //       generateSlug(value.mainCategory).trim().toLowerCase() ===
@@ -139,6 +141,26 @@ const Card: React.FC<CardProps> = ({
 
   //   if (!mainCategory)
   //     return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
+
+    let redirectedMain = re_Calling_products.find(
+      (value: any) =>
+        generateSlug(value.mainCategory).trim().toLowerCase() ===
+          main_Category &&
+        subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
+    );
+    let mainCategory = card?.categories?.find(
+      (value) =>
+        value.name.trim().toLocaleLowerCase() ===
+        (redirectedMain
+          ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
+          : main_Category),
+    );
+    let subcategory =
+      card?.subcategories &&
+      card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
+    let url;
+    if (!mainCategory)
+      return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
 
   //   if (subcategory) {
   //     url =

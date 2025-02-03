@@ -76,8 +76,8 @@ const Wishlist = () => {
   };
   const handleAddToCart = (product: IProduct) => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    //@ts-ignore
     const existingItem = cartItems.find(
+      //@ts-ignore
       (item: CartItem) => item.id === product.id,
     );
     if (existingItem) {

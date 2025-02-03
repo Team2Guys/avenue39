@@ -378,7 +378,7 @@ export const homeProducts: IHomeProducts[] = [
     name: 'accessories',
     products: [
       {
-        name: 'A Pair of Droplet Stands',
+        name: 'Droplet Stand ',
         posterImageUrl: '/images/HomeProducts/Accessories/Droplet.png',
       },
       {
@@ -390,7 +390,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Accessories/Abstract.png',
       },
       {
-        name: 'Pair of Monolith Sphere Towers',
+        name: 'Monolith Sphere Tower ',
         posterImageUrl: '/images/HomeProducts/Accessories/Monolith.png',
       },
       {

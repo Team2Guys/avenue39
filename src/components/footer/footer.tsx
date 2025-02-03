@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
                     href={
                       menu === 'SALE'
                         ? '/products'
-                        : `/products/${generateSlug(menu || '')}`
+                        : `/${generateSlug(menu === 'homeOffice' ? 'home-office' : menu  || '')}`
                     }
                     className="hover:underline capitalize"
                   >
@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
                     href={
                       menu === 'SALE'
                         ? '/products'
-                        : `/products/${generateSlug(menu || '')}`
+                        : `/${generateSlug(menu || '')}`
                     }
                     className="hover:underline capitalize"
                   >
@@ -155,7 +155,7 @@ const Footer: React.FC = () => {
           </h5>
           <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 text-[#686868]">
             <li>
-              <Link href="/terms-condition" className="hover:underline">
+              <Link href="/terms-and-conditions" className="hover:underline">
                 Terms & Conditions
               </Link>
             </li>
@@ -188,7 +188,7 @@ const Footer: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/about" target="_self" className="hover:underline">
+              <Link href="/about-us" target="_self" className="hover:underline">
                 About Us
               </Link>
             </li>

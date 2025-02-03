@@ -59,7 +59,7 @@ const CatProduct1 = ({
                       />
                     ))}
                 <ProductGrid
-                  products={products.slice(6, 9)}
+                  products={products.slice(7, 10)}
                   productImages={productImages?.products || []}
                   CardComponent={Card}
                   isHomepage={true}
@@ -73,7 +73,7 @@ const CatProduct1 = ({
                 <ProductSkeleton imageHeight="h-[210px] xl:h-[496.5px]" />
               )}
               <ProductGrid
-                products={products.slice(5, 6)}
+                products={products.slice(5, 7)}
                 productImages={productImages?.products || []}
                 CardComponent={Card}
                 slider={true}

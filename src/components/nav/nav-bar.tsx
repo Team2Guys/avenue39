@@ -81,8 +81,8 @@ const Navbar = () => {
     setSearchText(e.target.value);
   };
 
-  const handleNavigation = (product:IProduct) => {
-    let url =  ChangeUrlHandler(product)
+  const handleNavigation = (product: IProduct) => {
+    let url = ChangeUrlHandler(product);
     Navigate.push(url);
     setIsProductListOpen(false);
   };
@@ -403,8 +403,6 @@ const Navbar = () => {
                                   </div>
                                 </div>
                               </div>
-
-
                             </DrawerTrigger>
                           ))}
                         </div>

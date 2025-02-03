@@ -26,10 +26,12 @@ interface IProduct {
   count: number;
   stock: number;
 }
+
 const Wishlist = () => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State) => state.cart.items);
   const [wishlist, setWishlist] = useState<IProduct[]>([]);
+
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlist(storedWishlist);
@@ -58,28 +60,11 @@ const Wishlist = () => {
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
     message.success('Product removed from Wishlist successfully!');
     window.dispatchEvent(new Event('WishlistChanged'));
-
-    // Modal.confirm({
-    //   title: 'Confirm Deletion',
-    //   content: 'Are you sure you want to remove this product from your wishlist?',
-    //   okText: 'Yes',
-    //   okType: 'danger',
-    //   cancelText: 'No',
-    //   onOk: () => {
-    //     const updatedWishlist = wishlist.filter(item => item.id !== id);
-    //     setWishlist(updatedWishlist);
-    //     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    //     message.success('Product removed from Wishlist successfully!');
-    //     window.dispatchEvent(new Event('WishlistChanged'));
-    //   },
-    // });
   };
   const handleAddToCart = (product: IProduct) => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existingItem = cartItems.find(
-      //@ts-ignore
-      (item: CartItem) => item.id === product.id,
-    );
+    //@ts-ignore
+    const existingItem = cartItems.find((item: CartItem) => item.id === product.id);
     if (existingItem) {
       const totalQuantity = existingItem.quantity + product.count;
       if (totalQuantity > (product.stock || 0)) {
@@ -91,11 +76,11 @@ const Wishlist = () => {
       const updatedCart = cart.map((item: IProduct) =>
         item.id === product.id
           ? {
-              ...item,
-              count: totalQuantity,
-              totalPrice:
-                (product.discountPrice || product.price) * totalQuantity,
-            }
+            ...item,
+            count: totalQuantity,
+            totalPrice:
+              (product.discountPrice || product.price) * totalQuantity,
+          }
           : item,
       );
       localStorage.setItem('cart', JSON.stringify(updatedCart));

@@ -8,12 +8,12 @@ import axios from 'axios';
 import Loader from '@components/Loader/Loader';
 import { FaRegEye } from 'react-icons/fa';
 import { LiaEdit } from 'react-icons/lia';
-import { generateSlug } from '@/config';
 import { product } from '@/types/interfaces';
 import revalidateTag from '@/components/ServerActons/ServerAction';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
+import { ChangeUrlHandler } from '@/config/fetch';
 
 interface Product {
   id: string;
@@ -219,12 +219,12 @@ const ViewProduct: React.FC<CategoryProps> = ({
       title: 'Preview',
       key: 'Preview',
       width: 120,
-      render: (text: any, record: Product) => {
+      render: (text: any, record: any) => {
         return (
           <Link
             className="hover:text-black"
             target="_blank"
-            href={`/product/${generateSlug(record.name)}`}
+            href={ChangeUrlHandler(record)}
           >
             <FaRegEye />
           </Link>
@@ -254,7 +254,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
       title: 'Action',
       key: 'action',
       width: 150,
-      render: (text: any, record: Product) => (
+      render: (text: any, record: any) => (
         <RiDeleteBin6Line
           className={`${canDeleteProduct ? 'text-red-600 cursor-pointer' : ''} ${
             !canDeleteProduct ? 'cursor-not-allowed text-slate-200' : ''

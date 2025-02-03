@@ -91,7 +91,7 @@ export const re_Calling_products = [
     redirect_main_cat: 'HOME OFFICE',
   },
   {
-    id: 10,
+    id: 11,
     mainCategory: 'TABLES',
     subCategory: 'Bedside Tables',
     ////////////////
@@ -99,7 +99,7 @@ export const re_Calling_products = [
     redirect_main_cat: 'BEDROOM',
   },
   {
-    id: 10,
+    id: 12,
     mainCategory: 'TABLES',
     subCategory: 'Bedside Tables',
     ////////////////
@@ -107,7 +107,7 @@ export const re_Calling_products = [
     redirect_main_cat: 'BEDROOM',
   },
   {
-    id: 10,
+    id: 13,
     mainCategory: 'TABLES',
     subCategory: 'Bedside Tables',
     ////////////////
@@ -115,11 +115,17 @@ export const re_Calling_products = [
     redirect_main_cat: 'BEDROOM',
   },
   {
-    id: 10,
+    id: 14,
     mainCategory: 'TABLES',
     subCategory: 'Bedside Tables',
-    ////////////////
     redirectsubCat: 'Bedside Tables',
     redirect_main_cat: 'BEDROOM',
+  },
+  {
+    id: 15,
+    mainCategory: 'LIVING',
+    subCategory: 'TV Stands',
+    redirectsubCat: 'TV Stands',
+    redirect_main_cat: 'DINING',
   },
 ];

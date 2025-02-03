@@ -23,8 +23,7 @@ import { Popover } from 'antd';
 import { useSelector } from 'react-redux';
 import { State } from '@/redux/store';
 import { useQuery } from '@tanstack/react-query';
-import { fetchProducts } from '@/config/fetch';
-import { generateSlug } from '@/config';
+import { ChangeUrlHandler, fetchProducts } from '@/config/fetch';
 import RenderStars from '../ui/renderstars';
 import { Skeleton } from '../ui/skeleton';
 import Wishlist from '../wishlist/wishlist';
@@ -82,8 +81,9 @@ const Navbar = () => {
     setSearchText(e.target.value);
   };
 
-  const handleNavigation = (name: string) => {
-    Navigate.push(`/product/${generateSlug(name)}`);
+  const handleNavigation = (product:IProduct) => {
+    let url =  ChangeUrlHandler(product)
+    Navigate.push(url);
     setIsProductListOpen(false);
   };
 
@@ -203,7 +203,7 @@ const Navbar = () => {
                       filteredProducts.map((product) => (
                         <div
                           key={product.id}
-                          onClick={() => handleNavigation(product.name)}
+                          onClick={() => handleNavigation(product)}
                           className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
                         >
                           <Image
@@ -376,7 +376,7 @@ const Navbar = () => {
                           {filteredProducts.map((product: IProduct) => (
                             <DrawerTrigger asChild key={product.id}>
                               <div
-                                onClick={() => handleNavigation(product.name)}
+                                onClick={() => handleNavigation(product)}
                                 className="flex border p-2 rounded-md flex-col hover:shadow-md items-center transition duration-300 gap-2 w-[48%] mt-2 cursor-pointer bg-white"
                               >
                                 <Image
@@ -403,6 +403,8 @@ const Navbar = () => {
                                   </div>
                                 </div>
                               </div>
+
+
                             </DrawerTrigger>
                           ))}
                         </div>

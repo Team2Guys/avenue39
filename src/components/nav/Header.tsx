@@ -48,7 +48,6 @@ const Header = () => {
     }
   }, [categories]);
 
-  console.log(sortedCategories, 'sortedCategories');
   return (
     <>
       <TopNav />

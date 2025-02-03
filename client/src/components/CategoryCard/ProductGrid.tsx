@@ -46,9 +46,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, productImages, Card
           modules={[Pagination]}
         >
           {products.map((product) => (
-            <SwiperSlide className="w-full">
+            <SwiperSlide className="w-full" key={product.id}>
               <CardComponent
-                key={product.id}
                 card={product}
                 category={true}
                 isLoading={false}

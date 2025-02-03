@@ -1,6 +1,8 @@
 import React from 'react';
 import { IProduct } from '@/types/types';
 import { IProductsImage } from '@/types/interfaces';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 
 interface ProductGridProps {
   products: IProduct[]; // Array of products to render
@@ -30,22 +32,51 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   console.log(products, 'products Floki');
   return (
     <>
-      {products.map((product, index) => (
-        <CardComponent
-          key={index}
-          card={product}
-          category={true}
-          isLoading={false}
-          slider={slider}
-          cardImageHeight={imageHeight}
-          isHomepage={isHomepage}
-          isLandscape={isLandscape}
-          calculateHeight={calculateHeight}
-          portSpace={portSpace}
-          productImages={productImages}
-          redirect={redirect}
-        />
-      ))}
+      {!slider ? (
+        products.map((product, index) => (
+          <CardComponent
+            key={index}
+            card={product}
+            category={true}
+            isLoading={false}
+            slider={slider}
+            cardImageHeight={imageHeight}
+            isHomepage={isHomepage}
+            isLandscape={isLandscape}
+            calculateHeight={calculateHeight}
+            portSpace={portSpace}
+            productImages={productImages}
+            redirect={redirect}
+          />
+        ))
+      ) : (
+        <Swiper
+          className="mySwiper card-slider-home w-full"
+          pagination={{
+            clickable: true,
+          }}
+          loop={true}
+          modules={[Pagination]}
+        >
+          {products.map((product) => (
+            <SwiperSlide className="w-full" key={product.id}>
+              <CardComponent
+                card={product}
+                category={true}
+                isLoading={false}
+                slider={slider}
+                cardImageHeight={imageHeight}
+                isHomepage={isHomepage}
+                isLandscape={isLandscape}
+                calculateHeight={calculateHeight}
+                portSpace={portSpace}
+                productImages={productImages}
+                redirect={redirect}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </>
   );
 };

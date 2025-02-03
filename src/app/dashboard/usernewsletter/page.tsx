@@ -3,7 +3,9 @@ import NewsLetter from './NewsLetter';
 
 const productHandler = async () => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/newsletters/get-all`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsletters/get-all`,
+    );
     const data = response.data;
     return data;
   } catch (err) {

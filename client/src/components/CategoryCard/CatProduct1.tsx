@@ -43,14 +43,14 @@ const CatProduct1 = ({ reverse, CategoryName,products,redirect,CategoryDescripti
             {products.length < 1 && Array(3).fill(null).map((_, index) => (
               <ProductSkeleton imageHeight="h-[210px] xl:h-[496.5px]" key={index} />
             ))}
-              <ProductGrid products={products.slice(6, 9)} productImages={productImages?.products || []}  CardComponent={Card} isHomepage={true} redirect={redirect} imageHeight="h-[210px] xl:h-[496.5px] w-full" />
+              <ProductGrid products={products.slice(7, 10)} productImages={productImages?.products || []}  CardComponent={Card} isHomepage={true} redirect={redirect} imageHeight="h-[210px] xl:h-[496.5px] w-full" />
             </div>
           </div>
           <div className={`col-span-12 md:col-span-6 xl:col-span-5`}>
           {products.length < 1 && (
              <ProductSkeleton imageHeight="h-[210px] xl:h-[496.5px]" />
             )}
-              <ProductGrid products={products.slice(5, 6)} productImages={productImages?.products || []} CardComponent={Card} slider={true} redirect={redirect} imageHeight="h-[210px] xl:h-[496.5px] w-full" portSpace={'px-10'} />
+              <ProductGrid products={products.slice(5, 7)} productImages={productImages?.products || []} CardComponent={Card} slider={true} redirect={redirect} imageHeight="h-[210px] xl:h-[496.5px] w-full" portSpace={'px-10'} />
           </div>
         </div>
         <div className={`grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8`}>

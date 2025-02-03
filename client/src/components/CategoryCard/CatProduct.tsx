@@ -50,17 +50,17 @@ const CatProduct = ({ reverse, CategoryName, products , landHeight ,portSpace , 
             <div className={`col-span-12 md:col-span-6 xl:col-span-5 ${reverse ? 'order-2' : 'order-1'}`}>
               {products.length < 5 && (
                 <ProductSkeleton imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[834.46px]" />)}
-              <ProductGrid products={products.slice(5, 6)} productImages={productImages?.products || []} CardComponent={Card} slider={true} isLandscape={false} portSpace={portSpace} redirect={redirect} imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[834.46px]" />
+              <ProductGrid products={products.slice(5, 7)} productImages={productImages?.products || []} CardComponent={Card} slider={true} isLandscape={false} portSpace={portSpace} redirect={redirect} imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[834.46px]" />
             </div>
             <div className={`col-span-12 md:col-span-6 xl:col-span-7 ${reverse ? 'order-1' : 'order-2'}`}>
               {products.length < 6 && (
                 <ProductSkeleton imageHeight="h-[200px] xl:h-[345.15px]" />)}
-              <ProductGrid products={products.slice(6, 7)} productImages={productImages?.products || []} CardComponent={Card} slider={true} isLandscape={true} imageHeight="h-[200px] xl:h-[345.15px]" calculateHeight={landHeight} redirect={redirect} />
+              <ProductGrid products={products.slice(7, 9)} productImages={productImages?.products || []} CardComponent={Card} slider={true} isLandscape={true} imageHeight="h-[200px] xl:h-[345.15px]" calculateHeight={landHeight} redirect={redirect} />
               <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 sm:gap-8">
                 {products.length < 7 && Array(3).fill(null).map((_, index) => (
                   <ProductSkeleton imageHeight="h-[210px] xl:h-[353.64px]" key={index} />
                 ))}
-                <ProductGrid products={products.slice(7, 10)} productImages={productImages?.products || []} CardComponent={Card} isHomepage={true} imageHeight="h-[210px] xl:h-[333.64px]" calculateHeight={sideTableHeight ||'calc(100% - 10px)'} redirect={redirect} />
+                <ProductGrid products={products.slice(9, 12)} productImages={productImages?.products || []} CardComponent={Card} isHomepage={true} imageHeight="h-[210px] xl:h-[361.64px]" calculateHeight={sideTableHeight ||'calc(100% - 10px)'} redirect={redirect} />
               </div>
             </div>
           </div>

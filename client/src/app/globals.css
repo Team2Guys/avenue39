@@ -363,7 +363,9 @@ color: white;
   }
  }
 
-
+.card-slider-home .swiper-pagination {
+  bottom: 130px !important;
+}
 
 
  .detail{

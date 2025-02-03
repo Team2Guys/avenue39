@@ -1,6 +1,8 @@
 import React from 'react';
 import { IProduct } from '@/types/types';
 import { IProductsImage } from '@/types/interfaces';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 
 interface ProductGridProps {
   products: IProduct[]; // Array of products to render
@@ -15,11 +17,11 @@ interface ProductGridProps {
   redirect?: string
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products, productImages, CardComponent, imageHeight,slider , isHomepage, calculateHeight , portSpace , isLandscape,redirect }) => {
-  console.log(products,'products Floki')
+const ProductGrid: React.FC<ProductGridProps> = ({ products, productImages, CardComponent, imageHeight, slider, isHomepage, calculateHeight, portSpace, isLandscape, redirect }) => {
+  console.log(products, 'products Floki')
   return (
     <>
-      {products.map((product, index) => (
+      {!slider ? products.map((product, index) => (
         <CardComponent
           key={index}
           card={product}
@@ -34,7 +36,35 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, productImages, Card
           productImages={productImages}
           redirect={redirect}
         />
-      ))}
+      )) : (
+        <Swiper
+          className="mySwiper card-slider-home w-full"
+          pagination={{
+            clickable: true,
+          }}
+          loop={true}
+          modules={[Pagination]}
+        >
+          {products.map((product) => (
+            <SwiperSlide className="w-full">
+              <CardComponent
+                key={product.id}
+                card={product}
+                category={true}
+                isLoading={false}
+                slider={slider}
+                cardImageHeight={imageHeight}
+                isHomepage={isHomepage}
+                isLandscape={isLandscape}
+                calculateHeight={calculateHeight}
+                portSpace={portSpace}
+                productImages={productImages}
+                redirect={redirect}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </>
   );
 };

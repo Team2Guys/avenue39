@@ -84,7 +84,7 @@ const CatProduct = ({
                 <ProductSkeleton imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[834.46px]" />
               )}
               <ProductGrid
-                products={products.slice(5, 6)}
+                products={products.slice(5, 7)}
                 productImages={productImages?.products || []}
                 CardComponent={Card}
                 slider={true}
@@ -101,7 +101,7 @@ const CatProduct = ({
                 <ProductSkeleton imageHeight="h-[200px] xl:h-[345.15px]" />
               )}
               <ProductGrid
-                products={products.slice(6, 7)}
+                products={products.slice(7, 9)}
                 productImages={productImages?.products || []}
                 CardComponent={Card}
                 slider={true}
@@ -121,11 +121,11 @@ const CatProduct = ({
                       />
                     ))}
                 <ProductGrid
-                  products={products.slice(7, 10)}
+                  products={products.slice(9, 12)}
                   productImages={productImages?.products || []}
                   CardComponent={Card}
                   isHomepage={true}
-                  imageHeight="h-[210px] xl:h-[333.64px]"
+                  imageHeight="h-[210px] xl:h-[361.64px]"
                   calculateHeight={sideTableHeight || 'calc(100% - 10px)'}
                   redirect={redirect}
                 />

@@ -14,6 +14,7 @@ import {
 } from '@/components/language';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: 'Avenue 39',
   description: 'Best ecommerce website',
   robots: {

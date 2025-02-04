@@ -221,7 +221,7 @@ const Card: React.FC<CardProps> = ({
                     onClick={(e) => handleEventProbation(e)}
                   >
                     <button
-                      className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary group rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                      className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
                       onClick={(e) => handleAddToCard(e)}
                     >
                       <svg
@@ -229,7 +229,7 @@ const Card: React.FC<CardProps> = ({
                         width="14.481"
                         height="14.536"
                         viewBox="0 0 14.481 14.536"
-                        className="group-hover:fill-white"
+                        className="fill-black"
                       >
                         <path
                           id="Path_424"
@@ -244,14 +244,14 @@ const Card: React.FC<CardProps> = ({
                     <Dialog>
                       <DialogTrigger className="w-full">
                         <button
-                          className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary group bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                          className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="17.41"
                             height="9.475"
                             viewBox="0 0 17.41 9.475"
-                            className="fill-white group-hover:fill-black group-hover:text-black"
+                            className="fill-white"
                           >
                             <g
                               id="eye-svgrepo-com_1_"
@@ -405,7 +405,7 @@ const Card: React.FC<CardProps> = ({
                   onClick={(e) => handleEventProbation(e)}
                 >
                   <button
-                    className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary group rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                    className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
                     onClick={(e) => handleAddToCard(e)}
                   >
                     <svg
@@ -413,7 +413,7 @@ const Card: React.FC<CardProps> = ({
                       width="14.481"
                       height="14.536"
                       viewBox="0 0 14.481 14.536"
-                      className="group-hover:fill-white"
+                      className="fill-black"
                     >
                       <path
                         id="Path_424"
@@ -428,14 +428,14 @@ const Card: React.FC<CardProps> = ({
                   <Dialog>
                     <DialogTrigger className="w-full">
                       <button
-                        className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary group bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                        className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="17.41"
                           height="9.475"
                           viewBox="0 0 17.41 9.475"
-                          className="fill-white group-hover:fill-black group-hover:text-black"
+                          className="fill-white"
                         >
                           <g
                             id="eye-svgrepo-com_1_"

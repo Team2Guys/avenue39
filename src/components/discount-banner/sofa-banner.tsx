@@ -1,13 +1,17 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.png';
 import Marlin from '@assets/images/banners/Marlin.png';
 import rafael from '@assets/images/banners/rafael.png';
-import Calda from '@assets/images/banners/Calda.jpg';
-import Magia from '@assets/images/banners/Magia.jpg';
-import Moderno from '@assets/images/banners/Moderno.jpg';
-import Bergen from '@assets/images/banners/Bergen.jpg';
+import Calda from '@assets/images/banners/Calda.png';
+import Magia from '@assets/images/banners/Magia.png';
+import Moderno from '@assets/images/banners/Moderno.png';
+import Bergen from '@assets/images/banners/Bergen.png';
+import Moblie_Calda from '@assets/images/banners/Calda_m.jpg';
+import Moblie_Magia from '@assets/images/banners/Magia_m.jpg';
+import Moblie_Moderno from '@assets/images/banners/Moderno_m.jpg';
+import Moblie_Bergen from '@assets/images/banners/Bergen_m.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -37,12 +41,13 @@ const sofaData_slides = [
   },
 ];
 
-const sliderDataa_sofa = [
+const sliderDataa_sofa_initial = [
   {
     id: 1,
     slides: [
       {
         backgroundImage: Magia.src,
+        mobileImage: Moblie_Magia.src,
         pro_price: 'AED 6,250',
         subtitle: 'Magia Office Desk',
         link: '/home-office/office-tables/magia-office-desk',
@@ -51,6 +56,7 @@ const sliderDataa_sofa = [
       },
       {
         backgroundImage: Calda.src,
+        mobileImage: Moblie_Calda.src,
         pro_price: 'AED 1,950',
         subtitle: 'Calda Side Table',
         link: '/tables/side-tables/calda-side-table',
@@ -64,6 +70,7 @@ const sliderDataa_sofa = [
     slides: [
       {
         backgroundImage: Moderno.src,
+        mobileImage: Moblie_Moderno.src,
         pro_price: 'AED 799',
         subtitle: 'Moderno Bedside Table',
         link: '/bedroom/bedside-tables/moderno-bedside-table',
@@ -72,6 +79,7 @@ const sliderDataa_sofa = [
       },
       {
         backgroundImage: Bergen.src,
+        mobileImage: Moblie_Bergen.src,
         pro_price: 'AED 3,500',
         subtitle: 'Bergen Sintered Stone Dining Table',
         link: '/dining/dining-table/bergen-sintered-stone-dining-table',
@@ -84,7 +92,27 @@ const sliderDataa_sofa = [
 
 const SofaBanner: React.FC = () => {
   const swiperRef = useRef<any>(null);
+  const [sliderDataa_sofa, setSliderDataaSofa] = useState(sliderDataa_sofa_initial);
+  const newWidth = window.innerWidth;
+  useEffect(() => {
+    const handleResize = () => {
 
+      setSliderDataaSofa(prevData =>
+        prevData.map(item => ({
+          ...item,
+          slides: item.slides.map(slide => ({
+            ...slide,
+            backgroundImage: newWidth < 700 ? slide.mobileImage : slide.backgroundImage,
+          })),
+        }))
+      );
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [newWidth]);
   const handleMouseEnter = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.autoplay.stop();

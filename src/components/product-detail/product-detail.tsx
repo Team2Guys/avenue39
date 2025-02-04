@@ -78,6 +78,7 @@ const ProductDetail = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
+  const [productImage, setProductImage] = useState([]);
   const product = products?.find((product) => product.name === slug);
 
   const handleColorClick = (index: number) => {
@@ -111,6 +112,16 @@ const ProductDetail = ({
         : 0;
 
     setSelectedSize(firstAvailableSize ?? 0);
+    const activeColor = product.filter?.[0]?.additionalInformation?.[activeIndex]?.name;
+
+    if (activeColor) {
+      const filteredImages = product.productImages.filter(
+        (img) => img.color === activeColor
+      );
+      setProductImage(filteredImages);
+    } else {
+      setProductImage(product.productImages);
+    }
   }, [activeIndex, product]);
 
   useEffect(() => {
@@ -236,12 +247,12 @@ const ProductDetail = ({
     >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 w-full no-select">
         <Thumbnail
-          thumbs={product?.productImages}
+          thumbs={productImage}
           isZoom={isZoom}
           swiperGap={swiperGap}
           // HoverImage={setHoveredImage}
           isLoading={false}
-          activeIndex={activeIndex}
+          activeIndex={0}
         />
       </div>
       <div className={`${detailsWidth} flex flex-col gap-2 pt-2`}>

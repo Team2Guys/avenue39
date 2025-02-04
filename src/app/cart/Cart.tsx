@@ -18,13 +18,13 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
   return (
     <>
       <TopHero breadcrumbs={cartbredcrumbs} />
+      
       <Container className="mt-10 flex flex-wrap md:flex-nowrap gap-0 md:gap-10">
-        {cartItems.length > 0 ? (
+        {(cartItems && cartItems.length > 0 )? (
           <>
             <div className="w-full md:w-7/12 space-y-4">
               <CartItems isCartPage={true} />
               <div className="flex flex-wrap lg:flex-nowrap gap-5 justify-between items-center">
-                <div className="">{/* <Coupan /> */}</div>
                 <div className="">
                   <Link
                     href="/products"
@@ -58,6 +58,8 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
           </div>
         )}
       </Container>
+
+
       <Container className="my-10">
         <p className="text-xl  md:text-[40px] font-Helveticalight text-center">
           Similar Products

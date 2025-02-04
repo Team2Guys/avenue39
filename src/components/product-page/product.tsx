@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import TopHero from '@/components/top-hero';

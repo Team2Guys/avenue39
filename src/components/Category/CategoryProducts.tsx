@@ -6,8 +6,8 @@ import { fetchCategories } from '@/config/fetch';
 import { menuData } from '@/data/menu';
 import { ICategory } from '@/types/types';
 
-const CategoryProducts = async ({ slug }: { slug: string[] }) => {
-  const name = slug[0];
+const CategoryProducts = async ({ slug }: { slug: string }) => {
+  const name = slug;
   const categories = await fetchCategories();
 
   const findCategory =categories &&categories?.find((item: any) => generateSlug(item.name) === name);

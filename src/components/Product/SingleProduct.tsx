@@ -35,8 +35,6 @@ const SingleProduct = async ({ slug }: { slug: string[] }) => {
     return hasMatchingCategory && prod.id !== findProduct.id;
   });
 
-  console.log(similarProducts[0], 'similarProducts');
-  console.log(categoryName, 'categoryName');
   return (
     <Suspense fallback={<ProductDetailSkeleton />}>
       <Product

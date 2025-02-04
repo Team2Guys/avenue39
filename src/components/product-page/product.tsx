@@ -32,86 +32,12 @@ interface ProductPageProps {
 const ProductPage = ({
   layout,
   Setlayout,
-  // category,
   ProductData,
-  // isCategory,
   categoryName,
 }: ProductPageProps) => {
-  // const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  // const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
+
   const [sortOption, setSortOption] = useState<string>('default');
-  // const [filterLoading, setFilterLoading] = useState<boolean>(false);
   const pathname = usePathname();
-  // useEffect(() => {
-  //   const currentCategory = pathname
-  //     .split('/')
-  //     .pop()
-  //     ?.toUpperCase()
-  //     .replace('-', ' ');
-  //   const categoryId = searchParams.get('id');
-
-  //   const isInSubcategories = category?.some(
-  //     (cat: { subcategories?: { name: string }[] }) =>
-  //       cat.subcategories?.some(
-  //         (subcat: { name: string }) =>
-  //           subcat.name.toUpperCase() === currentCategory,
-  //       ),
-  //   );
-
-  //   if (currentCategory) {
-  //     if (categoryId) {
-  //       const categoryMatch = category?.find(
-  //         (cat: any) => cat.id.toString() === categoryId,
-  //       );
-
-  //       if (categoryMatch) {
-  //         setSelectedCategories([categoryMatch.name.toUpperCase()]);
-  //         if (categoryMatch.subcategories) {
-  //           const subcategoryMatch = categoryMatch.subcategories.find(
-  //             (subcat: any) => subcat.name.toUpperCase() === currentCategory,
-  //           );
-  //           if (subcategoryMatch) {
-  //             setSelectedSubCategories([
-  //               `SUB_${subcategoryMatch.name.toUpperCase()}`,
-  //             ]);
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       if (
-  //         currentCategory &&
-  //         category?.some(
-  //           (cat: { name: string }) =>
-  //             cat.name.toUpperCase() === currentCategory,
-  //         )
-  //       ) {
-  //         handleCategoryChange(currentCategory, true, false);
-  //       } else if (currentCategory && isInSubcategories) {
-  //         handleCategoryChange(currentCategory, true, true);
-  //       }
-  //     }
-  //   }
-  // }, [pathname, category, searchParams]);
-
-  // const handleCategoryChange = (
-  //   categoryOrSubCategory: string,
-  //   isChecked: boolean,
-  //   isSubCategory: boolean,
-  // ) => {
-  //   setFilterLoading(true);
-  //   const setter = isSubCategory
-  //     ? setSelectedSubCategories
-  //     : setSelectedCategories;
-  //   setter((prev) =>
-  //     isChecked
-  //       ? [...prev, categoryOrSubCategory]
-  //       : prev.filter((cat) => cat !== categoryOrSubCategory),
-  //   );
-  //   setTimeout(() => {
-  //     setFilterLoading(false);
-  //   }, 200);
-  // };
-
   const handleSortChange = (sort: string) => setSortOption(sort);
 
   const filteredCards = ProductData.filter((card) => {
@@ -149,16 +75,6 @@ const ProductPage = ({
         />
       }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
-        {/* <div className="w-full md:w-2/6 lg:w-[392px] hidden md:block">
-          <SidebarFilter
-            onCategoryChange={handleCategoryChange}
-            onPriceChange={handlePriceChange}
-            sideBanner={sideBanner}
-            category={category}
-            sideBannerProduct={sideBannerProduct}
-          />
-        </div> */}
-        {/* <div className="w-full md:w-4/6 lg:w-9/12"> */}
         <div className="w-full">
           {pathname == '/new-arrivals' ? (
             <div className="flex flex-col items-center">

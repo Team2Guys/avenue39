@@ -1416,12 +1416,6 @@ export const tankyousildercards: ICard[] = [
 
 export const TermsCondition = [
   {
-    title: "Terms & Conditions – Avenue39",
-    description: [
-      "Welcome to Avenue39. These terms and conditions describe how to use our website, and how to adhere to them, especially when you make a purchase."
-    ]
-  },
-  {
     title: "General Terms",
     description: [
       "Product availability and payment confirmation are required for all transactions.",
@@ -1494,11 +1488,7 @@ export const TermsCondition = [
   {
     title: "Contact Information",
     description: [
-      "Please contact us at:",
-      "Email: [[EMAIL_LINK]]",
-      "Phone No: [[PHONE_LINK]]",
-      "For questions and concerns about our terms and conditions. You accept these terms and conditions by using Avenue39's website and services. Thank you for choosing Avenue39."
-    ]
+  ]
   }
 ];
 
@@ -1580,26 +1570,26 @@ export const ReturnPolicy = [
   {
     title: 'Our Commitment to Quality',
     description: [
-      'Every product we make meets the highest standards of craftsmanship and is durable. Our staff visits the factories personally to make sure not only that the products are good, but also that the employees are paid on time and other ethics are upheld. Our supply chain is immediately terminated if a supplier doesn&apost meet our strong criteria. Upon reaching our warehouse in Dubai, every product is given a second inspection to ensure that it is in perfect condition. You can be assured that if there&aposs a problem with your purchase, we&aposll work with you to fix it.',
+      "Every product we make meets the highest standards of craftsmanship and is durable. Our staff visits the factories personally to make sure not only that the products are good, but also that the employees are paid on time and other ethics are upheld. Our supply chain is immediately terminated if a supplier doesn't meet our strong criteria. Upon reaching our warehouse in Dubai, every product is given a second inspection to ensure that it is in perfect condition. You can be assured that if there's a problem with your purchase, we'll work with you to fix it.",
     ],
   },
   {
     title: 'Return Eligibility',
     description: [
-      'We have two options when it comes to returns. At the time of delivery, we can assemble the furniture for you and give you 30 minutes to decide if you are happy to keep your purchase. If you are, then great, we’ll consider that as accepted and leave you to enjoy your shiny new piece of furniture. If you decide you don’t wish to keep your purchase, no problem at all; our team will disassemble and re-pack your furniture, and a refund will be issued right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)',
-      'If you aren’t available or don&apost have the time to view, we can deliver your furniture without assembly and let you take your time deciding. If within 7 days you wish to return your purchase, you can contact the team at [[EMAIL_LINK]] and receive a return number. Once your item is received back and confirmed to be in its brand-new condition, we will process your refund right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)',
+      "We have two options when it comes to returns. At the time of delivery, we can assemble the furniture for you and give you 30 minutes to decide if you are happy to keep your purchase. If you are, then great, we’ll consider that as accepted and leave you to enjoy your shiny new piece of furniture. If you decide you don’t wish to keep your purchase, no problem at all; our team will disassemble and re-pack your furniture, and a refund will be issued right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)",
+      "If you aren’t available or don't have the time to view, we can deliver your furniture without assembly and let you take your time deciding. If within 7 days you wish to return your purchase, you can contact the team at [[EMAIL_LINK]] and receive a return number. Once your item is received back and confirmed to be in its brand-new condition, we will process your refund right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)",
     ],
   },
   {
     title: 'Non-Returnable Items',
     description: [
-      'Certain products are excluded from our return policy due to their customised nature or other considerations. These include items that have been altered, assembled, or installed after delivery, as well as custom orders and personalised furniture. ',
+      "Certain products are excluded from our return policy due to their customised nature or other considerations. These include items that have been altered, assembled, or installed after delivery, as well as custom orders and personalised furniture. ",
     ],
   },
   {
     title: 'Contact Us',
     description: [
-      'If you have any questions about our Return Policy or need assistance with a return, our dedicated Customer Support Team is here to help. You can reach us via email at [[EMAIL_LINK]]. Our team is committed to making your experience with Avenue39 as smooth and enjoyable as possible, from your initial purchase to any post-sale concerns.',
+      "If you have any questions about our Return Policy or need assistance with a return, our dedicated Customer Support Team is here to help. You can reach us via email at [[EMAIL_LINK]]. Our team is committed to making your experience with Avenue39 as smooth and enjoyable as possible, from your initial purchase to any post-sale concerns.",
     ],
   },
 ];
@@ -1611,14 +1601,14 @@ export const ShippingPolicy = [
   {
     title: 'Delivery Policy',
     description: [
-      'The following are Avenue39&aposs delivery guidelines in accordance with applicable laws and regulations:',
-      '1. After you make a purchase on our website avenue39.com, we&aposll generate an invoice for your order. Our customer service staff will get in touch with you to set up and verify the delivery date and time.',
-      '2. We offer next-day delivery in Dubai and 2-day delivery to all other Emirates.',
-      '3. For items available for pre-order, you&aposll find specific delivery timeframes on the product detail page.',
-      '4. Sometimes unexpected events out of our hands might affect delivery times causing delays we didn&apost plan for. If this happens, Avenue39&aposs customer support team will keep you in the loop and try to reschedule the delivery as as possible.',
-      '5. Buyers need to give correct and full address details when they check out. Avenue39 can&apost take responsibility for delays lost orders, or wrong deliveries because of wrong or incomplete information from the customer.',
-      '6. When the delivery arrives, it&aposs up to the customer to check the product, its parts, or any related info before they sign the delivery receipt.',
-      '7. By signing the delivery receipt, customers show they&aposve looked over the product(s) and agree that the product doesn&apost have any visible flaws or problems that weren&apost mentioned at delivery time.',
+      "The following are Avenue39's delivery guidelines in accordance with applicable laws and regulations:",
+      "1. After you make a purchase on our website avenue39.com, we'll generate an invoice for your order. Our customer service staff will get in touch with you to set up and verify the delivery date and time.",
+      "2. We offer next-day delivery in Dubai and 2-day delivery to all other Emirates.",
+      "3. For items available for pre-order, you'll find specific delivery timeframes on the product detail page.",
+      "4. Sometimes unexpected events out of our hands might affect delivery times causing delays we didn't plan for. If this happens, Avenue39's customer support team will keep you in the loop and try to reschedule the delivery as as possible.",
+      "5. Buyers need to give correct and full address details when they check out. Avenue39 can't take responsibility for delays lost orders, or wrong deliveries because of wrong or incomplete information from the customer.",
+      "6. When the delivery arrives, it's up to the customer to check the product, its parts, or any related info before they sign the delivery receipt.",
+      "7. By signing the delivery receipt, customers show they've looked over the product(s) and agree that the product doesn't have any visible flaws or problems that weren't mentioned at delivery time.",
       '8. If a product is faulty, damaged, or incorrect upon delivery, please contact our customer service team immediately at cs@avenue39.com.',
     ],
   },
@@ -1639,7 +1629,7 @@ export const ShippingPolicy = [
   {
     title: 'Questions',
     description: [
-      'If you have any further questions, concerns and complains about the delivery and shipment of your order, or if you need to discuss delivery preferences, please contact us at:',
+      'If you have any questions, concerns, or complaints regarding the delivery or shipment of your order, or if you would like to discuss specific delivery preferences, please contact us at:',
       'Email: [[EMAIL_LINK]]',
       'Phone: [[PHONE_LINK]] ',
       'WhatsApp: [[WHATSAPP_LINK]]',

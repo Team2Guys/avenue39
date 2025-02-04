@@ -4,7 +4,6 @@ import { generateSlug } from '@/config';
 import { fetchProducts, fetchSubCategories } from '@/config/fetch';
 import { IProduct } from '@/types/types';
 import React from 'react';
-import ProductBanner from '../discount-banner/product-banner';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
 
@@ -15,46 +14,25 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   let newsubCat: string | undefined;
 
   const subCategories = await fetchSubCategories();
-  const SubCategoriesFinder = re_Calling_products.find(
-    (value) =>
-      generateSlug(value.mainCategory).trim().toLocaleLowerCase() ===
-        category &&
-      generateSlug(value.subCategory).trim().toLocaleLowerCase() ==
-        subcategoryName,
+
+  const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category &&
+    generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
   );
+
   if (SubCategoriesFinder) {
-    newsubCat = generateSlug(
-      SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase(),
-    );
-    newCategory = generateSlug(
-      SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase(),
-    );
+    newsubCat = generateSlug(SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase());
+    newCategory = generateSlug(SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase());
   }
 
+
   const findSubCategory: any = subCategories?.find((item: any) => {
-    const isNameMatch = generateSlug(item.name) === subcategoryName;
-    const belongsToCategory = item.categories.some(
-      (value: any) =>
-        generateSlug(value.name).trim().toLocaleLowerCase() === category,
-    );
+    const isNameMatch = generateSlug(item.name) === (newsubCat ? newsubCat : subcategoryName);
+    const belongsToCategory = item.categories.some((value: any) =>generateSlug(value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
     return isNameMatch && belongsToCategory;
   });
-
-  const find_Redirected: any = subCategories?.find((item: any) => {
-    const isNameMatch = generateSlug(item.name) === subcategoryName;
-    const belongsToCategory = item.categories.some(
-      (value: any) =>
-        generateSlug(value.name).trim().toLocaleLowerCase() === category,
-    );
-    return isNameMatch && belongsToCategory;
-  });
-
   if (!findSubCategory) {
     let products = await fetchProducts();
-    const findProduct = products.find(
-      (item: IProduct) => generateSlug(item.name) === subcategoryName,
-    );
-
+    const findProduct = products.find((item: IProduct) => generateSlug(item.name) === subcategoryName);
     if (!findProduct) {
       return <NotFound />;
     }
@@ -80,13 +58,9 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
     );
   }
 
-  console.log(findSubCategory.name, 'findSubCategory', newCategory, newsubCat);
+  
   return (
-    <Shop
-      productBanner={<ProductBanner subCategoriesName={findSubCategory.name} />}
-      ProductData={
-        find_Redirected ? find_Redirected.products : findSubCategory.products
-      }
+    <Shop ProductData={findSubCategory.products}
       categories={findSubCategory.categories}
       isCategory={false}
       categoryName={findSubCategory}

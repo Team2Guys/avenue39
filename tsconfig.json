@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
+"types": ["node", "react", "react-dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -36,6 +37,6 @@
     },
     "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts",  "src/types/**/*.d.ts" ],
   "exclude": ["node_modules"]
 }

@@ -106,7 +106,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               onClick={handleOpenDrawer}
             >
               <GiShoppingCart size={27} style={{ transform: 'scaleX(-1)' }} />
-              {cartItems.length > 0 && (
+              {(cartItems && cartItems.length > 0 )&& (
                 <div className="w-4 h-4 rounded-full bg-black text-white flex justify-center items-center absolute top-2 right-2 text-10">
                   <TotalProducts />
                 </div>
@@ -157,7 +157,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               <Fragment>
                 <div className="flex-1 overflow-x-auto mr-6 custom-scroll">
                   <ul className="space-y-4">
-                    {cartItems.map((item: any) => (
+                    {cartItems && cartItems.map((item: any) => (
                       <li
                         key={item.id}
                         className="relative flex items-center bg-slate-50 border-dotted gap-3 p-4 w-full rounded-md font-helvetica"

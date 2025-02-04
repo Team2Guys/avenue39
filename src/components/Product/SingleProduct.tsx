@@ -21,9 +21,6 @@ const SingleProduct = async ({ slug }: { slug: string[] }) => {
   const findProduct = products.find(
     (item: IProduct) => generateSlug(item.name) === productName,
   );
-  // const findCategory = findProduct.categories.find((item: ICategory) => generateSlug(item.name) === categoryName);
-  // const findSubCategory = findCategory?.subcategories?.find((item: ICategory) => generateSlug(item.name) === subcategoryName);
-
   if (!findProduct) {
     return <NotFound />;
   }
@@ -38,8 +35,6 @@ const SingleProduct = async ({ slug }: { slug: string[] }) => {
     return hasMatchingCategory && prod.id !== findProduct.id;
   });
 
-  console.log(similarProducts[0], 'similarProducts');
-  console.log(categoryName, 'categoryName');
   return (
     <Suspense fallback={<ProductDetailSkeleton />}>
       <Product

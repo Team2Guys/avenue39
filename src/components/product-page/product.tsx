@@ -1,4 +1,5 @@
-import React, { useState, ReactNode } from 'react';
+'use client'
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
@@ -18,7 +19,6 @@ import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
 interface ProductPageProps {
-  productBanner: ReactNode;
   layout: string;
   Setlayout: React.Dispatch<React.SetStateAction<string>>;
   fullUrl?: string;
@@ -30,7 +30,6 @@ interface ProductPageProps {
 }
 
 const ProductPage = ({
-  productBanner,
   layout,
   Setlayout,
   // category,
@@ -43,8 +42,6 @@ const ProductPage = ({
   const [sortOption, setSortOption] = useState<string>('default');
   // const [filterLoading, setFilterLoading] = useState<boolean>(false);
   const pathname = usePathname();
-  console.log(productBanner, 'productBanner', pathname);
-
   // useEffect(() => {
   //   const currentCategory = pathname
   //     .split('/')

@@ -479,7 +479,7 @@ const ProductDetail = ({
 
             <Button
               className="bg-primary text-white flex gap-3 justify-center w-full sm:w-1/2 items-center md:w-full h-12 rounded-2xl mb-3 font-light "
-              onClick={(e) => handleBuyNow(e)}
+              onClick={(e:any) => handleBuyNow(e)}
             >
               <CiShoppingCart size={20} /> BUY IT NOW
             </Button>
@@ -488,7 +488,7 @@ const ProductDetail = ({
               <Button
                 variant={'outline'}
                 className="text-primary w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e) => handleAddToCard(e)}
+                onClick={(e:any) => handleAddToCard(e)}
               >
                 Add to cart
               </Button>

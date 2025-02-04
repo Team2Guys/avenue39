@@ -9,21 +9,18 @@ import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
-import { useRouter } from 'next/navigation';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
 import { calculateRatingsPercentage, renderStars } from '@/config';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import {
   Dialog,
   DialogContent,
   DialogOverlay,
-  DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
 import { message } from 'antd';
@@ -64,8 +61,6 @@ const Card: React.FC<CardProps> = ({
   const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(
     undefined,
   );
-  const Navigate = useRouter();
-  // const pathname = usePathname();
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -85,7 +80,7 @@ const Card: React.FC<CardProps> = ({
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item) => item.id === card?.id);
+    const existingCartItem = cartItems.find((item:any) => item.id === card?.id);
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
 
@@ -103,90 +98,13 @@ const Card: React.FC<CardProps> = ({
     queryKey: ['reviews'],
     queryFn: fetchReviews,
   });
+
   const productId = card?.id;
   const filteredReviews = Array.isArray(reviews)
     ? reviews.filter((review) => review.productId === productId)
     : [];
 
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
-
-  // const handleNavigation = (): string => {
-  //   let main_Category = redirect
-  //     ? redirect
-  //     : isHomepage
-  //       ? card?.categories && card?.categories[0]
-  //       : pathname.split('/')[1].trim().toLocaleLowerCase();
-  //   let subCategory = pathname.split('/')[2]?.trim().toLocaleLowerCase();
-
-
-  //   let redirectedMain = re_Calling_products.find(
-  //     (value: any) =>
-  //       generateSlug(value.mainCategory).trim().toLowerCase() ===
-  //         main_Category &&
-  //       subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
-  //   );
-  //   let mainCategory = card?.categories?.find(
-  //     (value) =>
-  //       value.name.trim().toLocaleLowerCase() ===
-  //       (redirectedMain
-  //         ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
-  //         : main_Category),
-  //   );
-  //   let subcategory =
-  //     card?.subcategories &&
-  //     card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
-  //   let url;
-
-  //   console.log(redirectedMain, 'redirectedMain', mainCategory);
-
-  //   if (!mainCategory)
-  //     return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
-
-    // let redirectedMain = re_Calling_products.find(
-    //   (value: any) =>
-    //     generateSlug(value.mainCategory).trim().toLowerCase() ===
-    //       main_Category &&
-    //     subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
-    // );
-    // let mainCategory = card?.categories?.find(
-    //   (value) =>
-    //     value.name.trim().toLocaleLowerCase() ===
-    //     (redirectedMain
-    //       ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
-    //       : main_Category),
-    // );
-    // let subcategory =
-    //   card?.subcategories &&
-    //   card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
-    // let url;
-    // if (!mainCategory)
-    //   return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
-
-  //   if (subcategory) {
-  //     url =
-  //       '/' +
-  //       generateSlug(mainCategory.name || '') +
-  //       '/' +
-  //       generateSlug(subcategory || '') +
-  //       '/' +
-  //       generateSlug(card?.name || '');
-
-  //     return url;
-  //   }
-
-  //   url =
-  //     '/' +
-  //     generateSlug(mainCategory.name || '') +
-  //     '/' +
-  //     generateSlug(card?.name || '');
-
-  //   return url;
-  // };
-  
-  const handleNavigation = (product: IProduct) => {
-    let url = ChangeUrlHandler(product);
-    Navigate.push(url);
-  };
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
@@ -243,7 +161,6 @@ const Card: React.FC<CardProps> = ({
                         cardStaticData?.posterImageUrl || card.posterImageUrl
                       }
                       alt={card?.posterImageAltText || 'image'}
-                      // onClick={() => handleNavigation()}
                       width={600}
                       height={600}
                       className={cn(
@@ -380,9 +297,7 @@ const Card: React.FC<CardProps> = ({
                       </DialogTrigger>
                       <DialogOverlay />
                       <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-                        <VisuallyHidden>
-                          <DialogTitle>Product Detail</DialogTitle>
-                        </VisuallyHidden>
+          
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail
                             params={card}
@@ -415,10 +330,12 @@ const Card: React.FC<CardProps> = ({
                 <div
                   className={` ${cardImageHeight} flex justify-center items-center`}
                 >
+                  <Link
+                  href={ChangeUrlHandler(card)}
+                  >
                   <Image
                     src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
                     alt={card.posterImageAltText || card.name}
-                    onClick={() => handleNavigation(card)}
                     width={600}
                     height={600}
                     className={
@@ -430,6 +347,7 @@ const Card: React.FC<CardProps> = ({
                         : 'calc(100% - 20px)',
                     }}
                   />
+                  </Link>
                 </div>
               ) : (
                 <Link href={ChangeUrlHandler(card)}>
@@ -563,9 +481,7 @@ const Card: React.FC<CardProps> = ({
                     </DialogTrigger>
                     <DialogOverlay />
                     <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-                      <VisuallyHidden>
-                        <DialogTitle>Product Detail</DialogTitle>
-                      </VisuallyHidden>
+                     
                       <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                         <ProductDetail
                           params={card}

@@ -1,6 +1,5 @@
 import React from 'react';
 import Container from '../ui/Container';
-import Card from '../ui/card';
 import ProductGrid from './ProductGrid';
 import { IProduct } from '@/types/types';
 import ProductSkeleton from '../Skaleton/productSkeleton';
@@ -61,7 +60,6 @@ const CatProduct1 = ({
                 <ProductGrid
                   products={products.slice(7, 10)}
                   productImages={productImages?.products || []}
-                  CardComponent={Card}
                   isHomepage={true}
                   redirect={redirect}
                   imageHeight="h-[210px] xl:h-[496.5px] w-full"
@@ -75,7 +73,6 @@ const CatProduct1 = ({
               <ProductGrid
                 products={products.slice(5, 7)}
                 productImages={productImages?.products || []}
-                CardComponent={Card}
                 slider={true}
                 redirect={redirect}
                 imageHeight="h-[210px] xl:h-[496.5px] w-full"
@@ -98,7 +95,6 @@ const CatProduct1 = ({
             <ProductGrid
               products={products.slice(0, 5)}
               productImages={productImages?.products || []}
-              CardComponent={Card}
               isHomepage={true}
               redirect={redirect}
               imageHeight="h-[270px] xl:h-[290px]"

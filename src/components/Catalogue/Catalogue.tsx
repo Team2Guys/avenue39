@@ -29,13 +29,11 @@ const Catalogue: React.FC = () => {
 
     // </section>
 
-    <section className="  flex items-center lg:justify-start md:justify-start sm:justify-start justify-center gap-4 md:flex-nowrap flex-wrap w-full bg-[#E2E3E5] h-full lg:pb-0 pb-8">
-      <div className="lg:w-[65%] md:w-[50%] w-full object-fill overflow-hidden">
-        {/* <Image src={imageUrl} className='w-full h-[80vh] object-contain p-8'  alt='categlog' width={1200} height={1200} quality={100}/> */}
+    <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full bg-[#E2E3E5] h-full lg:pb-0 pb-8">
+      <div className=" w-full max-sm:!h-[400px]  overflow-hidden mx-auto content-center items-center sm:col-span-2">
         <DemoBook />
       </div>
-
-      <div className="lg:w-fit flex flex-col items-center justify-center h-full md:w-fit w-[50%] lg:m-0 m-auto">
+      <div className="lg:w-fit flex flex-col items-center justify-center h-full lg:m-0 sm:col-span-1">
         <div className="w-full flex flex-col items-center justify-center h-full ">
           <h2 className="text-center text-[#707070] md:text-3xl font-thin text-3xl lg:text-6xl font-Helveticalight lg:mb-7 mb-4 uppercase">
             {title}

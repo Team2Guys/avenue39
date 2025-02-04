@@ -26,7 +26,7 @@ const DemoBook: React.FC = () => {
   const bookData = adjustBookData([...originalBookData]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full mx-auto">
       <HTMLFlipBook
         width={450}
         height={600}

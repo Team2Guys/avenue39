@@ -1497,16 +1497,16 @@ export const policySections = [
   {
     title: 'Privacy Policy',
     description: [
-      "When you visit www.avenue39.com (the 'Website'), we collect, use, disclose, and secure your information under this Privacy Policy. You agree to the terms and conditions stated in this privacy policy by using or accessing our website. If you disagree with any aspect of this policy, we respect your decision to stop using this website.",
+      "When you visit www.avenue39.com (the 'Website'), we collect, use, disclose, and secure your information under this Privacy Policy. You agree to the terms and conditions stated in this privacy policy by using or accessing our website. If you disagree with any aspect of this policy, we respect your decision to stop using this website. ",
     ],
   },
   {
     title: 'What Information Do We Collect?',
     description: [
-      "To execute your transaction and improve our services, we collect specific information when you purchase on the Avenue39 website. This includes:",
-      "Personal Details: Name, address, phone number, email, and payment information are variations of personal information.",
-      "Browsing information: Time spent on our website, pages viewed, and browser information for marketing and commercial purposes.",
-      "We collect this data solely to fulfill your order, guarantee prompt delivery, offer customer service, and improve our website for a more enjoyable online shopping experience.",
+      "To execute your transaction and better our services, we collect specific information when you purchase on the Avenue39 website. This comprises:",
+      "Personal Details: Name, address, phone number, email, and payment information are variations on personal information.",
+      "Browsing information: Time spent on our website, pages seen, and browser information for marketing and commercial purposes.",
+      "We only collect this data to fulfill your order, guarantee prompt delivery, offer customer service, and improve our website for a more enjoyable online shopping experience.",
     ],
   },
   {
@@ -1515,8 +1515,8 @@ export const policySections = [
       "We use your data to:",
       "Safely manage your purchases and transactions.",
       "Deliver your purchases to the appropriate address.",
-      "Customize our website to the interests and behaviors of our customers.",
-      "Offer customer service if you require assistance.",
+      "Customise our website to the interests and behaviours of our customers.",
+      "Offer customer service if you require help.",
       "Provide marketing information about special offers, new items, and promotions (only if you opt-in).",
       "You may unsubscribe from marketing emails at any moment if you no longer want to receive them.",
     ],
@@ -1525,15 +1525,15 @@ export const policySections = [
     title: 'How Do We Share Your Information?',
     description: [
       "Avenue39 may provide your information to outside service partners who help with fulfilling your orders, payment processing, and effective service delivery.",
-      "Additionally, we could share your information if mandated by law or legal procedures to protect our company's rights, stop fraud, security risks, and improper usage of our website.",
+      "Additionally, we could share your information if mandated by law or legal procedures to protect our company's rights to stop fraud, security risks, and improper usage of our website.",
       "Your information could be sent to the new company in case Avenue39 gets merged or acquired.",
-      "Your personal information is never traded or sold to unaffiliated third parties.",
+      "Your personal information is never traded or sold to unaffiliated third parties. ",
     ],
   },
   {
     title: 'How Do We Keep Your Information Safe?',
     description: [
-      "To protect your data from cyber threats, unauthorized access, and leaks, we implement effective safety precautions. Secure methods of payment and encryption are employed on our website to protect the privacy of your financial information.",
+      "To protect your data from cyber threats, unauthorised access, and leaks, we implement effective safety precautions. Secure methods of payment and encryption are employed on our website to protect the privacy of your financial information.",
       "Any modifications you make to your name, address, or payment information will be reflected in subsequent purchases you make.",
     ],
   },
@@ -1548,7 +1548,7 @@ export const policySections = [
   {
     title: 'Policy Updates',
     description: [
-      "To conform to UAE laws and regulations, we might, at times, modify our privacy statement. We will update this page and, if required, send you an email to let you know about any major changes. Before making a purchase, we recommend consulting this policy.",
+      "To conform to the UAE laws and regulations, we might, at times, modify our privacy statement. We will update this page and, if required, send you an email to let you know about any major changes. Before making a purchase, we recommend consulting this policy.",
     ],
   },
   {

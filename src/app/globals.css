@@ -383,3 +383,10 @@ html {
 .card-slider-home .swiper-pagination {
   bottom: 130px !important;
 }
+
+.cardBtn-quick-view:hover svg{
+  fill: black;
+}
+.cardBtn-addToCart:hover svg{
+  fill: white;
+}

@@ -38,7 +38,7 @@ const DemoBook: React.FC = () => {
         maxShadowOpacity={0.5}
         showCover={true}
         mobileScrollSupport={true}
-        className="h-[100%] w-[100%] object-cover"
+        className="!h-[440px] sm:!h-[600px] object-cover"
         ref={flipBook}
         startPage={0}
         drawShadow={true}
@@ -57,21 +57,23 @@ const DemoBook: React.FC = () => {
           page.type === 'cover' ? (
             <PageCover key={index}>
               <Image
-                width={450}
+                width={800}
                 height={600}
+                loading='eager'
                 src={page.image}
                 alt={page.content}
-                className="shadow-md object-cover"
+                className="shadow-md object-fill h-[440px] sm:!h-[600px] w-full"
               />
             </PageCover>
           ) : (
             <FlipsPage key={index} number={page.number}>
               <Image
-                width={450}
-                height={600}
+                width={800}
+                loading='eager'
+                height={800}
                 src={page.image}
                 alt={page.content}
-                className="shadow-md object-cover"
+                className="shadow-md object-fill h-[440px]  sm:!h-[600px] w-full"
               />
             </FlipsPage>
           ),

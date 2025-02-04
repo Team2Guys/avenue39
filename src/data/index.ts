@@ -1413,196 +1413,227 @@ export const tankyousildercards: ICard[] = [
     productType: 'LIVING',
   },
 ];
+
 export const TermsCondition = [
   {
-    title: 'What are in these terms & Con?',
+    title: "Terms & Conditions – Avenue39",
     description: [
-      "These Terms and Conditions (T&Cs) take effect the moment when you start using Avenue 39's website (www.avenue39.com) and the services provided by Avenue 39. The T&Cs are compulsory to all the visitors of the Avenue39 website, and consumers of our products and services which contain sophisticated rules on your behavior while browsing on the site, purchasing goods and engaging with the content. These Avenue39 Terms and Conditions include provisions related to the use of the site, product purchasing, account management, intellectual property, and dispute resolution. You are aware that you have accepted all the guidelines and procedures mentioned in this clause in the terms and conditions of this agreement. Avenue39 reserves all the ownership rights in respect to content, information or any product/service which may be published on this site until full immediate payment is received from the customer for the purchased product.",
-      'Avenue39 was then incorporated and registered under the laws of the local jurisdiction where it operates. Main office is situated at 23 22nd Street, Al Quoz Industrial Area 4 - Dubai and which is our leading trade office.',
-      'If you have any issues, inquiries, or general customer support, please email our sales team at [[EMAIL_LINK]]. We guarantee that our customer service is always readily available and will handle any customer concerns you may have about our products, services, or the terms of use in our website speedily.',
-      'Taking our website and its terms into account, your consent implies your acceptance and appreciation of these T&Cs. This is a legal agreement, and when you continue to operate on a given website, you will be deemed to agree and abide by the rules and regulations stipulated here.',
-      'Being aware of your rights and obligations is, hence, something very important and the only means you can be able to do this is by reading them thoroughly. Furthermore we advise it to be necessary to review any related documents as our Privacy Policy and our Return Policy it is also possible use and they are both considered essential for these T&Cs design.',
-    ],
-  },
-
-  {
-    title: 'Products and Services Offered',
-    description: [
-      'Avenue39 has various products that are now modern furnishings that can be found within our website for instance, living room sets, bedroom furniture, arm chairs, leisure chairs, coffee tables, TV cabinets, office tables, and all the other products. In our website store, every product has a title and detailed description with the images above which clearly show the features and beauty of the item.',
-
-      'Avenue39 has now made it easier for our clients with a customer support system that can help with any questions or challenges you might have regarding our products and services. We provide guidance on choosing the ideal piece of furniture, while we are ready to help on an ongoing basis after a purchase has been done. Our kind assistants will always make sure your shopping with us is a pleasure.',
-      'Procuring a product on Avenue39 starts with selecting the ones that interest you, adding them to the cart, then proceeding through the check out process available on our website. At the last stage, you will be prompted to put in your shipping address and authorize the payment information, and then your order will be completed. We will email you confirmation upon receipt of your order to produce an email which gives you a rundown of your purchase.',
-      'Your offer of purchasing stands before us, but this will be only settled once we email you of the shipment of your ordered product. The information presented serves as an assertion that your relationship with Avenue39 is now governed by these Terms and Conditions. At this time the items in your shopping cart are not reserved for you and may be purchased by any other customers until your order has been confirmed and the process of order processing has been completed.',
-      ' Avenue39 avoids taking orders when the product is discontinued or there are mistakes in pricing and product descriptions that cannot be resolved, or if there is no permission to pay ahead. Sometimes we will need to cancel orders in cases which are infrequent and to do that there may be unforeseen operational problems. We will contact you by email when this happens and refund in full.',
-    ],
+      "Welcome to Avenue39. These terms and conditions describe how to use our website, and how to adhere to them, especially when you make a purchase."
+    ]
   },
   {
-    title: 'Pricing and Payment',
+    title: "General Terms",
     description: [
-      'The local currency is the currency used on the Avenue39 website page on which all the product sale prices are indicated, it also has the current tax rates if the “net” prices were meant. We take all measures to make sure that all prices which could be found on our website are precise. But, nonetheless, proper price posting is not guaranteed. We would notify you in case we find the price of your ordered products was different and then offer you either of the options of confirming the order at the right price or canceling it. However, if we are unable to extend the order as pending, it will be regarded as canceled.',
-      'In the case of mis-describing the product or price that has an impact on your purchase, we will inform you promptly and ask whether you would like to confirm the order with the updated details or to cancel it. This is regardless of whether you are trying to return a product that was not as described or exchanging under our Return Policy.',
-      'Avenue39 not only accepts payments through Visa and MasterCard but also through debit cards and online systems. On landing the page, you will be redirected to make a payment, and your orders can only be dispatched after full payment and verification. For example, your payment details which can be a credit card, debit card or PayPal are processed using the latest secure environment.',
-      "That's why you are obliged to go through an authentication of genuineness, identity and authorized final approval by your payment provider until we can start processing an order. In cases when our payment provider fails to approve the payment, regardless of delays and technical errors in delivering your order, we shall not be responsible for them.",
-    ],
+      "Product availability and payment confirmation are required for all transactions.",
+      "These terms and conditions are subject to change at any moment and without prior notification or announcement by Avenue39."
+    ]
   },
   {
-    title: 'Use of Materials',
+    title: "Pricing & Payment",
     description: [
-      'Copyright and trademark law protects Avenue39’s trade address, logos, designs, packaging images and marketing materials. You are not supposed to utilize these materials without the written authorization from Avenue39 and all the related rights reserved.',
-      'It is not permitted to reproduce any information or misuse these resources anyhow and the law applies in such cases. It involves two specific procedures, such as, duplicating the work, moving it to another location without the original owner’s consent.',
-    ],
+      "All prices are mentioned with products in AED (United Arab Emirates Dirham) and include VAT.",
+      "Prices can change at any time without prior notice or announcement, but confirmed purchases won't be impacted.",
+      "The full amount for products must be paid before orders can be shipped.",
+      "As mentioned at checkout, we accept bank transfers via credit/debit cards."
+    ]
   },
   {
-    title: 'Changes to Policies',
+    title: "Order Processing & Cancellations",
     description: [
-      'Avenue39 has the right to change its regulation of products that it sells at any given time including the one on returns and refunds. As a result we are going to have a possibility to take a look at the impact of these alterations when the announcement will be made.',
-      'We state that we should not be taken accountable for an incomplete visualization from the result of certain platform related policies, third parties, or system failures.',
-    ],
+      "Orders can be cancelled up to 1 hour after they are placed.",
+      "Once manufacturing has started, custom or made-to-order products cannot be cancelled.",
+      "If there are pricing problems, supply shortages, or suspicions of fraud, Avenue39 has the right to reject or cancel any order."
+    ]
   },
   {
-    title: 'Disclaimer of Liability',
+    title: "Delivery & Shipping",
     description: [
-      'Avenue39 is not composed to hold any liability claims as a result of the use of our products or engagement with our services. Indirect, incidental, or consequential damages are not unlike consequential damages or animo delictum.',
-    ],
+      "We deliver all around the United Arab Emirates. At this time, international shipping is not available.",
+      "Delivery estimates are provided at checkout and depend on product availability and your location.",
+      "When the order is delivered, customers need to make sure that someone is at the delivery location to accept it and check it.",
+      "We will send information to customers regarding any disruptions, but Avenue39 is not liable for delays brought on by unanticipated events."
+    ]
   },
   {
-    title: 'Intellectual Property Rights',
+    title: "Returns & Refunds",
     description: [
-      'Avenue39 considers its intellectual jurisdiction as the property of the organization which owns all the products, trademarks, designs, and its official website contents. Such characteristics are generally provided for by the national and international legislation.',
-      ' Disregarding the right’s exclusivity and copyright conditions can be prosecuted through legal measures in order to ensure the sustainable existence of Avenue39.',
-    ],
+      "Returns of regular stock items in their original packing and condition are allowed within seven days after delivery.",
+      "Products that are manufactured to order or customised are not refundable unless there is a manufacturing fault.",
+      "After the returned item has been successfully inspected, refunds will be executed in 5-7 business days.",
+      "Customers are required to inform Avenue39 immediately and provide photographic proof if a product is damaged upon delivery."
+    ]
   },
   {
-    title: 'Privacy and Personal Information',
+    title: "Warranty & Product Care",
     description: [
-      'Avenue39, as an organization committed to the protection of private information, would like to inform you that the company does not gather personal data. We take the utmost care to protect all information about the users conforming with the Privacy Policy which is in line with the data protection laws. By using our services, you accept the Privacy Policy, as described in the document, where we will be collecting, processing, and using your personal data.',
-    ],
+      "All of Avenue39's products come backed by a limited guarantee against manufacturing faults. Each product has different warranty coverage.",
+      "Damage brought on by regular wear and use, misconduct, incorrect installation, or exposure to extreme conditions is not covered by the guarantee.",
+      "To ensure lifetime, customers must follow the product care instructions."
+    ]
   },
   {
-    title: 'Indemnity',
+    title: "Custom Orders",
     description: [
-      'With acknowledgment, we absolve Avenue39, and all parties said under us including offices, agents, employees, and partners from any results caused by our breach of these Terms and Conditions or the laws or property rights of a third party for the claims or actions against us that pay legal fees and costs. Below is a representation of the scope of your obligation for coverage pertaining to your usage of Avenue39’s services, any breaches of these terms, or infringement of any intellectual property or other right of any person or entity.',
-    ],
+      "Custom and made-to-order items are non-refundable and demand complete purchase in advance.",
+      "Although they might change, estimated production and delivery dates will be discussed at the time of purchase."
+    ]
   },
   {
-    title:
-      "What's Can Be Regarded as Mandatory Territory Law to the Specific Disputes? ",
+    title: "Intellectual Property",
     description: [
-      "Avenue39's services are under the jurisdiction of the federal laws of the United Arab Emirates, and these conditions and terms in this guide constitute the foundation of our contract.",
-    ],
+      "It is strictly forbidden to distribute, reproduce, or copy any type of content in the form of photos or information on the Avenue39 website without the written permission of Avenue39."
+    ]
   },
   {
-    title: 'In Case of Any Queries, Contact Us On:',
+    title: "Limitation of Liability",
     description: [
-      'Should you have any questions or need further assistance, please do not hesitate to contact our customer service team.',
-      'You can reach us by phone at [[PHONE_LINK]] or by email at [[EMAIL_LINK]].',
-      'Our dedicated team is available to ensure that your experience with Avenue39 is seamless and satisfactory.',
-    ],
+      "Any indirect, incidental, or consequential damages resulting from the usage of our products are not the responsibility of Avenue39.",
+      "Delivery delays brought on by outside factors, such as supply chain problems, extreme weather, or delays in transit, are unfortunate. We are here to offer advice and assistance to the best of our ability."
+    ]
   },
+  {
+    title: "Contact Information",
+    description: [
+      "Please contact us at:",
+      "Email: [[EMAIL_LINK]]",
+      "Phone No: [[PHONE_LINK]]",
+      "For questions and concerns about our terms and conditions. You accept these terms and conditions by using Avenue39's website and services. Thank you for choosing Avenue39."
+    ]
+  }
 ];
+
 
 export const policySections = [
   {
-    title: '',
+    title: 'Privacy Policy',
     description: [
-      "Your privacy matters to Avenue39, so we've outlined how we handle your information according to the rules and regulations. By agreeing to this privacy policy, you are authorizing us to use your information (provided by you at the time of purchase).",
-      'Why and How do we collect information? ',
-      '1. Whenever you buy something through the Avenue39 website, the first step is to set up an account, or use our services. We collect some of your general details required to make a purchase for example; your name, address, email, phone number, and payment details.  ',
-      '2. For our business and marketing purposes, we also keep track of how you use our website, browser details, which pages you visit and how long you stay there.',
-      '3. Avenue39 only needs this information to complete your purchases, deliver your products to you timely, help you out in case you need it, and make sure our website works well for you. ',
-      "4. If the customer agrees with this policy, Avenue39 is authorized to send you emails about the latest products, deals and promotions. If you decide you don't want these emails anymore, you can always unsubscribe.",
-      '5. By agreeing to this privacy policy, Avenue39 is authorized to share information with other companies that will help to provide our services and deliver products timely. Like the ones that process your payments or help ship your orders.',
-      "6. In some adverse circumstances, If the law requires it or if it's inevitable to protect our rights as a business dealing with customers, or prevent fraud, we might also have to share your information.",
-      '7. If our company ever merges with another or gets bought by another investor, your information might be transferred for future correspondence.',
-      '8. We take protective measures to secure your information and use various security measures to keep it safe from unauthorized access, leaks and scammers.',
-      '9. In case your personal information like name, location, payment details are changed, you can update the information while making a new purchase with Avenue39. ',
-      '10. If you ever want us to delete your information from our systems and our partner’s databases, just let us know via email. ',
-      "We might change this privacy policy once in a while according to the new rules and regulations under the laws of the United Arab Emirates. If we make any major changes, we'll update the policy here on our website, and maybe inform you via email, also a good idea to check this page whenever you decide to make a new purchase.",
+      "When you visit www.avenue39.com (the 'Website'), we collect, use, disclose, and secure your information under this Privacy Policy. You agree to the terms and conditions stated in this privacy policy by using or accessing our website. If you disagree with any aspect of this policy, we respect your decision to stop using this website.",
+    ],
+  },
+  {
+    title: 'What Information Do We Collect?',
+    description: [
+      "To execute your transaction and improve our services, we collect specific information when you purchase on the Avenue39 website. This includes:",
+      "Personal Details: Name, address, phone number, email, and payment information are variations of personal information.",
+      "Browsing information: Time spent on our website, pages viewed, and browser information for marketing and commercial purposes.",
+      "We collect this data solely to fulfill your order, guarantee prompt delivery, offer customer service, and improve our website for a more enjoyable online shopping experience.",
+    ],
+  },
+  {
+    title: 'Why Do We Collect Your Information?',
+    description: [
+      "We use your data to:",
+      "Safely manage your purchases and transactions.",
+      "Deliver your purchases to the appropriate address.",
+      "Customize our website to the interests and behaviors of our customers.",
+      "Offer customer service if you require assistance.",
+      "Provide marketing information about special offers, new items, and promotions (only if you opt-in).",
+      "You may unsubscribe from marketing emails at any moment if you no longer want to receive them.",
+    ],
+  },
+  {
+    title: 'How Do We Share Your Information?',
+    description: [
+      "Avenue39 may provide your information to outside service partners who help with fulfilling your orders, payment processing, and effective service delivery.",
+      "Additionally, we could share your information if mandated by law or legal procedures to protect our company's rights, stop fraud, security risks, and improper usage of our website.",
+      "Your information could be sent to the new company in case Avenue39 gets merged or acquired.",
+      "Your personal information is never traded or sold to unaffiliated third parties.",
+    ],
+  },
+  {
+    title: 'How Do We Keep Your Information Safe?',
+    description: [
+      "To protect your data from cyber threats, unauthorized access, and leaks, we implement effective safety precautions. Secure methods of payment and encryption are employed on our website to protect the privacy of your financial information.",
+      "Any modifications you make to your name, address, or payment information will be reflected in subsequent purchases you make.",
+    ],
+  },
+  {
+    title: 'How Do You Manage Your Data?',
+    description: [
+      "When making a new purchase, you have the option to update your personal information.",
+      "Just send us an email to request that your data be removed from our systems and those of our service providers.",
+      "Contact our representatives in customer service if you have any questions about how we manage your data.",
+    ],
+  },
+  {
+    title: 'Policy Updates',
+    description: [
+      "To conform to UAE laws and regulations, we might, at times, modify our privacy statement. We will update this page and, if required, send you an email to let you know about any major changes. Before making a purchase, we recommend consulting this policy.",
     ],
   },
   {
     title: 'Contact Us',
     description: [
-      'If you have any questions about this privacy policy, you can contact us:',
-      'Email: [[EMAIL_LINK]]',
-      'Phone: [[PHONE_LINK]] ',
-      'WhatsApp: [[WHATSAPP_LINK]]',
+      "For inquiries or requests regarding data, contact us at [[EMAIL_LINK]]",
     ],
   },
 ];
+
 export const ReturnPolicy = [
   {
-    title: '',
+    title: 'Return Policy',
     description: [
-      'Avenue39 is a brand people can trust as we keep their experience of our products beyond their expectations. However, we come to terms with the fact that occasionally, it is just impossible to prevent returns.',
-      'Avenue39 has a fair and logical return and refund policy. As we make our payment policy quite transparent to everyone, possible returns within 7 days of acceptance or purchase of your item for a full refund or exchange. The policy requires that you return items that are unworn and in the same new condition as when they were delivered to you.',
-      'All rights, the initiators of returns are asked to return the products to their usual store when they do not achieve the expected result.',
-      'To start the return procedure, follow these steps:',
-      '1. Send an email to us with your concerns and complaints due to which you made the decision to return the product.',
-      '2. The customer care service will contact you as soon as they receive the email you have sent to [[EMAIL_LINK]] within 24 hours from getting the product.',
-      '3. Within the email textbox area include details such as your name, order number and the phone number used to process your purchase.',
-      'We will always emphasize on the promptity with Avenue39. You will receive the detailed guidance within 1 working day. Even more, they will inform you if your product can be accepted or not.',
+      'Avenue39 is a brand that people can trust, as we keep their experience with our products beyond their expectations. However, we come to terms with the fact that, occasionally, it is just impossible to prevent returns. Avenue39 has a fair and logical return and refund policy.',
+      'Please read through the following details to learn how we handle returns and refunds.',
     ],
   },
   {
-    title: 'Conditions for returning items; what items can be returned?',
+    title: 'Our Commitment to Quality',
     description: [
-      'To qualify for a full refund of your purchase with Avenue39, you need to check the following conditions, to find whether your product is eligible or not:',
-      '1. These provided items must not have been worn and nor altered by the customer.',
-      '2. Products cannot be altered after purchase, any dismantling will result in the item being deemed ineligible for a return or refund.',
-      'You have the product to be delivered to us via courier, in the same conditions as the way you originally bought them. Submitted products must be accompanied by the original packaging, manuals, and other accessories if there is any.',
-      'If I have a quality question about the item, please let us know.',
+      'Every product we make meets the highest standards of craftsmanship and is durable. Our staff visits the factories personally to make sure not only that the products are good, but also that the employees are paid on time and other ethics are upheld. Our supply chain is immediately terminated if a supplier doesn&apost meet our strong criteria. Upon reaching our warehouse in Dubai, every product is given a second inspection to ensure that it is in perfect condition. You can be assured that if there&aposs a problem with your purchase, we&aposll work with you to fix it.',
     ],
   },
   {
-    title: 'What should I do if I receive a faulty or damaged product?',
+    title: 'Return Eligibility',
     description: [
-      'We are a team that ensures each customer will receive A1 product in A1 condition for sure. You have the option to request for a refund or replacement of the Avenue39 product that arrives to you in a faulty or damaged state by notifying the Avenue39 team within 24 hours of you having received the product.',
+      'We have two options when it comes to returns. At the time of delivery, we can assemble the furniture for you and give you 30 minutes to decide if you are happy to keep your purchase. If you are, then great, we’ll consider that as accepted and leave you to enjoy your shiny new piece of furniture. If you decide you don’t wish to keep your purchase, no problem at all; our team will disassemble and re-pack your furniture, and a refund will be issued right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)',
+      'If you aren’t available or don&apost have the time to view, we can deliver your furniture without assembly and let you take your time deciding. If within 7 days you wish to return your purchase, you can contact the team at [[EMAIL_LINK]] and receive a return number. Once your item is received back and confirmed to be in its brand-new condition, we will process your refund right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)',
     ],
   },
   {
-    title: 'How to notify us:',
+    title: 'Non-Returnable Items',
     description: [
-      'Email us at [[EMAIL_LINK]] to get your product fixed in case of any damages or faults. Please attach a short description about the problem and photos of the damage to make the process go smoothly.',
-      'Importantly, we would like to point out that all the claims for faulty and damaged goods mentioned by customers after the 24-hour time have expired cannot be accepted by us. Avenue39 will not have any part in it, which means the return will no longer be on them and therefore will not be liable to fulfil it.',
+      'Certain products are excluded from our return policy due to their customised nature or other considerations. These include items that have been altered, assembled, or installed after delivery, as well as custom orders and personalised furniture. ',
     ],
   },
   {
-    title: 'How are refunds processed?',
+    title: 'Contact Us',
     description: [
-      'You can enjoy your purchase with confidence knowing that we stand ready to serve if any undesirable conditions are found. We will send you an email to specify in the order received the returned item. Besides, we will give you an update about your refund whether it is approved or not. Please note that we will refund your money in case it is approved. The cash or store credit which will be refunded to you according to the refund policy, will automatically be applied back to your original processing place within certain periods.',
+      'If you have any questions about our Return Policy or need assistance with a return, our dedicated Customer Support Team is here to help. You can reach us via email at [[EMAIL_LINK]]. Our team is committed to making your experience with Avenue39 as smooth and enjoyable as possible, from your initial purchase to any post-sale concerns.',
     ],
   },
 ];
 export const ShippingPolicy = [
   {
-    title: '',
-    description: ['Delivery takes 5 days within UAE'],
-  },
-  {
-    title: 'General Information for Delivery of our Products',
-    description: [
-      'All orders placed by the customers with Avenue39 through the website are subject to product availability at the time of order. If an item in your order is unavailable at the time of purchase, we will notify you through email or website product page.',
-    ],
+    title: 'General Information For Delivery Of Our Products',
+    description: ['All orders made through the Avenue39 website depend on product availability at the time of purchase. If any item in your order is not available, we will quickly inform you via email or provide updates on the product page.'],
   },
   {
     title: 'Delivery Policy',
     description: [
-      'Below are Avenue39 delivery guidelines, according to the laws and regulations:',
-      '1. After you place an order through our website(avenue39.com) and an invoice will be generated including the details. Our customer service team will contact you to schedule the delivery time and date.',
-      '2. We aim to deliver all orders within 2 working days for addresses within Dubai city limits.',
-      '3.  In the case the customer has pre-order requirements, the specific delivery times will be mentioned on the product’s detail page.',
-      '4.  Delivery times often get affected by unforeseen circumstances, in some cases beyond our control, resulting in unexpected delays of the delivery of your product. In such severe cases, Avenue39’s customer support team will make sure to keep you informed and reschedule the delivery at the earliest available opportunity.',
-      '5.  While making a purchase, customers are responsible for providing accurate and correct address details on the order confirmation page. Avenue39 is not liable or responsible for any delays, misplacements, or incorrect deliveries if they arise. The customer is solely responsible for incorrect or incomplete information, resulting in delay or cancellation of the ordered item.',
-      '6.  It will be your responsibility to thoroughly examine the product, its parts or any other details, at the time of delivery before signing the delivery receipt. ',
-      '7. By signing the delivery receipt, customers agree to this policy and acknowledge that they have inspected the product(s) at the time of delivery. They agree that the product is free from any visible faults or undisclosed issues.  ',
-      '8.  If a product is found to be faulty, damaged, not the same product ordered by customers upon delivery, notify our customer service at [[EMAIL_LINK]].',
+      'The following are Avenue39&aposs delivery guidelines in accordance with applicable laws and regulations:',
+      '1. After you make a purchase on our website avenue39.com, we&aposll generate an invoice for your order. Our customer service staff will get in touch with you to set up and verify the delivery date and time.',
+      '2. We offer next-day delivery in Dubai and 2-day delivery to all other Emirates.',
+      '3. For items available for pre-order, you&aposll find specific delivery timeframes on the product detail page.',
+      '4. Sometimes unexpected events out of our hands might affect delivery times causing delays we didn&apost plan for. If this happens, Avenue39&aposs customer support team will keep you in the loop and try to reschedule the delivery as as possible.',
+      '5. Buyers need to give correct and full address details when they check out. Avenue39 can&apost take responsibility for delays lost orders, or wrong deliveries because of wrong or incomplete information from the customer.',
+      '6. When the delivery arrives, it&aposs up to the customer to check the product, its parts, or any related info before they sign the delivery receipt.',
+      '7. By signing the delivery receipt, customers show they&aposve looked over the product(s) and agree that the product doesn&apost have any visible flaws or problems that weren&apost mentioned at delivery time.',
+      '8. If a product is faulty, damaged, or incorrect upon delivery, please contact our customer service team immediately at cs@avenue39.com.',
     ],
   },
   {
     title: 'Additional Services and Charges',
     description: [
-      "After you have successfully placed an order on our website, we will make sure to ship the product immediately. Once your order is shipped by Avenue39, you can track its progress through the courier company's website using the tracking details available on the order confirmation page.",
+      "1. Our team will assemble your items during the delivery. Should you require assembly on a date other than the delivery date, an additional charge of AED 150 will apply. ",
+      '2. For items that are eligible under our "Try Before You Buy" offer, we will assemble the item and then give you 20 minutes to decide whether you will keep your purchase.',
+      "3. If you decide not to buy, the item will be disassembled and repackaged. A full refund will also be initiated on our end within 24 hours, given the bank processing time."
+    ],
+  },
+  {
+    title: 'Tracking Your Order ',
+    description: [
+      'Once you place your order, Avenue39 will quickly process and ship your product. After your order is shipped, you will receive a tracking number through email or on the order confirmation page. This tracking number will allow you to track your shipment on the courier company’s website.',
     ],
   },
   {

@@ -5,7 +5,7 @@ import { CiShoppingCart } from 'react-icons/ci';
 import { IProduct, IProductDetail, IReview } from '@/types/types';
 import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
-import QRScanner from '../QR-reader/QR';
+// import QRScanner from '../QR-reader/QR';
 import {
   Dialog,
   DialogContent,
@@ -36,8 +36,8 @@ import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
 import { calculateRatingsPercentage, renderStars } from '@/config';
-import { TbCube3dSphere } from 'react-icons/tb';
-import Product3D from '../3DView/Product3D';
+// import { TbCube3dSphere } from 'react-icons/tb';
+// import Product3D from '../3DView/Product3D';
 // import ARExperience from '../ARModelViewer';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
@@ -75,7 +75,6 @@ const ProductDetail = ({
     min: 0,
     sec: 0,
   });
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
@@ -91,23 +90,24 @@ const ProductDetail = ({
 
   useEffect(() => {
     if (!product) return;
+    console.log(product, 'product');
 
     const availableSizes = product.productImages.filter(
       (img) =>
         product.filter &&
         img.color ===
-          product.filter[0]?.additionalInformation[activeIndex]?.name,
+        product.filter[0]?.additionalInformation[activeIndex]?.name,
     );
-    const price =
-      product.filter &&
-      product.filter[0]?.additionalInformation[activeIndex]?.price;
-    setProductPrice(Number(price));
+    const filterPrice = product.filter?.[0]?.additionalInformation?.[activeIndex]?.price || 0;
+    const sizePrice = product.sizes?.[selectedSize]?.price || 0;
+    const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
+    setProductPrice(Number(finalPrice));
 
     const firstAvailableSize =
       availableSizes.length > 0
         ? product.sizes?.findIndex((size) =>
-            availableSizes.some((img) => img.size === size),
-          )
+          availableSizes.some((img) => img.size === size.name),
+        )
         : 0;
 
     setSelectedSize(firstAvailableSize ?? 0);
@@ -117,7 +117,7 @@ const ProductDetail = ({
     if (!product) return;
 
     const selectedSizeValue = product.sizes
-      ? product.sizes[selectedSize]
+      ? product.sizes[selectedSize]?.name
       : undefined;
 
     const availableColors = product.productImages.filter(
@@ -127,8 +127,8 @@ const ProductDetail = ({
     const firstAvailableColor =
       availableColors.length > 0
         ? product.filter?.[0]?.additionalInformation.findIndex(
-            (color) => color.name === availableColors[0].color,
-          )
+          (color) => color.name === availableColors[0].color,
+        )
         : 0;
 
     setActiveIndex(firstAvailableColor ?? 0);
@@ -226,9 +226,9 @@ const ProductDetail = ({
     dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
-  const handle3D = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-  };
+  // const handle3D = (e: React.MouseEvent<HTMLElement>) => {
+  //   e.stopPropagation();
+  // };
 
   return (
     <div
@@ -248,7 +248,7 @@ const ProductDetail = ({
         <div className="flex gap-2">
           {product.stock > 0 ? (
             <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-Helveticalight">
-              IN STOCK {}
+              IN STOCK { }
             </div>
           ) : (
             <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-Helveticalight">
@@ -355,11 +355,10 @@ const ProductDetail = ({
                           <div
                             key={index}
                             onClick={() => handleColorClick(index)}
-                            className={`cursor-pointer border rounded-lg p-1 flex items-center justify-center transition ${
-                              activeIndex === index
-                                ? 'border-black font-bold shadow-md'
-                                : 'hover:shadow-lg'
-                            }`}
+                            className={`cursor-pointer border rounded-lg p-1 flex items-center justify-center transition ${activeIndex === index
+                              ? 'border-black font-bold shadow-md'
+                              : 'hover:shadow-lg'
+                              }`}
                           >
                             {image && (
                               <Image
@@ -382,26 +381,26 @@ const ProductDetail = ({
           <div className="p-4">
             {product?.sizes && product?.sizes.length > 0 && (
               <div>
-                <h2 className="font-semibold text-[16px] font-sans Capitalize">
+                <h2 className="font-semibold text-[16px] font-sans capitalize">
                   Size:
                 </h2>
                 <div className="flex space-x-4">
                   {product.sizes.map((size, index) => {
+                    console.log(size, '--- size ---');
                     const availableColors = product?.productImages.filter(
-                      (img) => img.size === size,
+                      (img) => img.size === size.name
                     );
 
-                    if (availableColors.length === 0) return null; // Skip sizes that don't have matching colors
-                    const [sizeName, sizeType] = size.split(' ');
+                    if (availableColors.length === 0) return null;
+                    const [sizeName, sizeType] = size.name.split(' ');
                     return (
                       <div
                         key={index}
                         onClick={() => handleSizeClick(index)}
-                        className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${
-                          selectedSize === index
-                            ? 'border-black shadow-md'
-                            : 'hover:shadow-lg'
-                        }`}
+                        className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index
+                          ? 'border-black shadow-md'
+                          : 'hover:shadow-lg'
+                          }`}
                       >
                         <span className="block text-[#666666] text-[14px] uppercase font-sans">
                           {sizeName}
@@ -411,6 +410,9 @@ const ProductDetail = ({
                             {sizeType}
                           </span>
                         )}
+                        {/* <span className="block text-[12px] text-gray-700 font-sans">
+                          ${size.price}
+                        </span> */}
                       </div>
                     );
                   })}
@@ -418,6 +420,7 @@ const ProductDetail = ({
               </div>
             )}
           </div>
+
         </div>
 
         {product.sale_counter &&
@@ -489,7 +492,7 @@ const ProductDetail = ({
               >
                 Add to cart
               </Button>
-
+{/* 
               <div className="w-full mx-auto md:w-full">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -515,9 +518,9 @@ const ProductDetail = ({
                     />
                   </DialogContent>
                 </Dialog>
-              </div>
+              </div> */}
             </div>
-            <Dialog>
+            {/* <Dialog>
               <DialogTrigger asChild>
                 <Button
                   className="bg-[#afa183] text-white flex gap-3 justify-center w-full sm:w-1/2 items-center lg:w-full h-12 rounded-2xl mb-3 font-light  md:w-full"
@@ -538,7 +541,7 @@ const ProductDetail = ({
                   <Product3D modelUrl="/3dmodel/model.glb" />
                 </div>
               </DialogContent>
-            </Dialog>
+            </Dialog> */}
           </>
         )}
 

@@ -262,18 +262,26 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Trattori Barstool',
         posterImageUrl: '/images/HomeProducts/Dining/Trattori.png',
       },
+      {
+        name: 'Ricordi Dining Table',
+        posterImageUrl: '/images/HomeProducts/Dining/Ricordi.png',
+      },
+      {
+        name: 'Serenita Side Cabinet',
+        posterImageUrl: '/images/HomeProducts/Dining/Serenita.png',
+      },
     ],
   },
   {
     name: 'living',
     products: [
       {
-        name: 'The Lisbon Sofa Set',
+        name: 'Lisbon Sofa',
         posterImageUrl: '/images/HomeProducts/Living/Lisbon.png',
       },
       {
-        name: 'Lucius Coffee Table Set',
-        posterImageUrl: '/images/HomeProducts/Living/Lucius.png',
+        name: 'Nordic Coffee Table with the Side Table',
+        posterImageUrl: '/images/HomeProducts/Living/Nordic.png',
       },
       {
         name: 'Finestra Side Table',
@@ -306,6 +314,14 @@ export const homeProducts: IHomeProducts[] = [
       {
         name: 'Capri Leather Swivel Chair',
         posterImageUrl: '/images/HomeProducts/Living/Capri.png',
+      },
+      {
+        name: 'Hallie Sofa',
+        posterImageUrl: '/images/HomeProducts/Living/Hallie.png',
+      },
+      {
+        name: 'Torino Coffee Table',
+        posterImageUrl: '/images/HomeProducts/Living/Torino.png',
       },
     ],
   },
@@ -352,13 +368,17 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Cipriani Floor Lamp',
         posterImageUrl: '/images/HomeProducts/Bedroom/Cipriani.png',
       },
+      {
+        name: 'Melodia Sofa Bed',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.png',
+      },
     ],
   },
   {
     name: 'accessories',
     products: [
       {
-        name: 'A Pair of Droplet Stands',
+        name: 'Droplet Stand ',
         posterImageUrl: '/images/HomeProducts/Accessories/Droplet.png',
       },
       {
@@ -370,7 +390,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Accessories/Abstract.png',
       },
       {
-        name: 'Pair of Monolith Sphere Towers',
+        name: 'Monolith Sphere Tower ',
         posterImageUrl: '/images/HomeProducts/Accessories/Monolith.png',
       },
       {

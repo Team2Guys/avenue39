@@ -139,7 +139,7 @@ export interface IProduct {
   createdAt?: string;
   sale_counter?: string;
   sortedSubcategories?: ICategory[];
-  sizes?: string[];
+  sizes?: Sizes[];
   filter?: Filter[];
 }
 interface Filter {
@@ -148,6 +148,10 @@ interface Filter {
     name: string;
     price: string;
   }[];
+}
+interface Sizes {
+    name: string;
+    price: string;
 }
 export interface specsDetails {
   id: number;

@@ -30,10 +30,11 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         (category) =>
           generateSlug(category.name) === generateSlug(categoryName),
       );
-
     return matchedCategory?.short_description || '';
   };
   console.log(filterByCategoryAndTitle(products, Living), 'Dining Items');
+
+  
   return (
     <div className="pt-1">
       <CatProduct

@@ -9,7 +9,6 @@ import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
-import { useRouter } from 'next/navigation';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
 import { calculateRatingsPercentage, renderStars } from '@/config';
@@ -22,7 +21,6 @@ import {
   Dialog,
   DialogContent,
   DialogOverlay,
-  DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
 import { message } from 'antd';
@@ -63,8 +61,6 @@ const Card: React.FC<CardProps> = ({
   const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(
     undefined,
   );
-  const Navigate = useRouter();
-  // const pathname = usePathname();
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();

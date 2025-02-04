@@ -1,6 +1,5 @@
 import React from 'react';
 import Container from '../ui/Container';
-import Card from '../ui/card';
 import ProductGrid from './ProductGrid';
 import { IProduct } from '@/types/types';
 import ProductSkeleton from '../Skaleton/productSkeleton';

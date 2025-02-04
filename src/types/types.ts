@@ -374,3 +374,16 @@ export interface IPaymentStatus {
   checkoutStatus: boolean;
   paymentStatus: boolean;
 }
+
+
+export interface RECORDS {
+  totalAdmins: string;
+  totalCategories: string;
+  totalProducts: string;
+  totalUsers: string;
+  totalProfit: string;
+  totalSales: string;
+  totalRevenue: string;
+  total_sub_categories: string;
+  Total_abandant_order: string;
+}

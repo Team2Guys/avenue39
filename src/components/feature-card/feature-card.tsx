@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { IoBagOutline, IoEyeOutline } from 'react-icons/io5';
-import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { CartItem } from '@/redux/slices/cart/types';
@@ -49,7 +48,6 @@ const FeatureCard: React.FC<CardProps> = ({
     }
   }, [isLoading]);
 
-  const Navigate = useRouter();
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State) => state.cart.items);
   const itemToAdd: CartItem = {
@@ -86,10 +84,6 @@ const FeatureCard: React.FC<CardProps> = ({
     : [];
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
 
-  // const handleNavigation = (product: IProduct) => {
-  //   let url = ChangeUrlHandler(product);
-  //   Navigate.push(url);
-  // };
 
   const handleAddToWishlist = (product: IProduct) => {
     const newWishlistItem = {

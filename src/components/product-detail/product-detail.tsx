@@ -54,7 +54,7 @@ const ProductDetail = ({
   detailsWidth,
   products,
 }: {
-  params: IProductDetail;
+  params: IProduct;
   isZoom?: Boolean;
   gap?: String;
   swiperGap?: String;
@@ -79,7 +79,7 @@ const ProductDetail = ({
   const [selectedSize, setSelectedSize] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
   const [productImage, setProductImage] = useState([]);
-  const product = products?.find((product) => product.name === slug);
+  const product = params ? params : products?.find((product) => product.name === slug);
 
   const handleColorClick = (index: number) => {
     setActiveIndex(index);

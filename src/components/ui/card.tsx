@@ -111,8 +111,7 @@ const Card: React.FC<CardProps> = ({
   }
   const imgIndex = card.productImages.slice(-1)[0];
   return (
-    <Link
-      href={ChangeUrlHandler(card)}
+    <div
       className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}
     >
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
@@ -632,7 +631,7 @@ const Card: React.FC<CardProps> = ({
           </Dialog>
         </div>
       )} */}
-    </Link>
+    </div>
   );
 };
 

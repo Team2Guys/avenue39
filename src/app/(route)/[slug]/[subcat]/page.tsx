@@ -33,7 +33,7 @@ const Subcat: React.FC<SlugPageProps> = async ({ params }) => {
     const urls = await params
     const  { slug, subcat } = urls
   const categorylist:any = [slug, subcat]
- return <SubCategoryProducts slug={categorylist} />
+ return <SubCategoryProducts mainslug={slug} slug={categorylist} />
 
 }
 

@@ -84,8 +84,6 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
 
       return indexA - indexB;
     });
-
-console.log(findCategory.products, "findCategory.products")
   return <Shop
     ProductData={sortProducts}
     AllProduct={AllProduct}

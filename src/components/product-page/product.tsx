@@ -73,7 +73,6 @@ const ProductPage = ({
           return 0;
       }
     });
-  console.log(filteredCards,"filteredCardsfilteredCards")
   return (
     <>
       {

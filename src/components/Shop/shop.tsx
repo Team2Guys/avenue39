@@ -19,7 +19,6 @@ const Shop = ({
   categoryName: ICategory;
 }) => {
   const [layout, Setlayout] = useState<string>('grid');
-  console.log(ProductData,"ProductData")
   return (
     <>
       <ProductPage

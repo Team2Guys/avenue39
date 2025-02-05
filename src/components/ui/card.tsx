@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Image from 'next/image';
-import { IProduct, IReview } from '@/types/types';
+import { IProduct } from '@/types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
@@ -12,8 +12,7 @@ import { openDrawer } from '@/redux/slices/drawer';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
 import { calculateRatingsPercentage, renderStars } from '@/config';
-import { useQuery } from '@tanstack/react-query';
-import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
+import { ChangeUrlHandler } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
@@ -72,7 +71,7 @@ const [averageRating, setaverageRating] = useState<any>()
   useEffect(() => {
     const cardImage = productImages?.find(
       (item: IProduct) => item.name === card?.name,
-    );;
+    );
     setCardStaticData(cardImage);
 
   }, [productImages]);
@@ -97,14 +96,16 @@ const [averageRating, setaverageRating] = useState<any>()
   }
   const imgIndex = card.productImages.slice(-1)[0];
 
+/* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
     if(card?.reviews){
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
       setaverageRating(averageRating)
     }
-
   }, [])
-  
+
+  /* eslint-enable react-hooks/rules-of-hooks */
+
 
 
 

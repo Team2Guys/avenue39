@@ -19,9 +19,9 @@ import {
 } from '@/types/types';
 
 import banner1 from '@images/banners/banner1.png';
-import banner2 from '@images/banners/banner2.png';
-import banner3 from '@images/banners/banner3.png';
-import banner4 from '@images/banners/megasale.png';
+import banner2 from '@images/banners/banner2.jpg';
+import banner3 from '@images/banners/banner3.webp';
+import banner4 from '@images/banners/megasale.webp';
 import cardimage1 from '@images/imageeee.png';
 
 import palette from '@icons/palette.png';

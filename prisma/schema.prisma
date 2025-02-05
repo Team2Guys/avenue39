@@ -56,6 +56,7 @@ model Products {
   last_editedBy         String?
   sizes                 Json[]                  @default([])
   filter                Json[]                  @default([])
+  custom_url            String?
 }
 
 model Categories {
@@ -74,6 +75,7 @@ model Categories {
   updatedAt           DateTime        @default(now())
   last_editedBy       String?
   short_description   String?
+  custom_url            String?
 }
 
 model SubCategories {
@@ -92,6 +94,7 @@ model SubCategories {
   updatedAt           DateTime     @default(now())
   last_editedBy       String?
   short_description   String?
+  custom_url            String?
 }
 
 model Reviews {

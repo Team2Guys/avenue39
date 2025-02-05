@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Container from '../ui/Container';
 import MenuLink from '../menu-link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -14,13 +14,30 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const [hoveringMenu, setHoveringMenu] = useState<boolean>(false);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const categoryId: string | null = searchParams.get('id');
   const [isActiveMenu, setisActiveMenu] = useState<string | null>(null);
   const userDetails = useSelector(
     (state: State) => state.usrSlice.loggedInUser,
   );
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const categoryId: string | null = searchParams.get('id');
+
+  // Close menu if click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setActiveMenu(null); // Close dropdown if clicked outside
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     const pathSplit = pathname.split('/');
     const name = pathSplit.splice(pathSplit.length - 1);
@@ -29,10 +46,8 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
         (item) => item.id === Number(categoryId),
       );
       setisActiveMenu(activeMenu?.name.replace('-', ' ').toLowerCase() || null);
-      console.log(pathname, 'pathname', name, activeMenu, categories);
     } else {
       setisActiveMenu(name.toString().replace('-', ' '));
-      console.log(pathname, 'pathname', name);
     }
   }, [pathname, categories, searchParams]);
 
@@ -45,7 +60,11 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   const handleMouseEnter = (menu: string) => {
+    if (activeMenu === menu) {
+      return; // Prevent opening dropdown if the same menu is hovered
+    }
     setActiveMenu(menu);
   };
 
@@ -54,6 +73,15 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
       setActiveMenu(null);
     }
   };
+
+  const handleClickMenu = (menu: string) => {
+    if (activeMenu === menu) {
+      setActiveMenu(null); // Toggle dropdown if the same menu is clicked
+    } else {
+      setActiveMenu(menu);
+    }
+  };
+
   return (
     <div
       className={`${isSticky ? `sticky ${userDetails ? 'top-20' : 'top-16'} z-20` : 'relative md:pb-12'}`}
@@ -69,7 +97,9 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
               <Link
                 href={`/${generateSlug(item)}`}
                 key={index}
-                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap ${item === 'Sale' ? 'text-red-500' : 'text-black'}`}
+                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap ${
+                  item === 'Sale' ? 'text-red-500' : 'text-black'
+                }`}
               >
                 {item}
               </Link>
@@ -77,48 +107,57 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
           ) : (
             <>
               {categories
-                ?.filter((item) => item.name.toLowerCase() !== "sale")
+                ?.filter((item) => item.name.toLowerCase() !== 'sale')
                 .map((item) => (
-                <div className="relative" key={item.id}>
-                  <Link
-                    href={`/${generateSlug(item.name)}`}
-                    className={`relative menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-black dark:text-black flex flex-row gap-2 items-center cursor-pointer ${isActiveMenu === item.name.toLowerCase() ? 'linkactive' : 'link-underline'}`}
+                  <div
+                    className="relative"
+                    key={item.id}
+                    ref={menuRef}
                     onMouseEnter={() => handleMouseEnter(item.name)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    {item.name}
-                  </Link>
+                    <Link
+                      href={`/${generateSlug(item.name)}`}
+                      className={`relative menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-black dark:text-black flex flex-row gap-2 items-center cursor-pointer ${
+                        isActiveMenu === item.name.toLowerCase() ? 'linkactive' : 'link-underline'
+                      }`}
+                      onClick={() => handleClickMenu(item.name)}
+                    >
+                      {item.name}
+                    </Link>
 
-                  {activeMenu &&
-                    activeMenu === item.name &&
-                    item.subcategories &&
-                    item.subcategories.length > 0 && (
-                      <div
-                        className={`megamenu-container w-[200px] bg-white shadow-lg px-10 py-4 z-20  absolute top-[28px]  rounded-b-xl`}
-                        onMouseEnter={() => setHoveringMenu(true)}
-                        onMouseLeave={() => {
-                          setHoveringMenu(false);
-                          setActiveMenu(null);
-                        }}
-                      >
-                        <div className="flex gap-4">
-                          <div className="w-full space-y-4">
-                            <div className="grid grid-cols-1 space-y-2">
-                              <MenuLink
-                                menudata={item}
-                                onLinkClick={() => setActiveMenu(null)}
-                              />
+                    {activeMenu &&
+                      activeMenu === item.name &&
+                      item.subcategories &&
+                      item.subcategories.length > 0 && (
+                        <div
+                          className={`megamenu-container w-[200px] bg-white shadow-lg px-10 py-4 z-20 absolute top-[28px] rounded-b-xl`}
+                          onMouseEnter={() => setHoveringMenu(true)}
+                          onMouseLeave={() => {
+                            setHoveringMenu(false);
+                            setActiveMenu(null);
+                          }}
+                        >
+                          <div className="flex gap-4">
+                            <div className="w-full space-y-4">
+                              <div className="grid grid-cols-1 space-y-2">
+                                <MenuLink
+                                  menudata={item}
+                                  onLinkClick={() => setActiveMenu(null)}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                </div>
-              ))}
+                      )}
+                  </div>
+                ))}
               <Link
                 href="/sale"
                 onClick={() => setActiveMenu(null)}
-                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-red-600 dark:text-red-600 flex flex-row gap-2 items-center cursor-pointer ${isActiveMenu === 'sale' ? 'linkactive' : 'link-underline'}`}
+                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-red-600 dark:text-red-600 flex flex-row gap-2 items-center cursor-pointer ${
+                  isActiveMenu === 'sale' ? 'linkactive' : 'link-underline'
+                }`}
               >
                 sale
               </Link>
@@ -126,51 +165,6 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
           )}
         </Container>
       </div>
-
-      {/* {activeMenu &&
-        !loading &&
-        activeMenu !== 'tvCabinets' &&
-        activeMenu !== 'clearance' && (
-          <div
-            className="megamenu-container w-fit bg-white shadow-lg p-10 z-50 absolute top-[40px]"
-          onMouseEnter={() => setHoveringMenu(true)}
-          onMouseLeave={() => {
-            setHoveringMenu(false);
-            setActiveMenu(null);
-          }}
-          >
-            <Container className="flex gap-4">
-              <div className="w-full space-y-4">
-                <p className="text-19 font-bold w-96">
-                  {activeMenu.charAt(0).toUpperCase() + activeMenu.slice(1)}
-                </p>
-                <div className="border-b-4 w-14 border-main" />
-                <div className="grid grid-cols-1 space-y-2">
-                  <MenuLink
-                    menudata={menuData[activeMenu]}
-                    onLinkClick={() => {
-                      setActiveMenu(null)
-
-                    }}
-                    loading={loading}
-                    pathname={pathname}
-                  />
-                </div>
-              </div>
-              {(activeMenu === 'bedroom' || activeMenu === 'megaSale') && (
-                <div className="w-full md:w-4/12">
-                  <Image
-                    className="object-contain p-2"
-                    width={500}
-                    height={500}
-                    src={megamenu}
-                    alt="menu"
-                  />
-                </div>
-              )}
-            </Container>
-          </div>
-        )} */}
     </div>
   );
 };

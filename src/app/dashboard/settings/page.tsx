@@ -173,6 +173,7 @@ const Settings = () => {
                               ? profilePhoto.posterImageUrl
                               : '/images/dummy-avatar.jpg'
                           }
+                          loading='lazy'
                           width={55}
                           height={55}
                           alt={loggedInUser.name}

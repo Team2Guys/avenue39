@@ -129,6 +129,7 @@ const TableTwo = ({
           <Image
             src={record.posterImageUrl || ''}
             alt={`Image of ${record.name}`}
+            loading='lazy'
             width={50}
             height={50}
           />

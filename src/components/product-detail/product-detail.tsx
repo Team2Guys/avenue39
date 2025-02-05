@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct,  IReview, ProductImage } from '@/types/types';
+import { IProduct, IReview, ProductImage } from '@/types/types';
 import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 // import QRScanner from '../QR-reader/QR';
@@ -31,7 +31,7 @@ import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
 // import paymenticons from '@icons/payment-icons.png';
 import { openDrawer } from '@/redux/slices/drawer';
-import { CartItem } from '@/redux/slices/cart/types';
+import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
@@ -45,6 +45,7 @@ import { message } from 'antd';
 import { State } from '@/redux/store';
 import { BsWhatsapp } from 'react-icons/bs';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const ProductDetail = ({
   params,
@@ -77,19 +78,24 @@ const ProductDetail = ({
   });
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [size, setSize] = useState<CartSize | null>(null);
+  const [filter, setFilter] = useState<CartSize | null>(null);
   const [productPrice, setProductPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
 
   const product = products?.find((product) => product.name === slug);
 
-  const handleColorClick = (index: any) => {
+  const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
     setSelectedSize(null);
+    setSize(null)
+    setFilter(item)
   };
 
-  const handleSizeClick = (index: any) => {
+  const handleSizeClick = (index: any, size: CartSize) => {
     setSelectedSize(index);
+    setSize(size)
   };
 
   useEffect(() => {
@@ -197,8 +203,10 @@ const ProductDetail = ({
   const itemToAdd: CartItem = {
     ...product,
     quantity: count,
+    selectedSize: size,
+    selectedfilter: filter
   };
-  console.log(itemToAdd,'itemToAdd')
+  console.log(itemToAdd, 'itemToAdd')
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(
@@ -206,20 +214,47 @@ const ProductDetail = ({
     );
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
+    const variationQuantity = size?.stock || filter?.stock || product.stock;
+    console.log(newQuantity, variationQuantity, 'variationQuantity')
     if (product?.stock && newQuantity > product.stock) {
-      message.error(
+      toast.error(
         `Only ${product.stock} items are in stock. You cannot add more than that.`,
       );
       return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(
+        `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that.`,
+      );
+      return;
+    } else {
+      dispatch(addItem(itemToAdd));
+      dispatch(openDrawer());
     }
-    dispatch(addItem(itemToAdd));
-    dispatch(openDrawer());
   };
 
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    dispatch(addItem(itemToAdd));
-    Navigate.push('/checkout');
+    const existingCartItem = cartItems.find(
+      (item: any) => item.id === product?.id,
+    );
+    const currentQuantity = existingCartItem?.quantity || 0;
+    const newQuantity = currentQuantity + count;
+    const variationQuantity = size?.stock || filter?.stock || product.stock;
+    console.log(newQuantity, variationQuantity, 'variationQuantity')
+    if (product?.stock && newQuantity > product.stock) {
+      toast.error(
+        `Only ${product.stock} items are in stock. You cannot add more than that.`,
+      );
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(
+        `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that.`,
+      );
+      return;
+    } else {
+      dispatch(addItem(itemToAdd));
+      Navigate.push('/checkout');
+    }
   };
   // const handle3D = (e: React.MouseEvent<HTMLElement>) => {
   //   e.stopPropagation();
@@ -347,7 +382,7 @@ const ProductDetail = ({
                     return (
                       <div
                         key={index}
-                        onClick={() => handleColorClick(index)}
+                        onClick={() => handleColorClick(index, item)}
                         className={`cursor-pointer border rounded-lg p-1 flex items-center justify-center transition ${activeIndex === index ? 'border-black font-bold shadow-md' : 'hover:shadow-lg'}`}
                       >
                         <Image
@@ -374,7 +409,7 @@ const ProductDetail = ({
                   return (
                     <div
                       key={index}
-                      onClick={() => handleSizeClick(index)}
+                      onClick={() => handleSizeClick(index, size)}
                       className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index ? 'border-black shadow-md' : 'hover:shadow-lg'}`}
                     >
                       <span className="block text-[#666666] text-[14px] uppercase font-sans">

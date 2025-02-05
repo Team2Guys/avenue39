@@ -141,6 +141,7 @@ export interface IProduct {
   sortedSubcategories?: ICategory[];
   sizes?: Sizes[];
   filter?: Filter[];
+  reviews?:any[]
 }
 interface Filter {
   heading: string;

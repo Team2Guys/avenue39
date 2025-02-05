@@ -130,7 +130,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
               ),
             )}
             <Link
-              href={'/products'}
+              href={'/sale'}
               onClick={hideSheet}
               className="hover:underline text-red-500 font-semibold text-15 py-1 block uppercase w-fit"
             >

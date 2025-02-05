@@ -132,7 +132,7 @@ const ProductPage = ({
                 />
               </div>
 
-              <p className="block whitespace-nowrap ">
+              <p className="block whitespace-nowrap  text-12 sm:text-base">
                 Showing {filteredCards.length > 0 ? filteredCards.length : 0}{' '}
                 results
               </p>

@@ -76,7 +76,9 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
             ))
           ) : (
             <>
-              {categories?.map((item) => (
+              {categories
+                ?.filter((item) => item.name.toLowerCase() !== "sale")
+                .map((item) => (
                 <div className="relative" key={item.id}>
                   <Link
                     href={`/${generateSlug(item.name)}`}
@@ -114,8 +116,9 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
                 </div>
               ))}
               <Link
-                href="/accessories"
-                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-red-600 dark:text-red-600 flex flex-row gap-2 items-center cursor-pointer ${pathname === '/products' ? 'linkactive' : 'link-underline'}`}
+                href="/sale"
+                onClick={() => setActiveMenu(null)}
+                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-red-600 dark:text-red-600 flex flex-row gap-2 items-center cursor-pointer ${isActiveMenu === 'sale' ? 'linkactive' : 'link-underline'}`}
               >
                 sale
               </Link>

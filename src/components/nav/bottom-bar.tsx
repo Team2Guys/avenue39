@@ -89,7 +89,9 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
         </SheetTrigger>
         <SheetContent className="pb-5">
           <div className="pt-10 space-y-2">
-            {categories.map((menu, menuIndex) =>
+          {categories
+              ?.filter((item) => item.name.toLowerCase() !== "sale")
+              .map((menu, menuIndex) =>
               menu.subcategories && menu.subcategories?.length > 0 ? (
                 <Accordion
                   key={menuIndex}

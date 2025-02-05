@@ -2,7 +2,7 @@
 import React from 'react';
 import Container from '../ui/Container';
 import Image from 'next/image';
-import Salebanner from '@assets/images/banners/dsffsdf.png';
+import Salebanner from '@assets/images/banners/dsffsdf.webp';
 import Link from 'next/link';
 
 const SaleBanner: React.FC = () => {

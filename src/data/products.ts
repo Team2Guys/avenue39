@@ -334,7 +334,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Moderno Bedside Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
       },
       {
         name: 'Ombra Bedside Table',

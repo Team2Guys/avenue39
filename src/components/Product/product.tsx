@@ -11,13 +11,7 @@ import { Table } from 'antd';
 import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
 
-const Product = ({
-  params,
-  similarProducts,
-  reviews,
-  product,
-  products,
-}: {
+const Product = ({params,similarProducts,reviews,product,products}: {
   params: IProductDetail;
   reviews: IReview[];
   product: IProduct;

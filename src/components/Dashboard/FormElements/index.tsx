@@ -161,7 +161,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
       setImagesUrl([]);
       setSelectedSubcategoryIds([]);
       setSelectedCategoryIds([]);
-
+      setselecteMenu('Add All Products');
       updateFlag ? setEditProduct && setEditProduct(undefined) : null;
     } catch (err: any) {
       if (err.response && err.response.data && err.response.data.error) {
@@ -298,6 +298,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                     className="object-cover w-full h-full"
                                     width={300}
                                     height={400}
+                                    loading='lazy'
                                     src={item?.imageUrl}
                                     alt={`productImage-${index}`}
                                   />
@@ -1321,6 +1322,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                   className="object-cover w-full h-full md:h-32 dark:bg-black dark:shadow-lg"
                                   width={100}
                                   height={100}
+                                  loading='lazy'
                                   src={item?.imageUrl ? item?.imageUrl : ''}
                                   alt={`productImage-${index}`}
                                 />
@@ -1380,6 +1382,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                   className="object-cover w-full h-full md:h-32 dark:bg-black dark:shadow-lg"
                                   width={300}
                                   height={200}
+                                  loading='lazy'
                                   src={item.imageUrl}
                                   alt={`productImage-${index}`}
                                 />

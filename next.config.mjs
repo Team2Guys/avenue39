@@ -7,7 +7,26 @@ const nextConfig = {
       'res.cloudinary.com',
       'unsplash.com',
     ],
-    unoptimized: true,
+   
+  },
+  async redirects() {
+    return [
+      {
+        source: '/(.*)',
+        has: [
+          {
+            type: 'host',
+            value: 'http://',
+          },
+        ],
+        destination: 'https://', 
+        permanent: true,
+      },
+    ];
+  },
+  compiler:{    removeConsole: process.env.NODE_ENV === 'production'  ? true : false },
+  experimental: {
+    optimizePackageImports: ['react-icons/*', "antd"],
   },
 };
 

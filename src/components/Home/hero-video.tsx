@@ -1,15 +1,12 @@
-'use client';
-import React, { useRef } from 'react';
+
+import React from 'react';
 import Container from '../ui/Container';
 const HeroVideo: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
   return (
     <>
       <div className="relative w-full">
         <video
-          ref={videoRef}
           className="w-full object-cover h-full md:h-[53vh] lg:h-[63vh] xl:h-[73vh] 2xl:h-[83vh]"
-          // onClick={handleVideoClick}
           loop
           muted
           autoPlay

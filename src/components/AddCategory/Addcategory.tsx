@@ -155,6 +155,7 @@ const FormLayout = ({
                                   width={300}
                                   height={200}
                                   src={item.imageUrl}
+                                  loading='lazy'
                                   alt={`productImage-${index}`}
                                 />
                               </div>

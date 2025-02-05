@@ -29,7 +29,7 @@ const SubCategoriesRow = () => {
   return (
     subCategory.length > 0 && (
       <div
-        className={`relative ps-2 sm:ps-8 ${
+        className={`relative ps-2 sm:ps-8 pe-8 ${
           subCategory.length === 2
             ? 'w-full md:w-6/12 lg:4/12 xl:2/12'
             : subCategory.length === 4

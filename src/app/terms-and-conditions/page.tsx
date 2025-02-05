@@ -29,8 +29,12 @@ const TermsAndConitions: React.FC = () => {
     <>
       <TopHero title="Terms & Conditions-Avenue39" breadcrumbs={Tersmandcondition} />
       <div>
-        <div className="max-w-5xl mx-auto p-4">
-          <ol className=" pl-6 space-y-4">
+        <div className="max-w-5xl mx-auto p-4 mt-5 md:mt-10">
+        <h2 className="text-xl font-semibold mb-2">
+        Terms & Conditions – Avenue39
+          </h2>
+          <p>Welcome to Avenue39. These terms and conditions describe how to use our website, and how to adhere to them, especially when you make a purchase.</p>
+          <ol className=" space-y-4 mt-5">
             {TermsCondition.map((section: any, index: number) => (
               <li key={index} className="mb-6">
                 <h2 className="text-xl font-semibold mb-2">
@@ -38,7 +42,7 @@ const TermsAndConitions: React.FC = () => {
                 </h2>
 
                 <div className="space-y-4">
-                  {section.description.map((description: string, lineIndex: number) => {
+                  {section?.description.map((description: string, lineIndex: number) => {
                     return (
                       <ol key={lineIndex} className="list-decimal pl-6">
                         <li className=" list-disc text-base">
@@ -79,6 +83,12 @@ const TermsAndConitions: React.FC = () => {
               </li>
             ))}
           </ol>
+         <div className='pl-6 space-y-4'>
+         <p>Please contact us at:</p>
+          <p>Email: <Link className='text-red-600 hover:underline' href={"mailto:cs@avenue39.com"}>cs@avenue39.com</Link></p>
+          <p>Email: <Link href="tel:+971505974495" target="_blank" className="text-red-600 hover:underline"> +971 50 597 4495 </Link></p>
+          <p>For questions and concerns about our terms and conditions. You accept these terms and conditions by using Avenue39&apos;s website and services. Thank you for choosing Avenue39.</p>
+         </div>
         </div>
       </div>
     </>

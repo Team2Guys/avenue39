@@ -3,27 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Image from 'next/image';
-import { IProduct, IReview } from '@/types/types';
+import { IProduct } from '@/types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
-import { useRouter } from 'next/navigation';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
 import { calculateRatingsPercentage, renderStars } from '@/config';
-import { useQuery } from '@tanstack/react-query';
-import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
+import { ChangeUrlHandler } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import {
   Dialog,
   DialogContent,
   DialogOverlay,
-  DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
 import { message } from 'antd';
@@ -60,12 +56,9 @@ const Card: React.FC<CardProps> = ({
   // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
-  const cartItems = useSelector((state: State) => state.cart.items);
-  const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(
-    undefined,
-  );
-  const Navigate = useRouter();
-  // const pathname = usePathname();
+  const cartItems = useSelector((state: State |any) => state.cart.items);
+  const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(undefined,);
+const [averageRating, setaverageRating] = useState<any>()
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -79,121 +72,45 @@ const Card: React.FC<CardProps> = ({
     const cardImage = productImages?.find(
       (item: IProduct) => item.name === card?.name,
     );
-    console.log(cardImage, 'cardImage');
     setCardStaticData(cardImage);
+
   }, [productImages]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item) => item.id === card?.id);
+    const existingCartItem = cartItems.find((item:any) => item.id === card?.id);
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
 
+    
     if (newQuantity > (card?.stock || 0)) {
-      message.error(
-        `Only ${card?.stock} items are in stock. You cannot add more than that.`,
-      );
+      message.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
       return;
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
-
-  const { data: reviews = [] } = useQuery<IReview[], Error>({
-    queryKey: ['reviews'],
-    queryFn: fetchReviews,
-  });
-  const productId = card?.id;
-  const filteredReviews = Array.isArray(reviews)
-    ? reviews.filter((review) => review.productId === productId)
-    : [];
-
-  const { averageRating } = calculateRatingsPercentage(filteredReviews);
-
-  // const handleNavigation = (): string => {
-  //   let main_Category = redirect
-  //     ? redirect
-  //     : isHomepage
-  //       ? card?.categories && card?.categories[0]
-  //       : pathname.split('/')[1].trim().toLocaleLowerCase();
-  //   let subCategory = pathname.split('/')[2]?.trim().toLocaleLowerCase();
-
-
-  //   let redirectedMain = re_Calling_products.find(
-  //     (value: any) =>
-  //       generateSlug(value.mainCategory).trim().toLowerCase() ===
-  //         main_Category &&
-  //       subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
-  //   );
-  //   let mainCategory = card?.categories?.find(
-  //     (value) =>
-  //       value.name.trim().toLocaleLowerCase() ===
-  //       (redirectedMain
-  //         ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
-  //         : main_Category),
-  //   );
-  //   let subcategory =
-  //     card?.subcategories &&
-  //     card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
-  //   let url;
-
-  //   console.log(redirectedMain, 'redirectedMain', mainCategory);
-
-  //   if (!mainCategory)
-  //     return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
-
-    // let redirectedMain = re_Calling_products.find(
-    //   (value: any) =>
-    //     generateSlug(value.mainCategory).trim().toLowerCase() ===
-    //       main_Category &&
-    //     subCategory == generateSlug(value.subCategory).trim().toLowerCase(),
-    // );
-    // let mainCategory = card?.categories?.find(
-    //   (value) =>
-    //     value.name.trim().toLocaleLowerCase() ===
-    //     (redirectedMain
-    //       ? redirectedMain.redirect_main_cat.trim().toLocaleLowerCase()
-    //       : main_Category),
-    // );
-    // let subcategory =
-    //   card?.subcategories &&
-    //   card?.subcategories[0]?.name?.trim().toLocaleLowerCase();
-    // let url;
-    // if (!mainCategory)
-    //   return (card?.categories && card?.categories[0].name.toLowerCase()) || '';
-
-  //   if (subcategory) {
-  //     url =
-  //       '/' +
-  //       generateSlug(mainCategory.name || '') +
-  //       '/' +
-  //       generateSlug(subcategory || '') +
-  //       '/' +
-  //       generateSlug(card?.name || '');
-
-  //     return url;
-  //   }
-
-  //   url =
-  //     '/' +
-  //     generateSlug(mainCategory.name || '') +
-  //     '/' +
-  //     generateSlug(card?.name || '');
-
-  //   return url;
-  // };
-  const handleNavigation = (product: IProduct) => {
-    let url = ChangeUrlHandler(product);
-    Navigate.push(url);
-  };
-
+  
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
   const imgIndex = card.productImages.slice(-1)[0];
+
+/* eslint-disable react-hooks/rules-of-hooks */
+  useEffect(() => {
+    if(card?.reviews){
+      const { averageRating } = calculateRatingsPercentage(card?.reviews);
+      setaverageRating(averageRating)
+    }
+  }, [])
+
+  /* eslint-enable react-hooks/rules-of-hooks */
+
+
+
+
   return (
-    <Link
-      href={ChangeUrlHandler(card)}
+    <div
       className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}
     >
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
@@ -242,7 +159,6 @@ const Card: React.FC<CardProps> = ({
                         cardStaticData?.posterImageUrl || card.posterImageUrl
                       }
                       alt={card?.posterImageAltText || 'image'}
-                      // onClick={() => handleNavigation()}
                       width={600}
                       height={600}
                       className={cn(
@@ -299,7 +215,7 @@ const Card: React.FC<CardProps> = ({
                     onClick={(e) => handleEventProbation(e)}
                   >
                     <button
-                      className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary group rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                      className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
                       onClick={(e) => handleAddToCard(e)}
                     >
                       <svg
@@ -307,7 +223,7 @@ const Card: React.FC<CardProps> = ({
                         width="14.481"
                         height="14.536"
                         viewBox="0 0 14.481 14.536"
-                        className="group-hover:fill-white"
+                        className="fill-black"
                       >
                         <path
                           id="Path_424"
@@ -322,14 +238,14 @@ const Card: React.FC<CardProps> = ({
                     <Dialog>
                       <DialogTrigger className="w-full">
                         <button
-                          className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary group bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                          className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="17.41"
                             height="9.475"
                             viewBox="0 0 17.41 9.475"
-                            className="fill-white group-hover:fill-black group-hover:text-black"
+                            className="fill-white"
                           >
                             <g
                               id="eye-svgrepo-com_1_"
@@ -379,9 +295,7 @@ const Card: React.FC<CardProps> = ({
                       </DialogTrigger>
                       <DialogOverlay />
                       <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-                        <VisuallyHidden>
-                          <DialogTitle>Product Detail</DialogTitle>
-                        </VisuallyHidden>
+          
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail
                             params={card}
@@ -414,10 +328,12 @@ const Card: React.FC<CardProps> = ({
                 <div
                   className={` ${cardImageHeight} flex justify-center items-center`}
                 >
+                  <Link
+                  href={ChangeUrlHandler(card)}
+                  >
                   <Image
                     src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
                     alt={card.posterImageAltText || card.name}
-                    onClick={() => handleNavigation(card)}
                     width={600}
                     height={600}
                     className={
@@ -429,6 +345,7 @@ const Card: React.FC<CardProps> = ({
                         : 'calc(100% - 20px)',
                     }}
                   />
+                  </Link>
                 </div>
               ) : (
                 <Link href={ChangeUrlHandler(card)}>
@@ -482,7 +399,7 @@ const Card: React.FC<CardProps> = ({
                   onClick={(e) => handleEventProbation(e)}
                 >
                   <button
-                    className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary group rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                    className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
                     onClick={(e) => handleAddToCard(e)}
                   >
                     <svg
@@ -490,7 +407,7 @@ const Card: React.FC<CardProps> = ({
                       width="14.481"
                       height="14.536"
                       viewBox="0 0 14.481 14.536"
-                      className="group-hover:fill-white"
+                      className="fill-black"
                     >
                       <path
                         id="Path_424"
@@ -505,14 +422,14 @@ const Card: React.FC<CardProps> = ({
                   <Dialog>
                     <DialogTrigger className="w-full">
                       <button
-                        className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary group bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                        className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="17.41"
                           height="9.475"
                           viewBox="0 0 17.41 9.475"
-                          className="fill-white group-hover:fill-black group-hover:text-black"
+                          className="fill-white"
                         >
                           <g
                             id="eye-svgrepo-com_1_"
@@ -562,9 +479,7 @@ const Card: React.FC<CardProps> = ({
                     </DialogTrigger>
                     <DialogOverlay />
                     <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-                      <VisuallyHidden>
-                        <DialogTitle>Product Detail</DialogTitle>
-                      </VisuallyHidden>
+                     
                       <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                         <ProductDetail
                           params={card}
@@ -715,7 +630,7 @@ const Card: React.FC<CardProps> = ({
           </Dialog>
         </div>
       )} */}
-    </Link>
+    </div>
   );
 };
 

@@ -16,7 +16,7 @@ const Product = ({params,similarProducts,reviews,product,products}: {
   reviews: IReview[];
   product: IProduct;
   similarProducts: IProduct[];
-  products: IProduct[];
+  products?: IProduct[];
 }) => {
   const slug = params.name;
   console.log(slug, 'slug');

@@ -29,7 +29,7 @@ export class SubcategoriesService {
 
     try {
       const { name, posterImageUrl } = categoryData;
-      const { description, categories, categoriesId, ...Data } = categoryData;
+      const {  categories, categoriesId, ...Data } = categoryData;
 
       const existingSubCategory = await this.prisma.subCategories.findFirst({
         where: { name },
@@ -97,7 +97,7 @@ export class SubcategoriesService {
 
   async updateSubCategory(subCategoryData: UpdateSubCategoryDto,userEmail: string) {
     try {
-      const { id, name, categoriesId, posterImageUrl, description, ...Data } =
+      const { id, name, categoriesId, posterImageUrl, ...Data } =
         subCategoryData;
 
       const existingSubCategory = await this.prisma.subCategories.findUnique({

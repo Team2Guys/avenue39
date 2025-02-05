@@ -44,7 +44,7 @@ export default async function Home() {
       <NewArrival />
       </Suspense>
       <AllCategory products={products} />
-      <Catalogue />
+      {/* <Catalogue /> */}
       {testimonialcards && testimonialcards.length > 50 && (
         <Testimonial testimonialitems={testimonialcards} />
       )}

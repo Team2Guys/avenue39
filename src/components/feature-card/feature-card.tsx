@@ -26,6 +26,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { message } from 'antd';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { State } from '@/redux/store';
+import Link from 'next/link';
 
 interface CardProps {
   card: IProduct;
@@ -85,10 +86,10 @@ const FeatureCard: React.FC<CardProps> = ({
     : [];
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
 
-  const handleNavigation = (product: IProduct) => {
-    let url = ChangeUrlHandler(product);
-    Navigate.push(url);
-  };
+  // const handleNavigation = (product: IProduct) => {
+  //   let url = ChangeUrlHandler(product);
+  //   Navigate.push(url);
+  // };
 
   const handleAddToWishlist = (product: IProduct) => {
     const newWishlistItem = {
@@ -186,8 +187,8 @@ const FeatureCard: React.FC<CardProps> = ({
             </div>
           )}
 
-          <div
-            onClick={() => handleNavigation(card)}
+          <Link
+            href={ChangeUrlHandler(card)}
             className="cursor-pointer"
           >
             <Image
@@ -197,7 +198,7 @@ const FeatureCard: React.FC<CardProps> = ({
               alt={card.posterImageAltText || card.name}
               className={`z-10 rounded-2xl ${cardHeight}`}
             />
-          </div>
+          </Link>
           <div className="flex justify-between px-1 mt-3">
             <p className="text-15">{card.name}</p>
             <div className="flex">

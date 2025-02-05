@@ -217,7 +217,7 @@ const ProductDetail = ({
     ...product,
     quantity: count,
   };
-
+  console.log(itemToAdd,'itemToAdd')
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(

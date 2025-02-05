@@ -11,16 +11,16 @@ export class ProductsService {
     try {
   let products = this.prisma.products.findMany({
         include: {
+          reviews:true,
           categories: {
             include: {
               subcategories: true,
-              products: true,
+  
             },
           },
           subcategories: { 
             include: {
               categories: true,
-              products: true,
           },},
         },
       });

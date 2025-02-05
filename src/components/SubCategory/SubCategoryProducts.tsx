@@ -27,7 +27,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
 
   const findSubCategory: any = subCategories?.find((item: any) => {
     const isNameMatch = generateSlug(item.name) === (newsubCat ? newsubCat : subcategoryName);
-    const belongsToCategory = item.categories.some((value: any) =>generateSlug(value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
+    const belongsToCategory = item.categories.some((value: any) => generateSlug(value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
     return isNameMatch && belongsToCategory;
   });
   if (!findSubCategory) {
@@ -58,13 +58,12 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
     );
   }
 
-  
+
   return (
     <Shop ProductData={findSubCategory.products}
       categories={findSubCategory.categories}
       isCategory={false}
-      categoryName={findSubCategory}
-    />
+      categoryName={findSubCategory} AllProduct={[]} />
   );
 };
 

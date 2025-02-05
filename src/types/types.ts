@@ -180,6 +180,7 @@ export interface IProductAdd {
   Images_Alt_Text: string;
   sale_counter?: string;
   filters?: any[];
+  custom_url?:string
 }
 export interface ITestimonialCard {
   id: number;

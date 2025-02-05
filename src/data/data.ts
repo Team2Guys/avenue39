@@ -195,6 +195,7 @@ export const AddproductsinitialValues: IProductAdd = {
   Images_Alt_Text: '',
   sale_counter: '',
   filters: [],
+  custom_url:""
 };
 
 export const options = [

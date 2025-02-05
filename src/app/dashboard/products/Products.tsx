@@ -61,6 +61,7 @@ const Product = ({
           setCategory={setProducts}
           setselecteMenu={setselecteMenu}
           setEditProduct={setEditProduct}
+          loading={false}
         />
       ) : (
         <FormElements

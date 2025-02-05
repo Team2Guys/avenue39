@@ -156,7 +156,8 @@ const ViewProduct: React.FC<CategoryProps> = ({
           src={`${record?.posterImageUrl}`}
           alt={`Image of ${record.name}`}
           width={200}
-          className=" sm:w-[80px] sm:h-[80px] rounded-md object-contain"
+          loading='lazy'
+          className="sm:w-[80px] sm:h-[80px] rounded-md object-contain"
           height={200}
         />
       ),

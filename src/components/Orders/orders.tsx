@@ -69,6 +69,7 @@ const OrderList = ({
                   className="rounded-md"
                   width={100}
                   height={100}
+                  loading='lazy'
                   src={product.productData.posterImageUrl}
                   alt={product.productData.name}
                 />

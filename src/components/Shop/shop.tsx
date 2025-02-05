@@ -9,9 +9,11 @@ const Shop = ({
   isCategory,
   findCategory,
   categoryName,
+  AllProduct,
 }: {
   categories?: ICategory[];
   ProductData: IProduct[];
+  AllProduct: IProduct[];
   isCategory?: boolean;
   findCategory?: string;
   categoryName: ICategory;
@@ -23,6 +25,7 @@ const Shop = ({
         layout={layout}
         Setlayout={Setlayout}
         category={categories}
+        AllProduct={AllProduct}
         ProductData={ProductData}
         isCategory={isCategory}
         findCategory={findCategory}

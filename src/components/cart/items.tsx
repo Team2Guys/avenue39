@@ -145,7 +145,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                   <p className="font-medium text-2xl">No Items In Cart</p>
                   <div className="">
                     <Link
-                      href="/products"
+                      href="/new-arrivals"
                       className="bg-main px-6 flex justify-center items-center rounded-2xl text-white hover:border-[#666666] border border-[#F6F6F6] h-[40px]"
                     >
                       Continue Shopping

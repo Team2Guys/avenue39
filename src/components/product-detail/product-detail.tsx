@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct, IProductDetail, IReview } from '@/types/types';
+import { IProduct, IReview } from '@/types/types';
 import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 // import QRScanner from '../QR-reader/QR';
@@ -54,7 +54,7 @@ const ProductDetail = ({
   detailsWidth,
   products,
 }: {
-  params: IProductDetail;
+  params: IProduct;
   isZoom?: Boolean;
   gap?: String;
   swiperGap?: String;
@@ -78,7 +78,8 @@ const ProductDetail = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
-  const product = products?.find((product) => product.name === slug);
+  const [productImage, setProductImage] = useState([]);
+  const product = params ? params : products?.find((product) => product.name === slug);
 
   const handleColorClick = (index: number) => {
     setActiveIndex(index);
@@ -110,29 +111,42 @@ const ProductDetail = ({
         )
         : 0;
 
-    setSelectedSize(firstAvailableSize ?? 0);
+    console.log(firstAvailableSize, 'firstAvailableSize');
+    // setSelectedSize(firstAvailableSize ?? 0);
+    const activeColor = product.filter?.[0]?.additionalInformation?.[activeIndex]?.name;
+
+    if (activeColor) {
+      const filteredImages = product.productImages.filter(
+        (img) => img.color === activeColor
+      );
+      //@ts-expect-error
+      setProductImage(filteredImages);
+    } else {
+      //@ts-expect-error
+      setProductImage(product.productImages);
+    }
   }, [activeIndex, product]);
 
-  useEffect(() => {
-    if (!product) return;
+  // useEffect(() => {
+  //   if (!product) return;
 
-    const selectedSizeValue = product.sizes
-      ? product.sizes[selectedSize]?.name
-      : undefined;
+  //   const selectedSizeValue = product.sizes
+  //     ? product.sizes[selectedSize]?.name
+  //     : undefined;
 
-    const availableColors = product.productImages.filter(
-      (img) => img.size === selectedSizeValue,
-    );
+  //   const availableColors = product.productImages.filter(
+  //     (img) => img.size === selectedSizeValue,
+  //   );
 
-    const firstAvailableColor =
-      availableColors.length > 0
-        ? product.filter?.[0]?.additionalInformation.findIndex(
-          (color) => color.name === availableColors[0].color,
-        )
-        : 0;
+  //   const firstAvailableColor =
+  //     availableColors.length > 0
+  //       ? product.filter?.[0]?.additionalInformation.findIndex(
+  //         (color) => color.name === availableColors[0].color,
+  //       )
+  //       : 0;
 
-    setActiveIndex(firstAvailableColor ?? 0);
-  }, [selectedSize, product]);
+  //   setActiveIndex(firstAvailableColor ?? 0);
+  // }, [selectedSize, product]);
 
   function formatPrice(price: any) {
     if (!price) return 0;
@@ -236,12 +250,12 @@ const ProductDetail = ({
     >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 w-full no-select">
         <Thumbnail
-          thumbs={product?.productImages}
+          thumbs={productImage}
           isZoom={isZoom}
           swiperGap={swiperGap}
           // HoverImage={setHoveredImage}
           isLoading={false}
-          activeIndex={activeIndex}
+          activeIndex={0}
         />
       </div>
       <div className={`${detailsWidth} flex flex-col gap-2 pt-2`}>
@@ -479,7 +493,7 @@ const ProductDetail = ({
 
             <Button
               className="bg-primary text-white flex gap-3 justify-center w-full sm:w-1/2 items-center md:w-full h-12 rounded-2xl mb-3 font-light "
-              onClick={(e) => handleBuyNow(e)}
+              onClick={(e:any) => handleBuyNow(e)}
             >
               <CiShoppingCart size={20} /> BUY IT NOW
             </Button>
@@ -488,11 +502,11 @@ const ProductDetail = ({
               <Button
                 variant={'outline'}
                 className="text-primary w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e) => handleAddToCard(e)}
+                onClick={(e:any) => handleAddToCard(e)}
               >
                 Add to cart
               </Button>
-{/* 
+              {/* 
               <div className="w-full mx-auto md:w-full">
                 <Dialog>
                   <DialogTrigger asChild>

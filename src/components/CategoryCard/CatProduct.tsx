@@ -1,6 +1,5 @@
 import React from 'react';
 import Container from '../ui/Container';
-import Card from '../ui/card';
 import ProductGrid from './ProductGrid';
 import { IProduct } from '@/types/types';
 import ProductSkeleton from '../Skaleton/productSkeleton';
@@ -51,9 +50,7 @@ const CatProduct = ({
             </div>
           )}
         </div>
-        <div
-          className={`mt-6 sm:mt-8 flex ${reverse ? 'flex-col-reverse' : 'flex-col'}`}
-        >
+        <div className={`mt-6 sm:mt-8 flex ${reverse ? 'flex-col-reverse' : 'flex-col'}`}>
           <div
             className={`grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8`}
           >
@@ -69,7 +66,6 @@ const CatProduct = ({
             <ProductGrid
               products={products.slice(0, 5)}
               productImages={productImages?.products || []}
-              CardComponent={Card}
               imageHeight="h-[270px] xl:h-[290px]"
               isHomepage={true}
               calculateHeight={sofaHeight}
@@ -86,7 +82,6 @@ const CatProduct = ({
               <ProductGrid
                 products={products.slice(5, 7)}
                 productImages={productImages?.products || []}
-                CardComponent={Card}
                 slider={true}
                 isLandscape={false}
                 portSpace={portSpace}
@@ -103,7 +98,6 @@ const CatProduct = ({
               <ProductGrid
                 products={products.slice(7, 9)}
                 productImages={productImages?.products || []}
-                CardComponent={Card}
                 slider={true}
                 isLandscape={true}
                 imageHeight="h-[200px] xl:h-[345.15px]"
@@ -123,7 +117,6 @@ const CatProduct = ({
                 <ProductGrid
                   products={products.slice(9, 12)}
                   productImages={productImages?.products || []}
-                  CardComponent={Card}
                   isHomepage={true}
                   imageHeight="h-[210px] xl:h-[361.64px]"
                   calculateHeight={sideTableHeight || 'calc(100% - 10px)'}

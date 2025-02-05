@@ -296,12 +296,12 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Living/Arti.png',
       },
       {
-        name: 'Marlin Tub Chair',
-        posterImageUrl: '/images/HomeProducts/Living/Marlin.png',
+        name: 'Lincoln Leather Chair & Footstool',
+        posterImageUrl: '/images/HomeProducts/Living/Lincoln.png',
       },
       {
-        name: 'Marlin Tub Swivel Chair',
-        posterImageUrl: '/images/HomeProducts/Living/Swivel.png',
+        name: 'Bentley Black Crescent Swivel Chair',
+        posterImageUrl: '/images/HomeProducts/Living/Bentley.png',
       },
       {
         name: 'Marlin Rocking Chair',

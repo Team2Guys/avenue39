@@ -117,3 +117,24 @@ export const ChangeUrlHandler = (product: IProduct) => {
 
   return url;
 };
+
+export const get_all_records = async (token : any) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/sales-record/get_all_records`,
+      {
+        headers: token
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const record = await response.json(); 
+    return record;
+  } catch (err) {
+    console.error("Error fetching records:", err);
+    return null;
+  }
+};

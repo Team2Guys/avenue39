@@ -181,6 +181,7 @@ const FormLayout = ({
                                   className="object-cover w-full h-full dark:bg-black dark:shadow-lg"
                                   width={300}
                                   height={200}
+                                  loading='lazy'
                                   src={item.imageUrl}
                                   alt={`productImage-${index}`}
                                 />

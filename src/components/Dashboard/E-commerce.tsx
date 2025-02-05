@@ -1,34 +1,18 @@
 'use client';
-import React, { useLayoutEffect, useState } from 'react';
+import React from 'react';
 import ChartOne from './Charts/ChartOne';
 import ChartTwo from './Charts/ChartTwo';
 import CardDataStats from './CardDataStats';
-import Cookies from 'js-cookie';
 import { useAppSelector } from '@components/Others/HelperRedux';
 import { IoMdEye } from 'react-icons/io';
 import { FiShoppingCart } from 'react-icons/fi';
 import { PiUsersThreeFill } from 'react-icons/pi';
 import { IoBagOutline } from 'react-icons/io5';
-import { Skeleton } from 'antd';
 import { BiCategory } from 'react-icons/bi';
 import { GrDocumentPerformance } from 'react-icons/gr';
-import axios from 'axios';
+import { RECORDS } from '@/types/types';
 
-interface RECORDS {
-  totalAdmins: string;
-  totalCategories: string;
-  totalProducts: string;
-  totalUsers: string;
-  totalProfit: string;
-  totalSales: string;
-  totalRevenue: string;
-  total_sub_categories: string;
-  Total_abandant_order: string;
-}
-
-const ECommerce: React.FC = () => {
-  const [loading, setloading] = useState(false);
-  const [records, setRecords] = useState<RECORDS | undefined>();
+const ECommerce = ({records}: {records: RECORDS}) => {
   const { loggedInUser }: any = useAppSelector((state) => state.usersSlice);
 
   const canCheckProfit =
@@ -53,55 +37,9 @@ const ECommerce: React.FC = () => {
     loggedInUser &&
     (loggedInUser.role == 'Admin' ? loggedInUser.canVeiwTotalCategories : true);
 
-  const get_all_records = async () => {
-    try {
-      const token = Cookies.get('2guysAdminToken');
-      const superAdminToken = Cookies.get('superAdminToken');
-      let finalToken = token ? token : superAdminToken;
-
-      if (!finalToken) {
-        return;
-      }
-
-      const headers = {
-        token: finalToken,
-      };
-
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/sales-record/get_all_records`,
-        {
-          headers,
-        },
-      );
-
-      const record = response.data;
-      console.log(record, 'record');
-      setRecords(record);
-
-      setloading(false);
-    } catch (err) {
-      console.log(err, 'err');
-      setloading(false);
-    }
-  };
-
-  useLayoutEffect(() => {
-    get_all_records();
-  }, []);
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 dark:bg-black dark:text-white dark:bg-boxdark dark:border-blue-50 dark:border-strokedark dark:bg-boxdark">
-        {loading ? (
-          <>
-            <Skeleton avatar active />
-            <Skeleton avatar active />
-            <Skeleton avatar active />
-            <Skeleton avatar active />
-            <Skeleton avatar active />
-            <Skeleton avatar active />
-            <Skeleton avatar active />
-          </>
-        ) : (
           <>
             {!canVeiwAdmins ? null : (
               <CardDataStats
@@ -200,7 +138,6 @@ const ECommerce: React.FC = () => {
               </CardDataStats>
             )}
           </>
-        )}
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">

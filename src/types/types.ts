@@ -141,6 +141,7 @@ export interface IProduct {
   sortedSubcategories?: ICategory[];
   sizes?: Sizes[];
   filter?: Filter[];
+  reviews?:any[]
 }
 interface Filter {
   heading: string;
@@ -373,4 +374,17 @@ export interface IPaymentStatus {
   checkoutData: string;
   checkoutStatus: boolean;
   paymentStatus: boolean;
+}
+
+
+export interface RECORDS {
+  totalAdmins: string;
+  totalCategories: string;
+  totalProducts: string;
+  totalUsers: string;
+  totalProfit: string;
+  totalSales: string;
+  totalRevenue: string;
+  total_sub_categories: string;
+  Total_abandant_order: string;
 }

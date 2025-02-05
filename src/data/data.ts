@@ -483,8 +483,8 @@ export const Dining = [
   'Trattori Barstool',
 ];
 export const Living = [
-  'Marlin Tub Chair',
-  'Marlin Tub Swivel Chair',
+  'Lincoln Leather Chair & Footstool',
+  'Bentley Black Crescent Swivel Chair',
   'Marlin Rocking Chair',
   'Capri Leather Swivel Chair',
   'Braga Armchair',

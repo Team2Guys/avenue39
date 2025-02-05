@@ -1,7 +1,7 @@
 import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
 import { generateSlug } from '@/config';
-import { fetchCategories } from '@/config/fetch';
+import { fetchCategories, fetchProducts } from '@/config/fetch';
 import { Meta_handler } from '@/config/metaHanlder';
 import { menuData } from '@/data/menu';
 import { ICategory } from '@/types/types';
@@ -39,6 +39,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const { slug } = await params;
 
   const categories = await fetchCategories();
+  const AllProduct = await fetchProducts();
 
   const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.name) === slug);
   if (!findCategory) {
@@ -83,10 +84,9 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
 
       return indexA - indexB;
     });
-
-
   return <Shop
     ProductData={sortProducts}
+    AllProduct={AllProduct}
     isCategory={true}
     categories={categories}
     categoryName={findCategory}

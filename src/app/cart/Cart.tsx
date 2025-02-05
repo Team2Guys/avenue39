@@ -27,7 +27,7 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
               <div className="flex flex-wrap lg:flex-nowrap gap-5 justify-between items-center">
                 <div className="">
                   <Link
-                    href="/products"
+                    href="/new-arrivals"
                     className="bg-main px-6 flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica"
                   >
                     Continue Shopping
@@ -48,7 +48,7 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
               </p>
               <div className="">
                 <Link
-                  href="/products"
+                  href="/new-arrivals"
                   className="bg-main px-6 flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica"
                 >
                   Continue Shopping

@@ -394,7 +394,7 @@ const Checkout = () => {
                   <p className="font-medium text-2xl">No Items In Cart</p>
                   <div className="">
                     <Link
-                      href="/products"
+                      href="/new-arrivals"
                       className="bg-[#F6F6F6] px-6 flex justify-center items-center  hover:border-[#666666] border-[#F6F6F6] text-[#666666] h-[73px]"
                     >
                       Continue Shopping

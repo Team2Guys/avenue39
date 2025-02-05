@@ -105,7 +105,7 @@ export interface ICard {
   description?: string;
   additionalInformation?: AdditionalInformation[];
 }
-interface ProductImage {
+export interface ProductImage {
   imageUrl: string;
   public_id: string;
   altText?: string;
@@ -180,6 +180,7 @@ export interface IProductAdd {
   Images_Alt_Text: string;
   sale_counter?: string;
   filters?: any[];
+  custom_url?:string
 }
 export interface ITestimonialCard {
   id: number;

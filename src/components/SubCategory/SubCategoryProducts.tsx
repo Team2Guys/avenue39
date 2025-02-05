@@ -14,6 +14,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   let newsubCat: string | undefined;
 
   const subCategories = await fetchSubCategories();
+  const AllProduct = await fetchProducts();
 
   const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category &&
     generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
@@ -62,6 +63,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   return (
     <Shop ProductData={findSubCategory.products}
       categories={findSubCategory.categories}
+      AllProduct={AllProduct}
       isCategory={false}
       categoryName={findSubCategory}
     />

@@ -120,7 +120,7 @@ const ThankYouPage = () => {
               Your order is complete. Please check your email for the details
             </p>
             <Link
-              href={'/'}
+              href={'/new-arrivals'}
               className="min-w-fit px-10 w-1/3 h-16 flex justify-center items-center bg-black text-white hover:text-black hover:bg-white text-sm rounded-md border-2 border-black mx-auto"
             >
               Continue Shopping

@@ -24,7 +24,7 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
               Please double-check your order ID or email.
             </p>
             <Link
-              href="/"
+              href="/new-arrivals"
               className="bg-black text-white px-4 py-2 mt-4 inline-block"
             >
               Continue Shopping
@@ -87,7 +87,7 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
               Contact Us
             </Link>
           </p>
-          <Link className="bg-black text-white px-4 py-2" href="/">
+          <Link className="bg-black text-white px-4 py-2" href="/new-arrivals">
             Continue Shopping
           </Link>
         </div>

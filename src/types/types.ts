@@ -105,7 +105,7 @@ export interface ICard {
   description?: string;
   additionalInformation?: AdditionalInformation[];
 }
-interface ProductImage {
+export interface ProductImage {
   imageUrl: string;
   public_id: string;
   altText?: string;
@@ -141,6 +141,7 @@ export interface IProduct {
   sortedSubcategories?: ICategory[];
   sizes?: Sizes[];
   filter?: Filter[];
+  reviews?:any[]
 }
 interface Filter {
   heading: string;

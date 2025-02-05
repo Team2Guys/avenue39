@@ -89,7 +89,9 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
         </SheetTrigger>
         <SheetContent className="pb-5">
           <div className="pt-10 space-y-2">
-            {categories.map((menu, menuIndex) =>
+          {categories
+              ?.filter((item) => item.name.toLowerCase() !== "sale")
+              .map((menu, menuIndex) =>
               menu.subcategories && menu.subcategories?.length > 0 ? (
                 <Accordion
                   key={menuIndex}
@@ -128,7 +130,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
               ),
             )}
             <Link
-              href={'/products'}
+              href={'/sale'}
               onClick={hideSheet}
               className="hover:underline text-red-500 font-semibold text-15 py-1 block uppercase w-fit"
             >

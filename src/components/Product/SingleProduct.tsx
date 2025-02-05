@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import {
   fetchProducts,
-  //  fetchReviews
 } from '@/config/fetch';
 import { generateSlug } from '@/config';
 import NotFound from '@/app/not-found';
@@ -11,16 +10,10 @@ import { ProductDetailSkeleton } from '../product-detail/skelton';
 
 const SingleProduct = async ({ slug }: { slug: string[] }) => {
   const categoryName = slug[0];
-  // const subcategoryName = slug[1];
   const productName = slug[2];
-  // const [products, reviews] = await Promise.all([fetchProducts(),
-  //    fetchReviews()
-  //   ]);
   const products = await fetchProducts();
 
-  const findProduct = products.find(
-    (item: IProduct) => generateSlug(item.name) === productName,
-  );
+  const findProduct = products.find((item: IProduct) => generateSlug(item.name) === productName);
   if (!findProduct) {
     return <NotFound />;
   }

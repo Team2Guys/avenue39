@@ -47,9 +47,8 @@ const FormLayout = ({
     editCategory && editCategory.name
       ? {
           name: editCategory.name,
-          description: editCategory.description,
-          categoriesId:
-            editCategory.categories.map((category: any) => category.id) || [],
+          description: editCategory.description || '',
+          categoriesId:editCategory.categories.map((category: any) => category.id) || [],
           meta_title: editCategory.meta_title || '',
           meta_description: editCategory.meta_description || '',
           canonical_tag: editCategory.canonical_tag || '',
@@ -120,8 +119,8 @@ const FormLayout = ({
       );
       updateFlag ? seteditCategory(null) : null;
       setposterimageUrl(null);
-
       resetForm();
+      setMenuType('Sub Categories')
     } catch (err) {
       console.log('error occurred', err);
       setloading(false);
@@ -224,6 +223,7 @@ const FormLayout = ({
                           Category Description
                         </label>
                         <textarea
+                          typeof='text'
                           name="description"
                           onChange={formik.handleChange}
                           value={formik.values.description}

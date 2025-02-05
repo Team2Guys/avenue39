@@ -202,7 +202,7 @@ export const menuData: MenuData = {
   ],
   Accessories: [{ link: '/products', title: 'Accessories', icon: icon3 }],
   'New Arrivals': [{ link: '/products', title: 'New Arrivals', icon: icon3 }],
-  SALE: [{ link: '/products', title: '', icon: icon3 }],
+    // Sale: [{ link: '/products', title: 'Sale', icon: icon3 }],
 };
 
 export const staticHeaderCategories: string[] = [
@@ -216,5 +216,5 @@ export const staticHeaderCategories: string[] = [
   // 'Clearance',
   'Accessories',
   'New Arrivals',
-  'Sale',
+  // 'Sale',
 ];

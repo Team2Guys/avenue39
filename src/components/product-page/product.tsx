@@ -27,6 +27,7 @@ interface ProductPageProps {
   isCategory: boolean | undefined;
   findCategory?: string;
   categoryName?: ICategory;
+  AllProduct: IProduct[];
 }
 
 const ProductPage = ({
@@ -34,37 +35,44 @@ const ProductPage = ({
   Setlayout,
   ProductData,
   categoryName,
+  AllProduct,
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
 
-  const filteredCards = ProductData.filter((card) => {
-    if (pathname === '/products') {
-      return card.discountPrice > 0 && card.stock > 0;
-    }
-    return true;
-  }).sort((a, b) => {
-    switch (sortOption) {
-      case 'name': {
-        return a.name.trim().localeCompare(b.name.trim());
-      }
-      case 'max': {
-        const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-        const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
-        return priceB - priceA;
-      }
-      case 'min': {
-        const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-        const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
-        return minPriceA - minPriceB;
-      }
-      default:
-        return 0;
-    }
-  });
+  const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
+  const filteredCards = productsToFilter
+    .filter((card) => {
+      if (pathname === '/products') {
+        return card.discountPrice > 0 && card.stock > 0;
+      }
+      if (pathname === '/sale') {
+        return card.discountPrice > 0; // Show only discounted products
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      switch (sortOption) {
+        case 'name': {
+          return a.name.trim().localeCompare(b.name.trim());
+        }
+        case 'max': {
+          const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+          const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+          return priceB - priceA;
+        }
+        case 'min': {
+          const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+          const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+          return minPriceA - minPriceB;
+        }
+        default:
+          return 0;
+      }
+    });
   return (
     <>
       {
@@ -76,19 +84,17 @@ const ProductPage = ({
       }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
-          {pathname == '/new-arrivals' ? (
-            <div className="flex flex-col items-center">
-              {newArrivals.map((item, index) => (
-                <div key={index} className="text-center">
-                  <h1 className="text-[45px] font-helvetica font-bold">
-                    {item.title}
-                  </h1>
-                  <Container>
-                    <p>{item.description}</p>
-                  </Container>
-                </div>
-              ))}
-            </div>
+        {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
+          <div className="flex flex-col items-center">
+            {newArrivals.map((item, index) => (
+              <div key={index} className="text-center">
+                <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
+                <Container>
+                  <p>{item.description}</p>
+                </Container>
+              </div>
+            ))}
+          </div>
           ) : (
             <div className="flex flex-col items-center">
               <h1 className="text-[45px] font-helvetica font-bold">
@@ -125,16 +131,14 @@ const ProductPage = ({
                 />
               </div>
 
-              <p className="block whitespace-nowrap ">
+              <p className="block whitespace-nowrap  text-12 sm:text-base">
                 Showing {filteredCards.length > 0 ? filteredCards.length : 0}{' '}
                 results
               </p>
             </div>
             <SubCategoriesRow />
           </div>
-          {/* {filterLoading ? (
-            <CardSkaleton />
-          ) : ( */}
+  
 
           <div
             className={`grid gap-4 md:gap-8 mt-4 ${layout === 'grid' ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 ' : 'grid-cols-1'}`}

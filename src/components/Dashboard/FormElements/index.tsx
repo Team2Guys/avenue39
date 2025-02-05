@@ -1008,6 +1008,15 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                                   placeholder="price"
                                                   className="w-full rounded-lg ml-1 border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
                                                 />
+                                                <input
+                                                  type="number"
+                                                  name={`filter[${sectionIndex}].additionalInformation[${modelIndex}].stock`}
+                                                  onChange={formik.handleChange}
+                                                  onBlur={formik.handleBlur}
+                                                  value={model.stock || ''}
+                                                  placeholder="stock"
+                                                  className="w-full rounded-lg ml-1 border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                                                />
 
                                                 <button
                                                   type="button"
@@ -1029,7 +1038,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                           <button
                                             type="button"
                                             onClick={() =>
-                                              pushInfo({ name: '', price: '' })
+                                              pushInfo({ name: '', price: '', stock: '' })
                                             }
                                             className="px-4 py-2 bg-black text-white dark:bg-main rounded-md shadow-md w-fit"
                                           >
@@ -1243,6 +1252,15 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                       placeholder="Size Price"
                                       className={`ml-1 w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary `}
                                     />
+                                    <input
+                                      type="text"
+                                      name={`sizes[${modelIndex}].stock`}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.sizes[modelIndex].stock}
+                                      placeholder="Stock"
+                                      className={`ml-1 w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary `}
+                                    />
 
                                     <button
                                       type="button"
@@ -1262,7 +1280,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                               type="button"
                               // onClick={() => push('')}
                               onClick={() =>
-                                push({ name: '', price: '' })
+                                push({ name: '', price: '', stock: '' })
                               }
                               className="px-4 py-2 bg-black text-white dark:bg-gray-800  rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black w-fit"
                             >

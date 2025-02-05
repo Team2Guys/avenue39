@@ -92,7 +92,6 @@ const ViewSubcategries = ({
       });
     }
   };
-
   const handleEdit = (record: any) => {
     if (seteditCategory) {
       seteditCategory(record);

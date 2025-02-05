@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { IoBagOutline, IoEyeOutline } from 'react-icons/io5';
-import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { CartItem } from '@/redux/slices/cart/types';
@@ -26,6 +25,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { message } from 'antd';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { State } from '@/redux/store';
+import Link from 'next/link';
 
 interface CardProps {
   card: IProduct;
@@ -48,7 +48,6 @@ const FeatureCard: React.FC<CardProps> = ({
     }
   }, [isLoading]);
 
-  const Navigate = useRouter();
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State) => state.cart.items);
   const itemToAdd: CartItem = {
@@ -85,10 +84,6 @@ const FeatureCard: React.FC<CardProps> = ({
     : [];
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
 
-  const handleNavigation = (product: IProduct) => {
-    let url = ChangeUrlHandler(product);
-    Navigate.push(url);
-  };
 
   const handleAddToWishlist = (product: IProduct) => {
     const newWishlistItem = {
@@ -186,8 +181,8 @@ const FeatureCard: React.FC<CardProps> = ({
             </div>
           )}
 
-          <div
-            onClick={() => handleNavigation(card)}
+          <Link
+            href={ChangeUrlHandler(card)}
             className="cursor-pointer"
           >
             <Image
@@ -197,7 +192,7 @@ const FeatureCard: React.FC<CardProps> = ({
               alt={card.posterImageAltText || card.name}
               className={`z-10 rounded-2xl ${cardHeight}`}
             />
-          </div>
+          </Link>
           <div className="flex justify-between px-1 mt-3">
             <p className="text-15">{card.name}</p>
             <div className="flex">

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Image from 'next/image';
-import { IProduct, IReview } from '@/types/types';
+import { IProduct } from '@/types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
@@ -12,8 +12,7 @@ import { openDrawer } from '@/redux/slices/drawer';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
 import { calculateRatingsPercentage, renderStars } from '@/config';
-import { useQuery } from '@tanstack/react-query';
-import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
+import { ChangeUrlHandler } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
@@ -57,10 +56,9 @@ const Card: React.FC<CardProps> = ({
   // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
-  const cartItems = useSelector((state: State) => state.cart.items);
-  const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(
-    undefined,
-  );
+  const cartItems = useSelector((state: State |any) => state.cart.items);
+  const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(undefined,);
+const [averageRating, setaverageRating] = useState<any>()
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -74,8 +72,8 @@ const Card: React.FC<CardProps> = ({
     const cardImage = productImages?.find(
       (item: IProduct) => item.name === card?.name,
     );
-    console.log(cardImage, 'cardImage');
     setCardStaticData(cardImage);
+
   }, [productImages]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
@@ -84,32 +82,33 @@ const Card: React.FC<CardProps> = ({
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
 
+    
     if (newQuantity > (card?.stock || 0)) {
-      message.error(
-        `Only ${card?.stock} items are in stock. You cannot add more than that.`,
-      );
+      message.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
       return;
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
-
-  const { data: reviews = [] } = useQuery<IReview[], Error>({
-    queryKey: ['reviews'],
-    queryFn: fetchReviews,
-  });
-
-  const productId = card?.id;
-  const filteredReviews = Array.isArray(reviews)
-    ? reviews.filter((review) => review.productId === productId)
-    : [];
-
-  const { averageRating } = calculateRatingsPercentage(filteredReviews);
-
+  
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
   const imgIndex = card.productImages.slice(-1)[0];
+
+/* eslint-disable react-hooks/rules-of-hooks */
+  useEffect(() => {
+    if(card?.reviews){
+      const { averageRating } = calculateRatingsPercentage(card?.reviews);
+      setaverageRating(averageRating)
+    }
+  }, [])
+
+  /* eslint-enable react-hooks/rules-of-hooks */
+
+
+
+
   return (
     <div
       className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}

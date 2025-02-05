@@ -80,6 +80,7 @@ model SubCategories {
   id                  Int          @id @default(autoincrement())
   name                String       @unique
   createdAt           DateTime     @default(now())
+  description         String?
   posterImageUrl      String?
   posterImagePublicId String?
   categories          Categories[] @relation("CategorySubCategories")

@@ -366,7 +366,9 @@ const ProductDetail = ({
 
           {product?.sizes && product?.sizes.length > 0 && (
             <div className="p-4">
-              <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
+              {availableSizes.length > 0 && (
+                <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
+              )}
               <div className="flex space-x-4">
                 {availableSizes.map((size: { name: string, price: string }, index: number) => {
                   console.log(size, 'size');

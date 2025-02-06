@@ -41,7 +41,6 @@ import { calculateRatingsPercentage, renderStars } from '@/config';
 // import ARExperience from '../ARModelViewer';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
-import { message } from 'antd';
 import { State } from '@/redux/store';
 import { BsWhatsapp } from 'react-icons/bs';
 import Link from 'next/link';
@@ -139,8 +138,6 @@ const ProductDetail = ({
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
-
-  console.log(slug, 'slug');
   const Navigate = useRouter();
   useEffect(() => {
     if (product) {
@@ -194,10 +191,11 @@ const ProductDetail = ({
   };
 
   const onIncrement = () => {
-    if (count < product.stock) {
+    const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
+    if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {
-      message.error(`Only ${product.stock} items in stock!`, 1);
+      toast.error(`Only ${variationQuantity} items in stock!`);
     }
   };
   const itemToAdd: CartItem = {
@@ -206,55 +204,55 @@ const ProductDetail = ({
     selectedSize: size,
     selectedfilter: filter
   };
-  console.log(itemToAdd, 'itemToAdd')
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(
-      (item: any) => item.id === product?.id,
+      (item: any) =>
+        item.id === product?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name
     );
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity = size?.stock || filter?.stock || product.stock;
-    console.log(newQuantity, variationQuantity, 'variationQuantity')
+    const variationQuantity =
+      itemToAdd.selectedSize?.stock ||
+      itemToAdd.selectedfilter?.stock ||
+      product.stock;
     if (product?.stock && newQuantity > product.stock) {
-      toast.error(
-        `Only ${product.stock} items are in stock. You cannot add more than that.`,
-      );
+      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;
     } else if (newQuantity > variationQuantity) {
-      toast.error(
-        `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that.`,
-      );
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
       return;
-    } else {
-      dispatch(addItem(itemToAdd));
-      dispatch(openDrawer());
     }
+    dispatch(addItem(itemToAdd));
+    dispatch(openDrawer());
   };
+
 
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(
-      (item: any) => item.id === product?.id,
+      (item: any) =>
+        item.id === product?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name
     );
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity = size?.stock || filter?.stock || product.stock;
-    console.log(newQuantity, variationQuantity, 'variationQuantity')
+    const variationQuantity =
+      itemToAdd.selectedSize?.stock ||
+      itemToAdd.selectedfilter?.stock ||
+      product.stock;
     if (product?.stock && newQuantity > product.stock) {
-      toast.error(
-        `Only ${product.stock} items are in stock. You cannot add more than that.`,
-      );
+      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;
     } else if (newQuantity > variationQuantity) {
-      toast.error(
-        `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that.`,
-      );
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
       return;
-    } else {
-      dispatch(addItem(itemToAdd));
-      Navigate.push('/checkout');
     }
+    dispatch(addItem(itemToAdd));
+    Navigate.push('/checkout');
   };
   // const handle3D = (e: React.MouseEvent<HTMLElement>) => {
   //   e.stopPropagation();
@@ -404,7 +402,6 @@ const ProductDetail = ({
               <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
               <div className="flex space-x-4">
                 {availableSizes.map((size: { name: string, price: string }, index: number) => {
-                  console.log(size, 'size');
                   const [sizeName, sizeType] = size.name.split(' ');
                   return (
                     <div

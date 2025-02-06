@@ -55,6 +55,7 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}
+        
       />
     );
   }

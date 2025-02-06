@@ -17,8 +17,8 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
   product: IProduct;
   similarProducts: IProduct[];
   products?: IProduct[];
-  subslug: string;
-  mainslug: string;
+  subslug?: string;
+  mainslug?: string;
   
 }) => {
   const slug = params.name;

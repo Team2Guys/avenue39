@@ -133,7 +133,10 @@ export class AddProductDto {
   @IsOptional()
   @IsArray()
   sizes: any[]
-
+  
+  @IsOptional()
+  @IsString()
+  custom_url?:string
 }
 
 export class UpdateProductDto extends AddProductDto {

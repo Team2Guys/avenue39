@@ -11,12 +11,15 @@ import { Table } from 'antd';
 import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
 
-const Product = ({params,similarProducts,reviews,product,products}: {
+const Product = ({params,similarProducts,reviews,product,products,subslug,mainslug}: {
   params: IProductDetail;
   reviews: IReview[];
   product: IProduct;
   similarProducts: IProduct[];
   products?: IProduct[];
+  subslug?: string;
+  mainslug?: string;
+  
 }) => {
   const slug = params.name;
   console.log(slug, 'slug');
@@ -227,7 +230,6 @@ const Product = ({params,similarProducts,reviews,product,products}: {
 
   const cartpageBreadcrumbs = [
     { label: 'Home', href: '/' },
-    { label: 'Product', href: '/products' },
     { label: product?.name ?? 'Product Page' },
   ];
 
@@ -237,7 +239,11 @@ const Product = ({params,similarProducts,reviews,product,products}: {
 
   return (
     <div>
-      <TopHero breadcrumbs={cartpageBreadcrumbs} />
+      <TopHero breadcrumbs={cartpageBreadcrumbs}
+           categoryName={mainslug ? mainslug : subslug}
+           subCategorName={subslug}
+           productName={product?.name}
+      />
       <Container>
         {!product ? (
           <NoProduct

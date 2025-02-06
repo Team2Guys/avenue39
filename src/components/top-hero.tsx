@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { BsSlash } from 'react-icons/bs';
+import Link from 'next/link';
 
 interface BreadcrumbItem {
   label: string;
@@ -17,18 +18,18 @@ interface BreadcrumbItem {
 
 interface TopHeroProps {
   title?: string;
-  category?: string;
   breadcrumbs: BreadcrumbItem[];
-  categoryName?: string | undefined;
-  subCategorName?: string | undefined;
+  categoryName?: string;
+  subCategorName?: string;
+  productName?: string;
 }
 
 const TopHero: React.FC<TopHeroProps> = ({
   title,
   breadcrumbs,
-  category,
   categoryName,
   subCategorName,
+  productName,
 }) => {
   return (
     <div className="bg-[#F6F6F6]">
@@ -42,33 +43,35 @@ const TopHero: React.FC<TopHeroProps> = ({
               <React.Fragment key={index}>
                 <BreadcrumbComponentItem className="flex items-center sm:gap-1">
                   {breadcrumb.href ? (
-                    <BreadcrumbLink
+                    <Link
                       className="text-14 font-medium text-[#959595]"
                       href={breadcrumb.href}
                     >
                       {breadcrumb.label}
-                    </BreadcrumbLink>
+                    </Link>
                   ) : categoryName ? (
                     <>
                       <BreadcrumbSeparator>
                         <BsSlash />
                       </BreadcrumbSeparator>
-                      {subCategorName ? (
-                        <BreadcrumbLink
-                          className={`text-14 font-medium text-[#959595]`}
-                          href={`/products/${categoryName.replaceAll(' ', '-').toLowerCase()}`}
+
+                      {/* Make categoryName a Link if subCategorName or productName exists */}
+                      {subCategorName || productName ? (
+                        <Link
+                          className="text-14 font-medium text-[#959595] capitalize"
+                          href={`/${categoryName.replaceAll(' ', '-').toLowerCase()}`}
                         >
                           {categoryName}
-                        </BreadcrumbLink>
+                        </Link>
                       ) : (
-                        <BreadcrumbPage className="text-14 font-semibold text-black">
+                        <BreadcrumbPage className="text-14 font-semibold text-black capitalize">
                           {categoryName}
                         </BreadcrumbPage>
                       )}
 
-                      {subCategorName ? (
+                      {/* If subcategory exists but no product, show it as text */}
+                      {subCategorName && !productName && (
                         <>
-                          {' '}
                           <BreadcrumbSeparator>
                             <BsSlash />
                           </BreadcrumbSeparator>
@@ -76,8 +79,33 @@ const TopHero: React.FC<TopHeroProps> = ({
                             {subCategorName.replace('SUB_', '')}
                           </BreadcrumbPage>
                         </>
-                      ) : (
-                        ''
+                      )}
+
+                      {/* If both subcategory and product exist, make subcategory a link */}
+                      {subCategorName && productName && (
+                        <>
+                          <BreadcrumbSeparator>
+                            <BsSlash />
+                          </BreadcrumbSeparator>
+                          <Link
+                            className="text-14 font-medium text-[#959595] capitalize"
+                            href={`/${categoryName.replaceAll(' ', '-').toLowerCase()}/${subCategorName.replaceAll(' ', '-').toLowerCase()}`}
+                          >
+                            {subCategorName.replace('SUB_', '')}
+                          </Link>
+                        </>
+                      )}
+
+                      {/* If product exists, show it as text */}
+                      {productName && (
+                        <>
+                          <BreadcrumbSeparator>
+                            <BsSlash />
+                          </BreadcrumbSeparator>
+                          <BreadcrumbPage className="text-14 font-semibold text-black capitalize">
+                            {productName}
+                          </BreadcrumbPage>
+                        </>
                       )}
                     </>
                   ) : (
@@ -95,11 +123,6 @@ const TopHero: React.FC<TopHeroProps> = ({
             ))}
           </BreadcrumbList>
         </Breadcrumb>
-        <div
-          className={`flex mt-3 ${category ? 'justify-start ' : 'justify-start font-semibold'}`}
-        >
-          {category && <p className="text-[21px] font-medium">{category}</p>}
-        </div>
       </Container>
     </div>
   );

@@ -37,7 +37,7 @@ const Products: React.FC<SlugPageProps> = async ({ params }) => {
   const categorylist: any = [slug, subcat, products]
 
 
-  return <SingleProduct slug={categorylist} />
+  return <SingleProduct mainslug={slug} subslug={subcat} slug={categorylist} />
 
 }
 

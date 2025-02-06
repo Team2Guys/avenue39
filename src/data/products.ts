@@ -333,6 +333,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.png',
       },
       {
+
         name: 'Moderno Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
       },

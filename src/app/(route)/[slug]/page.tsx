@@ -88,8 +88,9 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
     ProductData={sortProducts}
     AllProduct={AllProduct}
     isCategory={true}
+    mainslug={slug}
     categories={categories}
-    categoryName={findCategory}
+    // SubcategoryName={findCategory}
   />
 }
 

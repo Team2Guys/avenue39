@@ -1,6 +1,6 @@
 'use client';
 import ProductPage from '@/components/product-page/product';
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { ICategory, IProduct } from '@/types/types';
 
 const Shop = ({
@@ -14,7 +14,7 @@ const Shop = ({
 }: {
   categories?: ICategory[];
   ProductData: IProduct[];
-  AllProduct: IProduct[];
+  AllProduct?: IProduct[];
   isCategory?: boolean;
   findCategory?: string;
   SubcategoryName?: ICategory;
@@ -27,7 +27,7 @@ const Shop = ({
         layout={layout}
         Setlayout={Setlayout}
         category={categories}
-        AllProduct={AllProduct}
+        AllProduct={AllProduct || []}
         ProductData={ProductData}
         isCategory={isCategory}
         findCategory={findCategory}

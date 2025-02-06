@@ -8,7 +8,7 @@ export const useCart = () => {
   const cartItems = useSelector((state: State) => state.cart.items);
 
   const addItemToCart = (item: CartItem) => dispatch(addItem(item));
-  const removeItemFromCart = (id: number) => dispatch(removeItem(id));
+  const removeItemFromCart = (item: CartItem) => dispatch(removeItem(item));
   const updateItemInCart = (id: number, quantity: number) =>
     dispatch(updateItemQuantity({ id, quantity }));
 

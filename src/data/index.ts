@@ -22,14 +22,14 @@ import banner1 from '@images/banners/banner1.png';
 import banner2 from '@images/banners/banner2.jpg';
 import banner3 from '@images/banners/banner3.webp';
 import banner4 from '@images/banners/megasale.webp';
-import cardimage1 from '@images/imageeee.png';
+import cardimage1 from '@images/imageeee.webp';
 
 import palette from '@icons/palette.png';
 import delivery from '@icons/delivery-fast.png';
 import privacy from '@icons/privacy.png';
 import support from '@icons/chat-46.png';
-import opal from '@images/products/OPALdiningtable_900x900S.png';
-import living from '@images/products/armchair.png';
+import opal from '@images/products/OPALdiningtable_900x900S.webp';
+import living from '@images/products/armchair.webp';
 import profileimage1 from '@images/profile/Ellipse 4.png';
 import profileimage2 from '@images/profile/Ellipse 5.png';
 
@@ -43,7 +43,7 @@ import masterCard from '@icons/business.png';
 import viseCard from '@icons/card.png';
 import gPayCard from '@icons/pngwing.png';
 // import TSImage from '@images/banners/banner1.png';
-import timerImage from '@assets/images/sofa1.png';
+import timerImage from '@assets/images/sofa1.jpg';
 
 export const timerSliderData: TimerSliderItem[] = [
   {

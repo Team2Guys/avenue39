@@ -1,6 +1,6 @@
 import { IHomeProducts } from '@/types/interfaces';
 import { IProduct } from '@/types/types';
-import productImg1 from '@images/products/imageeee.png';
+import productImg1 from '@images/products/imageeee.webp';
 
 export const paymentIcons = [
   { src: '/images/paymentIcons/Mastercard-Logo.webp', alt: 'Mastercard' },
@@ -27,7 +27,7 @@ export const SliderImages = [
   },
 ];
 export const bannerData = {
-  imageUrl: '/images/catalogue/sofa.png',
+  imageUrl: '/images/catalogue/sofa.webp',
   title: 'CATALOGUE',
   buttonText: 'DOWNLOAD ',
   fileUrl:
@@ -42,7 +42,7 @@ export const ColorBannerData = [
       'Avenue39 is a popular destination for interior designers and home improvement enthusiasts all over the UAE and offers an eclectic selection of luxury home decor.',
   },
   {
-    imageUrl: '/images/catalogue/design_chair1.png',
+    imageUrl: '/images/catalogue/design_chair1.webp',
     imageUrl2: '/images/catalogue/design_chair12.png',
     Heading: 'dining furniture',
     Description:
@@ -228,7 +228,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Korla Dining Chair',
-        posterImageUrl: '/images/HomeProducts/Dining/Korla.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Korla.webp',
       },
       {
         name: 'Parisio Dining Chair',
@@ -240,7 +240,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Flavia Dining Chair',
-        posterImageUrl: '/images/HomeProducts/Dining/Flavia.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Flavia.webp',
       },
       {
         name: 'Sapori Dining Table',
@@ -248,11 +248,11 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Fiori Side Cabinet',
-        posterImageUrl: '/images/HomeProducts/Dining/Fiori.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Fiori.webp',
       },
       {
         name: 'Floki Barstool',
-        posterImageUrl: '/images/HomeProducts/Dining/Floki.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Floki.webp',
       },
       {
         name: 'Venice Barstool',
@@ -330,7 +330,7 @@ export const homeProducts: IHomeProducts[] = [
     products: [
       {
         name: 'Tavola Bedside Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.webp',
       },
       {
 
@@ -339,39 +339,39 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Ombra Bedside Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Ombra.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Ombra.webp',
       },
       {
         name: 'Accenti Bedside Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Accenti.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Accenti.webp',
       },
       {
         name: 'Vista Sofa Bed',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Vista.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Vista.webp',
       },
       {
         name: 'Milano Sofa Bed ',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Vista.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Vista.webp',
       },
       {
         name: 'Yakuba Side Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Yakuba.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Yakuba.webp',
       },
       {
         name: 'Sexton Floor Lamp',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Sexton.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Sexton.webp',
       },
       {
         name: 'Florento Floor Lamp',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Florento.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Florento.webp',
       },
       {
         name: 'Cipriani Floor Lamp',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Cipriani.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Cipriani.webp',
       },
       {
         name: 'Melodia Sofa Bed',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.png',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.webp',
       },
     ],
   },
@@ -384,19 +384,19 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'A Pair of Layered Elegance',
-        posterImageUrl: '/images/HomeProducts/Accessories/Layered.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
       },
       {
         name: 'Abstract Vase',
-        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
       },
       {
         name: 'Monolith Sphere Tower ',
-        posterImageUrl: '/images/HomeProducts/Accessories/Monolith.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
       },
       {
         name: 'Pair of Rooted Egg Stands',
-        posterImageUrl: '/images/HomeProducts/Accessories/Rooted.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
       },
     ],
   },

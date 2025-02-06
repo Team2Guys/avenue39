@@ -35,8 +35,8 @@ export const bannerData = {
 };
 export const ColorBannerData = [
   {
-    imageUrl: '/images/ave1.jpg',
-    imageUrl2: '/images/ave2.png',
+    imageUrl: '/images/ave1.webp',
+    imageUrl2: '/images/ave2.webp',
     Heading: 'luxury furniture',
     Description:
       'Avenue39 is a popular destination for interior designers and home improvement enthusiasts all over the UAE and offers an eclectic selection of luxury home decor.',
@@ -224,7 +224,7 @@ export const homeProducts: IHomeProducts[] = [
     products: [
       {
         name: 'Trulli Dining Chair',
-        posterImageUrl: '/images/HomeProducts/Dining/Trulli.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Trulli.webp',
       },
       {
         name: 'Korla Dining Chair',
@@ -232,11 +232,11 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Parisio Dining Chair',
-        posterImageUrl: '/images/HomeProducts/Dining/Parisio.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Parisio.webp',
       },
       {
         name: 'Savio Dining Chair',
-        posterImageUrl: '/images/HomeProducts/Dining/Savio.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Savio.webp',
       },
       {
         name: 'Flavia Dining Chair',
@@ -244,7 +244,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Sapori Dining Table',
-        posterImageUrl: '/images/HomeProducts/Dining/Sapori.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Sapori.webp',
       },
       {
         name: 'Fiori Side Cabinet',
@@ -256,19 +256,19 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Venice Barstool',
-        posterImageUrl: '/images/HomeProducts/Dining/Venice.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Venice.webp',
       },
       {
         name: 'Trattori Barstool',
-        posterImageUrl: '/images/HomeProducts/Dining/Trattori.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Trattori.webp',
       },
       {
         name: 'Ricordi Dining Table',
-        posterImageUrl: '/images/HomeProducts/Dining/Ricordi.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Ricordi.webp',
       },
       {
         name: 'Serenita Side Cabinet',
-        posterImageUrl: '/images/HomeProducts/Dining/Serenita.png',
+        posterImageUrl: '/images/HomeProducts/Dining/Serenita.webp',
       },
     ],
   },
@@ -277,51 +277,51 @@ export const homeProducts: IHomeProducts[] = [
     products: [
       {
         name: 'Lisbon Sofa',
-        posterImageUrl: '/images/HomeProducts/Living/Lisbon.png',
+        posterImageUrl: '/images/HomeProducts/Living/Lisbon.webp',
       },
       {
         name: 'Nordic Coffee Table with the Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/Nordic.png',
+        posterImageUrl: '/images/HomeProducts/Living/Nordic.webp',
       },
       {
         name: 'Finestra Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/Finestra.png',
+        posterImageUrl: '/images/HomeProducts/Living/Finestra.webp',
       },
       {
         name: 'Vaunchy Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/Vaunchy.png',
+        posterImageUrl: '/images/HomeProducts/Living/Vaunchy.webp',
       },
       {
         name: 'Arti Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/Arti.png',
+        posterImageUrl: '/images/HomeProducts/Living/Arti.webp',
       },
       {
         name: 'Lincoln Leather Chair & Footstool',
-        posterImageUrl: '/images/HomeProducts/Living/Lincoln.png',
+        posterImageUrl: '/images/HomeProducts/Living/Lincoln.webp',
       },
       {
         name: 'Bentley Black Crescent Swivel Chair',
-        posterImageUrl: '/images/HomeProducts/Living/Bentley.png',
+        posterImageUrl: '/images/HomeProducts/Living/Bentley.webp',
       },
       {
         name: 'Marlin Rocking Chair',
-        posterImageUrl: '/images/HomeProducts/Living/rocking.png',
+        posterImageUrl: '/images/HomeProducts/Living/rocking.webp',
       },
       {
         name: 'Braga Armchair',
-        posterImageUrl: '/images/HomeProducts/Living/Braga.png',
+        posterImageUrl: '/images/HomeProducts/Living/Braga.webp',
       },
       {
         name: 'Capri Leather Swivel Chair',
-        posterImageUrl: '/images/HomeProducts/Living/Capri.png',
+        posterImageUrl: '/images/HomeProducts/Living/Capri.webp',
       },
       {
         name: 'Hallie Sofa',
-        posterImageUrl: '/images/HomeProducts/Living/Hallie.png',
+        posterImageUrl: '/images/HomeProducts/Living/Hallie.webp',
       },
       {
         name: 'Torino Coffee Table',
-        posterImageUrl: '/images/HomeProducts/Living/Torino.png',
+        posterImageUrl: '/images/HomeProducts/Living/Torino.webp',
       },
     ],
   },

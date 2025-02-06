@@ -111,9 +111,10 @@ const ProductDetail = ({
 
       setProductImage(filteredImages);
 
-      // Update product price based on selected size
+       const filterPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.price || 0 : 0;
       const sizePrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.price || 0 : 0;
-      setProductPrice(Number(sizePrice));
+      const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
+      setProductPrice(Number(finalPrice));
     } else {
       setAvailableSizes([]);
       setProductImage([]);

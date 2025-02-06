@@ -63,18 +63,17 @@ const SideBySideMagnifier: React.FC<SideBySideMagnifierProps> = ({
         onMouseMove={handleMouseMove}
         style={{
           backgroundImage: `url(${imageSrc})`,
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
         }}
       >
         <Image
           src={imageSrc}
-          width={1000}
-          height={1000}
+          width={800}
+          height={800}
           alt={altText || ''}
-          className="w-full h-full object-fill"
+          className="w-full h-full object-cover"
         />
       </div>
-
       {isHovered && (
         <div
           className={`absolute pointer-events-none ${

@@ -75,7 +75,7 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
     {
       label: 'Description',
       content: (
-        <div className=" flex flex-col md:flex-row gap-6 md:gap-10 border shadow-sm rounded-2xl max-w-screen-sm  font-helvetica ">
+        <div className=" flex flex-col md:flex-row gap-6 md:gap-10 border shadow-sm rounded-2xl   font-helvetica mt-2 ">
           <p className="text-slate-400 text-14 md:text-17 font-normal leading-7 w-full p-2">
             <Skeleton className="text-slate-400 text-17 font-normal leading-7 font-helvetica" />
             {product?.description ? (

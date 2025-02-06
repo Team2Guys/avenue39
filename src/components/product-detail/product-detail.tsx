@@ -121,15 +121,6 @@ const ProductDetail = ({
     }
   }, [activeIndex, selectedSize, product]);
 
-
-
-
-
-
-
-
-
-
   function formatPrice(price: any) {
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;

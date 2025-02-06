@@ -29,6 +29,7 @@ interface ProductPageProps {
   SubcategoryName?: ICategory;
   AllProduct: IProduct[];
   mainslug?: string;
+  info?: ICategory;
 }
 
 const ProductPage = ({
@@ -38,6 +39,7 @@ const ProductPage = ({
   SubcategoryName,
   AllProduct,
   mainslug,
+  info,
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
@@ -101,10 +103,10 @@ const ProductPage = ({
           ) : (
             <div className="flex flex-col items-center">
               <h1 className="text-[45px] font-helvetica font-bold">
-                {SubcategoryName?.name}
+                {SubcategoryName?.name ?SubcategoryName?.name :info?.name}
               </h1>
               <Container>
-                <p className="text-center">{SubcategoryName?.description} </p>
+                <p className="text-center">{SubcategoryName?.description ? SubcategoryName?.description : info?.description} </p>
               </Container>
             </div>
           )}

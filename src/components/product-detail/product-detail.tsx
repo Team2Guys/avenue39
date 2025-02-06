@@ -254,7 +254,7 @@ const ProductDetail = ({
     <div
       className={`flex flex-col md:flex-row w-full justify-between font-Helveticalight overflow-hidden ${gap} my-6 relative`}
     >
-      <div className="flex-grow  md:w-1/2 lg:w-7/12 w-full no-select">
+      <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
           thumbs={productImage.length > 0 ? productImage : product.productImages}
           isZoom={isZoom}
@@ -264,7 +264,8 @@ const ProductDetail = ({
           activeIndex={0}
         />
       </div>
-      <div className={`${detailsWidth} flex flex-col gap-2 pt-2`}>
+      <div className='hidden 2xl:block 2xl:w-[1%]'></div>
+      <div className={`${detailsWidth} flex flex-col gap-2 pt-2 2xl:w-[39%]`}>
         <div className="flex gap-2">
           {product.stock > 0 ? (
             <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-Helveticalight">

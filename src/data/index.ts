@@ -31,7 +31,6 @@ import support from '@icons/chat-46.png';
 import opal from '@images/products/OPALdiningtable_900x900S.webp';
 import living from '@images/products/armchair.webp';
 import profileimage1 from '@images/profile/Ellipse 4.png';
-import profileimage2 from '@images/profile/Ellipse 5.png';
 
 import facebook from '@icons/Icon-awesome-facebook-f.png';
 import x from '@icons/Icon-awesome-twitter.png';

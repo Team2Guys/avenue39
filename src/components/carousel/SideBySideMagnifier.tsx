@@ -68,9 +68,8 @@ const SideBySideMagnifier: React.FC<SideBySideMagnifierProps> = ({
       >
         <Image
           src={imageSrc}
-          width={800}
-          height={800}
-          quality={100}
+          width={1000}
+          height={1000}
           alt={altText || ''}
           className="w-full h-full object-fill"
         />

@@ -1,4 +1,4 @@
-import banner6 from '@images/banners/banner6.png';
+import banner6 from '@images/banners/banner6.webp';
 import CounDown from '@/components/countdown/coundown';
 
 const MegaSale = () => {

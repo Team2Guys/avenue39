@@ -8,15 +8,17 @@ const Shop = ({
   ProductData,
   isCategory,
   findCategory,
-  categoryName,
+  SubcategoryName,
   AllProduct,
+  mainslug,
 }: {
   categories?: ICategory[];
   ProductData: IProduct[];
   AllProduct: IProduct[];
   isCategory?: boolean;
   findCategory?: string;
-  categoryName: ICategory;
+  SubcategoryName?: ICategory;
+  mainslug?: string;
 }) => {
   const [layout, Setlayout] = useState<string>('grid');
   return (
@@ -29,7 +31,8 @@ const Shop = ({
         ProductData={ProductData}
         isCategory={isCategory}
         findCategory={findCategory}
-        categoryName={categoryName}
+        mainslug={mainslug}
+        SubcategoryName={SubcategoryName}
       />
     </>
   );

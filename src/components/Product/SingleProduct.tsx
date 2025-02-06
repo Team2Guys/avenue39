@@ -8,7 +8,7 @@ import { IProduct } from '@/types/types';
 import Product from '@/components/Product/product';
 import { ProductDetailSkeleton } from '../product-detail/skelton';
 
-const SingleProduct = async ({ slug }: { slug: string[] }) => {
+const SingleProduct = async ({ slug ,subslug,mainslug}: { slug: string[],mainslug:string ,subslug:string }) => {
   const categoryName = slug[0];
   const productName = slug[2];
   const products = await fetchProducts();
@@ -31,6 +31,8 @@ const SingleProduct = async ({ slug }: { slug: string[] }) => {
   return (
     <Suspense fallback={<ProductDetailSkeleton />}>
       <Product
+        mainslug={mainslug}
+        subslug={subslug}
         params={findProduct}
         products={products}
         similarProducts={similarProducts}

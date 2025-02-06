@@ -62,7 +62,7 @@ const ChartThree: React.FC = () => {
     // Simulate data fetching
     setTimeout(() => {
       setLoading(false);
-    }, 2000); // Replace with actual data fetching logic
+    }, 2000);
   }, []);
 
   return (

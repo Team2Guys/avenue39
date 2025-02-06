@@ -41,7 +41,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   useEffect(() => {
     const pathSplit = pathname.split('/').filter((value)=>value);
     const [category] = pathSplit
-      setisActiveMenu(category.replace('-', ' ').toLowerCase() || null);
+      setisActiveMenu(category?.replace('-', ' ').toLowerCase() || null);
   }, [pathname, categories, searchParams]);
 
 

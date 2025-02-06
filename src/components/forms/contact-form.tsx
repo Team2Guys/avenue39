@@ -21,8 +21,8 @@ const ContactForm = () => {
   });
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="space-y-10 mt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 ">
+      <form onSubmit={formik.handleSubmit} className="space-y-6 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ">
           <LabelInput
             label="Your Name"
             id="name"
@@ -50,11 +50,11 @@ const ContactForm = () => {
           value={formik.values.subject}
         />
         <div className="space-y-3">
-          <Label className="mb-1 px-8 text-sm font-semibold text-17 text-[#666666]">
+          <Label className="mb-1 px-2 text-sm font-semibold text-17 text-[#666666]">
             Your Message
           </Label>
           <textarea
-            className="flex-grow h-32 w-full rounded-3xl   bg-[#F6F6F6] pl-10 pr-12 py-2  placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 "
+            className="flex-grow h-52 w-full rounded-3xl   bg-[#F6F6F6] pl-10 pr-12 py-2  placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 "
             id="comment"
             name="comment"
             onChange={formik.handleChange}
@@ -64,7 +64,7 @@ const ContactForm = () => {
         <Button
           type="submit"
           variant={'login'}
-          className="h-[70px] w-64 px-14 float-end rounded-md"
+          className="h-[50px] w-44 px-6 float-end rounded-md text-white"
         >
           Send
         </Button>

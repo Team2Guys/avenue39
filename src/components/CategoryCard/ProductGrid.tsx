@@ -57,6 +57,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           }}
           loop={true}
           modules={[Pagination]}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
         >
           {products.map((product) => (
             <SwiperSlide className="w-full" key={product.id}>

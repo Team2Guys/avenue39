@@ -5,7 +5,6 @@ import { Table, notification } from 'antd';
 import Image from 'next/image';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios';
-import Loader from '@components/Loader/Loader';
 import { FaRegEye } from 'react-icons/fa';
 import { LiaEdit } from 'react-icons/lia';
 import { product } from '@/types/interfaces';
@@ -38,7 +37,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
   Categories,
   setCategory,
   setselecteMenu,
-  loading,
+  // loading,
   setEditProduct,
   // subcetagories,
 }) => {
@@ -273,11 +272,6 @@ const ViewProduct: React.FC<CategoryProps> = ({
 
   return (
     <div>
-      {loading ? (
-        <div className="flex justify-center mt-10">
-          <Loader />
-        </div>
-      ) : (
         <>
           <div className="flex justify-between gap-2 mb-4 items-center flex-nowrap text-black dark:text-white">
             <input
@@ -321,7 +315,6 @@ const ViewProduct: React.FC<CategoryProps> = ({
             <p className="text-primary dark:text-white">No products found</p>
           )}
         </>
-      )}
     </div>
   );
 };

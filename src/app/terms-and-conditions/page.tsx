@@ -61,6 +61,8 @@ const TermsAndConitions: React.FC = () => {
                                   </Link>
                                 );
                               } else if (part === '[[EMAIL_LINK]]') {
+
+                                console.log(idx, "idx")
                                 return (
                                   <Link
                                     key={idx}
@@ -86,7 +88,7 @@ const TermsAndConitions: React.FC = () => {
          <div className='pl-6 space-y-4'>
          <p>Please contact us at:</p>
           <p>Email: <Link className='text-red-600 hover:underline' href={"mailto:cs@avenue39.com"}>cs@avenue39.com</Link></p>
-          <p>Email: <Link href="tel:+971505974495" target="_blank" className="text-red-600 hover:underline"> +971 50 597 4495 </Link></p>
+          <p>Phone: <Link href="tel:+971505974495" target="_blank" className="text-red-600 hover:underline"> +971 50 597 4495 </Link></p>
           <p>For questions and concerns about our terms and conditions. You accept these terms and conditions by using Avenue39&apos;s website and services. Thank you for choosing Avenue39.</p>
          </div>
         </div>

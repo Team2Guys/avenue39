@@ -961,40 +961,6 @@ export const testimonialcards: ITestimonialCard[] = [
     reviews: 5,
   },
 ];
-export const customtestimonialcards: ITestimonialCard[] = [
-  {
-    id: 1,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 3,
-  },
-  {
-    id: 2,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 5,
-  },
-  {
-    id: 3,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 2,
-  },
-  {
-    id: 4,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 5,
-  },
-];
 
 export const socialicons: ISocialIcons[] = [
   { id: 1, imageUrl: facebook, title: 'Facebook' },

@@ -231,7 +231,7 @@ const ProductDetail = ({
           activeIndex={0}
         />
       </div>
-      <div className='2xl:w-[1%]'></div>
+      <div className='hidden 2xl:block 2xl:w-[1%]'></div>
       <div className={`${detailsWidth} flex flex-col gap-2 pt-2 2xl:w-[39%]`}>
         <div className="flex gap-2">
           {product.stock > 0 ? (

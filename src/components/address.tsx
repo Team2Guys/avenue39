@@ -1,16 +1,17 @@
 import React from 'react';
-import { RiMapPinFill } from 'react-icons/ri';
 import SocialLink from './social-link';
 import Link from 'next/link';
+import Image from 'next/image';
+import location from '../../public/assets/images/location.png';
 
 const Address = () => {
   return (
     <>
-      <RiMapPinFill className="hidden md:block" size={30} />
-      <div className="mt-5">
+      <Image width={30} height={30} className="hidden md:block" src={location} alt='location'/>
+      <div className="mt-2">
         <p className="text-[33px] flex items-center font-base gap-2 md:gap-0">
           <span className="block md:hidden">
-            <RiMapPinFill size={30} />
+        <Image width={30} height={30}  src={location} alt='location'/>
           </span>{' '}
           Address
         </p>
@@ -58,7 +59,7 @@ const Address = () => {
             </Link>
           </li>
         </ul>
-        <SocialLink className="mt-4" />
+        <SocialLink className="mt-4 md:-mx-1" iconColor='text-black' />
       </div>
     </>
   );

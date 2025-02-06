@@ -14,7 +14,7 @@ import Link from 'next/link';
 import BestSellingSlider from '@/components/card-slider/best-selling';
 import { useSearchParams } from 'next/navigation';
 import Confetti from '@/components/confetti/confetti';
-import RedCross from '@assets/icons/remove.png';
+import RedCross from '@assets/icons/remove.webp';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import axios from 'axios';
 interface PaymentQueryParams {

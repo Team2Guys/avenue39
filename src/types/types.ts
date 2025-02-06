@@ -148,11 +148,13 @@ interface Filter {
   additionalInformation: {
     name: string;
     price: string;
+    discountPrice: string;
   }[];
 }
 interface Sizes {
     name: string;
     price: string;
+    discountPrice: string;
 }
 export interface specsDetails {
   id: number;

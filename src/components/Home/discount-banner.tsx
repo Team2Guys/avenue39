@@ -1,7 +1,7 @@
 'use client';
 import Aos from 'aos';
 import React, { useEffect } from 'react';
-import banner4 from '@assets/images/banners/banner10.png';
+import banner4 from '@assets/images/banners/banner10.webp';
 import Link from 'next/link';
 import 'aos/dist/aos.css';
 

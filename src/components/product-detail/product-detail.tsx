@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct,  IReview, ProductImage } from '@/types/types';
+import { IProduct, IReview, ProductImage } from '@/types/types';
 import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 // import QRScanner from '../QR-reader/QR';
@@ -111,9 +111,10 @@ const ProductDetail = ({
 
       setProductImage(filteredImages);
 
-      // Update product price based on selected size
+      const filterPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.price || 0 : 0;
       const sizePrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.price || 0 : 0;
-      setProductPrice(Number(sizePrice));
+      const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
+      setProductPrice(Number(finalPrice));
     } else {
       setAvailableSizes([]);
       setProductImage([]);
@@ -366,7 +367,9 @@ const ProductDetail = ({
 
           {product?.sizes && product?.sizes.length > 0 && (
             <div className="p-4">
-              <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
+              {availableSizes.length > 0 && (
+                <h2 className="font-semibold text-[16px] font-sans capitalize"> Size:</h2>
+              )}
               <div className="flex space-x-4">
                 {availableSizes.map((size: { name: string, price: string }, index: number) => {
                   console.log(size, 'size');

@@ -63,7 +63,8 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
     <Shop ProductData={findSubCategory.products}
       categories={findSubCategory.categories}
       isCategory={false}
-      categoryName={findSubCategory} AllProduct={[]} />
+      categoryName={findSubCategory}
+    />
   );
 };
 

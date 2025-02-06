@@ -195,6 +195,7 @@ export const AddproductsinitialValues: IProductAdd = {
   Images_Alt_Text: '',
   sale_counter: '',
   filters: [],
+  custom_url:""
 };
 
 export const options = [
@@ -498,8 +499,8 @@ export const Living = [
 ];
 export const Bedroom = [
   'Yakuba Side Table',
+  'Unico Side Table',
   'Tavola Bedside Table',
-  'Moderno Bedside Table',
   'Ombra Bedside Table',
   'Accenti Bedside Table',
   'Vista Sofa Bed',

@@ -26,16 +26,18 @@ interface ProductPageProps {
   ProductData: IProduct[];
   isCategory: boolean | undefined;
   findCategory?: string;
-  categoryName?: ICategory;
+  SubcategoryName?: ICategory;
   AllProduct: IProduct[];
+  mainslug?: string;
 }
 
 const ProductPage = ({
   layout,
   Setlayout,
   ProductData,
-  categoryName,
+  SubcategoryName,
   AllProduct,
+  mainslug,
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
@@ -76,11 +78,12 @@ const ProductPage = ({
   return (
     <>
       {
-        <TopHero
-          breadcrumbs={productsbredcrumbs}
-          categoryName={categoryName?.name}
-          subCategorName={''}
-        />
+     <TopHero
+     breadcrumbs={productsbredcrumbs}
+     categoryName={mainslug ? mainslug : SubcategoryName?.name}
+     subCategorName={SubcategoryName?.name || undefined}
+   />
+   
       }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
@@ -98,10 +101,10 @@ const ProductPage = ({
           ) : (
             <div className="flex flex-col items-center">
               <h1 className="text-[45px] font-helvetica font-bold">
-                {categoryName?.name}
+                {SubcategoryName?.name}
               </h1>
               <Container>
-                <p className="text-center">{categoryName?.description} </p>
+                <p className="text-center">{SubcategoryName?.description} </p>
               </Container>
             </div>
           )}

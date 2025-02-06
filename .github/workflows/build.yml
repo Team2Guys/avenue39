@@ -48,6 +48,6 @@ jobs:
 
           npm install --legacy-peer-deps
           npm run build
-          pm2 restart "avenue-fe"
+          pm2 restart "avenue39-frontend"
           exit
           EOF

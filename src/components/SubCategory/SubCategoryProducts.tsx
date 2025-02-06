@@ -7,13 +7,14 @@ import React from 'react';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
 
-const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
+const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:string }) => {
   let subcategoryName = slug[1];
   let category = slug[0];
   let newCategory: string | undefined;
   let newsubCat: string | undefined;
 
   const subCategories = await fetchSubCategories();
+  const AllProduct = await fetchProducts();
 
   const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category &&
     generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
@@ -54,6 +55,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}
+        
       />
     );
   }
@@ -62,8 +64,10 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   return (
     <Shop ProductData={findSubCategory.products}
       categories={findSubCategory.categories}
+      AllProduct={AllProduct}
       isCategory={false}
-      categoryName={findSubCategory}
+      mainslug={mainslug}
+      SubcategoryName={findSubCategory}
     />
   );
 };

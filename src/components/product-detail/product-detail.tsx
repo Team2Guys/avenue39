@@ -31,7 +31,7 @@ import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
 // import paymenticons from '@icons/payment-icons.png';
 import { openDrawer } from '@/redux/slices/drawer';
-import { CartItem } from '@/redux/slices/cart/types';
+import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
@@ -41,10 +41,10 @@ import { calculateRatingsPercentage, renderStars } from '@/config';
 // import ARExperience from '../ARModelViewer';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
-import { message } from 'antd';
 import { State } from '@/redux/store';
 import { BsWhatsapp } from 'react-icons/bs';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const ProductDetail = ({
   params,
@@ -77,19 +77,24 @@ const ProductDetail = ({
   });
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [size, setSize] = useState<CartSize | null>(null);
+  const [filter, setFilter] = useState<CartSize | null>(null);
   const [productPrice, setProductPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
 
   const product = products?.find((product) => product.name === slug);
 
-  const handleColorClick = (index: any) => {
+  const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
     setSelectedSize(null);
+    setSize(null)
+    setFilter(item)
   };
 
-  const handleSizeClick = (index: any) => {
+  const handleSizeClick = (index: any, size: CartSize) => {
     setSelectedSize(index);
+    setSize(size)
   };
 
   useEffect(() => {
@@ -125,8 +130,6 @@ const ProductDetail = ({
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
-
-  console.log(slug, 'slug');
   const Navigate = useRouter();
   useEffect(() => {
     if (product) {
@@ -180,36 +183,66 @@ const ProductDetail = ({
   };
 
   const onIncrement = () => {
-    if (count < product.stock) {
+    const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
+    if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {
-      message.error(`Only ${product.stock} items in stock!`, 1);
+      toast.error(`Only ${variationQuantity} items in stock!`);
     }
   };
   const itemToAdd: CartItem = {
     ...product,
     quantity: count,
+    selectedSize: size,
+    selectedfilter: filter
   };
-
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(
-      (item: any) => item.id === product?.id,
+      (item: any) =>
+        item.id === product?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name
     );
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
+    const variationQuantity =
+      itemToAdd.selectedSize?.stock ||
+      itemToAdd.selectedfilter?.stock ||
+      product.stock;
     if (product?.stock && newQuantity > product.stock) {
-      message.error(
-        `Only ${product.stock} items are in stock. You cannot add more than that.`,
-      );
+      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
       return;
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
 
+
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
+    const existingCartItem = cartItems.find(
+      (item: any) =>
+        item.id === product?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name
+    );
+    const currentQuantity = existingCartItem?.quantity || 0;
+    const newQuantity = currentQuantity + count;
+    const variationQuantity =
+      itemToAdd.selectedSize?.stock ||
+      itemToAdd.selectedfilter?.stock ||
+      product.stock;
+    if (product?.stock && newQuantity > product.stock) {
+      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+      return;
+    }
     dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
@@ -339,7 +372,7 @@ const ProductDetail = ({
                     return (
                       <div
                         key={index}
-                        onClick={() => handleColorClick(index)}
+                        onClick={() => handleColorClick(index, item)}
                         className={`cursor-pointer border rounded-lg p-1 flex items-center justify-center transition ${activeIndex === index ? 'border-black font-bold shadow-md' : 'hover:shadow-lg'}`}
                       >
                         <Image
@@ -363,12 +396,11 @@ const ProductDetail = ({
               )}
               <div className="flex space-x-4">
                 {availableSizes.map((size: { name: string, price: string }, index: number) => {
-                  console.log(size, 'size');
                   const [sizeName, sizeType] = size.name.split(' ');
                   return (
                     <div
                       key={index}
-                      onClick={() => handleSizeClick(index)}
+                      onClick={() => handleSizeClick(index, size)}
                       className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index ? 'border-black shadow-md' : 'hover:shadow-lg'}`}
                     >
                       <span className="block text-[#666666] text-[14px] uppercase font-sans">

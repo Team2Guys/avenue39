@@ -5,8 +5,9 @@ import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
 import ViewProduct from '@components/Dashboard/Tables/ViewProduct';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
 import { useState } from 'react';
-import FormElements from '@components/Dashboard/FormElements';
 import { ICategory, IProduct } from '@/types/types';
+import dynamic from 'next/dynamic';
+const FormElements = dynamic(() => import('@components/Dashboard/FormElements'))
 
 const Product = ({
   cetagories,

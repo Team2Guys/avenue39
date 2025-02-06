@@ -12,11 +12,11 @@ interface recallingTypes {
 export const re_Calling_products:recallingTypes[] = [
   {
     id: 1,
-    mainCategory: 'LIVING',
+    mainCategory: 'CHAIRS',
     subCategory: 'Sofas',
     ////////////////
     redirectsubCat: 'Sofas',
-    redirect_main_cat: 'CHAIRS',
+    redirect_main_cat: 'LIVING',
     customUrl:"",
     subcustomUrl:""
   },
@@ -82,17 +82,17 @@ export const re_Calling_products:recallingTypes[] = [
   {
     id: 7,
     mainCategory: 'CHAIRS',
-    subCategory: 'Dining Chairs',
+    subCategory: 'Chairs',
     ////////////////
-    redirectsubCat: 'Dining Chairs',
+    redirectsubCat: 'Chairs',
     redirect_main_cat: 'DINING',
   },
   {
     id: 8,
     mainCategory: 'TABLES',
-    subCategory: 'Dining Tables',
+    subCategory: 'tables',
     ////////////////
-    redirectsubCat: 'Dining Tables',
+    redirectsubCat: 'tables',
     redirect_main_cat: 'DINING',
   },
   {

@@ -136,6 +136,7 @@ export const categoryInitialValues: Category = {
   meta_title: '',
   canonical_tag: '',
   images_alt_text: '',
+  custom_url : ""
 };
 export const subcategoryInitialValues: SubCategory = {
   name: '',
@@ -145,6 +146,7 @@ export const subcategoryInitialValues: SubCategory = {
   canonical_tag: '',
   images_alt_text: '',
   categoriesId: [],
+  custom_url : ""
 };
 
 export const loginInitialValue = {

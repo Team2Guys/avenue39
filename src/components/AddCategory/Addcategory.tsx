@@ -10,7 +10,6 @@ import { Formik, Form } from 'formik';
 import { Category } from '@/types/interfaces';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { categoryInitialValues, categoryValidationSchema } from '@/data/data';
-import ProtectedRoute from '@/hooks/AuthHookAdmin';
 import Loader from '@components/Loader/Loader';
 import revalidateTag from '../ServerActons/ServerAction';
 import Cookies from 'js-cookie';
@@ -19,6 +18,7 @@ interface editCategoryProps {
   seteditCategory: any;
   editCategory: any;
   setMenuType: React.Dispatch<SetStateAction<string>>;
+
 }
 
 const FormLayout = ({
@@ -36,6 +36,7 @@ const FormLayout = ({
           meta_description: editCategory.meta_description || '',
           canonical_tag: editCategory.canonical_tag || '',
           images_alt_text: editCategory.images_alt_text || '',
+          custom_url: editCategory.custom_url || ""
         }
       : null;
   const [posterimageUrl, setposterimageUrl] = useState<any | null | undefined>(
@@ -168,6 +169,8 @@ const FormLayout = ({
                     </div>
 
                     <div className="flex flex-col">
+                     
+
                       <div>
                         <label className="mb-3 block py-4 px-2 text-sm font-medium text-black dark:text-white">
                           Category Title
@@ -190,6 +193,34 @@ const FormLayout = ({
                           </div>
                         ) : null}
                       </div>
+
+                      <div>
+                        <label className="mb-3 block py-4 px-2 text-sm font-medium text-black dark:text-white">
+                          Custom Url
+                        </label>
+                        <input
+                          type="text"
+                          name="custom_url"
+                          onChange={formik.handleChange}
+                          value={formik.values.custom_url}
+                          placeholder="Custom Url"
+                          className={`w-full rounded-lg border-[1.5px]  px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whitebg-black dark:text-white ${
+                            formik.touched.custom_url && formik.errors.custom_url
+                              ? 'border-red-500'
+                              : ''
+                          }`}
+                        />
+                        {formik.touched.custom_url && formik.errors.custom_url ? (
+                          <div className="text-red-500 text-sm">
+                            {formik.errors.custom_url}
+                          </div>
+                        ) : null}
+                      </div>
+
+
+
+
+                      
 
                       <div>
                         <label className="mb-3 block py-4 px-2 text-sm font-medium text-black dark:text-white">
@@ -357,4 +388,4 @@ const FormLayout = ({
   );
 };
 
-export default ProtectedRoute(FormLayout);
+export default FormLayout

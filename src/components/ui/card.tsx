@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Image from 'next/image';
-import { IProduct } from '@/types/types';
+import { ICategory, IProduct } from '@/types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
@@ -39,6 +39,8 @@ interface CardProps {
   portSpace?: string;
   productImages?: IProduct[];
   redirect?: string;
+  SubcategoryName?:ICategory
+  mainCatgory? :string
 }
 
 const Card: React.FC<CardProps> = ({
@@ -53,6 +55,9 @@ const Card: React.FC<CardProps> = ({
   calculateHeight,
   portSpace,
   productImages,
+  SubcategoryName,
+  mainCatgory
+  
   // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
@@ -127,7 +132,7 @@ const [averageRating, setaverageRating] = useState<any>()
               {isLandscape ? (
                 <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px]">
                   <Link
-                    href={ChangeUrlHandler(card)}
+                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
                     className={`${cardImageHeight} flex justify-center items-center px-2`}
                   >
                     <Image
@@ -153,7 +158,7 @@ const [averageRating, setaverageRating] = useState<any>()
                 <div
                   className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] ${portSpace ? portSpace : 'px-2'}`}
                 >
-                  <Link href={ChangeUrlHandler(card)}>
+                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                     <Image
                       src={
                         cardStaticData?.posterImageUrl || card.posterImageUrl
@@ -182,7 +187,7 @@ const [averageRating, setaverageRating] = useState<any>()
                 <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                   <Link
                     className="cursor-pointer"
-                    href={ChangeUrlHandler(card)}
+                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
                   >
                     {' '}
                     {card.name}
@@ -329,7 +334,7 @@ const [averageRating, setaverageRating] = useState<any>()
                   className={` ${cardImageHeight} flex justify-center items-center`}
                 >
                   <Link
-                  href={ChangeUrlHandler(card)}
+                  href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
                   >
                   <Image
                     src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
@@ -348,7 +353,7 @@ const [averageRating, setaverageRating] = useState<any>()
                   </Link>
                 </div>
               ) : (
-                <Link href={ChangeUrlHandler(card)}>
+                <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                   <Image
                     src={card.posterImageUrl}
                     alt={card.posterImageAltText || card.name}
@@ -367,7 +372,7 @@ const [averageRating, setaverageRating] = useState<any>()
             </div>
             <div className="space-y-3">
               <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
-                <Link className="cursor-pointer" href={ChangeUrlHandler(card)}>
+                <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                   {' '}
                   {card.name}
                 </Link>

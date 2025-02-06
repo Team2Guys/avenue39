@@ -150,7 +150,10 @@ const ProductPage = ({
                     <Card
                       card={card}
                       isLoading={false}
+                      SubcategoryName={SubcategoryName}
+                      mainCatgory = {mainslug}
                       cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
+
                     />
                   ) : (
                     <LandscapeCard card={card} isLoading={false} />

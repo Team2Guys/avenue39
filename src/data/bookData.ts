@@ -8,7 +8,7 @@ export const bookData = [
     type: 'page',
     number: 1,
     content: 'Lorem ipsum page 1...',
-    image: '/images/catalogue/catelog1.jpg',
+    image: '/images/catalogue/catelog1.webp',
   },
   {
     type: 'page',

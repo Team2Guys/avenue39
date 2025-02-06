@@ -353,7 +353,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                       </div>
                       <div>
                         <label className="mb-3 block text-sm font-medium text-black dark:text-white mt-4 ">
-                    Custom Url
+                          Custom Url
                         </label>
                         <input
                           type="text"
@@ -1036,6 +1036,15 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                                 />
                                                 <input
                                                   type="number"
+                                                  name={`filter[${sectionIndex}].additionalInformation[${modelIndex}].discountPrice`}
+                                                  onChange={formik.handleChange}
+                                                  onBlur={formik.handleBlur}
+                                                  value={model.discountPrice || ''}
+                                                  placeholder="Disc Price"
+                                                  className="w-full rounded-lg ml-1 border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
+                                                />
+                                                <input
+                                                  type="number"
                                                   name={`filter[${sectionIndex}].additionalInformation[${modelIndex}].stock`}
                                                   onChange={formik.handleChange}
                                                   onBlur={formik.handleBlur}
@@ -1060,11 +1069,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                             ),
                                           )}
 
-                                          {/* Button to add a new model within the current section */}
                                           <button
                                             type="button"
                                             onClick={() =>
-                                              pushInfo({ name: '', price: '', stock: '' })
+                                              pushInfo({ name: '', price: '', discountPrice: '', stock: '' })
                                             }
                                             className="px-4 py-2 bg-black text-white dark:bg-main rounded-md shadow-md w-fit"
                                           >
@@ -1280,6 +1288,17 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                     />
                                     <input
                                       type="text"
+                                      name={`sizes[${modelIndex}].discountPrice`}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.sizes[modelIndex].discountPrice}
+                                      // value={model.price || ''}
+                                      placeholder="Disc Price"
+                                      className={`ml-1 w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary `}
+                                    />
+
+                                    <input
+                                      type="text"
                                       name={`sizes[${modelIndex}].stock`}
                                       onChange={formik.handleChange}
                                       onBlur={formik.handleBlur}
@@ -1306,7 +1325,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                               type="button"
                               // onClick={() => push('')}
                               onClick={() =>
-                                push({ name: '', price: '', stock: '' })
+                                push({ name: '', price: '', discountPrice: '', stock: '' })
                               }
                               className="px-4 py-2 bg-black text-white dark:bg-gray-800  rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black w-fit"
                             >

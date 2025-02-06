@@ -125,7 +125,8 @@ console.log(sortProducts.length, "sortProducts")
     isCategory={true}
     mainslug={slug}
     categories={categories}
-  // SubcategoryName={findCategory}
+    info={findCategory}
+    // SubcategoryName={findCategory}
   />
 }
 

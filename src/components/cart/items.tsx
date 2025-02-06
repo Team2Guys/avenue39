@@ -6,6 +6,7 @@ import {
   removeItem,
   selectTotalPrice,
   updateItemQuantity,
+  variationProductImage,
 } from '@cartSlice/index';
 import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
 import { RxCross2 } from 'react-icons/rx';
@@ -20,6 +21,8 @@ import { FaTrash } from 'react-icons/fa';
 import { MdModeEdit } from 'react-icons/md';
 import Link from 'next/link';
 import { GiShoppingCart } from 'react-icons/gi';
+import { CartItem } from '@/redux/slices/cart/types';
+import { toast } from 'react-toastify';
 
 interface ICartItems {
   isCartPage?: boolean;
@@ -37,22 +40,28 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
   );
   const drawerState = useSelector((state: State) => state.drawer);
   const drawerRef = useRef<HTMLDivElement | null>(null);
-  const removeProductFromCart = (id: number) => {
-    dispatch(removeItem(id));
+  const removeProductFromCart = (item: CartItem) => {
+    dispatch(removeItem(item));
   };
-  const updateProductQuantity = (
-    id: number,
-    quantity: number,
-    stock: number,
-  ) => {
-    if (quantity > 0) {
-      if (quantity > stock) {
-        alert('Insufficient stock. Please reduce quantity.');
+  const updateProductQuantity = (item: CartItem) => {
+    const variationQuantity =
+      item.selectedSize?.stock || item.selectedfilter?.stock || item.stock;
+  
+    if (item.quantity > 0) {
+      if (item.quantity > variationQuantity) {
+        toast.error("Insufficient stock. Please reduce quantity.");
       } else {
-        dispatch(updateItemQuantity({ id, quantity }));
+        dispatch(updateItemQuantity({
+          id: item.id,
+          quantity: item.quantity,
+          selectedSize: item.selectedSize || undefined, 
+          selectedfilter: item.selectedfilter || undefined 
+        }));
       }
     }
   };
+  
+
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };
@@ -106,7 +115,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               onClick={handleOpenDrawer}
             >
               <GiShoppingCart size={27} style={{ transform: 'scaleX(-1)' }} />
-              {(cartItems && cartItems.length > 0 )&& (
+              {(cartItems && cartItems.length > 0) && (
                 <div className="w-4 h-4 rounded-full bg-black text-white flex justify-center items-center absolute top-2 right-2 text-10">
                   <TotalProducts />
                 </div>
@@ -157,14 +166,14 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               <Fragment>
                 <div className="flex-1 overflow-x-auto mr-6 custom-scroll">
                   <ul className="space-y-4">
-                    {cartItems && cartItems.map((item: any) => (
+                    {cartItems && cartItems.map((item: CartItem) => (
                       <li
                         key={item.id}
                         className="relative flex items-center bg-slate-50 border-dotted gap-3 p-4 w-full rounded-md font-helvetica"
                       >
                         <div className="w-[70px] h-[70px] font-helvetica">
                           <Image
-                            src={item.posterImageUrl}
+                            src={variationProductImage(item)}
                             alt={item.posterImageAltText || item.name}
                             width={80}
                             height={80}
@@ -175,41 +184,58 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                           <ProductName className="text-start !text-[16px]">
                             {item.name}
                           </ProductName>
-                          <div className="flex justify-between flex-wrap gap-2 font-helvetica">
+                          <div className="flex justify-between flex-wrap gap-2 font-helvetica mb-1">
                             <span> Qty: {item.quantity.toLocaleString()}</span>
-                            {item?.discountPrice > 0 ? (
-                              <ProductPrice className="flex gap-2 flex-wrap mb-4 !text-[15px] text-nowrap">
+                            {(item.selectedfilter || item.selectedSize) ?
+                              <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                 <span>
                                   AED{' '}
                                   {(
-                                    item?.discountPrice * item.quantity
+                                    (Number(item.selectedSize?.price) || (Number(item.selectedfilter?.price) === 0) && item.discountPrice ? item.discountPrice : item.price) * item.quantity
                                   ).toLocaleString()}
                                 </span>
-                                <NormalText className="text-slate-400 line-through w-[70px] text-end text-nowrap !text-[15px]">
-                                  AED{' '}
-                                  {(
-                                    item?.price * item.quantity
-                                  ).toLocaleString()}
-                                </NormalText>
                               </ProductPrice>
-                            ) : (
-                              <ProductPrice className="flex gap-2 flex-wrap mb-4 !text-[15px] text-nowrap">
-                                <span>
-                                  AED{' '}
-                                  {(
-                                    item?.price * item.quantity
-                                  ).toLocaleString()}
-                                </span>
-                                {/* <NormalText className="text-slate-400 line-through w-20 text-end text-nowrap !text-[15px]">
+                              : item.discountPrice > 0 ? (
+                                <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
+                                  <span>
+                                    AED{' '}
+                                    {(
+                                      item?.discountPrice * item.quantity
+                                    ).toLocaleString()}
+                                  </span>
+                                  <NormalText className="text-slate-400 line-through w-[70px] text-end text-nowrap !text-[13px]">
+                                    AED{' '}
+                                    {(
+                                      item?.price * item.quantity
+                                    ).toLocaleString()}
+                                  </NormalText>
+                                </ProductPrice>
+                              ) : (
+                                <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
+                                  <span>
+                                    AED{' '}
+                                    {(
+                                      item?.price * item.quantity
+                                    ).toLocaleString()}
+                                  </span>
+                                  {/* <NormalText className="text-slate-400 line-through w-20 text-end text-nowrap !text-[15px]">
                             </NormalText> */}
-                              </ProductPrice>
-                            )}
+                                </ProductPrice>
+                              )}
                           </div>
+                          {(item.selectedfilter || item.selectedSize) &&
+                            <div className='flex flex-nowrap items-center justify-between gap-2'>
+                              <div className='flex items-center gap-1 text-13'>
+                                <span className='capitalize'>{item.filter?.at(0)?.heading}:</span>
+                                <span className='capitalize'>{item.selectedfilter?.name}</span>
+                              </div>
+                              <span className='text-13'>{item.selectedSize?.name}</span>
+                            </div>}
                           <div
                             className="absolute top-2 right-2 cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
-                              removeProductFromCart(item.id);
+                              removeProductFromCart(item);
                             }}
                           >
                             <RxCross2 />
@@ -269,34 +295,54 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                     <Image
                       width={isCheckoutPage ? 50 : 100}
                       height={isCheckoutPage ? 50 : 100}
-                      src={item.posterImageUrl}
+                      src={variationProductImage(item)}
                       alt={item.posterImageAltText || item.name}
                       className="rounded-md object-cover w-full h-full"
                     />
                   </div>
                 </Link>
                 <div className="w-full">
-                  <Link href={`/product/${generateSlug(item.name)}`}>
-                    <span className="text-16 xl:text-18">{item.name}</span>
-                  </Link>
+                  <div className='flex flex-col gap-1'>
+                    <Link href={`/product/${generateSlug(item.name)}`}>
+                      <span className="text-16 xl:text-18">{item.name}</span>
+                    </Link>
+                    {(item.selectedfilter || item.selectedSize) &&
+                      <>
+                        <div className='flex items-center gap-1 text-13'>
+                          <span className='capitalize'>{item.filter?.at(0)?.heading}</span>
+                          <span className='capitalize'>{item.selectedfilter?.name}</span>
+                        </div>
+                        <span className='text-13'>{item.selectedSize?.name}</span>
+                      </>
+                    }
+                  </div>
                   <div className="flex flex-wrap md:flex-nowrap lg:hidden justify-between items-center gap-2 md:gap-3 pr-4">
-                    {item.discountPrice > 0 ? (
-                      <>
-                        <p className="text-16 xs:text-18 font-bold text-nowrap">
-                          AED <span>{item?.discountPrice * item.quantity}</span>
-                        </p>
-                        <p className="text-14 font-normal text-nowrap line-through text-[#A5A5A5] w-16">
-                          AED <span>{item?.price * item.quantity}</span>
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-16 xs:text-18 font-bold text-nowrap">
-                          AED <span>{item?.price * item.quantity}</span>
-                        </p>
-                        <p className="text-[18px] font-bold w-16"></p>
-                      </>
-                    )}
+                    {(item.selectedfilter || item.selectedSize) ?
+                      <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
+                        <span>
+                          AED{' '}
+                          {(
+                            (Number(item.selectedSize?.price) || (Number(item.selectedfilter?.price) === 0) && item.discountPrice ? item.discountPrice : item.price) * item.quantity
+                          ).toLocaleString()}
+                        </span>
+                      </ProductPrice> :
+                      item.discountPrice > 0 ? (
+                        <>
+                          <p className="text-16 xs:text-18 font-bold text-nowrap">
+                            AED <span>{item?.discountPrice * item.quantity}</span>
+                          </p>
+                          <p className="text-14 font-normal text-nowrap line-through text-[#A5A5A5] w-16">
+                            AED <span>{item?.price * item.quantity}</span>
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-16 xs:text-18 font-bold text-nowrap">
+                            AED <span>{item?.price * item.quantity}</span>
+                          </p>
+                          <p className="text-[18px] font-bold w-16"></p>
+                        </>
+                      )}
                     {!isCheckoutPage && (
                       <div className="flex items-center gap-4">
                         <Link href={`/product/${generateSlug(item.name)}`}>
@@ -307,7 +353,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                           size={15}
                           onClick={(e) => {
                             e.stopPropagation();
-                            removeProductFromCart(item.id);
+                            removeProductFromCart(item);
                           }}
                         />
                       </div>
@@ -316,21 +362,17 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                       <Counter
                         count={item.quantity}
                         stock={item.stock}
-                        onIncrement={() =>
-                          updateProductQuantity(
-                            item.id,
-                            item.quantity + 1,
-                            item.stock,
-                          )
-                        }
-                        onDecrement={() =>
-                          updateProductQuantity(
-                            item.id,
-                            item.quantity - 1,
-                            item.stock,
-                          )
-                        }
+                        onIncrement={() => {
+                          const updatedItem = { ...item, quantity: item.quantity + 1 };
+                          updateProductQuantity(updatedItem);
+                        }}
+                        onDecrement={() => {
+                          const updatedItem = { ...item, quantity: item.quantity - 1 };
+                          updateProductQuantity(updatedItem);
+                        }}
                       />
+
+
                     )}
                   </div>
                 </div>
@@ -341,51 +383,56 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                     <Counter
                       count={item.quantity}
                       stock={item.stock}
-                      onIncrement={() =>
-                        updateProductQuantity(
-                          item.id,
-                          item.quantity + 1,
-                          item.stock,
-                        )
-                      }
-                      onDecrement={() =>
-                        updateProductQuantity(
-                          item.id,
-                          item.quantity - 1,
-                          item.stock,
-                        )
-                      }
+                      onIncrement={() => {
+                        const updatedItem = { ...item, quantity: item.quantity + 1 };
+                        updateProductQuantity(updatedItem);
+                      }}
+                      onDecrement={() => {
+                        const updatedItem = { ...item, quantity: item.quantity - 1 };
+                        updateProductQuantity(updatedItem);
+                      }}
                     />
+
+
                   )}
                 </div>
                 <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
-                  {item.discountPrice > 0 ? (
-                    <>
-                      <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
+                  {(item.selectedfilter || item.selectedSize) ?
+                    <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                      <span>
                         AED{' '}
-                        <span>
-                          {(item?.price * item.quantity).toLocaleString()}
-                        </span>
-                      </p>
-                      <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                        AED{' '}
-                        <span>
-                          {(
-                            item?.discountPrice * item.quantity
-                          ).toLocaleString()}
-                        </span>
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-center w-full pl-20">
-                        AED{' '}
-                        <span>
-                          {(item?.price * item.quantity).toLocaleString()}
-                        </span>
-                      </p>
-                    </>
-                  )}
+                        {(
+                          (Number(item.selectedSize?.price) || (Number(item.selectedfilter?.price) === 0) && item.discountPrice ? item.discountPrice : item.price) * item.quantity
+                        ).toLocaleString()}
+                      </span>
+                    </ProductPrice>
+                    : item.discountPrice > 0 ? (
+                      <>
+                        <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
+                          AED{' '}
+                          <span>
+                            {(item?.price * item.quantity).toLocaleString()}
+                          </span>
+                        </p>
+                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
+                          AED{' '}
+                          <span>
+                            {(
+                              item?.discountPrice * item.quantity
+                            ).toLocaleString()}
+                          </span>
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-center w-full pl-20">
+                          AED{' '}
+                          <span>
+                            {(item?.price * item.quantity).toLocaleString()}
+                          </span>
+                        </p>
+                      </>
+                    )}
                   <div>
                     {!isCheckoutPage && (
                       <div className="flex items-center gap-2">
@@ -397,7 +444,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                           size={15}
                           onClick={(e) => {
                             e.stopPropagation();
-                            removeProductFromCart(item.id);
+                            removeProductFromCart(item);
                           }}
                         />
                       </div>

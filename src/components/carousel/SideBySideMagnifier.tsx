@@ -87,7 +87,7 @@ const SideBySideMagnifier: React.FC<SideBySideMagnifierProps> = ({
             backgroundImage: `url(${largeImageSrc})`,
             backgroundPosition: backgroundPosition,
             backgroundSize: `${zoomScale * 100}%`,
-            border: '1px solid orange',
+            // border: '1px solid orange',
             zIndex: 10,
             boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
           }}

@@ -28,7 +28,7 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
 
   const findSubCategory: any = subCategories?.find((item: any) => {
     const isNameMatch = generateSlug(item.name) === (newsubCat ? newsubCat : subcategoryName);
-    const belongsToCategory = item.categories.some((value: any) =>generateSlug(value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
+    const belongsToCategory = item.categories.some((value: any) => generateSlug(value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
     return isNameMatch && belongsToCategory;
   });
   if (!findSubCategory) {
@@ -55,11 +55,12 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}
+        
       />
     );
   }
 
-  
+
   return (
     <Shop ProductData={findSubCategory.products}
       categories={findSubCategory.categories}

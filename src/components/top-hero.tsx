@@ -3,7 +3,6 @@ import Container from './ui/Container';
 import {
   Breadcrumb,
   BreadcrumbItem as BreadcrumbComponentItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,

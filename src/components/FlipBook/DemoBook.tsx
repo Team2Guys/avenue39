@@ -17,7 +17,7 @@ const DemoBook: React.FC = () => {
         type: 'page',
         number: data.length,
         content: 'The End',
-        image: '/images/catalogue/catelog1.jpg',
+        image: '/images/catalogue/catelog1.webp',
       });
     }
     return data;

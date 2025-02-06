@@ -44,12 +44,12 @@ export const menuData: MenuData = {
       title: 'TV Stands',
       icon: tvCabinets,
     },
-    {
-      categoryId: 3,
-      link: '/products',
-      title: 'Accessories',
-      icon: accessories,
-    },
+    // {
+    //   categoryId: 3,
+    //   link: '/products',
+    //   title: 'Accessories',
+    //   icon: accessories,
+    // },
     // { link: '/products', title: 'Sale', icon: "/images/sale.png" }
   ],
   living: [
@@ -81,13 +81,13 @@ export const menuData: MenuData = {
       icon: coffeeTables,
     },
     { categoryId: 4, link: '/products', title: 'Sofa Beds', icon: sofaBed },
-    {
-      categoryId: 4,
-      link: '/products',
-      title: 'Accessories',
-      icon: accessories,
-    },
-    { link: '/products', title: 'Sale', icon: '/images/sale.png' },
+    // {
+    //   categoryId: 4,
+    //   link: '/products',
+    //   title: 'Accessories',
+    //   icon: accessories,
+    // },
+    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   bedroom: [
     {
@@ -115,13 +115,13 @@ export const menuData: MenuData = {
       icon: tvCabinets,
     },
     { categoryId: 5, link: '/products', title: 'Sofa Beds', icon: sofaBed },
-    {
-      categoryId: 5,
-      link: '/products',
-      title: 'Accessories',
-      icon: accessories,
-    },
-    { link: '/products', title: 'Sale', icon: '/images/sale.png' },
+    // {
+    //   categoryId: 5,
+    //   link: '/products',
+    //   title: 'Accessories',
+    //   icon: accessories,
+    // },
+    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   homeOffice: [
     {
@@ -136,7 +136,7 @@ export const menuData: MenuData = {
       title: 'Office Chairs',
       icon: officeChair,
     },
-    { link: '/products', title: 'Sale', icon: '/images/sale.png' },
+    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   chairs: [
     { categoryId: 6, link: '/products', title: 'Armchairs', icon: armchair },
@@ -154,7 +154,7 @@ export const menuData: MenuData = {
       icon: diningChair,
     },
     { categoryId: 6, link: '/products', title: 'Barstools', icon: barstool },
-    { link: '/products', title: 'Sale', icon: '/images/sale.png' },
+    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   tables: [
     {
@@ -182,7 +182,7 @@ export const menuData: MenuData = {
       title: 'Bedside Tables',
       icon: bedsideTables,
     },
-    { link: '/products', title: 'Sale', icon: '/images/sale.png' },
+    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
 
   Lighting: [
@@ -198,7 +198,7 @@ export const menuData: MenuData = {
       title: 'Table Lamps',
       icon: tableLamps,
     },
-    { link: '/products', title: 'Sale', icon: '/images/sale.png' },
+    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   Accessories: [{ link: '/products', title: 'Accessories', icon: icon3 }],
   'New Arrivals': [{ link: '/products', title: 'New Arrivals', icon: icon3 }],

@@ -333,7 +333,6 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.webp',
       },
       {
-
         name: 'Moderno Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
       },
@@ -383,7 +382,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Accessories/Droplet.png',
       },
       {
-        name: 'A Pair of Layered Elegance',
+        name: 'Layered Elegance',
         posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
       },
       {
@@ -391,7 +390,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
       },
       {
-        name: 'Monolith Sphere Tower ',
+        name: 'Monolith Sphere Towers',
         posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
       },
       {

@@ -84,7 +84,7 @@ const ProductDetail = ({
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
 
-  const product = products?.find((product) => product.name === slug);
+  const product = params ? params : products?.find((product) => product.name === slug);
 
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
@@ -258,7 +258,7 @@ const ProductDetail = ({
 
   return (
     <div
-      className={`flex flex-col md:flex-row w-full justify-between font-Helveticalight overflow-hidden ${gap} my-6 relative`}
+      className={`flex flex-col md:flex-row w-full justify-between font-helvetica overflow-hidden ${gap} my-6 relative`}
     >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
@@ -274,11 +274,11 @@ const ProductDetail = ({
       <div className={`${detailsWidth} flex flex-col gap-2 pt-2 2xl:w-[39%]`}>
         <div className="flex gap-2">
           {product.stock > 0 ? (
-            <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-Helveticalight">
+            <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-helvetica">
               IN STOCK { }
             </div>
           ) : (
-            <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-Helveticalight">
+            <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
               OUT OF STOCK
             </div>
           )}
@@ -308,7 +308,7 @@ const ProductDetail = ({
               twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
               return productDate >= twoWeeksAgo ? (
-                <div className="bg-[#00AEEF] p-2 rounded-sm text-white text-xs font-Helveticalight">
+                <div className="bg-[#00AEEF] uppercase p-2 rounded-sm text-white text-xs font-helvetica">
                   New
                 </div>
               ) : null;
@@ -317,7 +317,7 @@ const ProductDetail = ({
         <ProductName>{product?.name}</ProductName>
         {averageRating > 1 && (
           <>
-            <div className="flex gap-2 items-center font-Helveticalight">
+            <div className="flex gap-2 items-center font-helvetica">
               <span className="flex items-center">
                 {renderStars({ star: averageRating })}
               </span>
@@ -353,7 +353,7 @@ const ProductDetail = ({
             AED{' '}
             {productPrice > 0
               ? formatPrice(productPrice)
-              : `AED ${formatPrice(product?.price)}`}
+              : `${formatPrice(product?.price)}`}
           </ProductPrice>
         )}
 
@@ -451,7 +451,7 @@ const ProductDetail = ({
         {product.sale_counter &&
           Object.values(timeLeft).some((value) => value > 0) && (
             <>
-              <NormalText className="">Hurry Up! Sale ends in:</NormalText>
+              <NormalText className="font-helvetica">Hurry Up! Sale ends in:</NormalText>
               <div className="flex gap-2 mb-3 mt-2">
                 {Object.entries(timeLeft).map(([label, value], index) => (
                   <div
@@ -478,7 +478,7 @@ const ProductDetail = ({
               className=" ps-5 pe-10 h-12 w-full mt-5 mb-5 text-white bg-[#64B161] rounded-2xl flex justify-center items-center gap-2 hover:bg-[#56B400]"
             >
               <BsWhatsapp size={25} />
-              <span className="font-light text-sm">PRE-ORDER ONLY</span>
+              <span className="font-light text-sm font-helvetica">PRE-ORDER ONLY</span>
             </Link>
           </>
         ) : (
@@ -503,7 +503,7 @@ const ProductDetail = ({
             </div>
 
             <Button
-              className="bg-primary text-white flex gap-3 justify-center w-full sm:w-1/2 items-center md:w-full h-12 rounded-2xl mb-3 font-light "
+              className="bg-primary text-white font-helvetica flex gap-3 justify-center w-full sm:w-1/2 items-center md:w-full h-12 rounded-2xl mb-3 font-light "
               onClick={(e: any) => handleBuyNow(e)}
             >
               <CiShoppingCart size={20} /> BUY IT NOW
@@ -512,7 +512,7 @@ const ProductDetail = ({
             <div className="flex gap-2 mb-4 w-full sm:w-1/2  md:w-full">
               <Button
                 variant={'outline'}
-                className="text-primary w-full h-12 rounded-2xl flex gap-3 uppercase"
+                className="text-primary font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
                 onClick={(e: any) => handleAddToCard(e)}
               >
                 Add to cart
@@ -572,7 +572,7 @@ const ProductDetail = ({
 
         <div className="flex items-center justify-center relative mb-2">
           <span className="absolute left-0 w-1/6 border-t border-gray-300"></span>
-          <p className="text-center px-3 w-4/6 whitespace-nowrap font-semibold text-sm xs:text-base lg:text-xs xl:text-base">
+          <p className="text-center px-3 w-4/6 font-helvetica whitespace-nowrap font-semibold text-sm xs:text-base lg:text-xs xl:text-base">
             Guaranteed Safe Checkout
           </p>
           <span className="absolute right-0 w-1/6 border-t border-gray-300"></span>
@@ -580,10 +580,10 @@ const ProductDetail = ({
 
         <div className="flex gap-2 mb-4">
           <div className="relative w-1/2 border-4 border-[#00FFBC] p-4 rounded-lg shadow">
-            <span className="absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
+            <span className="font-helvetica absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
               tabby
             </span>
-            <p className="text-12">
+            <p className="text-12 font-helvetica">
               Pay 4 interest-free payments of AED{' '} { }
               {productPrice > 0 || productDiscPrice > 0 ? productDiscPrice > 0 ? productDiscPrice / 4 : productPrice / 4 : (
                 (product?.discountPrice
@@ -600,13 +600,13 @@ const ProductDetail = ({
                 <DialogOverlay className="bg-white/80" />
                 <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
                   <DialogHeader>
-                    <DialogTitle className="text-xl xs:text-xl sm:text-2xl font-bold tracking-wide border-b-2 pb-3 sm:ps-5 md:ps-10 pe-10">
+                    <DialogTitle className="text-xl xs:text-xl font-helvetica sm:text-2xl font-bold tracking-wide border-b-2 pb-3 sm:ps-5 md:ps-10 pe-10">
                       Easy Monthly Installments
                     </DialogTitle>
                   </DialogHeader>
                   <div className="py-4 ps-5 xs:ps-10 md:ps-20 pe-4 me-4 xs:me-7 max-h-[80vh] overflow-y-auto custom-scroll">
                     <Image src={tabbyLogo} alt="tabby logo" />
-                    <h2 className="text-2xl xs:text-3xl  font-bold mt-8 leading-10 xs:leading-tight">
+                    <h2 className="text-2xl xs:text-3xl  font-bold mt-8 leading-10 xs:leading-tight font-helvetica">
                       <span className="rounded-full bg-[#3BFFC1] px-4 py-0 text-nowrap">
                         Shop now,
                       </span>
@@ -615,18 +615,18 @@ const ProductDetail = ({
                         pay over time.
                       </span>
                     </h2>
-                    <ul className='mt-5 font-bold text-lg sm:text-xl md:text-2xl list-["–"] list-inside leading-normal md:leading-normal'>
+                    <ul className='mt-5 font-bold font-helvetica text-lg sm:text-xl md:text-2xl list-["–"] list-inside leading-normal md:leading-normal'>
                       {tabbyfeature.map((item) => (
                         <li key={item.id}>{item.para}</li>
                       ))}
                     </ul>
                     <div className="mt-5">
-                      <h3 className="font-bold text-2xl sm:text-4xl">
+                      <h3 className="font-bold text-2xl sm:text-4xl font-helvetica">
                         How it works
                       </h3>
                       <ul className="font-medium text-base xs:text-lg md:text-xl mt-8 md:leading-relaxed">
                         {tabbyhowitwork.map((item) => (
-                          <li className="flex items-center gap-2" key={item.id}>
+                          <li className="flex items-center gap-2 font-helvetica" key={item.id}>
                             <span className="rounded-full bg-lightbackground min-w-10 h-10 flex items-center justify-center">
                               {item.id}
                             </span>
@@ -651,10 +651,10 @@ const ProductDetail = ({
             </p>
           </div>
           <div className="relative w-1/2 border-4 border-[#D47C84] p-4 rounded-lg shadow">
-            <span className="absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
+            <span className="font-helvetica absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
               tamara
             </span>
-            <p className="text-12">
+            <p className="text-12 font-helvetica">
               Pay 4 interest-free payments of AED{' '}
               {productPrice > 0 || productDiscPrice > 0 ? productDiscPrice > 0 ? productDiscPrice / 4 : productPrice / 4 : (
                 (product?.discountPrice

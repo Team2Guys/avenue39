@@ -178,7 +178,7 @@ const Checkout = () => {
                       label="Email Address *"
                       id="user_email"
                       name="user_email"
-                      type="text"
+                      type="email"
                       required
                       onChange={formik.handleChange}
                       value={formik.values.user_email}

@@ -39,8 +39,8 @@ interface CardProps {
   portSpace?: string;
   productImages?: IProduct[];
   redirect?: string;
-  SubcategoryName?:ICategory
-  mainCatgory? :string
+  SubcategoryName?: ICategory
+  mainCatgory?: string
 }
 
 const Card: React.FC<CardProps> = ({
@@ -57,13 +57,14 @@ const Card: React.FC<CardProps> = ({
   productImages,
   SubcategoryName,
   mainCatgory
-  
+
   // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
-  const cartItems = useSelector((state: State |any) => state.cart.items);
+  const cartItems = useSelector((state: State | any) => state.cart.items);
   const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(undefined,);
-const [averageRating, setaverageRating] = useState<any>()
+  const [averageRating, setaverageRating] = useState<any>()
+  const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -83,11 +84,11 @@ const [averageRating, setaverageRating] = useState<any>()
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item:any) => item.id === card?.id);
+    const existingCartItem = cartItems.find((item: any) => item.id === card?.id);
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
 
-    
+
     if (newQuantity > (card?.stock || 0)) {
       message.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
       return;
@@ -95,15 +96,15 @@ const [averageRating, setaverageRating] = useState<any>()
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
-  
+
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
   const imgIndex = card.productImages.slice(-1)[0];
 
-/* eslint-disable react-hooks/rules-of-hooks */
+  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
-    if(card?.reviews){
+    if (card?.reviews) {
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
       setaverageRating(averageRating)
     }
@@ -116,8 +117,7 @@ const [averageRating, setaverageRating] = useState<any>()
 
   return (
     <div
-      className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}
-    >
+      className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
         {slider ? (
           <Swiper
@@ -300,7 +300,7 @@ const [averageRating, setaverageRating] = useState<any>()
                       </DialogTrigger>
                       <DialogOverlay />
                       <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-          
+
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail
                             params={card}
@@ -334,28 +334,28 @@ const [averageRating, setaverageRating] = useState<any>()
                   className={` ${cardImageHeight} flex justify-center items-center`}
                 >
                   <Link
-                  href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
                   >
-                  <Image
-                    src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
-                    alt={card.posterImageAltText || card.name}
-                    width={600}
-                    height={600}
-                    className={
-                      'rounded-[35px] w-full px-2 object-contain cursor-pointer'
-                    }
-                    style={{
-                      height: calculateHeight
-                        ? calculateHeight
-                        : 'calc(100% - 20px)',
-                    }}
-                  />
+                    <Image
+                      src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
+                      alt={card.posterImageAltText || card.name}
+                      width={600}
+                      height={600}
+                      className={
+                        'rounded-[35px] w-full px-2 object-contain cursor-pointer'
+                      }
+                      style={{
+                        height: calculateHeight
+                          ? calculateHeight
+                          : 'calc(100% - 20px)',
+                      }}
+                    />
                   </Link>
                 </div>
               ) : (
                 <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                   <Image
-                    src={card.posterImageUrl}
+                    src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
                     alt={card.posterImageAltText || card.name}
                     // onClick={() => handleNavigation()}
                     width={600}
@@ -365,7 +365,10 @@ const [averageRating, setaverageRating] = useState<any>()
                       className,
                       skeletonHeight,
                       cardImageHeight,
+                      !isHomepage && !slider && 'border border-main'
                     )}
+                    onMouseEnter={() => setIsHoverImage(true)}
+                    onMouseLeave={() => setIsHoverImage(false)}
                   />
                 </Link>
               )}
@@ -484,7 +487,7 @@ const [averageRating, setaverageRating] = useState<any>()
                     </DialogTrigger>
                     <DialogOverlay />
                     <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-                     
+
                       <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                         <ProductDetail
                           params={card}

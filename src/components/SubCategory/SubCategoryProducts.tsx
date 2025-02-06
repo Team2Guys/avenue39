@@ -47,7 +47,6 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
         );
       return hasMatchingCategory && prod.id !== findProduct.id;
     });
-
     return (
       <Product
         params={findProduct}

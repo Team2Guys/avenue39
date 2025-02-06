@@ -139,7 +139,7 @@ const SofaBanner: React.FC = () => {
           slidesPerView={1}
           autoplay={{
             delay: 3000,
-            disableOnInteraction: false,
+            disableOnInteraction: true,
           }}
           pagination={{
             clickable: true,

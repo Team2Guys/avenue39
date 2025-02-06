@@ -46,9 +46,6 @@ const ProductPage = ({
 
   const filteredCards = productsToFilter
     .filter((card) => {
-      if (pathname === '/products') {
-        return card.discountPrice > 0 && card.stock > 0;
-      }
       if (pathname === '/sale') {
         return card.discountPrice > 0; // Show only discounted products
       }
@@ -84,17 +81,17 @@ const ProductPage = ({
       }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
-        {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
-          <div className="flex flex-col items-center">
-            {newArrivals.map((item, index) => (
-              <div key={index} className="text-center">
-                <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
-                <Container>
-                  <p>{item.description}</p>
-                </Container>
-              </div>
-            ))}
-          </div>
+          {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
+            <div className="flex flex-col items-center">
+              {newArrivals.map((item, index) => (
+                <div key={index} className="text-center">
+                  <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
+                  <Container>
+                    <p>{item.description}</p>
+                  </Container>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="flex flex-col items-center">
               <h1 className="text-[45px] font-helvetica font-bold">
@@ -138,7 +135,7 @@ const ProductPage = ({
             </div>
             <SubCategoriesRow />
           </div>
-  
+
 
           <div
             className={`grid gap-4 md:gap-8 mt-4 ${layout === 'grid' ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 ' : 'grid-cols-1'}`}

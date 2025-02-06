@@ -23,8 +23,7 @@ export async function generateMetadata({
   let metaObject: any;
 
   const headersList = await headers();
-  const domain =
-    headersList.get('x-forwarded-host') || headersList.get('host') || '';
+  const domain = headersList.get('x-forwarded-host') || headersList.get('host') || '';
   const protocol = headersList.get('x-forwarded-proto') || 'https';
   const pathname = headersList.get('x-invoke-path') || '/';
 
@@ -41,7 +40,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const categories = await fetchCategories();
   const AllProduct = await fetchProducts();
 
-  const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.name) === slug);
+  const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.custom_url ||item.name) === slug);
   if (!findCategory) {
     return <NotFound />;
   }
@@ -49,15 +48,13 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'home-office' ? 'homeOffice' : slug;
   const subcategory = menuData[categoryName] || [];
 
-  const sortProducts = findCategory.products
-    .map((prod: any) => {
+  const sortProducts = findCategory.products.map((prod: any) => {
       const clonedProd = { ...prod, subcategories: [...prod.subcategories] };
       const clonedSubcategories = clonedProd.subcategories
         ? JSON.parse(JSON.stringify(clonedProd.subcategories))
         : [];
 
-      const matchingSubcategories = clonedSubcategories
-        ?.map((sub: ICategory) => {
+      const matchingSubcategories = clonedSubcategories?.map((sub: ICategory) => {
           const foundSubcategory = subcategory?.find((item) => item.title === sub.name,
           );
 

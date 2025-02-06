@@ -67,7 +67,7 @@ const ProductDetail = ({
 
   const [count, setCount] = useState(1);
   const dispatch = useDispatch<Dispatch>();
-  const cartItems = useSelector((state: State) => state.cart.items);
+  const cartItems = useSelector((state: State | any) => state.cart.items);
   const slug = String(params.name);
   const [timeLeft, setTimeLeft] = useState({
     day: 0,

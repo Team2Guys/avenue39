@@ -16,8 +16,7 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
   const subCategories = await fetchSubCategories();
   const AllProduct = await fetchProducts();
 
-  const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category &&
-    generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
+  const SubCategoriesFinder = re_Calling_products.find((value) =>  generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
   );
 
   if (SubCategoriesFinder) {
@@ -25,27 +24,21 @@ const SubCategoryProducts = async ({ slug }: { slug: string[] }) => {
     newCategory = generateSlug(SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase());
   }
 
-
   const findSubCategory: any = subCategories?.find((item: any) => {
-    const isNameMatch = generateSlug(item.name) === (newsubCat ? newsubCat : subcategoryName);
-    const belongsToCategory = item.categories.some((value: any) =>generateSlug(value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
+    const isNameMatch = generateSlug(item.custom_url || item.name) === (newsubCat ? newsubCat : subcategoryName);
+    const belongsToCategory = item.categories.some((value: any) =>generateSlug(value.custom_url ||value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
     return isNameMatch && belongsToCategory;
   });
   if (!findSubCategory) {
     let products = await fetchProducts();
-    const findProduct = products.find((item: IProduct) => generateSlug(item.name) === subcategoryName);
+    const findProduct = products.find((item: IProduct) => generateSlug(item.custom_url || item.name) === subcategoryName);
     if (!findProduct) {
       return <NotFound />;
     }
 
     const similarProducts: IProduct[] = products.filter((prod: IProduct) => {
-      const hasMatchingCategory =
-        prod?.categories &&
-        prod?.categories.some(
-          (prodCategory) =>
-            prodCategory?.name.trim().toLocaleLowerCase() === category,
-        );
-      return hasMatchingCategory && prod.id !== findProduct.id;
+  const hasMatchingCategory = prod?.categories && prod?.categories.some( (prodCategory) =>(prodCategory?.custom_url || prodCategory?.name ).trim().toLocaleLowerCase() === category);
+    return hasMatchingCategory && prod.id !== findProduct.id;
     });
 
     return (

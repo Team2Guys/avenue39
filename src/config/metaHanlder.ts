@@ -6,11 +6,11 @@ import { notFound } from 'next/navigation'
 export const Meta_handler = async (categoryName: string, url: string) => {
   const categories = await fetchCategories();
 
-  const findCategory =categories && categories?.find((item: any) => generateSlug(item.name) === categoryName);
+  const findCategory =categories && categories?.find((item: any) => generateSlug(item.custom_url || item.name) === categoryName);
   if (!findCategory) {
     notFound()
   }
-  let fullurl = `${url}${findCategory.name}`;
+  let fullurl = `${url}${findCategory?.custom_url||  findCategory.name}`;
 
   let images = findCategory.hoverImageUrl || 'images';
   let alttext = findCategory.Images_Alt_Text || 'Alternative Text';

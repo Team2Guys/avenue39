@@ -1,4 +1,15 @@
-export const re_Calling_products = [
+interface recallingTypes {
+  id:number,
+  mainCategory: string,
+  subCategory: string,
+  redirectsubCat: string,
+  redirect_main_cat:string,
+  customUrl?: string,
+  subcustomUrl?: string,
+
+}
+
+export const re_Calling_products:recallingTypes[] = [
   {
     id: 1,
     mainCategory: 'LIVING',
@@ -6,6 +17,8 @@ export const re_Calling_products = [
     ////////////////
     redirectsubCat: 'Sofas',
     redirect_main_cat: 'CHAIRS',
+    customUrl:"",
+    subcustomUrl:""
   },
   {
     id: 2,

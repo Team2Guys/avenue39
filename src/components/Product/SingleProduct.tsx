@@ -13,7 +13,7 @@ const SingleProduct = async ({ slug }: { slug: string[] }) => {
   const productName = slug[2];
   const products = await fetchProducts();
 
-  const findProduct = products.find((item: IProduct) => generateSlug(item.name) === productName);
+  const findProduct = products.find((item: IProduct) => generateSlug(item.custom_url || item.name) === productName);
   if (!findProduct) {
     return <NotFound />;
   }

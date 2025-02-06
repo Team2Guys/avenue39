@@ -1,6 +1,6 @@
 import { IHomeProducts } from '@/types/interfaces';
 import { IProduct } from '@/types/types';
-import productImg1 from '@images/products/imageeee.png';
+import productImg1 from '@images/products/imageeee.webp';
 
 export const paymentIcons = [
   { src: '/images/paymentIcons/Mastercard-Logo.webp', alt: 'Mastercard' },
@@ -27,7 +27,7 @@ export const SliderImages = [
   },
 ];
 export const bannerData = {
-  imageUrl: '/images/catalogue/sofa.png',
+  imageUrl: '/images/catalogue/sofa.webp',
   title: 'CATALOGUE',
   buttonText: 'DOWNLOAD ',
   fileUrl:
@@ -42,7 +42,7 @@ export const ColorBannerData = [
       'Avenue39 is a popular destination for interior designers and home improvement enthusiasts all over the UAE and offers an eclectic selection of luxury home decor.',
   },
   {
-    imageUrl: '/images/catalogue/design_chair1.png',
+    imageUrl: '/images/catalogue/design_chair1.webp',
     imageUrl2: '/images/catalogue/design_chair12.png',
     Heading: 'dining furniture',
     Description:
@@ -388,7 +388,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Abstract Vase',
-        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
       },
       {
         name: 'Monolith Sphere Tower ',

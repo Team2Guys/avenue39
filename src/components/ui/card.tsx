@@ -108,7 +108,6 @@ const [averageRating, setaverageRating] = useState<any>()
 
 
 
-
   return (
     <div
       className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}
@@ -185,7 +184,7 @@ const [averageRating, setaverageRating] = useState<any>()
                     href={ChangeUrlHandler(card)}
                   >
                     {' '}
-                    {card.name}
+                    {card.displayName ? card.displayName :card.name}
                   </Link>
                 </h3>
                 <div>
@@ -369,7 +368,7 @@ const [averageRating, setaverageRating] = useState<any>()
               <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                 <Link className="cursor-pointer" href={ChangeUrlHandler(card)}>
                   {' '}
-                  {card.name}
+                  {card.displayName? card.displayName : card.name}
                 </Link>
               </h3>
               <div>

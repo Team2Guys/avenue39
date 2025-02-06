@@ -18,6 +18,7 @@ import Card from '@/components/ui/card';
 import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
+
 interface ProductPageProps {
   layout: string;
   Setlayout: React.Dispatch<React.SetStateAction<string>>;
@@ -45,16 +46,36 @@ const ProductPage = ({
   const [sortOption, setSortOption] = useState<string>('default');
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
-
+  console.log(ProductData,"ProductData")
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
+  const processedProducts = productsToFilter.flatMap((prod) => {
+    if (!prod.sizes || prod.sizes.length === 0) {
+      return [prod];
+    }
 
-  const filteredCards = productsToFilter
+    return prod.sizes.map((size) => {
+      const matchedImage = prod.productImages?.find((img) =>
+        img.size?.toLowerCase() === size.name.toLowerCase()
+      )?.imageUrl || null;
+
+      const firstUploadedImage = prod.productImages.length > 0 ? prod.productImages[0].imageUrl : null;
+      return {
+        ...prod,
+        name: `${prod.name}`,
+        displayName:`${prod.name} - ${size.name}`,
+        price: Number(size.price),
+        posterImageUrl: matchedImage || firstUploadedImage || prod.posterImageUrl,
+      };
+    });
+  });
+
+  const filteredCards = processedProducts
     .filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
       }
       if (pathname === '/sale') {
-        return card.discountPrice > 0; // Show only discounted products
+        return card.discountPrice > 0 && card.stock > 0;
       }
       return true;
     })
@@ -77,39 +98,41 @@ const ProductPage = ({
           return 0;
       }
     });
+
   return (
     <>
-      {
-     <TopHero
-     breadcrumbs={productsbredcrumbs}
-     categoryName={mainslug ? mainslug : SubcategoryName?.name}
-     subCategorName={SubcategoryName?.name || undefined}
-   />
-   
-      }
+      <TopHero
+        breadcrumbs={productsbredcrumbs}
+        categoryName={mainslug ? mainslug : SubcategoryName?.name}
+        subCategorName={SubcategoryName?.name || undefined}
+      />
+
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
-        {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
-          <div className="flex flex-col items-center">
-            {newArrivals.map((item, index) => (
-              <div key={index} className="text-center">
-                <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
-                <Container>
-                  <p>{item.description}</p>
-                </Container>
-              </div>
-            ))}
-          </div>
+          {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
+            <div className="flex flex-col items-center">
+              {newArrivals.map((item, index) => (
+                <div key={index} className="text-center">
+                  <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
+                  <Container>
+                    <p>{item.description}</p>
+                  </Container>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="flex flex-col items-center">
               <h1 className="text-[45px] font-helvetica font-bold">
-                {SubcategoryName?.name ?SubcategoryName?.name :info?.name}
+                {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-                <p className="text-center">{SubcategoryName?.description ? SubcategoryName?.description : info?.description} </p>
+                <p className="text-center">
+                  {SubcategoryName?.description ? SubcategoryName?.description : info?.description}
+                </p>
               </Container>
             </div>
           )}
+
           <div className="sm:mt-4 mt-10 flex items-center justify-between gap-4 py-2 px-2 flex-col md:flex-row">
             <div className="flex items-center gap-4">
               <div className="flex gap-2 items-center">
@@ -136,17 +159,19 @@ const ProductPage = ({
                 />
               </div>
 
-              <p className="block whitespace-nowrap  text-12 sm:text-base">
-                Showing {filteredCards.length > 0 ? filteredCards.length : 0}{' '}
-                results
+              <p className="block whitespace-nowrap text-12 sm:text-base">
+                Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
               </p>
             </div>
             <SubCategoriesRow />
           </div>
-  
 
           <div
-            className={`grid gap-4 md:gap-8 mt-4 ${layout === 'grid' ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 ' : 'grid-cols-1'}`}
+            className={`grid gap-4 md:gap-8 mt-4 ${
+              layout === 'grid'
+                ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5'
+                : 'grid-cols-1'
+            }`}
           >
             {filteredCards.length > 0 ? (
               filteredCards.map((card) => (
@@ -166,7 +191,6 @@ const ProductPage = ({
               <p>No Product Found</p>
             )}
           </div>
-          {/* )} */}
         </div>
       </Container>
     </>

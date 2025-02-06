@@ -142,6 +142,7 @@ export interface IProduct {
   sizes?: Sizes[];
   filter?: Filter[];
   reviews?:any[]
+  displayName?: string;
 }
 interface Filter {
   heading: string;

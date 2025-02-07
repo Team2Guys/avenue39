@@ -38,9 +38,7 @@ export const ColorBannerData = [
     imageUrl: '/images/ave1.webp',
     imageUrl2: '/images/ave2.webp',
     Heading: 'luxury furniture',
-    Description:
-      'Avenue39 is a popular destination for interior designers and home improvement enthusiasts all over the UAE and offers an eclectic selection of luxury home decor.',
-  },
+    Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you."  },
   {
     imageUrl: '/images/catalogue/design_chair1.webp',
     imageUrl2: '/images/catalogue/design_chair12.png',

@@ -1023,7 +1023,7 @@ export const data = {
     "We began our journey with a simple idea: to make high-quality, unique, and modern furniture accessible to everyone. During this exciting journey, we built strong relationships with some of the finest furniture manufacturers, but not just anyone who makes the cut. As part of our quality control process, our Avenue39 team personally visits factories to make sure that the craftsmanship meets our standards. We also make sure the people behind the pieces are treated fairly and with respect. If a factory doesn't meet our quality and ethical standards, we walk away. No compromises.",
   ],
   paragraphs2: [
-    '"We call it "attention to detail," but you can just call it "getting it right.”',
+    'We call it "attention to detail," but you can just call it "getting it right.',
   ],
   paragraphs3: [
     'We don’t just pick items out of a catalogue and hope for the best. Every single piece of furniture goes through a hands-on test before making it into our collection. Our buyers spend time at the source, personally checking materials, craftsmanship, and durability. We sit on the sofas, run our hands over the tabletops, and inspect the finishes—if it doesn’t meet our standards, it doesn’t make the cut.',

@@ -17,6 +17,7 @@ interface ProductGridProps {
   portSpace?: string;
   productImages: any[];
   redirect?: string;
+  sliderNumber?: number
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({
@@ -29,6 +30,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   portSpace,
   isLandscape,
   redirect,
+  sliderNumber
 }) => {
   return (
     <>
@@ -59,7 +61,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           loop={true}
           modules={[Autoplay ,Pagination]}
           autoplay={{
-            delay: 2500,
+            delay: sliderNumber === 1 ? 2700 : 2050,
             disableOnInteraction: false,
           }}
           speed={1500}

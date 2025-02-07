@@ -252,6 +252,48 @@ const ProductDetail = ({
     dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
+
+  const handleAddToWishlist = (product: IProduct) => {
+    const newWishlistItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      posterImageUrl: product.posterImageUrl,
+      discountPrice: product.discountPrice,
+      count: 1,
+      stock: product.stock,
+      totalPrice: product.discountPrice ? product.discountPrice : product.price,
+    };
+    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const existingItemIndex = existingWishlist.findIndex(
+      (item: any) => item.id === newWishlistItem.id,
+    );
+    if (existingItemIndex !== -1) {
+      const currentCount = existingWishlist[existingItemIndex].count;
+      if (product.stock && currentCount + 1 > product.stock) {
+        toast.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist[existingItemIndex].count += 1;
+      existingWishlist[existingItemIndex].totalPrice =
+        existingWishlist[existingItemIndex].count *
+        (existingWishlist[existingItemIndex].discountPrice ||
+          existingWishlist[existingItemIndex].price);
+    } else {
+      if (product.stock && newWishlistItem.count > product.stock) {
+        toast.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist.push(newWishlistItem);
+    }
+    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+    toast.success('Product added to Wishlist successfully!');
+    window.dispatchEvent(new Event('WishlistChanged'));
+  };
   // const handle3D = (e: React.MouseEvent<HTMLElement>) => {
   //   e.stopPropagation();
   // };
@@ -511,11 +553,18 @@ const ProductDetail = ({
 
             <div className="flex gap-2 mb-4 w-full sm:w-1/2  md:w-full">
               <Button
-                variant={'outline'}
-                className="text-primary font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+                variant={'main'}
+                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
                 onClick={(e: any) => handleAddToCard(e)}
               >
                 Add to cart
+              </Button>
+              <Button
+                variant='outline'
+                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+                onClick={() => handleAddToWishlist(product)}
+              >
+                Add to Wishlist
               </Button>
               {/* 
               <div className="w-full mx-auto md:w-full">

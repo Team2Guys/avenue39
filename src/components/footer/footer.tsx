@@ -9,6 +9,7 @@ import axios from 'axios';
 import showToast from '../Toaster/Toaster';
 import { menuData } from '@/data/menu';
 import { generateSlug } from '@/config';
+import { MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -216,7 +217,9 @@ const Footer: React.FC = () => {
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
               <div className=" w-full max-w-56 rounded-sm">
                 <div className="flex items-center gap-2 py-2 px-2">
-                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal">
+                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2">
+                  <MdOutlineEmail />
+
                     +971 50 597 4495
                   </p>
                 </div>
@@ -226,10 +229,12 @@ const Footer: React.FC = () => {
           <div className="mt-4 text-[#686868]">
             <div className=" w-full max-w-56 rounded-sm ">
               <Link
+              className='flex gap-2 items-center'
                 href="mailto:cs@avenue39.com"
                 rel="noreferrer"
                 target="_blank"
               >
+               <MdOutlinePhone />
                 cs@avenue39.com
               </Link>
             </div>

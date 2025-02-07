@@ -31,7 +31,6 @@ import support from '@icons/chat-46.png';
 import opal from '@images/products/OPALdiningtable_900x900S.webp';
 import living from '@images/products/armchair.webp';
 import profileimage1 from '@images/profile/Ellipse 4.png';
-import profileimage2 from '@images/profile/Ellipse 5.png';
 
 import facebook from '@icons/Icon-awesome-facebook-f.png';
 import x from '@icons/Icon-awesome-twitter.png';
@@ -958,40 +957,6 @@ export const testimonialcards: ITestimonialCard[] = [
     name: 'Sparta Coffee Table',
     comment:
       'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 5,
-  },
-];
-export const customtestimonialcards: ITestimonialCard[] = [
-  {
-    id: 1,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 3,
-  },
-  {
-    id: 2,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 5,
-  },
-  {
-    id: 3,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    reviews: 2,
-  },
-  {
-    id: 4,
-    profile: profileimage2,
-    name: 'Dominic Greene',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     reviews: 5,
   },
 ];

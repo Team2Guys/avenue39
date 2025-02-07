@@ -24,6 +24,7 @@ import {
 } from '../ui/dialog';
 import { message } from 'antd';
 import Link from 'next/link';
+import { IoIosHeartEmpty } from 'react-icons/io';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;
@@ -95,6 +96,50 @@ const Card: React.FC<CardProps> = ({
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
+  };
+
+  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>, product: IProduct) => {
+    e.stopPropagation();
+    const newWishlistItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      posterImageUrl: product.posterImageUrl,
+      discountPrice: product.discountPrice,
+      count: 1,
+      stock: product.stock,
+      totalPrice: product.discountPrice ? product.discountPrice : product.price,
+    };
+    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const existingItemIndex = existingWishlist.findIndex(
+      (item: any) => item.id === newWishlistItem.id,
+    );
+    if (existingItemIndex !== -1) {
+      const currentCount = existingWishlist[existingItemIndex].count;
+      if (product.stock && currentCount + 1 > product.stock) {
+        message.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist[existingItemIndex].count += 1;
+      existingWishlist[existingItemIndex].totalPrice =
+        existingWishlist[existingItemIndex].count *
+        (existingWishlist[existingItemIndex].discountPrice ||
+          existingWishlist[existingItemIndex].price);
+    } else {
+      if (product.stock && newWishlistItem.count > product.stock) {
+        message.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist.push(newWishlistItem);
+    }
+    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+    message.success('Product added to Wishlist successfully!');
+    window.dispatchEvent(new Event('WishlistChanged'));
+    console.log(existingWishlist, 'existingWishlist');
   };
 
   if (!card) {
@@ -353,24 +398,35 @@ const Card: React.FC<CardProps> = ({
                   </Link>
                 </div>
               ) : (
-                <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
-                  <Image
-                    src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
-                    alt={card.posterImageAltText || card.name}
-                    // onClick={() => handleNavigation()}
-                    width={600}
-                    height={600}
-                    className={cn(
-                      'object-cover rounded-[35px] w-full',
-                      className,
-                      skeletonHeight,
-                      cardImageHeight,
-                      !isHomepage && !slider && 'border border-main'
-                    )}
+                <div className="relative">
+                  <div
+                    onClick={(e) => handleAddToWishlist(e, card)}
                     onMouseEnter={() => setIsHoverImage(true)}
                     onMouseLeave={() => setIsHoverImage(false)}
-                  />
-                </Link>
+                    className="absolute top-4 -right-10 group-hover:right-4 opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+                  >
+                    <IoIosHeartEmpty size={20} />
+                  </div>
+                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+                    <Image
+                      src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
+                      alt={card.posterImageAltText || card.name}
+                      // onClick={() => handleNavigation()}
+                      width={600}
+                      height={600}
+                      className={cn(
+                        'object-cover rounded-[35px] w-full',
+                        className,
+                        skeletonHeight,
+                        cardImageHeight,
+                        !isHomepage && !slider && 'border border-main'
+                      )}
+                      onMouseEnter={() => setIsHoverImage(true)}
+                      onMouseLeave={() => setIsHoverImage(false)}
+                    />
+                  </Link>
+                </div>
+
               )}
             </div>
             <div className="space-y-3">

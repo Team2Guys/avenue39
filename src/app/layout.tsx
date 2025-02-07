@@ -12,6 +12,7 @@ import {
   Helveticalight,
   jadyn,
 } from '@/components/language';
+import WhatsIcon from '@/components/Icons/Whatsapp';
 
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
@@ -46,6 +47,7 @@ export default function RootLayout({
         <Providers>
           <PathnameWrapper>
             {children}
+            <WhatsIcon />
             <ToastContainer />
           </PathnameWrapper>
         </Providers>

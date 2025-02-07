@@ -1,7 +1,7 @@
 import icon3 from '@icons/3.png';
 import diningTable from '@assets/menu-icons/dining-table.png';
 import diningChair from '@assets/menu-icons/dining-chair.png';
-import accessories from '@assets/menu-icons/furnitures.png';
+// import accessories from '@assets/menu-icons/furnitures.png';
 import sideCabinets from '@assets/menu-icons/cabinet.png';
 import sideTable from '@assets/menu-icons/side-table.png';
 import sofa from '@assets/menu-icons/sofa.png';

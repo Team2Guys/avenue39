@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { IoIosHeartEmpty } from 'react-icons/io';
 
 const WishlistCount = () => {
   const [wishlistCount, setWishlistCount] = useState(0);
-
+  const path = usePathname();
   const calculateWishlistCount = () => {
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlistCount(wishlist.length);
@@ -27,7 +28,7 @@ const WishlistCount = () => {
   return (
     <div
       className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center cursor-pointer ${
-        wishlistCount > 0 ? 'bg-main border-main text-white' : 'border-black'
+        path === '/wishlist' ? 'bg-main border-main text-white' : 'border-black'
       }`}
     >
       <Link href={'/wishlist'}>

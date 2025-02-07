@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
                     href={
                       menu === 'SALE'
                         ? '/sale'
-                        : `/${generateSlug(menu === 'office-furniture' ? 'home-office' : menu  || '')}`
+                        : `/${generateSlug(menu === 'homeOffice' ? 'office-furniture' : menu  || '')}`
                     }
                     className="hover:underline capitalize"
                   >

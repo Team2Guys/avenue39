@@ -46,7 +46,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
     return <NotFound />;
   }
 
-  const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'home-office' ? 'homeOffice' : slug;
+  const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'office-furniture' ? 'homeOffice' : slug;
   const subcategory = menuData[categoryName] || [];
 
   let sortProducts;
@@ -118,7 +118,7 @@ console.log(Product.length, "Product")
         });
     }
 
-    console.log(Product.length, "Product")
+
   return <Shop
     ProductData={sortProducts}
     AllProduct={AllProduct}

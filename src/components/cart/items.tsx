@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { GiShoppingCart } from 'react-icons/gi';
 import { CartItem } from '@/redux/slices/cart/types';
 import { toast } from 'react-toastify';
+import { usePathname } from 'next/navigation';
 
 interface ICartItems {
   isCartPage?: boolean;
@@ -40,6 +41,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
   );
   const drawerState = useSelector((state: State) => state.drawer);
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const path = usePathname();
   const removeProductFromCart = (item: CartItem) => {
     dispatch(removeItem(item));
   };
@@ -111,7 +113,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
         <div ref={drawerRef}>
           <div>
             <div
-              className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center  cursor-pointer ${cartItems.length > 0 ? 'text-white bg-main' : 'text-black  border-black'}`}
+              className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center  cursor-pointer ${path === '/cart' ? 'text-white bg-main' : 'text-black  border-black'}`}
               onClick={handleOpenDrawer}
             >
               <GiShoppingCart size={27} style={{ transform: 'scaleX(-1)' }} />
@@ -129,7 +131,8 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
           >
             <div className="space-y-0 flex flex-row items-center justify-between border-b-2 pb-6 relative pe-6">
               <div
-                className={`absolute -top-[23px] ${userDetails ? 'right-1/2' : 'right-[40px]'}`}
+                className={`absolute -top-[23px] ${userDetails ? 'right-1/2' : 'right-[40px]'}` }
+                style={{zIndex: 1005}}
               >
                 <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">
                   <span className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[19px] border-r-white border-b-[20px] border-b-transparent transform rotate-0 absolute top-[2px] -left-[13px] -translate-y-[1px] rounded-t-md"></span>

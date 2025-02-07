@@ -20,7 +20,7 @@ const TopNav = () => {
               This Ramadan elevate your home’s style with the best offers.{' '}
               <Link
                 className="text-red-600 border-b border-red-600 hover:text-red-800"
-                href={'/products'}
+                href={'/sale'}
               >
                 SHOP SALE
               </Link>

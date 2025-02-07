@@ -14,15 +14,17 @@ import { menuData } from '@/data/menu';
 const SubCategoriesRow = () => {
   const path = usePathname();
   const [subCategory, setSubCategory] = useState<MenuItem[]>([]);
+  const [Category, setCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const categoryKey = path?.replace('/', '');
     const categoryName =
       categoryKey === 'lighting'
         ? 'Lighting'
-        : categoryKey === 'home-office'
+        : categoryKey === 'office-furniture'
           ? 'homeOffice'
-          : categoryKey;
+          :  categoryKey;
+          setCategory(categoryKey);
     const subcategory = menuData[categoryName] || [];
     setSubCategory(subcategory);
   }, [path]);
@@ -71,7 +73,7 @@ const SubCategoriesRow = () => {
           {subCategory.map((category, index) => (
             <SwiperSlide key={index}>
               <Link
-                href={`${generateSlug(category.title) === 'sale' ? '/products' : `/products/${generateSlug(category.title)}/?id=${category.categoryId}`}`}
+                href={`/${Category}/${generateSlug(category.title)}`}
                 key={category.categoryId}
                 className="w-full text-center whitespace-nowrap bg-[#afa183] rounded-lg py-2 px-2 text-white block"
               >

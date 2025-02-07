@@ -51,7 +51,7 @@ const ProductPage = ({
   const filteredCards = productsToFilter
     .filter((card) => {
       if (pathname === '/sale') {
-        return card.discountPrice > 0; // Show only discounted products
+        return card.discountPrice > 0; 
       }
       return true;
     })
@@ -117,7 +117,7 @@ const ProductPage = ({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="default">Default</SelectItem>
-                      <SelectItem value="name">Name</SelectItem>
+                      <SelectItem value="name">A to Z</SelectItem>
                       <SelectItem value="max">Price Max</SelectItem>
                       <SelectItem value="min">Price Min</SelectItem>
                     </SelectGroup>

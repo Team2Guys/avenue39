@@ -23,6 +23,8 @@ const buttonVariants = cva(
         underline: 'bg-transparent text-black hover:underline text-sm',
         black:
           'bg-black text-white hover:text-black hover:bg-white text-sm rounded-md border-2 border-black ',
+        main:
+          'bg-main text-white hover:text-main hover:bg-transparent text-sm rounded-md border border-main ',
       },
       size: {
         default: 'h-10 px-4 py-2',

@@ -9,7 +9,8 @@ import axios from 'axios';
 import showToast from '../Toaster/Toaster';
 import { menuData } from '@/data/menu';
 import { generateSlug } from '@/config';
-import { MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
+import { MdOutlineEmail, MdOutlinePhone, MdOutlineWhatsapp } from 'react-icons/md';
+import { WhatsAppInfo } from '@/data/data';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -56,12 +57,12 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <section className="pt-16 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-Helveticalight">
+    <section className="pt-16 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-helvetica">
       <div className="container w-full sm:w-1/2 flex flex-col items-center mx-auto md:mb-[110px]">
         <Image src={logo} alt="logo" className="w-40" />
 
         <div className="w-fit">
-          <p className="mt-6 tracking-wide font-Helveticalight text-13 lg:text-15 text-[#686868] max-sm:text-center">
+          <p className="mt-6 tracking-wide font-helvetica text-13 lg:text-15 text-[#686868] max-sm:text-center">
             Get Our Exclusive Handpicked Furniture Catalogue
           </p>
           <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>
@@ -89,10 +90,10 @@ const Footer: React.FC = () => {
       {/* <Container className="grid grid-cols-5 sm:gap-x-4 md:gap-x-5 lg:gap-x-8 gap-y-8 px-4 mx-auto  items-center justify-between bg-green-300"> */}
       <Container className="flex flex-wrap justify-between gap-10 ">
         <div className=" px-2">
-          <h5 className="font-extralight  font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Rooms
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 capitalize text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
                 ['dining', 'living', 'bedroom', 'homeOffice'].includes(menu),
@@ -108,7 +109,7 @@ const Footer: React.FC = () => {
                     className="hover:underline capitalize"
                   >
                     {menu === 'SALE' ? (
-                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-Helveticalight text-13 lg:text-15 capitalize">
+                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-helvetica text-13 lg:text-15 capitalize">
                         Sale
                       </p>
                     ) : (
@@ -120,10 +121,10 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className="  px-2">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Item
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 capitalize text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
                 ['chairs', 'tables', 'Lighting', 'Accessories'].includes(menu),
@@ -139,7 +140,7 @@ const Footer: React.FC = () => {
                     className="hover:underline capitalize"
                   >
                     {menu === 'SALE' ? (
-                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-Helveticalight text-13 lg:text-15 capitalize">
+                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-helvetica text-13 lg:text-15 capitalize">
                         Sale
                       </p>
                     ) : (
@@ -151,10 +152,10 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className="  px-2">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Terms & Policies
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 text-[#686868]">
             <li>
               <Link href="/terms-and-conditions" className="hover:underline">
                 Terms & Conditions
@@ -179,10 +180,10 @@ const Footer: React.FC = () => {
         </div>
 
         <div className=" ">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Quick Links
           </h5>
-          <ul className="leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15 mt-6 capitalize text-[#686868]">
+          <ul className="leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15 mt-6 capitalize text-[#686868]">
             <li>
               <Link href="/profile" target="_self" className="hover:underline">
                 My Account
@@ -210,23 +211,38 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className=" flex flex-col md:items-center">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica w-full sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
           </h5>
-          <div className="mt-8 w-fit text-[#686868]">
+          <div className="mt-6 w-full flex max-w-56  text-[#686868]">
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
-              <div className=" w-full max-w-56 rounded-sm">
-                <div className="flex items-center gap-2 py-2 px-2">
+              <div className=" w-full rounded-sm">
+                <div className="flex items-center gap-2 py-2 ">
                   <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2">
-                  <MdOutlineEmail />
-
-                    +971 50 597 4495
+                  <MdOutlinePhone size={23} />
+                    {WhatsAppInfo.number}
                   </p>
                 </div>
               </div>
             </Link>
           </div>
-          <div className="mt-4 text-[#686868]">
+
+          <div className="w-full max-w-56  text-[#686868]">
+            <Link  href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
+              <div className=" w-full  rounded-sm">
+                <div className="flex items-center gap-2 py-2">
+                  <MdOutlineWhatsapp size={23} />
+                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex justify-between items-center gap-2">
+
+
+                    {WhatsAppInfo.number}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+          
+          <div className="mt-2  text-[#686868]">
             <div className=" w-full max-w-56 rounded-sm ">
               <Link
               className='flex gap-2 items-center'
@@ -234,7 +250,8 @@ const Footer: React.FC = () => {
                 rel="noreferrer"
                 target="_blank"
               >
-               <MdOutlinePhone />
+      
+               <MdOutlineEmail size={22} />
                 cs@avenue39.com
               </Link>
             </div>
@@ -249,21 +266,6 @@ const Footer: React.FC = () => {
           <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticaligh">
             Copyright © 2024 avenue39 All rights reserved.
           </p>
-          {/* <div className="flex items-center gap-4">
-            <div className="flex justify-between space-x-4">
-            {paymentIcons.map((icon, index) => (
-              <div key={index} className="w-14 h-auto p-1">
-              <Image
-              src={icon.src}
-              alt={icon.alt}
-                    width={64}
-                    height={60}
-                    className="object-contain shadow"
-                  />
-                </div>
-              ))}
-            </div>
-          </div> */}
         </Container>
       </div>
     </section>

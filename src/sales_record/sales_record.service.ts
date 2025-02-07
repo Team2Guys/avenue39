@@ -59,7 +59,7 @@ export class SalesRecordService {
           amount: amount * 100,
         },
         special_reference: orderId,
-        redirection_url: 'https://avenue39.com/thanks',
+        redirection_url: `${process.env.FRONTEND_URL}/thanks`,
       });
 
       let requestOptions = {

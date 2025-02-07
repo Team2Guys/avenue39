@@ -75,8 +75,9 @@ const CatProduct1 = ({
                 productImages={productImages?.products || []}
                 slider={true}
                 redirect={redirect}
-                imageHeight="h-[210px] xl:h-[496.5px] w-full"
+                imageHeight="h-[310px] xl:h-[496.5px] w-full"
                 portSpace={'px-10'}
+                calculateHeight={'calc(100% - 40px)'}
               />
             </div>
           </div>

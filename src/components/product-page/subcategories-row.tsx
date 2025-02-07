@@ -71,7 +71,7 @@ console.log(category?.subcategories, "custom_url")
           {(category?.subcategories || subCategory).map((category:any, index:any) => (
             <SwiperSlide key={index}>
               <Link
-                href={`/${Category}/${generateSlug((category?.custom_url || category?.name) || category.title)}`}
+                href={`/${category?.name === "TV Stands" ? 'bedroom' : Category}/${generateSlug((category?.custom_url || category?.name) || category.title)}`}
                 key={category.categoryId}
                 className="w-full text-center whitespace-nowrap bg-[#afa183] rounded-lg py-2 px-2 text-white block"
               >

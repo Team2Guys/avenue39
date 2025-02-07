@@ -64,19 +64,25 @@ export const TrimUrlHandler = (name: string | undefined) => {
 
 export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, mainCatgor?: string) => {
   if (!product) return '';
+
+  console.log(product, "product")
+
   let url = '';
   const categoryFlag = product?.subcategories && product?.subcategories?.length > 0 && product?.categories && product?.categories?.length > 0;
 
   const filteredProduct = categoryFlag && re_Calling_products.find((prod: any) => {
-    const categoriesMatch = product?.categories && product?.categories.some((cat: any) => cat.name.trim().toLowerCase() === prod.mainCategory.trim().toLowerCase());
-    const subCategoryMatch = product?.subcategories && product?.subcategories.some((cat: any) => cat.name.trim().toLowerCase() === prod.subCategory.trim().toLowerCase());
+    const categoriesMatch = product?.categories && product?.categories.some((cat: any) => cat.name.trim().toLowerCase() === prod.mainCategory.trim().toLowerCase()
+  );
+    const subCategoryMatch = product?.subcategories && product?.subcategories.some((cat: any) =>(cat.custom_url ||cat.name).trim().toLowerCase() === prod.subCategory.trim().toLowerCase());
 
     return categoriesMatch && subCategoryMatch;
   });
 
+  console.log(filteredProduct, "filteredProduct")
+
   if (filteredProduct) {
-    const cat = product?.categories && product?.categories.find((cat: any) => cat.name.trim().toLowerCase() === filteredProduct.redirect_main_cat.trim().toLowerCase());
-    const subCat = product?.subcategories && product?.subcategories.find((cat: any) => cat.name.trim().toLowerCase() === filteredProduct.redirectsubCat.trim().toLowerCase());
+    const cat = product?.categories && product?.categories.find((cat: any) => (cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirect_main_cat.trim().toLowerCase());
+    const subCat = product?.subcategories && product?.subcategories.find((cat: any) =>(cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirectsubCat.trim().toLowerCase());
 
 
     const category = generateSlug(cat?.custom_url || filteredProduct.redirect_main_cat).toLowerCase();

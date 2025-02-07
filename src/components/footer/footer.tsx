@@ -211,7 +211,7 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className=" flex flex-col md:items-center">
-          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica w-full sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
           </h5>
           <div className="mt-6 w-full flex max-w-56  text-[#686868]">

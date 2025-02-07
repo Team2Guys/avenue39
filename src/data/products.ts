@@ -281,7 +281,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Nordic Coffee Table with the Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/Nordic.webp',
+        posterImageUrl: '/images/HomeProducts/Living/nordic.png',
       },
       {
         name: 'Finestra Side Table',

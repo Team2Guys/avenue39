@@ -200,10 +200,15 @@ const Navbar = () => {
                       />
                     </div>
                     {filteredProducts.length > 0 ? (
-                      filteredProducts.map((product) => (
+                      filteredProducts.map((product, index) => (
+                     <Link key={product.id || index} href={ 
+                       ChangeUrlHandler(product)
+          
+                     }>
+                     
                         <div
                           key={product.id}
-                          onClick={() => handleNavigation(product)}
+                          // onClick={() => handleNavigation(product)}
                           className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
                         >
                           <Image
@@ -235,7 +240,13 @@ const Navbar = () => {
                             </div>
                             <RenderStars card={product} />
                           </div>
+
+
                         </div>
+                     
+                     </Link>
+
+                        
                       ))
                     ) : (
                       <div>No product is found</div>

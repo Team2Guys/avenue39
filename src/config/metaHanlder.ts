@@ -10,8 +10,6 @@ export const Meta_handler = async (categoryName: string, url: string) => {
   if (!findCategory) {
     notFound()
   }
-  const {products, subCategories, ...withoutcategory} = findCategory
-  console.log(withoutcategory,  "findCategory")
   let fullurl = `${url}${findCategory?.custom_url||  findCategory.name}`;
 
   let images = findCategory.hoverImageUrl || 'images';

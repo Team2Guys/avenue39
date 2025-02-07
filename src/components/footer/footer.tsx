@@ -61,10 +61,11 @@ const Footer: React.FC = () => {
       <div className="container w-full sm:w-1/2 flex flex-col items-center mx-auto md:mb-[110px]">
         <Image src={logo} alt="logo" className="w-40" />
 
-        <div className="w-fit">
+        <div className=" text-center">
           <p className="mt-6 tracking-wide font-helvetica text-13 lg:text-15 text-[#686868] max-sm:text-center">
-            Get Our Exclusive Handpicked Furniture Catalogue
+          {`Avenue39 is more than just a furniture store; it's a philosophy that blends contemporary design with timeless aesthetics. We understand the importance of creating a harmonious environment that reflects your unique personality and taste. Each piece in our collection is thoughtfully selected to offer a perfect fusion of form and function`}.
           </p>
+          <div className='w-1/3 m-auto'>
           <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>
             <div className="relative">
               <input
@@ -84,6 +85,7 @@ const Footer: React.FC = () => {
               </Button>
             </div>
           </form>
+          </div>
         </div>
       </div>
 
@@ -103,8 +105,8 @@ const Footer: React.FC = () => {
                   <Link
                     href={
                       menu === 'SALE'
-                        ? '/products'
-                        : `/${generateSlug(menu === 'homeOffice' ? 'home-office' : menu  || '')}`
+                        ? '/sale'
+                        : `/${generateSlug(menu === 'homeOffice' ? 'office-furniture' : menu  || '')}`
                     }
                     className="hover:underline capitalize"
                   >

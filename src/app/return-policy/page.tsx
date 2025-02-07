@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Return Policy Page',
-  description: 'Return Policy description',
+  title: 'Return Policy | Easy Returns & Refunds Process',
+  description: 'Read our return policy to understand how to return or exchange items easily. Hassle-free refunds and customer-friendly return guidelines.',
   openGraph: {
     title: 'Return Policy',
     description: 'Return Policy description',

@@ -5,15 +5,15 @@ import Image from 'next/image';
 import React from 'react';
 import aboutimage from '@assets/images/AboutImage.png';
 import Mission from '@/components/mission';
-import {data } from '@/data';
+import { data } from '@/data';
 import gold from '@icons/gold.png';
 import crosshair from '@icons/Icon-crosshair.png';
 import parkingSensors from '@icons/parking-sensors.png';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Page',
-  description: 'About description',
+  title: 'About Us | Luxury Furniture & Timeless Design Experts',
+  description: 'Discover our story and passion for high-end furniture and timeless craftsmanship. Learn more about our commitment to quality, design, and customer satisfaction.',
   openGraph: {
     title: 'About',
     description: 'About description',

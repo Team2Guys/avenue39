@@ -12,7 +12,6 @@ export const fetchProducts = async () => {
       },
     );
     if (!result.ok) {
-      console.log(result, 'result');
 
       return [];
     }
@@ -104,7 +103,6 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
     }
   }
 
-  console.log(url, "urls")
 
   return url;
 };

@@ -13,5 +13,6 @@ export interface CartState {
 export interface CartSize {
   name: string,
   price: string,
+  discountPrice?: string,
   stock?: number
 }

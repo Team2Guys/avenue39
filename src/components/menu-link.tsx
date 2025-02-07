@@ -42,8 +42,8 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
 
   const routinghandler = (mainCategory: string, subCategory: string) => {
     const routedCat = re_Calling_products.find((value) =>
-        TrimUrlHandler(value.mainCategory) === TrimUrlHandler(mainCategory) &&
-        TrimUrlHandler(subCategory) == TrimUrlHandler(value.subCategory),
+      TrimUrlHandler(value.mainCategory) === TrimUrlHandler(mainCategory) &&
+      TrimUrlHandler(subCategory) == TrimUrlHandler(value.subCategory),
     );
     let routedMainCategory;
     let routedSubCategory;
@@ -58,20 +58,18 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
     <>
       {subCategory?.map((item, index) => (
         <SheetClose asChild key={index}>
-
-       
-        <Link
-          href={
-            item.name === 'Accessories'
-              ? '/accessories'
-              : routinghandler((menudata.custom_url || menudata.name),( item.custom_url || item.name))
-          }
-          className={`flex gap-1 items-center`}
-          key={index}
-          onClick={onLinkClick}
-        >
-          {item.name}
-        </Link>
+                    <Link
+            href={
+              item.name === 'Accessories'
+                ? '/accessories'
+                : routinghandler((menudata.custom_url || menudata.name), (item.custom_url || item.name))
+            }
+            className={`flex gap-1 items-center`}
+            key={index}
+            onClick={onLinkClick}
+          >
+            {item.name}
+          </Link>
         </SheetClose>
       ))}
     </>

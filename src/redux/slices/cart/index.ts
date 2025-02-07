@@ -108,17 +108,18 @@ const cartSlice = createSlice({
 export const selectTotalPrice = (state: CartState): number => {
 
   return state.items.reduce((total, item) => {
-    let price;
-    if (item.selectedSize) {
-      price = Number(item.selectedSize.discountPrice) ? Number(item.selectedSize.discountPrice) : Number(item.selectedSize.price);
-    }
-    else if (item.selectedfilter) {
+    // let price;
+    // if (item.selectedSize) {
+    //   price = Number(item.selectedSize.discountPrice) ? Number(item.selectedSize.discountPrice) : Number(item.selectedSize.price);
+    // }
+    // else if (item.selectedfilter) {
 
-      price = Number(item.selectedfilter.discountPrice) ? Number(item.selectedfilter.discountPrice) : Number(item.selectedfilter.price);
-    }
-    else {
-      price = item.discountPrice ? item.discountPrice : item.price;
-    }
+    //   price = Number(item.selectedfilter.discountPrice) ? Number(item.selectedfilter.discountPrice) : Number(item.selectedfilter.price);
+    // }
+    // else {
+    //   price = item.discountPrice ? item.discountPrice : item.price;
+    // }
+    const price = item.discountPrice ? item.discountPrice : item.price;
     return total + price * item.quantity;
 
   }, 0);

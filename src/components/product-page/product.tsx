@@ -40,7 +40,7 @@ const ProductPage = ({
   AllProduct,
   mainslug,
   info,
-}: ProductPageProps) => {
+  }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
   const pathname = usePathname();
@@ -138,7 +138,7 @@ const ProductPage = ({
                 results
               </p>
             </div>
-            <SubCategoriesRow />
+            <SubCategoriesRow category={info} />
           </div>
 
 

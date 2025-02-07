@@ -40,7 +40,7 @@ const Navbar = () => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const drawerInputRef = useRef<HTMLInputElement>(null);
   const userDetails = useSelector(
-    (state: State) => state.usrSlice.loggedInUser,
+    (state: State | any) => state.usrSlice.loggedInUser,
   );
   const dispatch = useAppDispatch();
 

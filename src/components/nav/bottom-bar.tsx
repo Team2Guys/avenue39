@@ -68,6 +68,11 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
       });
     }
   }, [loggedInUser]);
+
+
+
+
+
   return (
     <div className="flex justify-between items-center px-4 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-50">
       <Link href={'/'}>
@@ -78,70 +83,74 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
       </Link>
       <Sheet
       //  open={isSheetOpen}
-       >
+      >
         <SheetTrigger asChild>
           <div className="relative w-14">
             <div className="triangle-shape bg-black text-white cursor-pointer z-50">
-              <button type='submit'> <MdCategory size={25}
-              //  onClick={() => setIsSheetOpen(true)} 
-               /></button>
-             
+              <button type='submit'> <MdCategory size={25} /></button>
+
             </div>
           </div>
         </SheetTrigger>
         <SheetContent className="pb-5">
           <div className="pt-10 space-y-2">
-          {categories
+            {categories
               ?.filter((item) => item.name.toLowerCase() !== "sale").map((menu, menuIndex) =>
-              menu.subcategories && menu.subcategories?.length > 0 ? (
-                <Accordion
-                  key={menuIndex}
-                  type="single"
-                  collapsible
-                  className="w-full "
-                >
-                  <AccordionItem value={`item-${menuIndex}`}>
-                    <AccordionTrigger className="font-bold">
-                    <SheetClose asChild>
-                      <Link
-                        href={`/${generateSlug(menu.name?.trim()?.toLowerCase()=== "home office"  ? "office-furniture": menu.name)}`}
-                        className="hover:underline font-semibold text-15 flex gap-2 items-center"
-                      
-                      >
-                        {menu.name}
-                      </Link>
-                      </SheetClose>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <SheetClose asChild>
-                        <div className="grid font-semibold space-y-2 px-4">
-                          <MenuLink menudata={menu} />
-                        </div>
-                      </SheetClose>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              ) : (
-                <SheetClose asChild   key={menuIndex}>
-                <Link
-                  href={`/${generateSlug(menu.name)}`}
-                  key={menuIndex}
-            
-                  className="hover:underline font-semibold text-15 py-1 block uppercase w-fit"
-                >
-                  {menu.name}
-                </Link>
-                </SheetClose>
-              ),
-            )}
-              <SheetClose asChild key={'sales'}>
-            <Link
-              href={'/sale'}
-        
-              className="hover:underline text-red-500 font-semibold text-15 py-1 block uppercase w-fit"
-            >
-              Sale
-            </Link>
+                menu.subcategories && menu.subcategories?.length > 0 ? (
+                  <Accordion
+                    key={menuIndex}
+                    type="single"
+                    collapsible
+                    className="w-full "
+                  >
+                    <AccordionItem value={`item-${menuIndex}`}>
+                      <AccordionTrigger className="font-bold">
+                        <SheetClose asChild>
+                          <Link
+                            href={`/${generateSlug(menu.name?.trim()?.toLowerCase() === "home office" ? "office-furniture" : menu.name)}`}
+                            className="hover:underline font-semibold text-15 flex gap-2 items-center"
+
+                          >
+                            {menu.name}
+                          </Link>
+                        </SheetClose>
+                      </AccordionTrigger>
+                      <AccordionContent>
+
+                        <SheetClose asChild>
+                          <div className="grid font-semibold space-y-2 px-4">
+                            <MenuLink menudata={menu} />
+                            <SheetClose asChild>
+                              <button type="submit"></button>
+                            </SheetClose>
+                          </div>
+                        </SheetClose>
+
+
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                ) : (
+                  <SheetClose asChild key={menuIndex}>
+                    <Link
+                      href={`/${generateSlug(menu.name)}`}
+                      key={menuIndex}
+
+                      className="hover:underline font-semibold text-15 py-1 block uppercase w-fit"
+                    >
+                      {menu.name}
+                    </Link>
+                  </SheetClose>
+                ),
+              )}
+            <SheetClose asChild key={'sales'}>
+              <Link
+                href={'/sale'}
+
+                className="hover:underline text-red-500 font-semibold text-15 py-1 block uppercase w-fit"
+              >
+                Sale
+              </Link>
             </SheetClose>
           </div>
           <div className="mt-3">

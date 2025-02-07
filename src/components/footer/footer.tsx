@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
         showToast(
           'error',
           error.response?.data?.message ||
-            'Failed to subscribe. Please try again.',
+          'Failed to subscribe. Please try again.',
         );
       } else {
         showToast('error', 'An error occurred. Please try again.');
@@ -63,28 +63,28 @@ const Footer: React.FC = () => {
 
         <div className=" text-center">
           <p className="mt-6 tracking-wide font-helvetica text-13 lg:text-15 text-[#686868] max-sm:text-center">
-          {`Avenue39 is more than just a furniture store; it's a philosophy that blends contemporary design with timeless aesthetics. We understand the importance of creating a harmonious environment that reflects your unique personality and taste. Each piece in our collection is thoughtfully selected to offer a perfect fusion of form and function`}.
+            {`Avenue39 is more than just a furniture store; it's a philosophy that blends contemporary design with timeless aesthetics. We understand the importance of creating a harmonious environment that reflects your unique personality and taste. Each piece in our collection is thoughtfully selected to offer a perfect fusion of form and function`}.
           </p>
           <div className='w-1/3 m-auto'>
-          <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>
-            <div className="relative">
-              <input
-                type="email"
-                placeholder="Enter your mail address"
-                className="bg-white text-black w-full ps-3 py-5 rounded-2xl text-xs"
-                value={email}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
-              <Button
-                variant={'secondary'}
-                className="text-white bg-black hover:bg-slate-700 absolute top-2 right-3 rounded-2xl px-2 font-extralight text-xs p-2"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Subscribing...' : 'Submit'}
-              </Button>
-            </div>
-          </form>
+            <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Enter your mail address"
+                  className="bg-white text-black w-full ps-3 py-5 rounded-2xl text-xs"
+                  value={email}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+                <Button
+                  variant={'secondary'}
+                  className="text-white bg-black hover:bg-slate-700 absolute top-2 right-3 rounded-2xl px-2 font-extralight text-xs p-2"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Subscribing...' : 'Submit'}
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
                     href={
                       menu === 'SALE'
                         ? '/sale'
-                        : `/${generateSlug(menu === 'homeOffice' ? 'office-furniture' : menu  || '')}`
+                        : `/${generateSlug(menu === 'homeOffice' ? 'office-furniture' : menu || '')}`
                     }
                     className="hover:underline capitalize"
                   >
@@ -221,7 +221,7 @@ const Footer: React.FC = () => {
               <div className=" w-full rounded-sm">
                 <div className="flex items-center gap-2 py-2 ">
                   <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2">
-                  <MdOutlinePhone size={23} />
+                    <MdOutlinePhone size={23} />
                     {WhatsAppInfo.number}
                   </p>
                 </div>
@@ -230,7 +230,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="w-full max-w-56  text-[#686868]">
-            <Link  href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
+            <Link href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
               <div className=" w-full  rounded-sm">
                 <div className="flex items-center gap-2 py-2">
                   <MdOutlineWhatsapp size={23} />
@@ -243,17 +243,17 @@ const Footer: React.FC = () => {
               </div>
             </Link>
           </div>
-          
+
           <div className="mt-2  text-[#686868]">
             <div className=" w-full max-w-56 rounded-sm ">
               <Link
-              className='flex gap-2 items-center'
+                className='flex gap-2 items-center'
                 href="mailto:cs@avenue39.com"
                 rel="noreferrer"
                 target="_blank"
               >
-      
-               <MdOutlineEmail size={22} />
+
+                <MdOutlineEmail size={22} />
                 cs@avenue39.com
               </Link>
             </div>
@@ -266,7 +266,7 @@ const Footer: React.FC = () => {
       <div className="bg-main mt-10 py-3 px-4">
         <Container className="flex flex-wrap justify-center sm:justify-between items-center gap-x-8 gap-y-4 pb-10 md:pb-0 ">
           <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticaligh">
-            Copyright © 2024 avenue39 All rights reserved.
+            Copyright © 2025 avenue39 All rights reserved.
           </p>
         </Container>
       </div>

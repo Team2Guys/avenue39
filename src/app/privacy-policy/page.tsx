@@ -6,8 +6,8 @@ import { policySections } from '@/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'privacy-policy Page',
-  description: 'privacy-policy description',
+  title: 'Privacy Policy | Your Data & Security Protection',
+  description: 'Learn how we protect your personal data, ensure security, and handle information responsibly. Read our Privacy Policy for a safe and secure shopping experience.',
   openGraph: {
     title: 'privacy-policy',
     description: 'privacy-policy description',
@@ -33,15 +33,15 @@ const PrivacyPolicy: React.FC = () => {
           {policySections.map((section: any, index: number) => (
             <div key={index} className="mb-6">
               <h2 className="text-xl font-semibold mb-2">
-                {index + 1}. {section.title} 
+                {index + 1}. {section.title}
               </h2>
 
               <div className="space-y-4">
                 {section.description.map((description: string, lineIndex: number) => {
-                  const lines = description.split('\n'); 
+                  const lines = description.split('\n');
                   return (
                     <div key={lineIndex}>
-                      <ul className="list-disc pl-6"> 
+                      <ul className="list-disc pl-6">
                         {lines.map((line, idx) => (
                           <li key={idx} className="text-base">
                             {line

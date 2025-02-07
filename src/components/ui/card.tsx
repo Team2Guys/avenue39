@@ -188,14 +188,9 @@ const Card: React.FC<CardProps> = ({
                       width={600}
                       height={600}
                       className={cn(
-                        'object-contain rounded-[35px] w-full',
+                        'object-contain rounded-[35px] w-full h-full',
                         className,
                       )}
-                      style={{
-                        height: calculateHeight
-                          ? calculateHeight
-                          : 'calc(100% - 20px)',
-                      }}
                     />
                   </Link>
                 </div>
@@ -203,7 +198,12 @@ const Card: React.FC<CardProps> = ({
                 <div
                   className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] ${portSpace ? portSpace : 'px-2'}`}
                 >
-                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                  style={{
+                    height: calculateHeight
+                      ? calculateHeight
+                      : 'calc(100% - 20px)',
+                  }}>
                     <Image
                       src={
                         cardStaticData?.posterImageUrl || card.posterImageUrl
@@ -212,7 +212,7 @@ const Card: React.FC<CardProps> = ({
                       width={600}
                       height={600}
                       className={cn(
-                        'object-contain rounded-[35px] w-full',
+                        'object-contain rounded-[35px] w-full h-full',
                         className,
                       )}
                     />
@@ -367,7 +367,7 @@ const Card: React.FC<CardProps> = ({
             <div className="bg-[#E3E4E6] rounded-[35px]">
               {/* <span className='pb-10'>{card.subcategories?.map((item) => item.name)}</span> */}
               {card.discountPrice > 0 && (
-                <p className="absolute top-1 -left-9 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
+                <p className="z-[1] absolute top-1 -left-9 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
                   {Math.round(
                     ((card.price - card.discountPrice) / card.price) * 100,
                   )}
@@ -379,7 +379,12 @@ const Card: React.FC<CardProps> = ({
                   className={` ${cardImageHeight} flex justify-center items-center`}
                 >
                   <Link
-                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)} 
+                    style={{
+                      height: calculateHeight
+                        ? calculateHeight
+                        : 'calc(100% - 20px)',
+                    }}
                   >
                     <Image
                       src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
@@ -387,13 +392,8 @@ const Card: React.FC<CardProps> = ({
                       width={600}
                       height={600}
                       className={
-                        'rounded-[35px] w-full px-4 xs:px-6 object-contain cursor-pointer'
+                        'rounded-[35px] h-full w-full px-4 xs:px-6 object-contain cursor-pointer'
                       }
-                      style={{
-                        height: calculateHeight
-                          ? calculateHeight
-                          : 'calc(100% - 20px)',
-                      }}
                     />
                   </Link>
                 </div>
@@ -415,7 +415,7 @@ const Card: React.FC<CardProps> = ({
                       width={600}
                       height={600}
                       className={cn(
-                        'object-cover rounded-[35px] w-full',
+                        'rounded-[35px] w-full min-h-[300px]',
                         className,
                         skeletonHeight,
                         cardImageHeight,

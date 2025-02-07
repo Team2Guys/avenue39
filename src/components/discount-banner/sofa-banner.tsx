@@ -30,14 +30,14 @@ const sofaData_slides = [
     title: 'Rafael Office Desk',
     product_price: 'AED 5,500',
     image: rafael,
-    link: '/product/rafael-office-desk',
+    link: '/office-furniture/tables/rafael-office-desk',
   },
   {
     id: 3,
     title: 'Chroma Petal Pod Chair',
     product_price: 'AED 4,500',
     image: Chroma,
-    link: '/product/the-lisbon-sofa-set',
+    link: '/chairs/accent-chairs/chroma-petal-pod-chair',
   },
 ];
 
@@ -138,9 +138,10 @@ const SofaBanner: React.FC = () => {
           spaceBetween={20}
           slidesPerView={1}
           autoplay={{
-            delay: 3000,
+            delay: 2500,
             disableOnInteraction: true,
           }}
+          speed={1500}
           pagination={{
             clickable: true,
           }}
@@ -168,13 +169,15 @@ const SofaBanner: React.FC = () => {
                 </div>
                 {/* Image */}
                 <div className="w-full xs:w-2/3 relative">
-                  <Image
-                    src={slide.image}
-                    width={900}
-                    height={500}
-                    alt={slide.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <Link href={slide.link}>
+                    <Image
+                      src={slide.image}
+                      width={900}
+                      height={500}
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>
@@ -193,6 +196,7 @@ const SofaBanner: React.FC = () => {
           }}
           pagination={{ clickable: true }}
           loop={true}
+          speed={1500}
         >
           {sliderDataa_sofa.map((item) => (
             <SwiperSlide key={item.id}>

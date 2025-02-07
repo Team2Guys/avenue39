@@ -92,11 +92,29 @@ const Checkout = () => {
   const handlePayment = async (values: any) => {
 
     await cartItems.map((item) => {
-      delete item.selectedSize;
-      delete item.selectedfilter;
+      if (item.selectedSize) {
+        if (item.selectedSize.price) {
+          //@ts-expect-error
+          delete item.selectedSize.price;
+        }
+        if (item.selectedSize.discountPrice) {
+          delete item.selectedSize.discountPrice;
+        }
+      }
+
+      if (item.selectedfilter) {
+        if (item.selectedfilter.price) {
+          //@ts-expect-error
+          delete item.selectedfilter.price;
+        }
+        if (item.selectedfilter.discountPrice) {
+          delete item.selectedfilter.discountPrice;
+        }
+      }
       delete item.sizes;
       delete item.filter;
     });
+
     try {
       let totalPayment = totalPrice + shippingfee;
 

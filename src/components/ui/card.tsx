@@ -387,7 +387,7 @@ const Card: React.FC<CardProps> = ({
                       width={600}
                       height={600}
                       className={
-                        'rounded-[35px] w-full px-2 object-contain cursor-pointer'
+                        'rounded-[35px] w-full px-4 xs:px-6 object-contain cursor-pointer'
                       }
                       style={{
                         height: calculateHeight

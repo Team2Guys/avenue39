@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
 
         <div className=" text-center">
           <p className="mt-6 tracking-wide font-helvetica text-13 lg:text-15 text-[#686868] max-sm:text-center">
-          Avenue39 is more than just a furniture store; it's a philosophy that blends contemporary design with timeless aesthetics. We understand the importance of creating a harmonious environment that reflects your unique personality and taste. Each piece in our collection is thoughtfully selected to offer a perfect fusion of form and function.
+          {`Avenue39 is more than just a furniture store; it's a philosophy that blends contemporary design with timeless aesthetics. We understand the importance of creating a harmonious environment that reflects your unique personality and taste. Each piece in our collection is thoughtfully selected to offer a perfect fusion of form and function`}.
           </p>
           <div className='w-1/3 m-auto'>
           <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>

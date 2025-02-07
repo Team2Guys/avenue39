@@ -21,10 +21,10 @@ export const Meta_handler = async (categoryName: string, url: string) => {
     },
   ];
 
-  let title = findCategory?.Meta_Title || 'Avenue39';
+  let title = findCategory?.meta_title || 'Avenue39';
   let description =
-    findCategory?.Meta_Description || 'Welcome to blindsandcurtains';
-  let canonical = findCategory?.Canonical_Tag;
+    findCategory?.meta_description || 'Welcome to blindsandcurtains';
+  let canonical = findCategory?.canonical_tag;
 
   return {
     title: title,

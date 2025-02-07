@@ -38,9 +38,7 @@ export const ColorBannerData = [
     imageUrl: '/images/ave1.webp',
     imageUrl2: '/images/ave2.webp',
     Heading: 'luxury furniture',
-    Description:
-      'Avenue39 is a popular destination for interior designers and home improvement enthusiasts all over the UAE and offers an eclectic selection of luxury home decor.',
-  },
+    Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you."  },
   {
     imageUrl: '/images/catalogue/design_chair1.webp',
     imageUrl2: '/images/catalogue/design_chair12.png',
@@ -281,7 +279,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Nordic Coffee Table with the Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/Nordic.webp',
+        posterImageUrl: '/images/HomeProducts/Living/nordic.png',
       },
       {
         name: 'Finestra Side Table',
@@ -309,7 +307,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Braga Armchair',
-        posterImageUrl: '/images/HomeProducts/Living/Braga.webp',
+        posterImageUrl: '/images/HomeProducts/Living/Braga.png',
       },
       {
         name: 'Capri Leather Swivel Chair',
@@ -333,7 +331,6 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.webp',
       },
       {
-
         name: 'Moderno Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
       },
@@ -373,6 +370,10 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Unico Side Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/unico.png',
       },
+      {
+        name: 'Unico Side Table',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Unico.png',
+      },
     ],
   },
   {
@@ -380,22 +381,22 @@ export const homeProducts: IHomeProducts[] = [
     products: [
       {
         name: 'Droplet Stand ',
-        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
       },
       {
-        name: 'A Pair of Layered Elegance',
+        name: 'Layered Elegance',
         posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
       },
       {
         name: 'Abstract Vase',
-        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
+        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
       },
       {
-        name: 'Monolith Sphere Tower ',
+        name: 'Monolith Sphere Towers',
         posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
       },
       {
-        name: 'Pair of Rooted Egg Stands',
+        name: 'Rooted Egg Stands',
         posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
       },
     ],

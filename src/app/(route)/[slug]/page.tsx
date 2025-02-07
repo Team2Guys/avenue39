@@ -46,13 +46,13 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
     return <NotFound />;
   }
 
-  const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'home-office' ? 'homeOffice' : slug;
+  const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'office-furniture' ? 'homeOffice' : slug;
   const subcategory = menuData[categoryName] || [];
 
   let sortProducts;
   
 
-
+console.log(Product.length, "Product")
 
 
     if(slug === "new-arrivals"){
@@ -67,6 +67,9 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
         if (!ProductSet.has(productSlug)) {
           return null; 
         }
+
+
+
       
         const filteredSubcategories = prods.subcategories.filter((subcat: any) => 
           SubcategorySet.has(generateSlug(subcat.name)) && 
@@ -115,9 +118,6 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
         });
     }
 
-
-
-console.log(sortProducts.length, "sortProducts")
 
   return <Shop
     ProductData={sortProducts}

@@ -140,7 +140,7 @@ const FeatureCard: React.FC<CardProps> = ({
           >
             <IoBagOutline size={20} />
           </div>
-          <div className="flex flex-col gap-4 opacity-0 group-hover:opacity-100 duration-300 transition-all absolute top-20 right-4">
+          <div className="flex flex-col gap-4 opacity-0 group-hover:opacity-100 duration-300 transition-all absolute top-[75px] -right-10 group-hover:right-4">
             <div
               onClick={() => handleAddToWishlist(card)}
               className=" w-10 h-10 rounded-xl  flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer opacity-0 group-hover:opacity-100 duration-300 transition-all"

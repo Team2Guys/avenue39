@@ -21,11 +21,27 @@ const cartSlice = createSlice({
           i.selectedfilter?.name === item.selectedfilter?.name
       );
 
+      const getItemPrice = (item: CartItem) => {
+        let price;
+        if (item.selectedSize) {
+          price = Number(item.selectedSize.discountPrice)
+            ? Number(item.selectedSize.discountPrice)
+            : Number(item.selectedSize.price);
+        } else if (item.selectedfilter) {
+          price = Number(item.selectedfilter.discountPrice)
+            ? Number(item.selectedfilter.discountPrice)
+            : Number(item.selectedfilter.price);
+        } else {
+          price = item.discountPrice ? item.discountPrice : item.price;
+        }
+        return price;
+      };
+
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
         if (newQuantity > (item.stock || 0)) {
           message.error(
-            `Only ${item?.stock} items are in stock. You cannot add more.`,
+            `Only ${item?.stock} items are in stock. You cannot add more.`
           );
           return;
         }
@@ -35,7 +51,13 @@ const cartSlice = createSlice({
           message.error(`Cannot add more than ${item.stock} items to the cart.`);
           return;
         }
-        state.items.push(item);
+        const price = getItemPrice(item);
+        const discountPrice = price;
+        state.items.push({
+          ...item,
+          price,
+          discountPrice,
+        });
       }
     },
 
@@ -81,18 +103,24 @@ const cartSlice = createSlice({
   },
 });
 
+
+
 export const selectTotalPrice = (state: CartState): number => {
-  
+
   return state.items.reduce((total, item) => {
-    const discount_Price = item.discountPrice ? item.discountPrice : item.price;
-    const filterPrice = (Number(item.selectedfilter?.price) === 0) && discount_Price;
-    if (item.selectedSize || item.selectedfilter) {
-      const price = (Number(item.selectedSize?.price) || Number(filterPrice));
-      return total + price * item.quantity;
-    } else {
-      const price = item.discountPrice ? item.discountPrice : item.price;
-      return total + price * item.quantity;
-    }
+    // let price;
+    // if (item.selectedSize) {
+    //   price = Number(item.selectedSize.discountPrice) ? Number(item.selectedSize.discountPrice) : Number(item.selectedSize.price);
+    // }
+    // else if (item.selectedfilter) {
+
+    //   price = Number(item.selectedfilter.discountPrice) ? Number(item.selectedfilter.discountPrice) : Number(item.selectedfilter.price);
+    // }
+    // else {
+    //   price = item.discountPrice ? item.discountPrice : item.price;
+    // }
+    const price = item.discountPrice ? item.discountPrice : item.price;
+    return total + price * item.quantity;
 
   }, 0);
 };

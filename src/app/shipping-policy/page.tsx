@@ -6,8 +6,8 @@ import { ShippingPolicy as shippingPolicyData } from '@/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Shipping Policy Page',
-  description: 'Shipping Policy description',
+  title: 'Shipping Policy | Fast & Secure Delivery Information',
+  description: ' Discover our shipping policy, including delivery times, costs, and international shipping options. Enjoy a hassle-free shopping experience with reliable shipping services.',
   openGraph: {
     title: 'Shipping Policy',
     description: 'Shipping Policy description',

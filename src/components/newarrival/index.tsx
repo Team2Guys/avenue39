@@ -4,7 +4,7 @@ import Container from '../ui/Container';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { SaleBannerData } from '@/data/data';
@@ -13,16 +13,17 @@ const NewArrival = () => {
   return (
     <section className="bg-lightbackground mt-6 mb-8 rounded-2xl">
       <Swiper
-        modules={[Pagination]}
+        modules={[Autoplay, Pagination]}
         pagination={{ clickable: true }}
         spaceBetween={30}
         slidesPerView={1}
         autoplay={{
-          delay: 3000,
+          delay: 3500,
           disableOnInteraction: false,
         }}
+        speed={1500}
         loop={false}
-       
+
         className="w-full"
       >
         {SaleBannerData.map((item, index) => (
@@ -48,13 +49,15 @@ const NewArrival = () => {
                 </div>
               </div>
               <div className="w-full md:w-1/2 h-full">
-                <Image
-                  src={item.imageSrc}
-                  alt={item.productName}
-                  className="w-full h-full object-contain md:h-[400px]"
-                  height={600}
-                  width={600}
-                />
+                <Link href={item.link}>
+                  <Image
+                    src={item.imageSrc}
+                    alt={item.productName}
+                    className="w-full h-full object-contain md:h-[400px]"
+                    height={600}
+                    width={600}
+                  />
+                </Link>
               </div>
             </Container>
           </SwiperSlide>

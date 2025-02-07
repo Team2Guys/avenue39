@@ -41,7 +41,7 @@ const ProductPage = ({
   AllProduct,
   mainslug,
   info,
-}: ProductPageProps) => {
+  }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
   const pathname = usePathname();
@@ -169,7 +169,7 @@ const ProductPage = ({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="default">Default</SelectItem>
-                      <SelectItem value="name">Name</SelectItem>
+                      <SelectItem value="name">A to Z</SelectItem>
                       <SelectItem value="max">Price Max</SelectItem>
                       <SelectItem value="min">Price Min</SelectItem>
                     </SelectGroup>
@@ -189,7 +189,7 @@ const ProductPage = ({
                 Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
               </p>
             </div>
-            <SubCategoriesRow />
+            <SubCategoriesRow category={info} />
           </div>
 
           <div

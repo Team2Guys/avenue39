@@ -30,14 +30,14 @@ const sofaData_slides = [
     title: 'Rafael Office Desk',
     product_price: 'AED 5,500',
     image: rafael,
-    link: '/product/rafael-office-desk',
+    link: '/office-furniture/tables/rafael-office-desk',
   },
   {
     id: 3,
     title: 'Chroma Petal Pod Chair',
     product_price: 'AED 4,500',
     image: Chroma,
-    link: '/product/the-lisbon-sofa-set',
+    link: '/chairs/accent-chairs/chroma-petal-pod-chair',
   },
 ];
 
@@ -54,20 +54,7 @@ const sliderDataa_sofa_initial = [
         buttonPosition: 'top',
         ImagePosition: 'center',
       },
-      {
-        backgroundImage: Calda.src,
-        mobileImage: Moblie_Calda.src,
-        pro_price: 'AED 1,950',
-        subtitle: 'Calda Side Table',
-        link: '/tables/side-tables/calda-side-table',
-        buttonPosition: 'bottom',
-        ImagePosition: 'top',
-      },
-    ],
-  },
-  {
-    id: 2,
-    slides: [
+      
       {
         backgroundImage: Moderno.src,
         mobileImage: Moblie_Moderno.src,
@@ -77,12 +64,28 @@ const sliderDataa_sofa_initial = [
         buttonPosition: 'top',
         ImagePosition: 'center',
       },
+      
+      
+    ],
+  },
+  {
+    id: 2,
+    slides: [
+      {
+        backgroundImage: Calda.src,
+        mobileImage: Moblie_Calda.src,
+        pro_price: '',
+        subtitle: 'Shop our exclusive sale now',
+        link: '/sale',
+        buttonPosition: 'bottom',
+        ImagePosition: 'top',
+      },
       {
         backgroundImage: Bergen.src,
         mobileImage: Moblie_Bergen.src,
-        pro_price: 'AED 3,500',
-        subtitle: 'Bergen Sintered Stone Dining Table',
-        link: '/dining/dining-table/bergen-sintered-stone-dining-table',
+        pro_price: '',
+        subtitle: 'Explore our latest luxury pieces now',
+        link: '/new-arrivals',
         buttonPosition: 'bottom',
         ImagePosition: 'center',
       },
@@ -138,9 +141,10 @@ const SofaBanner: React.FC = () => {
           spaceBetween={20}
           slidesPerView={1}
           autoplay={{
-            delay: 3000,
+            delay: 2500,
             disableOnInteraction: true,
           }}
+          speed={1500}
           pagination={{
             clickable: true,
           }}
@@ -168,13 +172,15 @@ const SofaBanner: React.FC = () => {
                 </div>
                 {/* Image */}
                 <div className="w-full xs:w-2/3 relative">
-                  <Image
-                    src={slide.image}
-                    width={900}
-                    height={500}
-                    alt={slide.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <Link href={slide.link}>
+                    <Image
+                      src={slide.image}
+                      width={900}
+                      height={500}
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>
@@ -183,64 +189,67 @@ const SofaBanner: React.FC = () => {
       </div>
 
       <div className="sofa_slider2">
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          spaceBetween={30}
-          slidesPerView={1}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: true,
-          }}
-          pagination={{ clickable: true }}
-          loop={true}
-        >
-          {sliderDataa_sofa.map((item) => (
-            <SwiperSlide key={item.id}>
-              <div className="grid grid-cols-1 gap-4 h-[600px]">
-                {item.slides.map((slide, index) => (
-                  <div
-                    key={index}
-                    className="w-full h-full rounded-2xl"
-                    style={{
-                      backgroundImage: `url(${slide.backgroundImage})`,
-                      backgroundSize: 'cover',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: slide.ImagePosition,
-                    }}
-                  >
-                    <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">
-                      <div className="text-center">
-                        {slide.buttonPosition === 'top' && (
-                          <Link
-                            href={slide.link}
-                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                          >
-                            Shop
-                          </Link>
-                        )}
-                        {slide.buttonPosition === 'bottom' && (
-                          <Link
-                            href={slide.link}
-                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                          >
-                            Shop <span className="text-red-600">Sale</span>
-                          </Link>
-                        )}
+        {sliderDataa_sofa.map((item, index) => (
+          <Swiper
+            key={index}
+            className={`h-[290px] ${index === 1 && 'mt-4'}`}
+            modules={[Autoplay, Pagination]}
+            spaceBetween={30}
+            slidesPerView={1}
+            autoplay={{
+              delay: index ? 2333 : 3000,
+              disableOnInteraction: true,
+            }}
+            dir={`${index === 1 && 'rtl'}`}
+            pagination={{ clickable: true }}
+            loop={true}
+            speed={1500}
+          >    {item.slides.map((slide, index) => (
+            <SwiperSlide key={index}>
+              <div className={`h-[290px]`}>
+                <Link href={slide.link}
+                  className="w-full h-full rounded-2xl block"
+                  style={{
+                    backgroundImage: `url(${slide.backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: slide.ImagePosition,
+                  }}
+                >
+                  <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">
+                    <div className="text-center">
+                      {slide.buttonPosition === 'top' && (
+                        <Link
+                          href={slide.link}
+                          className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                        >
+                          Shop
+                        </Link>
+                      )}
+                      {slide.buttonPosition === 'bottom' && (
+                        <Link
+                          href={slide.link}
+                          className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                        >
+                          Shop <span className="text-red-600">{ item.id === 2 && index === 1 ? 'New Arrivals' : 'Sale'}</span>
+                        </Link>
+                      )}
 
-                        <h3 className="font-bold text-16 mt-4 text-white">
-                          {slide.subtitle}
-                        </h3>
-                        <p className="text-18 font-bold text-white mt-2">
-                          {slide.pro_price}
-                        </p>
-                      </div>
+                      <h3 className="font-bold text-16 mt-4 text-white">
+                        {slide.subtitle}
+                      </h3>
+                      <p className="text-18 font-bold text-white mt-2">
+                        {item.id === 1 && slide.pro_price}
+                      </p>
                     </div>
                   </div>
-                ))}
+                </Link>
               </div>
             </SwiperSlide>
           ))}
-        </Swiper>
+
+          </Swiper>
+        ))}
       </div>
     </section>
   );

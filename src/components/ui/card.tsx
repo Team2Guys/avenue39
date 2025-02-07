@@ -24,6 +24,7 @@ import {
 } from '../ui/dialog';
 import { message } from 'antd';
 import Link from 'next/link';
+import { IoIosHeartEmpty } from 'react-icons/io';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;
@@ -39,8 +40,8 @@ interface CardProps {
   portSpace?: string;
   productImages?: IProduct[];
   redirect?: string;
-  SubcategoryName?:ICategory
-  mainCatgory? :string
+  SubcategoryName?: ICategory
+  mainCatgory?: string
 }
 
 const Card: React.FC<CardProps> = ({
@@ -57,13 +58,12 @@ const Card: React.FC<CardProps> = ({
   productImages,
   SubcategoryName,
   mainCatgory
-  
-  // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
-  const cartItems = useSelector((state: State |any) => state.cart.items);
+  const cartItems = useSelector((state: State | any) => state.cart.items);
   const [cardStaticData, setCardStaticData] = useState<IProduct | undefined>(undefined,);
-const [averageRating, setaverageRating] = useState<any>()
+  const [averageRating, setaverageRating] = useState<any>()
+  const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -83,11 +83,11 @@ const [averageRating, setaverageRating] = useState<any>()
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item:any) => item.id === card?.id);
+    const existingCartItem = cartItems.find((item: any) => item.id === card?.id);
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
 
-    
+
     if (newQuantity > (card?.stock || 0)) {
       message.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
       return;
@@ -95,15 +95,59 @@ const [averageRating, setaverageRating] = useState<any>()
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
-  
+
+  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>, product: IProduct) => {
+    e.stopPropagation();
+    const newWishlistItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      posterImageUrl: product.posterImageUrl,
+      discountPrice: product.discountPrice,
+      count: 1,
+      stock: product.stock,
+      totalPrice: product.discountPrice ? product.discountPrice : product.price,
+    };
+    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const existingItemIndex = existingWishlist.findIndex(
+      (item: any) => item.id === newWishlistItem.id,
+    );
+    if (existingItemIndex !== -1) {
+      const currentCount = existingWishlist[existingItemIndex].count;
+      if (product.stock && currentCount + 1 > product.stock) {
+        message.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist[existingItemIndex].count += 1;
+      existingWishlist[existingItemIndex].totalPrice =
+        existingWishlist[existingItemIndex].count *
+        (existingWishlist[existingItemIndex].discountPrice ||
+          existingWishlist[existingItemIndex].price);
+    } else {
+      if (product.stock && newWishlistItem.count > product.stock) {
+        message.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist.push(newWishlistItem);
+    }
+    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+    message.success('Product added to Wishlist successfully!');
+    window.dispatchEvent(new Event('WishlistChanged'));
+    console.log(existingWishlist, 'existingWishlist');
+  };
+
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
   const imgIndex = card.productImages.slice(-1)[0];
 
-/* eslint-disable react-hooks/rules-of-hooks */
+  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
-    if(card?.reviews){
+    if (card?.reviews) {
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
       setaverageRating(averageRating)
     }
@@ -115,8 +159,7 @@ const [averageRating, setaverageRating] = useState<any>()
 
   return (
     <div
-      className={`text-center product-card  mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}
-    >
+      className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
         {slider ? (
           <Swiper
@@ -132,8 +175,8 @@ const [averageRating, setaverageRating] = useState<any>()
                 <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px]">
                   <Link
                     href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
-                    className={`${cardImageHeight} flex justify-center items-center px-2`}
-                  >
+                    className={`${cardImageHeight} flex justify-center items-center p-2`}
+                    >
                     <Image
                       src={
                         cardStaticData?.posterImageUrl || card.posterImageUrl
@@ -142,14 +185,9 @@ const [averageRating, setaverageRating] = useState<any>()
                       width={600}
                       height={600}
                       className={cn(
-                        'object-contain rounded-[35px] w-full',
+                        'object-contain rounded-[35px] w-full h-full',
                         className,
                       )}
-                      style={{
-                        height: calculateHeight
-                          ? calculateHeight
-                          : 'calc(100% - 20px)',
-                      }}
                     />
                   </Link>
                 </div>
@@ -157,7 +195,12 @@ const [averageRating, setaverageRating] = useState<any>()
                 <div
                   className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] ${portSpace ? portSpace : 'px-2'}`}
                 >
-                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                  style={{
+                    height: calculateHeight
+                      ? calculateHeight
+                      : 'calc(100% - 20px)',
+                  }}>
                     <Image
                       src={
                         cardStaticData?.posterImageUrl || card.posterImageUrl
@@ -166,7 +209,7 @@ const [averageRating, setaverageRating] = useState<any>()
                       width={600}
                       height={600}
                       className={cn(
-                        'object-contain rounded-[35px] w-full',
+                        'object-contain rounded-[35px] w-full h-full',
                         className,
                       )}
                     />
@@ -299,7 +342,7 @@ const [averageRating, setaverageRating] = useState<any>()
                       </DialogTrigger>
                       <DialogOverlay />
                       <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-          
+
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail
                             params={card}
@@ -321,7 +364,7 @@ const [averageRating, setaverageRating] = useState<any>()
             <div className="bg-[#E3E4E6] rounded-[35px]">
               {/* <span className='pb-10'>{card.subcategories?.map((item) => item.name)}</span> */}
               {card.discountPrice > 0 && (
-                <p className="absolute top-1 -left-9 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
+                <p className="z-[1] absolute top-1 -left-9 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
                   {Math.round(
                     ((card.price - card.discountPrice) / card.price) * 100,
                   )}
@@ -333,40 +376,54 @@ const [averageRating, setaverageRating] = useState<any>()
                   className={` ${cardImageHeight} flex justify-center items-center`}
                 >
                   <Link
-                  href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
-                  >
-                  <Image
-                    src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
-                    alt={card.posterImageAltText || card.name}
-                    width={600}
-                    height={600}
-                    className={
-                      'rounded-[35px] w-full px-2 object-contain cursor-pointer'
-                    }
+                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)} 
                     style={{
                       height: calculateHeight
                         ? calculateHeight
                         : 'calc(100% - 20px)',
                     }}
-                  />
+                  >
+                    <Image
+                      src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
+                      alt={card.posterImageAltText || card.name}
+                      width={600}
+                      height={600}
+                      className={
+                        'rounded-[35px] h-full w-full px-4 xs:px-6 object-contain cursor-pointer'
+                      }
+                    />
                   </Link>
                 </div>
               ) : (
-                <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
-                  <Image
-                    src={card.posterImageUrl}
-                    alt={card.posterImageAltText || card.name}
-                    // onClick={() => handleNavigation()}
-                    width={600}
-                    height={600}
-                    className={cn(
-                      'object-cover rounded-[35px] w-full',
-                      className,
-                      skeletonHeight,
-                      cardImageHeight,
-                    )}
-                  />
-                </Link>
+                <div className="relative">
+                  <div
+                    onClick={(e) => handleAddToWishlist(e, card)}
+                    onMouseEnter={() => setIsHoverImage(true)}
+                    onMouseLeave={() => setIsHoverImage(false)}
+                    className="absolute top-4 -right-10 group-hover:right-4 opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+                  >
+                    <IoIosHeartEmpty size={20} />
+                  </div>
+                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+                    <Image
+                      src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
+                      alt={card.posterImageAltText || card.name}
+                      // onClick={() => handleNavigation()}
+                      width={600}
+                      height={600}
+                      className={cn(
+                        'rounded-[35px] w-full min-h-[300px]',
+                        className,
+                        skeletonHeight,
+                        cardImageHeight,
+                        !isHomepage && !slider && 'border border-main'
+                      )}
+                      onMouseEnter={() => setIsHoverImage(true)}
+                      onMouseLeave={() => setIsHoverImage(false)}
+                    />
+                  </Link>
+                </div>
+
               )}
             </div>
             <div className="space-y-3">
@@ -483,7 +540,7 @@ const [averageRating, setaverageRating] = useState<any>()
                     </DialogTrigger>
                     <DialogOverlay />
                     <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
-                     
+
                       <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                         <ProductDetail
                           params={card}

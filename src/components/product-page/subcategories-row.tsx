@@ -11,21 +11,21 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { menuData } from '@/data/menu';
 
-const SubCategoriesRow = () => {
+const SubCategoriesRow = ({category}:any) => {
   const path = usePathname();
   const [subCategory, setSubCategory] = useState<MenuItem[]>([]);
+  const [Category, setCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const categoryKey = path?.replace('/', '');
-    const categoryName =
-      categoryKey === 'lighting'
-        ? 'Lighting'
-        : categoryKey === 'home-office'
-          ? 'homeOffice'
-          : categoryKey;
+    const categoryName =categoryKey === 'lighting' ? 'Lighting' : categoryKey === 'office-furniture' ? 'homeOffice' :  categoryKey;
+          setCategory(categoryKey);
     const subcategory = menuData[categoryName] || [];
     setSubCategory(subcategory);
   }, [path]);
+
+
+console.log(category?.subcategories, "custom_url")
   return (
     subCategory.length > 0 && (
       <div
@@ -61,21 +61,21 @@ const SubCategoriesRow = () => {
             320: { slidesPerView: 2 },
             480: { slidesPerView: 3 },
             768: {
-              slidesPerView: subCategory.length > 4 ? 4 : subCategory.length,
+              slidesPerView:(category && category?.subcategories?.length > 4) ||  subCategory.length > 4 ? 4 : (category && category?.subcategories?.length) || subCategory.length,
             },
             1024: {
-              slidesPerView: subCategory.length > 6 ? 6 : subCategory.length,
+              slidesPerView: (category && category?.subcategories?.length > 6 )||  subCategory.length > 6 ? 6 : (category&& category?.subcategories?.length) ||  subCategory.length,
             },
           }}
         >
-          {subCategory.map((category, index) => (
+          {(category?.subcategories || subCategory).map((category:any, index:any) => (
             <SwiperSlide key={index}>
               <Link
-                href={`${generateSlug(category.title) === 'sale' ? '/products' : `/products/${generateSlug(category.title)}/?id=${category.categoryId}`}`}
+                href={`/${Category}/${generateSlug((category?.custom_url || category?.name) || category.title)}`}
                 key={category.categoryId}
                 className="w-full text-center whitespace-nowrap bg-[#afa183] rounded-lg py-2 px-2 text-white block"
               >
-                <span>{category.title}</span>
+                <span>{category?.name || category.title}</span>
               </Link>
             </SwiperSlide>
           ))}

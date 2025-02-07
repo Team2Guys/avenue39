@@ -85,7 +85,36 @@ const Checkout = () => {
       setShippingFee(option ? option.fee : 50);
     }
   }, [selectedState]);
+
+  console.log(cartItems)
+
+
   const handlePayment = async (values: any) => {
+
+    await cartItems.map((item) => {
+      if (item.selectedSize) {
+        if (item.selectedSize.price) {
+          //@ts-expect-error
+          delete item.selectedSize.price;
+        }
+        if (item.selectedSize.discountPrice) {
+          delete item.selectedSize.discountPrice;
+        }
+      }
+
+      if (item.selectedfilter) {
+        if (item.selectedfilter.price) {
+          //@ts-expect-error
+          delete item.selectedfilter.price;
+        }
+        if (item.selectedfilter.discountPrice) {
+          delete item.selectedfilter.discountPrice;
+        }
+      }
+      delete item.sizes;
+      delete item.filter;
+    });
+
     try {
       let totalPayment = totalPrice + shippingfee;
 
@@ -165,26 +194,26 @@ const Checkout = () => {
                         value={formik.values.first_name}
                       />
                       <LabelInput
-                        label="Last Name *"
+                        label="Last Name"
                         id="last_name"
                         name="last_name"
                         type="text"
-                        required
                         onChange={formik.handleChange}
                         value={formik.values.last_name}
                       />
                     </div>
-                    <LabelInput
-                      label="Email Address *"
-                      id="user_email"
-                      name="user_email"
-                      type="text"
-                      required
-                      onChange={formik.handleChange}
-                      value={formik.values.user_email}
-                    />
 
                     <div className=" flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-4">
+                      <LabelInput
+                        label="Email Address *"
+                        id="user_email"
+                        name="user_email"
+                        type="email"
+                        required
+                        onChange={formik.handleChange}
+                        value={formik.values.user_email}
+                      />
+
                       <LabelInput
                         label="Phone Number *"
                         id="phone_number"
@@ -199,17 +228,17 @@ const Checkout = () => {
                         }}
                         value={formik.values.phone_number}
                       />
-
-                      <LabelInput
-                        label="Street Address *"
-                        id="address"
-                        name="address"
-                        type="text"
-                        required
-                        onChange={formik.handleChange}
-                        value={formik.values.address}
-                      />
                     </div>
+
+                    <LabelInput
+                      label="Street Address *"
+                      id="address"
+                      name="address"
+                      type="text"
+                      required
+                      onChange={formik.handleChange}
+                      value={formik.values.address}
+                    />
                     <div className="flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2">
                       <div className="flex-1">
                         <Label

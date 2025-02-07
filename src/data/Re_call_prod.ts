@@ -139,6 +139,14 @@ export const re_Calling_products:recallingTypes[] = [
     mainCategory: 'LIVING',
     subCategory: 'TV Stands',
     redirectsubCat: 'TV Stands',
-    redirect_main_cat: 'DINING',
+    redirect_main_cat: 'BEDROOM',
+  },
+  
+  {
+    id: 15,
+    mainCategory: 'DINING',
+    subCategory: 'TV Stands',
+    redirectsubCat: 'TV Stands',
+    redirect_main_cat: 'BEDROOM',
   },
 ];

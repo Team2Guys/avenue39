@@ -10,9 +10,12 @@ import { error } from 'console';
 
 @Injectable()
 export class SalesRecordService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async Add_sales_record(data: CreateSalesRecordDto) {
+    console.log("===== Data Start ====")
+    console.log(data);
+    console.log("===== Data End ====")
     try {
       const {
         amount,
@@ -56,7 +59,7 @@ export class SalesRecordService {
           amount: amount * 100,
         },
         special_reference: orderId,
-        redirection_url: 'https://avenue39.vercel.app/thanks',
+        redirection_url: 'https://avenue39.com/thanks',
       });
 
       let requestOptions = {
@@ -176,7 +179,7 @@ export class SalesRecordService {
         (accumulator: any, currentValue: any) => {
           let price =
             currentValue.productData.discountPrice ||
-            Number(currentValue.productData.discountPrice) > 0
+              Number(currentValue.productData.discountPrice) > 0
               ? currentValue.productData.discountPrice
               : currentValue.productData.price;
 
@@ -234,7 +237,7 @@ export class SalesRecordService {
           return currentValue.products.reduce((accum: number, value: any) => {
             let price =
               value.productData.discountPrice &&
-              Number(value.productData.discountPrice) > 0
+                Number(value.productData.discountPrice) > 0
                 ? value.productData.discountPrice
                 : value.productData.price;
             let finalPrice = Number(value.productData.quantity) * Number(price);
@@ -493,7 +496,120 @@ export class SalesRecordService {
         },
       });
 
-      console.log(updatedSalesRecord, 'updatedSalesRecord');
+
+      // // console.log(salesRecord, 'salesRecord');
+      // const salesRecordId = Number(salesRecord.id);
+
+      // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
+      //   where: { salesRecordId },
+      // });
+      // // console.log(salesRecordProduct, 'salesRecordProduct');
+
+
+      // const existingProduct: any = await this.prisma.products.findFirst({
+      //   where: { id: salesRecordProduct.productData.id },
+      // });
+
+      // // console.log(existingProduct, 'existingProduct');
+
+      // const selectedSize = salesRecordProduct.productData.selectedSize?.name;
+      // const selectedFilter = salesRecordProduct.productData.selectedfilter?.name;
+
+      // const quantitySold = salesRecordProduct.quantity;
+
+      // if (existingProduct) {
+      //   let isUpdated = false;
+      //   const filterCategory = existingProduct.filter.find((item: any) => item.heading === 'Color');
+
+      //   console.log('debug 2:', filterCategory);
+      //   if (filterCategory && filterCategory.additionalInformation) {
+      //     const filterVariant = filterCategory.additionalInformation.find((item: any) => item.name === selectedFilter);
+
+      //     console.log('debug 1:', filterVariant);
+
+      //     if (filterVariant) {
+      //       const filterStock = filterVariant.stock;
+
+      //       if (filterStock >= quantitySold) {
+      //         const updatedFilterStock = filterStock - quantitySold;
+
+      //         await this.prisma.products.update({
+      //           where: { id: existingProduct.id },
+      //           data: {
+      //             filter: {
+      //               //@ts-expect-error
+      //               update: {
+      //                 where: { color: selectedFilter },
+      //                 data: { stock: updatedFilterStock },
+      //               },
+      //             },
+      //           },
+      //         });
+
+      //         console.log(`Stock for filter ${selectedFilter} updated to: ${updatedFilterStock}`);
+      //         isUpdated = true;
+      //       } else {
+      //         console.log(`Not enough stock for filter ${selectedFilter}. Deducting from total stock.`);
+      //       }
+      //     }
+      //   }
+
+      //   if (!isUpdated && selectedSize && existingProduct.sizes) {
+      //     const sizeVariant = existingProduct.sizes.find((item: any) => item.size === selectedSize);
+
+      //     if (sizeVariant) {
+      //       const sizeStock = sizeVariant.stock;
+
+      //       if (sizeStock >= quantitySold) {
+      //         const updatedSizeStock = sizeStock - quantitySold;
+
+      //         await this.prisma.products.update({
+      //           where: { id: existingProduct.id },
+      //           data: {
+      //             sizes: {
+
+      //               //@ts-expect-error
+      //               update: {
+      //                 where: { size: selectedSize },
+      //                 data: { stock: updatedSizeStock },
+      //               },
+      //             },
+      //           },
+      //         });
+
+      //         console.log(`Stock for size ${selectedSize} updated to: ${updatedSizeStock}`);
+      //         isUpdated = true;
+      //       } else {
+      //         console.log(`Not enough stock for size ${selectedSize}. Deducting from total stock.`);
+      //       }
+      //     }
+      //   }
+
+      //   if (!isUpdated) {
+      //     const updatedTotalStock = existingProduct.stock - quantitySold;
+
+      //     if (updatedTotalStock >= 0) {
+      //       await this.prisma.products.update({
+      //         where: { id: existingProduct.id },
+      //         data: {
+      //           stock: updatedTotalStock,
+      //         },
+      //       });
+
+      //       console.log(`Stock deducted from total stock. Updated total stock to: ${updatedTotalStock}`);
+      //     } else {
+      //       console.log('Not enough stock available to complete the order.');
+      //     }
+      //   }
+      // } else {
+      //   console.log(`Product with ID ${salesRecordProduct.productData.id} not found.`);
+      // }
+
+
+
+
+
+      // console.log(updatedSalesRecord, 'updatedSalesRecord');
       return { message: 'Payment status updated successfuly🎉', orderId };
     } catch (error: unknown) {
       console.log(error, 'error');

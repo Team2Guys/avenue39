@@ -5,7 +5,6 @@ import { ICategory } from '@/types/types';
 import { menuData } from '@/data/menu';
 import { re_Calling_products } from '@/data/Re_call_prod';
 import { TrimUrlHandler } from '@/config/fetch';
-import { SheetClose, SheetContent } from './ui/sheet';
 
 interface MenuLinkProps {
   menudata: ICategory;
@@ -16,9 +15,9 @@ interface MenuLinkProps {
 const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
   const [subCategory, setSubCategory] = useState<ICategory[] | undefined>([]);
   useEffect(() => {
-    const categoryName =menudata.name.toLowerCase() === 'lighting' ? 'Lighting'
-        : menudata.name.toLowerCase() === 'home office' ? 'homeOffice'
-          : menudata.name.toLowerCase();
+    const categoryName = menudata.name.toLowerCase() === 'lighting' ? 'Lighting'
+      : menudata.name.toLowerCase() === 'home office' ? 'homeOffice'
+        : menudata.name.toLowerCase();
     const menuItems = menuData[categoryName];
     const sortedSubcategories = menudata.subcategories?.sort((a, b) => {
       const indexA = menuItems.findIndex(
@@ -39,8 +38,8 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
 
   const routinghandler = (mainCategory: string, subCategory: string) => {
     const routedCat = re_Calling_products.find((value) =>
-        TrimUrlHandler(value.mainCategory) === TrimUrlHandler(mainCategory) &&
-        TrimUrlHandler(subCategory) == TrimUrlHandler(value.subCategory),
+      TrimUrlHandler(value.mainCategory) === TrimUrlHandler(mainCategory) &&
+      TrimUrlHandler(subCategory) == TrimUrlHandler(value.subCategory),
     );
     let routedMainCategory;
     let routedSubCategory;
@@ -55,12 +54,12 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
     <>
       {subCategory?.map((item, index) => (
 
-  
+
         <Link
           href={
             item.name === 'Accessories'
               ? '/accessories'
-              : routinghandler((menudata.custom_url || menudata.name),( item.custom_url || item.name))
+              : routinghandler((menudata.custom_url || menudata.name), (item.custom_url || item.name))
           }
           className={`flex gap-1 items-center`}
           key={index}
@@ -68,7 +67,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
         >
           {item.name}
         </Link>
-       
+
 
       ))}
     </>

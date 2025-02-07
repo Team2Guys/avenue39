@@ -82,7 +82,7 @@ const sliderDataa_sofa_initial = [
         mobileImage: Moblie_Bergen.src,
         pro_price: 'AED 3,500',
         subtitle: 'Bergen Sintered Stone Dining Table',
-        link: '/dining/dining-table/bergen-sintered-stone-dining-table',
+        link: '/dining/dining-table/bergen-dining-table',
         buttonPosition: 'bottom',
         ImagePosition: 'center',
       },

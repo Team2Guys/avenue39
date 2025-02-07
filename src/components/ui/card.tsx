@@ -58,8 +58,6 @@ const Card: React.FC<CardProps> = ({
   productImages,
   SubcategoryName,
   mainCatgory
-
-  // redirect,
 }) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
@@ -178,8 +176,8 @@ const Card: React.FC<CardProps> = ({
                 <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px]">
                   <Link
                     href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
-                    className={`${cardImageHeight} flex justify-center items-center px-2`}
-                  >
+                    className={`${cardImageHeight} flex justify-center items-center p-2`}
+                    >
                     <Image
                       src={
                         cardStaticData?.posterImageUrl || card.posterImageUrl

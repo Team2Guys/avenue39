@@ -30,7 +30,6 @@ interface BottomBarProps {
 }
 const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
   const [open, setOpen] = useState(false);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const userDetails = useSelector(
     (state: State) => state.usrSlice.loggedInUser,
   );
@@ -57,9 +56,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
       console.log(err);
     }
   };
-  const hideSheet = () => {
-    setIsSheetOpen(false);
-  };
+
   const { loggedInUser } = useSelector((state: State) => state.usrSlice);
   const [profilePhoto, setProfilePhoto] = useState<any>([]);
 
@@ -109,7 +106,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
                       <Link
                         href={`/${generateSlug(menu.name?.trim()?.toLowerCase()=== "home office"  ? "office-furniture": menu.name)}`}
                         className="hover:underline font-semibold text-15 flex gap-2 items-center"
-                        onClick={hideSheet}
+                      
                       >
                         {menu.name}
                       </Link>
@@ -118,18 +115,18 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
                     <AccordionContent>
                       <SheetClose asChild>
                         <div className="grid font-semibold space-y-2 px-4">
-                          <MenuLink menudata={menu} onLinkClick={hideSheet} />
+                          <MenuLink menudata={menu} />
                         </div>
                       </SheetClose>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
               ) : (
-                <SheetClose asChild>
+                <SheetClose asChild   key={menuIndex}>
                 <Link
                   href={`/${generateSlug(menu.name)}`}
                   key={menuIndex}
-                  onClick={hideSheet}
+            
                   className="hover:underline font-semibold text-15 py-1 block uppercase w-fit"
                 >
                   {menu.name}
@@ -137,10 +134,10 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
                 </SheetClose>
               ),
             )}
-              <SheetClose asChild>
+              <SheetClose asChild key={'sales'}>
             <Link
               href={'/sale'}
-              onClick={hideSheet}
+        
               className="hover:underline text-red-500 font-semibold text-15 py-1 block uppercase w-fit"
             >
               Sale

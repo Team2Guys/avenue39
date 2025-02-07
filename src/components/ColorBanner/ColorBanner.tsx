@@ -7,6 +7,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Link from 'next/link';
 
 const ColorBanner: React.FC = () => {
   const [isWide, setIsWide] = useState<number>(window.innerWidth);
@@ -47,6 +48,7 @@ const ColorBanner: React.FC = () => {
           delay: 2000,
           disableOnInteraction: true,
         }}
+        speed={1500}
         pagination={{
           clickable: true,
         }}
@@ -80,14 +82,16 @@ const ColorBanner: React.FC = () => {
                 </div>
               </div>
               <div className="lg:w-[70%] w-full ">
-                <Image
-                  src={slide.imageUrl}
-                  className="w-full h-auto object-cover "
-                  alt="Right Image"
-                  width={1200}
-                  height={1200}
-                  quality={100}
-                />
+                <Link href={'/dining/chairs'}>
+                  <Image
+                    src={slide.imageUrl}
+                    className="w-full h-auto object-cover "
+                    alt="Right Image"
+                    width={1200}
+                    height={1200}
+                    quality={100}
+                  />
+                </Link>
               </div>
             </div>
           </SwiperSlide>

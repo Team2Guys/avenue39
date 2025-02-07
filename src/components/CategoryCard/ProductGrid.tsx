@@ -62,6 +62,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             delay: 2500,
             disableOnInteraction: false,
           }}
+          speed={1500}
         >
           {products.map((product) => (
             <SwiperSlide className="w-full" key={product.id}>

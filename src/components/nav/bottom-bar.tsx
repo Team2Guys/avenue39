@@ -119,10 +119,9 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
 
                         <SheetClose asChild>
                           <div className="grid font-semibold space-y-2 px-4">
+
                             <MenuLink menudata={menu} />
-                            <SheetClose asChild>
-                              <button type="submit"></button>
-                            </SheetClose>
+
                           </div>
                         </SheetClose>
 

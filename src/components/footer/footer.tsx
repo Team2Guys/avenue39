@@ -214,12 +214,12 @@ const Footer: React.FC = () => {
           <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
           </h5>
-          <div className="mt-6 flex max-w-56  text-[#686868]">
+          <div className="mt-6 w-full flex max-w-56  text-[#686868]">
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
               <div className=" w-full rounded-sm">
                 <div className="flex items-center gap-2 py-2 ">
                   <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2">
-                  <MdOutlinePhone size={20} />
+                  <MdOutlinePhone size={23} />
                     {WhatsAppInfo.number}
                   </p>
                 </div>
@@ -227,11 +227,11 @@ const Footer: React.FC = () => {
             </Link>
           </div>
 
-          <div className="w-fit max-w-56 text-[#686868]">
+          <div className="w-full max-w-56  text-[#686868]">
             <Link  href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
               <div className=" w-full  rounded-sm">
                 <div className="flex items-center gap-2 py-2">
-                  <MdOutlineWhatsapp size={20} />
+                  <MdOutlineWhatsapp size={23} />
                   <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex justify-between items-center gap-2">
 
 
@@ -251,7 +251,7 @@ const Footer: React.FC = () => {
                 target="_blank"
               >
       
-               <MdOutlineEmail size={20} />
+               <MdOutlineEmail size={22} />
                 cs@avenue39.com
               </Link>
             </div>

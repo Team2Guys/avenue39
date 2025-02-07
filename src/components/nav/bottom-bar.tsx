@@ -44,6 +44,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
   };
+
   const logoutHhandler = () => {
     try {
       Cookies.remove('user_token', { path: '/' });
@@ -61,6 +62,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
   };
   const { loggedInUser } = useSelector((state: State) => state.usrSlice);
   const [profilePhoto, setProfilePhoto] = useState<any>([]);
+
   useEffect(() => {
     if (loggedInUser) {
       setProfilePhoto({
@@ -77,21 +79,23 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
       <Link href={'/wishlist'}>
         <IoIosHeartEmpty size={25} />
       </Link>
-      {/* <Link href={"/"}><FaRegHeart size={25} /></Link> */}
-
-      <Sheet open={isSheetOpen}>
+      <Sheet
+      //  open={isSheetOpen}
+       >
         <SheetTrigger asChild>
           <div className="relative w-14">
             <div className="triangle-shape bg-black text-white cursor-pointer z-50">
-              <MdCategory size={25} onClick={() => setIsSheetOpen(true)} />
+              <button type='submit'> <MdCategory size={25}
+              //  onClick={() => setIsSheetOpen(true)} 
+               /></button>
+             
             </div>
           </div>
         </SheetTrigger>
         <SheetContent className="pb-5">
           <div className="pt-10 space-y-2">
           {categories
-              ?.filter((item) => item.name.toLowerCase() !== "sale")
-              .map((menu, menuIndex) =>
+              ?.filter((item) => item.name.toLowerCase() !== "sale").map((menu, menuIndex) =>
               menu.subcategories && menu.subcategories?.length > 0 ? (
                 <Accordion
                   key={menuIndex}
@@ -101,13 +105,15 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
                 >
                   <AccordionItem value={`item-${menuIndex}`}>
                     <AccordionTrigger className="font-bold">
+                    <SheetClose asChild>
                       <Link
-                        href={`/products/${generateSlug(menu.name)}`}
+                        href={`/${generateSlug(menu.name?.trim()?.toLowerCase()=== "home office"  ? "office-furniture": menu.name)}`}
                         className="hover:underline font-semibold text-15 flex gap-2 items-center"
                         onClick={hideSheet}
                       >
                         {menu.name}
                       </Link>
+                      </SheetClose>
                     </AccordionTrigger>
                     <AccordionContent>
                       <SheetClose asChild>
@@ -119,16 +125,19 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
                   </AccordionItem>
                 </Accordion>
               ) : (
+                <SheetClose asChild>
                 <Link
-                  href={`/products/${generateSlug(menu.name)}`}
+                  href={`/${generateSlug(menu.name)}`}
                   key={menuIndex}
                   onClick={hideSheet}
                   className="hover:underline font-semibold text-15 py-1 block uppercase w-fit"
                 >
                   {menu.name}
                 </Link>
+                </SheetClose>
               ),
             )}
+              <SheetClose asChild>
             <Link
               href={'/sale'}
               onClick={hideSheet}
@@ -136,6 +145,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ categories }) => {
             >
               Sale
             </Link>
+            </SheetClose>
           </div>
           <div className="mt-3">
             <SocialLink iconColor="text-black" />

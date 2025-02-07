@@ -129,7 +129,8 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
           >
             <div className="space-y-0 flex flex-row items-center justify-between border-b-2 pb-6 relative pe-6">
               <div
-                className={`absolute -top-[23px] ${userDetails ? 'right-1/2' : 'right-[40px]'}`}
+                className={`absolute -top-[23px] ${userDetails ? 'right-1/2' : 'right-[40px]'}` }
+                style={{zIndex: 1005}}
               >
                 <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">
                   <span className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[19px] border-r-white border-b-[20px] border-b-transparent transform rotate-0 absolute top-[2px] -left-[13px] -translate-y-[1px] rounded-t-md"></span>

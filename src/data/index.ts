@@ -41,7 +41,6 @@ import saleimage2 from '@icons/tabby-logo-charcoal.png';
 import masterCard from '@icons/business.png';
 import viseCard from '@icons/card.png';
 import gPayCard from '@icons/pngwing.png';
-// import TSImage from '@images/banners/banner1.png';
 import timerImage from '@assets/images/sofa1.jpg';
 
 export const timerSliderData: TimerSliderItem[] = [

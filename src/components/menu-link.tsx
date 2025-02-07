@@ -5,6 +5,7 @@ import { ICategory } from '@/types/types';
 import { menuData } from '@/data/menu';
 import { re_Calling_products } from '@/data/Re_call_prod';
 import { TrimUrlHandler } from '@/config/fetch';
+import { SheetClose } from './ui/sheet';
 
 interface MenuLinkProps {
   menudata: ICategory;
@@ -56,6 +57,9 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
   return (
     <>
       {subCategory?.map((item, index) => (
+        <SheetClose asChild>
+
+       
         <Link
           href={
             item.name === 'Accessories'
@@ -68,6 +72,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
         >
           {item.name}
         </Link>
+        </SheetClose>
       ))}
     </>
   );

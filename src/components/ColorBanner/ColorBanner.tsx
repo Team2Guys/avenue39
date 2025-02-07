@@ -39,7 +39,7 @@ const ColorBanner: React.FC = () => {
   }, [windowWidth]);
 
   return (
-    <section className=" py-3 xs:py-5 md:py-10 w-full bg-white sofa_swiper">
+    <section className=" py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={0}

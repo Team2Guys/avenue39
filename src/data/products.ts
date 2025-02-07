@@ -381,7 +381,7 @@ export const homeProducts: IHomeProducts[] = [
     products: [
       {
         name: 'Droplet Stand ',
-        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.png',
+        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
       },
       {
         name: 'Layered Elegance',

@@ -200,8 +200,8 @@ const Navbar = () => {
                       />
                     </div>
                     {filteredProducts.length > 0 ? (
-                      filteredProducts.map((product) => (
-                     <Link href={ 
+                      filteredProducts.map((product, index) => (
+                     <Link key={product.id || index} href={ 
                        ChangeUrlHandler(product)
           
                      }>

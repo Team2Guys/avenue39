@@ -52,7 +52,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   let sortProducts;
   
 
-
+console.log(Product.length, "Product")
 
 
     if(slug === "new-arrivals"){
@@ -67,6 +67,9 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
         if (!ProductSet.has(productSlug)) {
           return null; 
         }
+
+
+
       
         const filteredSubcategories = prods.subcategories.filter((subcat: any) => 
           SubcategorySet.has(generateSlug(subcat.name)) && 
@@ -115,10 +118,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
         });
     }
 
-
-
-console.log(sortProducts.length, "sortProducts")
-
+    console.log(Product.length, "Product")
   return <Shop
     ProductData={sortProducts}
     AllProduct={AllProduct}

@@ -75,8 +75,8 @@ const ProductDetail = ({
     min: 0,
     sec: 0,
   });
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(0);
   const [size, setSize] = useState<CartSize | null>(null);
   const [filter, setFilter] = useState<CartSize | null>(null);
   const [productPrice, setProductPrice] = useState(0);

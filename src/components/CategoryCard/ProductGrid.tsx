@@ -2,7 +2,7 @@
 import React from 'react';
 import { IProduct } from '@/types/types';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import Card from '../ui/card';
 
 
@@ -57,7 +57,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           }}
           slidesPerView={1}
           loop={true}
-          modules={[Pagination]}
+          modules={[Autoplay ,Pagination]}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,

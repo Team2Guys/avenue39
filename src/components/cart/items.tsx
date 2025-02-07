@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { GiShoppingCart } from 'react-icons/gi';
 import { CartItem } from '@/redux/slices/cart/types';
 import { toast } from 'react-toastify';
+import { usePathname } from 'next/navigation';
 
 interface ICartItems {
   isCartPage?: boolean;
@@ -40,6 +41,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
   );
   const drawerState = useSelector((state: State) => state.drawer);
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const path = usePathname();
   const removeProductFromCart = (item: CartItem) => {
     dispatch(removeItem(item));
   };
@@ -111,7 +113,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
         <div ref={drawerRef}>
           <div>
             <div
-              className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center  cursor-pointer ${cartItems.length > 0 ? 'text-white bg-main' : 'text-black  border-black'}`}
+              className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center  cursor-pointer ${path === '/cart' ? 'text-white bg-main' : 'text-black  border-black'}`}
               onClick={handleOpenDrawer}
             >
               <GiShoppingCart size={27} style={{ transform: 'scaleX(-1)' }} />

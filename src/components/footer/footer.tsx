@@ -57,12 +57,12 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <section className="pt-16 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-Helveticalight">
+    <section className="pt-16 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-helvetica">
       <div className="container w-full sm:w-1/2 flex flex-col items-center mx-auto md:mb-[110px]">
         <Image src={logo} alt="logo" className="w-40" />
 
         <div className="w-fit">
-          <p className="mt-6 tracking-wide font-Helveticalight text-13 lg:text-15 text-[#686868] max-sm:text-center">
+          <p className="mt-6 tracking-wide font-helvetica text-13 lg:text-15 text-[#686868] max-sm:text-center">
             Get Our Exclusive Handpicked Furniture Catalogue
           </p>
           <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>
@@ -90,10 +90,10 @@ const Footer: React.FC = () => {
       {/* <Container className="grid grid-cols-5 sm:gap-x-4 md:gap-x-5 lg:gap-x-8 gap-y-8 px-4 mx-auto  items-center justify-between bg-green-300"> */}
       <Container className="flex flex-wrap justify-between gap-10 ">
         <div className=" px-2">
-          <h5 className="font-extralight  font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Rooms
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 capitalize text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
                 ['dining', 'living', 'bedroom', 'homeOffice'].includes(menu),
@@ -109,7 +109,7 @@ const Footer: React.FC = () => {
                     className="hover:underline capitalize"
                   >
                     {menu === 'SALE' ? (
-                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-Helveticalight text-13 lg:text-15 capitalize">
+                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-helvetica text-13 lg:text-15 capitalize">
                         Sale
                       </p>
                     ) : (
@@ -121,10 +121,10 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className="  px-2">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Item
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 capitalize text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
                 ['chairs', 'tables', 'Lighting', 'Accessories'].includes(menu),
@@ -140,7 +140,7 @@ const Footer: React.FC = () => {
                     className="hover:underline capitalize"
                   >
                     {menu === 'SALE' ? (
-                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-Helveticalight text-13 lg:text-15 capitalize">
+                      <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-helvetica text-13 lg:text-15 capitalize">
                         Sale
                       </p>
                     ) : (
@@ -152,10 +152,10 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className="  px-2">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Terms & Policies
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15  mt-6 text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 text-[#686868]">
             <li>
               <Link href="/terms-and-conditions" className="hover:underline">
                 Terms & Conditions
@@ -180,10 +180,10 @@ const Footer: React.FC = () => {
         </div>
 
         <div className=" ">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Quick Links
           </h5>
-          <ul className="leading-8 xl:leading-[38px] tracking-wide font-Helveticalight text-13 lg:text-15 mt-6 capitalize text-[#686868]">
+          <ul className="leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15 mt-6 capitalize text-[#686868]">
             <li>
               <Link href="/profile" target="_self" className="hover:underline">
                 My Account
@@ -211,7 +211,7 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className=" flex flex-col md:items-center">
-          <h5 className="font-extralight font-Helveticalight sm:text-lg xl:text-xl text=[#121A25]">
+          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
           </h5>
           <div className="mt-6 flex max-w-56  text-[#686868]">

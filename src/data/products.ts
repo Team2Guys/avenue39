@@ -333,7 +333,6 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.webp',
       },
       {
-
         name: 'Moderno Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
       },
@@ -373,6 +372,10 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Melodia Sofa Bed',
         posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.webp',
       },
+      {
+        name: 'Unico Side Table',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Unico.png',
+      },
     ],
   },
   {
@@ -383,19 +386,19 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Accessories/Droplet.png',
       },
       {
-        name: 'A Pair of Layered Elegance',
+        name: 'Layered Elegance',
         posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
       },
       {
         name: 'Abstract Vase',
-        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
+        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
       },
       {
-        name: 'Monolith Sphere Tower ',
+        name: 'Monolith Sphere Towers',
         posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
       },
       {
-        name: 'Pair of Rooted Egg Stands',
+        name: 'Rooted Egg Stands',
         posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
       },
     ],

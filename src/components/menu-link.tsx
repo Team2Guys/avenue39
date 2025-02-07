@@ -9,10 +9,11 @@ import { SheetClose } from './ui/sheet';
 
 interface MenuLinkProps {
   menudata: ICategory;
+  onLinkClick?: () => void;
   loading?: boolean;
 }
 
-const MenuLink: React.FC<MenuLinkProps> = ({ menudata, }) => {
+const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
   const [subCategory, setSubCategory] = useState<ICategory[] | undefined>([]);
   useEffect(() => {
     const categoryName =
@@ -56,11 +57,10 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, }) => {
   return (
     <>
       {subCategory?.map((item, index) => (
-        <SheetClose asChild  key={index}>
+        <SheetClose asChild key={index}>
 
        
         <Link
-    
           href={
             item.name === 'Accessories'
               ? '/accessories'
@@ -68,6 +68,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, }) => {
           }
           className={`flex gap-1 items-center`}
           key={index}
+          onClick={onLinkClick}
         >
           {item.name}
         </Link>

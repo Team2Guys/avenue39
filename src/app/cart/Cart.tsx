@@ -15,12 +15,13 @@ import { useSelector } from 'react-redux';
 
 const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
   const cartItems = useSelector((state: State) => state.cart.items);
+
   return (
     <>
       <TopHero breadcrumbs={cartbredcrumbs} />
-      
+
       <Container className="mt-10 flex flex-wrap md:flex-nowrap gap-0 md:gap-10">
-        {(cartItems && cartItems.length > 0 )? (
+        {(cartItems && cartItems.length > 0) ? (
           <>
             <div className="w-full md:w-7/12 space-y-4">
               <CartItems isCartPage={true} />

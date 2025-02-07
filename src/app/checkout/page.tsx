@@ -85,7 +85,18 @@ const Checkout = () => {
       setShippingFee(option ? option.fee : 50);
     }
   }, [selectedState]);
+
+  console.log(cartItems)
+
+
   const handlePayment = async (values: any) => {
+
+    await cartItems.map((item) => {
+      delete item.selectedSize;
+      delete item.selectedfilter;
+      delete item.sizes;
+      delete item.filter;
+    });
     try {
       let totalPayment = totalPrice + shippingfee;
 

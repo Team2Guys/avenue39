@@ -9,7 +9,8 @@ import axios from 'axios';
 import showToast from '../Toaster/Toaster';
 import { menuData } from '@/data/menu';
 import { generateSlug } from '@/config';
-import { MdOutlineEmail, MdOutlinePhone } from 'react-icons/md';
+import { MdOutlineEmail, MdOutlinePhone, MdOutlineWhatsapp } from 'react-icons/md';
+import { WhatsAppInfo } from '@/data/data';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -213,20 +214,35 @@ const Footer: React.FC = () => {
           <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
           </h5>
-          <div className="mt-8 w-fit text-[#686868]">
+          <div className="mt-6 w-full flex max-w-56  text-[#686868]">
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
-              <div className=" w-full max-w-56 rounded-sm">
-                <div className="flex items-center gap-2 py-2 px-2">
+              <div className=" w-full rounded-sm">
+                <div className="flex items-center gap-2 py-2 ">
                   <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2">
-                  <MdOutlineEmail />
-
-                    +971 50 597 4495
+                  <MdOutlinePhone size={23} />
+                    {WhatsAppInfo.number}
                   </p>
                 </div>
               </div>
             </Link>
           </div>
-          <div className="mt-4 text-[#686868]">
+
+          <div className="w-full max-w-56  text-[#686868]">
+            <Link  href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
+              <div className=" w-full  rounded-sm">
+                <div className="flex items-center gap-2 py-2">
+                  <MdOutlineWhatsapp size={23} />
+                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex justify-between items-center gap-2">
+
+
+                    {WhatsAppInfo.number}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+          
+          <div className="mt-2  text-[#686868]">
             <div className=" w-full max-w-56 rounded-sm ">
               <Link
               className='flex gap-2 items-center'
@@ -234,7 +250,8 @@ const Footer: React.FC = () => {
                 rel="noreferrer"
                 target="_blank"
               >
-               <MdOutlinePhone />
+      
+               <MdOutlineEmail size={22} />
                 cs@avenue39.com
               </Link>
             </div>
@@ -249,21 +266,6 @@ const Footer: React.FC = () => {
           <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticaligh">
             Copyright © 2024 avenue39 All rights reserved.
           </p>
-          {/* <div className="flex items-center gap-4">
-            <div className="flex justify-between space-x-4">
-            {paymentIcons.map((icon, index) => (
-              <div key={index} className="w-14 h-auto p-1">
-              <Image
-              src={icon.src}
-              alt={icon.alt}
-                    width={64}
-                    height={60}
-                    className="object-contain shadow"
-                  />
-                </div>
-              ))}
-            </div>
-          </div> */}
         </Container>
       </div>
     </section>

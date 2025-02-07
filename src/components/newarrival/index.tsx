@@ -17,6 +17,12 @@ const NewArrival = () => {
         pagination={{ clickable: true }}
         spaceBetween={30}
         slidesPerView={1}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        loop={false}
+       
         className="w-full"
       >
         {SaleBannerData.map((item, index) => (

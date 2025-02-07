@@ -78,7 +78,7 @@ const SidebarFilter = ({
         .split('/')
         .pop()
         ?.toUpperCase()
-        .replace('-', ' ');
+        ?.replace('-', ' ');
       if (currentCategory) {
         if (categoryId) {
           const categoryMatch = category.find(

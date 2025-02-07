@@ -55,6 +55,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           pagination={{
             clickable: true,
           }}
+          slidesPerView={1}
           loop={true}
           modules={[Pagination]}
           autoplay={{

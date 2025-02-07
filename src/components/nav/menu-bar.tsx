@@ -22,7 +22,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const categoryId: string | null = searchParams.get('id');
+
 
   // Close menu if click outside
   useEffect(() => {
@@ -39,17 +39,12 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   }, []);
 
   useEffect(() => {
-    const pathSplit = pathname.split('/');
-    const name = pathSplit.splice(pathSplit.length - 1);
-    if (categoryId) {
-      const activeMenu = categories?.find(
-        (item) => item.id === Number(categoryId),
-      );
-      setisActiveMenu(activeMenu?.name.replace('-', ' ').toLowerCase() || null);
-    } else {
-      setisActiveMenu(name.toString().replace('-', ' '));
-    }
+    const pathSplit = pathname.split('/').filter((value)=>value);
+    const [category] = pathSplit
+      setisActiveMenu(category?.replace('-', ' ').toLowerCase() || null);
   }, [pathname, categories, searchParams]);
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,10 +76,11 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
       setActiveMenu(menu);
     }
   };
-
+  
   return (
     <div
-      className={`${isSticky ? `sticky ${userDetails ? 'top-20' : 'top-16'} z-20` : 'relative md:pb-12'}`}
+      className={`${isSticky ? `sticky z-40 ${userDetails ? 'top-20' : 'top-16'} ` : 'relative md:pb-12 z-40 '}`}
+      style={{zIndex: 200}}
     >
       <div
         className={`bg-white shadow-md mb-1 pt-3 hidden md:block z-20 ${
@@ -95,7 +91,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
           {categories && categories?.length < 1 ? (
             staticHeaderCategories.map((item, index) => (
               <Link
-                href={`/${generateSlug(item)}`}
+                href={`/${generateSlug(item == "Home Office"  ? "office-furniture" : item )}`}
                 key={index}
                 className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap ${
                   item === 'Sale' ? 'text-red-500' : 'text-black'
@@ -108,7 +104,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
             <>
               {categories
                 ?.filter((item) => item.name.toLowerCase() !== 'sale')
-                .map((item) => (
+                .map((item:ICategory) => (
                   <div
                     className="relative"
                     key={item.id}
@@ -117,9 +113,9 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <Link
-                      href={`/${generateSlug(item.name)}`}
+                      href={`/${generateSlug(item.custom_url || item.name)}`}
                       className={`relative menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-black dark:text-black flex flex-row gap-2 items-center cursor-pointer ${
-                        isActiveMenu === item.name.toLowerCase() ? 'linkactive' : 'link-underline'
+                        isActiveMenu === (item?.custom_url?.toLowerCase() || item.name.toLowerCase()) ? 'linkactive' : 'link-underline'
                       }`}
                       onClick={() => handleClickMenu(item.name)}
                     >

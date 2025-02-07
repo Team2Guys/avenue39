@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.webp';
 import Marlin from '@assets/images/banners/Marlin.webp';
-import rafael from '@assets/images/banners/rafael.png';
+import rafael from '@assets/images/banners/rafael.webp';
 import Calda from '@assets/images/banners/Calda.webp';
 import Magia from '@assets/images/banners/Magia.webp';
 import Moderno from '@assets/images/banners/Moderno.webp';
@@ -139,7 +139,7 @@ const SofaBanner: React.FC = () => {
           slidesPerView={1}
           autoplay={{
             delay: 3000,
-            disableOnInteraction: false,
+            disableOnInteraction: true,
           }}
           pagination={{
             clickable: true,

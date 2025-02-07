@@ -58,7 +58,7 @@ const TopHero: React.FC<TopHeroProps> = ({
                       {subCategorName || productName ? (
                         <Link
                           className="text-14 font-medium text-[#959595] capitalize"
-                          href={`/${categoryName.replaceAll(' ', '-').toLowerCase()}`}
+                          href={`/${categoryName?.replaceAll(' ', '-').toLowerCase()}`}
                         >
                           {categoryName}
                         </Link>
@@ -75,7 +75,7 @@ const TopHero: React.FC<TopHeroProps> = ({
                             <BsSlash />
                           </BreadcrumbSeparator>
                           <BreadcrumbPage className="text-14 font-semibold text-black">
-                            {subCategorName.replace('SUB_', '')}
+                            {subCategorName?.replace('SUB_', '')}
                           </BreadcrumbPage>
                         </>
                       )}
@@ -88,9 +88,9 @@ const TopHero: React.FC<TopHeroProps> = ({
                           </BreadcrumbSeparator>
                           <Link
                             className="text-14 font-medium text-[#959595] capitalize"
-                            href={`/${categoryName.replaceAll(' ', '-').toLowerCase()}/${subCategorName.replaceAll(' ', '-').toLowerCase()}`}
+                            href={`/${categoryName?.replaceAll(' ', '-').toLowerCase()}/${subCategorName?.replaceAll(' ', '-').toLowerCase()}`}
                           >
-                            {subCategorName.replace('SUB_', '')}
+                            {subCategorName?.replace('SUB_', '')}
                           </Link>
                         </>
                       )}

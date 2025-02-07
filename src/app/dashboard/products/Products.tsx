@@ -46,9 +46,8 @@ const Product = ({
     colors: (editProduct && editProduct?.colors) || [],
     sizes: (editProduct && editProduct?.sizes) || [],
     filter: (editProduct && editProduct?.filter) || [],
+    custom_url: editProduct && editProduct?.custom_url
   };
-  console.log(EditInitialValues, 'EditInitialValues');
-  console.log(editProduct, 'editProduct');
 
   let productFlag: boolean = selecteMenu === 'Add All Products' ? true : false;
 

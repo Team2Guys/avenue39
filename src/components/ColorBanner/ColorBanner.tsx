@@ -43,7 +43,10 @@ const ColorBanner: React.FC = () => {
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
-        autoplay={false}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: true,
+        }}
         pagination={{
           clickable: true,
         }}

@@ -4,6 +4,7 @@ import { generateSlug } from '@/config';
 import { fetchCategories, fetchProducts } from '@/config/fetch';
 import { Meta_handler } from '@/config/metaHanlder';
 import { menuData } from '@/data/menu';
+import {Product, Subcategory } from '@/data/new_Arrival';
 import { ICategory } from '@/types/types';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
@@ -23,8 +24,7 @@ export async function generateMetadata({
   let metaObject: any;
 
   const headersList = await headers();
-  const domain =
-    headersList.get('x-forwarded-host') || headersList.get('host') || '';
+  const domain = headersList.get('x-forwarded-host') || headersList.get('host') || '';
   const protocol = headersList.get('x-forwarded-proto') || 'https';
   const pathname = headersList.get('x-invoke-path') || '/';
 
@@ -41,7 +41,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const categories = await fetchCategories();
   const AllProduct = await fetchProducts();
 
-  const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.name) === slug);
+  const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.custom_url || item.name) === slug);
   if (!findCategory) {
     return <NotFound />;
   }
@@ -49,41 +49,76 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'home-office' ? 'homeOffice' : slug;
   const subcategory = menuData[categoryName] || [];
 
-  const sortProducts = findCategory.products
-    .map((prod: any) => {
-      const clonedProd = { ...prod, subcategories: [...prod.subcategories] };
-      const clonedSubcategories = clonedProd.subcategories
-        ? JSON.parse(JSON.stringify(clonedProd.subcategories))
-        : [];
+  let sortProducts;
+  
 
-      const matchingSubcategories = clonedSubcategories
-        ?.map((sub: ICategory) => {
+
+
+
+    if(slug === "new-arrivals"){
+
+      const ProductSet = new Set(Product.map(generateSlug));
+      const SubcategorySet = new Set(Subcategory.map(generateSlug));
+      const CategorySet = new Set(categories.map(generateSlug));
+      
+      const filterProds = AllProduct.map((prods: any) => {
+        const productSlug = generateSlug(prods.name);
+      
+        if (!ProductSet.has(productSlug)) {
+          return null; 
+        }
+      
+        const filteredSubcategories = prods.subcategories.filter((subcat: any) => 
+          SubcategorySet.has(generateSlug(subcat.name)) && 
+          subcat.categories.some((value: any) => CategorySet.has(generateSlug(value.name)))
+        );
+      
+        return {
+          ...prods,
+          subcategory: filteredSubcategories
+        };
+      }).filter(Boolean);
+      sortProducts= filterProds
+    }else {
+      sortProducts = findCategory.products.map((prod: any) => {
+        const clonedProd = { ...prod, subcategories: [...prod.subcategories] };
+        const clonedSubcategories = clonedProd.subcategories
+          ? JSON.parse(JSON.stringify(clonedProd.subcategories))
+          : [];
+    
+        const matchingSubcategories = clonedSubcategories?.map((sub: ICategory) => {
           const foundSubcategory = subcategory?.find((item) => item.title === sub.name,
           );
-
+    
           if (foundSubcategory) {
             return { id: 0, name: foundSubcategory.title };
           }
           return undefined;
         })
-        .filter((item: any) => item !== undefined);
+          .filter((item: any) => item !== undefined);
+    
+        clonedProd.subcategories = matchingSubcategories;
+    
+        return clonedProd;
+      })
+        .sort((a: any, b: any) => {
+          if (!a.subcategories || a.subcategories.length === 0) return 1;
+          if (!b.subcategories || b.subcategories.length === 0) return -1;
+    
+          const subcategoryA = a.subcategories?.[0]?.name || '';
+          const subcategoryB = b.subcategories?.[0]?.name || '';
+    
+          const indexA = subcategory.findIndex((item) => item.title === subcategoryA);
+          const indexB = subcategory.findIndex((item) => item.title === subcategoryB);
+    
+          return indexA - indexB;
+        });
+    }
 
-      clonedProd.subcategories = matchingSubcategories;
 
-      return clonedProd;
-    })
-    .sort((a: any, b: any) => {
-      if (!a.subcategories || a.subcategories.length === 0) return 1;
-      if (!b.subcategories || b.subcategories.length === 0) return -1;
 
-      const subcategoryA = a.subcategories?.[0]?.name || '';
-      const subcategoryB = b.subcategories?.[0]?.name || '';
+console.log(sortProducts.length, "sortProducts")
 
-      const indexA = subcategory.findIndex((item) => item.title === subcategoryA);
-      const indexB = subcategory.findIndex((item) => item.title === subcategoryB);
-
-      return indexA - indexB;
-    });
   return <Shop
     ProductData={sortProducts}
     AllProduct={AllProduct}

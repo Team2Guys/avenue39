@@ -1,11 +1,24 @@
-export const re_Calling_products = [
+interface recallingTypes {
+  id:number,
+  mainCategory: string,
+  subCategory: string,
+  redirectsubCat: string,
+  redirect_main_cat:string,
+  customUrl?: string,
+  subcustomUrl?: string,
+
+}
+
+export const re_Calling_products:recallingTypes[] = [
   {
     id: 1,
-    mainCategory: 'LIVING',
+    mainCategory: 'CHAIRS',
     subCategory: 'Sofas',
     ////////////////
     redirectsubCat: 'Sofas',
-    redirect_main_cat: 'CHAIRS',
+    redirect_main_cat: 'LIVING',
+    customUrl:"",
+    subcustomUrl:""
   },
   {
     id: 2,
@@ -69,17 +82,17 @@ export const re_Calling_products = [
   {
     id: 7,
     mainCategory: 'CHAIRS',
-    subCategory: 'Dining Chairs',
+    subCategory: 'Chairs',
     ////////////////
-    redirectsubCat: 'Dining Chairs',
+    redirectsubCat: 'Chairs',
     redirect_main_cat: 'DINING',
   },
   {
     id: 8,
     mainCategory: 'TABLES',
-    subCategory: 'Dining Tables',
+    subCategory: 'tables',
     ////////////////
-    redirectsubCat: 'Dining Tables',
+    redirectsubCat: 'tables',
     redirect_main_cat: 'DINING',
   },
   {

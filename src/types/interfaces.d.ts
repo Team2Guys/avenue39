@@ -58,6 +58,7 @@ export interface Category {
   canonical_tag?: string;
   images_alt_text?: string;
   posterImageUrl?: IMAGE_INTERFACE;
+  custom_url?:string
 }
 export interface SubCategory {
   name: string;
@@ -67,6 +68,7 @@ export interface SubCategory {
   canonical_tag?: string;
   images_alt_text?: string;
   categoriesId: number[];
+  custom_url? :string
 }
 
 interface CloudinaryImage {

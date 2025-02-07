@@ -48,34 +48,58 @@ const ProductPage = ({
   const handleSortChange = (sort: string) => setSortOption(sort);
   console.log(ProductData,"ProductData")
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
+  
   const processedProducts = productsToFilter.flatMap((prod) => {
+    const colorVariations = prod.filter?.[0]?.additionalInformation || [{ name: "", price: prod.price }];
+  
     if (!prod.sizes || prod.sizes.length === 0) {
-      return [prod];
+      return colorVariations.map((color) => {
+        const matchedImage = prod.productImages?.find(
+          (img) => img.color?.toLowerCase() === color.name.toLowerCase()
+        )?.imageUrl || prod.posterImageUrl; 
+    
+        return {
+          ...prod,
+          name: `${prod.name}`,
+          displayName: color.name ? `${prod.name} - ${color.name}` : prod.name,
+          price: Number(color.price ? color.price : prod.price), 
+          discountPrice: 'discountPrice' in color ? Number(color.discountPrice) : prod.discountPrice,
+          posterImageUrl: matchedImage,
+          stock: 'stock' in color ? Number(color.stock) : prod.stock,
+        };
+      });
     }
-
-    return prod.sizes.map((size) => {
-      const matchedImage = prod.productImages?.find((img) =>
-        img.size?.toLowerCase() === size.name.toLowerCase()
-      )?.imageUrl || null;
-
-      const firstUploadedImage = prod.productImages.length > 0 ? prod.productImages[0].imageUrl : null;
-      return {
-        ...prod,
-        name: `${prod.name}`,
-        displayName:`${prod.name} - ${size.name}`,
-        price: Number(size.price),
+    return prod.sizes.flatMap((size) =>
+      colorVariations.map((color) => {
+        const matchedImage = prod.productImages?.find(
+          (img) =>
+            img.size?.toLowerCase() === size.name.toLowerCase() &&
+            img.color?.toLowerCase() === color.name.toLowerCase()
+        )?.imageUrl ||
+          prod.productImages?.find((img) => img.color?.toLowerCase() === color.name.toLowerCase())?.imageUrl ||
+          prod.posterImageUrl;
+        const firstUploadedImage = prod.productImages.length > 0 ? prod.productImages[0].imageUrl : null;
+  
+        return {
+          ...prod,
+         name: `${prod.name}`,
+         displayName: color.name ? `${prod.name} - ${size.name} ${color.name}` : prod.name,
+        price: Number(size.price ? size.price : prod.price),
+        discountPrice: size.discountPrice ? Number(size.discountPrice) : prod.discountPrice,
         posterImageUrl: matchedImage || firstUploadedImage || prod.posterImageUrl,
-      };
-    });
+        stock: Number(size.stock ? size.stock : prod.stock),
+        };
+      })
+    );
   });
-
+  
   const filteredCards = processedProducts
     .filter((card) => {
       if (pathname === '/products') {
-        return card.discountPrice > 0 && card.stock > 0;
+        return (card.discountPrice ?? 0) > 0 && card.stock > 0;
       }
       if (pathname === '/sale') {
-        return card.discountPrice > 0 && card.stock > 0;
+        return (card.discountPrice ?? 0) > 0 && card.stock > 0;
       }
       return true;
     })
@@ -85,13 +109,13 @@ const ProductPage = ({
           return a.name.trim().localeCompare(b.name.trim());
         }
         case 'max': {
-          const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-          const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+          const priceA = (a.discountPrice ?? 0) > 0 ? a.discountPrice ?? 0 : a.price;
+          const priceB = (b.discountPrice ?? 0) > 0 ? b.discountPrice ?? 0 : b.price;
           return priceB - priceA;
         }
         case 'min': {
-          const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-          const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+          const minPriceA = (a.discountPrice ?? 0) > 0 ? a.discountPrice ?? 0 : a.price;
+          const minPriceB = (b.discountPrice ?? 0) > 0 ? b.discountPrice ?? 0 : b.price;
           return minPriceA - minPriceB;
         }
         default:
@@ -109,29 +133,31 @@ const ProductPage = ({
 
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
-          {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
-            <div className="flex flex-col items-center">
-              {newArrivals.map((item, index) => (
-                <div key={index} className="text-center">
-                  <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
-                  <Container>
-                    <p>{item.description}</p>
-                  </Container>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center">
-              <h1 className="text-[45px] font-helvetica font-bold">
-                {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
-              </h1>
-              <Container>
-                <p className="text-center">
-                  {SubcategoryName?.description ? SubcategoryName?.description : info?.description}
-                </p>
-              </Container>
-            </div>
-          )}
+        {
+            pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
+              <div className="flex flex-col items-center">
+                {newArrivals.map((item, index) => (
+                  <div key={index} className="text-center">
+                    <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
+                    <Container>
+                      <p>{item.description}</p>
+                    </Container>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center">
+                <h1 className="text-[45px] font-helvetica font-bold">
+                  {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
+                </h1>
+                <Container>
+                  <p className="text-center">
+                    {SubcategoryName?.description ? SubcategoryName?.description : info?.description}
+                  </p>
+                </Container>
+              </div>
+            )
+          }
 
           <div className="sm:mt-4 mt-10 flex items-center justify-between gap-4 py-2 px-2 flex-col md:flex-row">
             <div className="flex items-center gap-4">
@@ -180,7 +206,10 @@ const ProductPage = ({
                     <Card
                       card={card}
                       isLoading={false}
+                      SubcategoryName={SubcategoryName}
+                      mainCatgory = {mainslug}
                       cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
+
                     />
                   ) : (
                     <LandscapeCard card={card} isLoading={false} />

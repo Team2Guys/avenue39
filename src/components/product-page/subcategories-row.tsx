@@ -16,7 +16,7 @@ const SubCategoriesRow = () => {
   const [subCategory, setSubCategory] = useState<MenuItem[]>([]);
 
   useEffect(() => {
-    const categoryKey = path.replace('/', '');
+    const categoryKey = path?.replace('/', '');
     const categoryName =
       categoryKey === 'lighting'
         ? 'Lighting'

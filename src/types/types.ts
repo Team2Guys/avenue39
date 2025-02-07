@@ -143,17 +143,21 @@ export interface IProduct {
   filter?: Filter[];
   reviews?:any[]
   displayName?: string;
+  custom_url?:string
 }
 interface Filter {
   heading: string;
   additionalInformation: {
     name: string;
     price: string;
+    discountPrice: string;
   }[];
 }
 interface Sizes {
     name: string;
     price: string;
+    discountPrice: string;
+    stock?: string;
 }
 export interface specsDetails {
   id: number;
@@ -296,6 +300,7 @@ export interface ICategory {
   Meta_Description?: string;
   Canonical_Tag?: string;
   subcategories?: ICategory[];
+  custom_url?:string
 }
 // Timer slider data type
 export type TSliderItem = {

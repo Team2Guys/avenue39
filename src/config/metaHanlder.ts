@@ -6,11 +6,11 @@ import { notFound } from 'next/navigation'
 export const Meta_handler = async (categoryName: string, url: string) => {
   const categories = await fetchCategories();
 
-  const findCategory =categories && categories?.find((item: any) => generateSlug(item.name) === categoryName);
+  const findCategory =categories && categories?.find((item: any) => generateSlug(item.custom_url || item.name) === categoryName);
   if (!findCategory) {
     notFound()
   }
-  let fullurl = `${url}${findCategory.name}`;
+  let fullurl = `${url}${findCategory?.custom_url||  findCategory.name}`;
 
   let images = findCategory.hoverImageUrl || 'images';
   let alttext = findCategory.Images_Alt_Text || 'Alternative Text';
@@ -51,7 +51,7 @@ export const productsFindHandler = async (
 
   const findProduct = products.find((item: any) => {
     return (
-      generateSlug(item.name) === (subcategory ? subcategory : productName)
+      generateSlug(item.custom_url || item.name) === (subcategory ? subcategory : productName)
     );
   });
 
@@ -92,27 +92,20 @@ export const subCategory = async (slug: string[], url: string) => {
   let subcategoryName = slug[1];
   let category = slug[0];
   const subCategories = await fetchSubCategories();
-  const SubCategoriesFinder = re_Calling_products.find(
-    (value) =>
-      generateSlug(value.mainCategory).trim().toLocaleLowerCase() ===
-      category &&
-      generateSlug(value.subCategory).trim().toLocaleLowerCase() ==
-      subcategoryName,
+  const SubCategoriesFinder = re_Calling_products.find((value) =>
+      generateSlug(value.mainCategory).trim().toLocaleLowerCase() ===category && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
   );
 
   if (SubCategoriesFinder) {
-    subcategoryName = generateSlug(
-      SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase(),
-    );
+    subcategoryName = generateSlug(SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase(),);
     category = generateSlug(
       SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase(),
     );
   }
   const findSubCategory: any = subCategories?.find((item: any) => {
-    const isNameMatch = generateSlug(item.name) === subcategoryName;
-    const belongsToCategory = item.categories.some(
-      (value: any) =>
-        generateSlug(value.name).trim().toLocaleLowerCase() === category,
+    const isNameMatch = generateSlug(item.custom_url || item.name) === subcategoryName;
+    const belongsToCategory = item.categories.some((value: any) =>
+        generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === category,
     );
     return isNameMatch && belongsToCategory;
   });

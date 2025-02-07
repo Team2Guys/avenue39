@@ -136,6 +136,7 @@ export const categoryInitialValues: Category = {
   meta_title: '',
   canonical_tag: '',
   images_alt_text: '',
+  custom_url : ""
 };
 export const subcategoryInitialValues: SubCategory = {
   name: '',
@@ -145,6 +146,7 @@ export const subcategoryInitialValues: SubCategory = {
   canonical_tag: '',
   images_alt_text: '',
   categoriesId: [],
+  custom_url : ""
 };
 
 export const loginInitialValue = {
@@ -243,8 +245,8 @@ export const categories: any = [
         { img: '/images/categories/Coffee-Table/banner-12a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Coffee-Table/banner-11.jpg' },
-        { img: '/images/categories/Coffee-Table/banner-12.jpg' },
+        { img: '/images/categories/Coffee-Table/banner-11.webp' },
+        { img: '/images/categories/Coffee-Table/banner-12.webp' },
       ],
     },
   },
@@ -270,11 +272,11 @@ export const categories: any = [
         'Some description about category two goes here. Some description about category two goes here',
       LeftSideImage: [
         { img: '/images/categories/Armchairs/banner-6a.png' },
-        { img: '/images/categories/Armchairs/banner-7a.png' },
+        { img: '/images/categories/Armchairs/banner-7a.webp' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Armchairs/banner-6.jpg' },
-        { img: '/images/categories/Armchairs/banner-7.jpg' },
+        { img: '/images/categories/Armchairs/banner-6.webp' },
+        { img: '/images/categories/Armchairs/banner-7.webp' },
       ],
     },
   },
@@ -291,8 +293,8 @@ export const categories: any = [
         { img: '/images/categories/Barstools/banner-22a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Barstools/banner-21.jpg' },
-        { img: '/images/categories/Barstools/banner-22.jpg' },
+        { img: '/images/categories/Barstools/banner-21.webp' },
+        { img: '/images/categories/Barstools/banner-22.webp' },
       ],
     },
   },
@@ -303,8 +305,8 @@ export const categories: any = [
       heading: 'Floor Lamps',
       subHeading: 'Subheading for Category Two',
       paragraph: 'Some description about category two goes here.',
-      LeftSideImage: [{ img: '/images/categories/Floor-Lamps/banner-26a.png' }],
-      RightSideImage: [{ img: '/images/categories/Floor-Lamps/banner-26.jpg' }],
+      LeftSideImage: [{ img: '/images/categories/Floor-Lamps/banner-26a.webp' }],
+      RightSideImage: [{ img: '/images/categories/Floor-Lamps/banner-26.webp' }],
     },
   },
   {
@@ -315,12 +317,12 @@ export const categories: any = [
       subHeading: 'Subheading for Category Two',
       paragraph: 'Some description about category two goes here.',
       LeftSideImage: [
-        { img: '/images/categories/Office-Tables/banner-23a.png' },
+        { img: '/images/categories/Office-Tables/banner-23a.webp' },
         { img: '/images/categories/Office-Tables/banner-24a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Office-Tables/banner-23.jpg' },
-        { img: '/images/categories/Office-Tables/banner-24.jpg' },
+        { img: '/images/categories/Office-Tables/banner-23.webp' },
+        { img: '/images/categories/Office-Tables/banner-24.webp' },
       ],
     },
   },
@@ -332,11 +334,11 @@ export const categories: any = [
       subHeading: 'Subheading for Category Two',
       paragraph: 'Some description about category two goes here.',
       LeftSideImage: [
-        { img: '/images/categories/Side-Tables/banner-9a.png' },
+        { img: '/images/categories/Side-Tables/banner-9a.webp' },
         { img: '/images/categories/Side-Tables/banner-10a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Side-Tables/banner-9.jpg' },
+        { img: '/images/categories/Side-Tables/banner-9.webp' },
         { img: '/images/categories/Side-Tables/banner-10.jpg' },
       ],
     },
@@ -350,11 +352,11 @@ export const categories: any = [
       paragraph: 'Some description about category two goes here.',
       LeftSideImage: [
         { img: '/images/categories/Dining-Table/banner-1A.png' },
-        { img: '/images/categories/Dining-Table/banner-2a.png' },
+        { img: '/images/categories/Dining-Table/banner-2a.webp' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Dining-Table/banner-1.jpg' },
-        { img: '/images/categories/Dining-Table/banner-2.jpg' },
+        { img: '/images/categories/Dining-Table/banner-1.webp' },
+        { img: '/images/categories/Dining-Table/banner-2.webp' },
       ],
     },
   },
@@ -370,8 +372,8 @@ export const categories: any = [
         { img: '/images/categories/Coffee-Table/banner-12a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Coffee-Table/banner-11.jpg' },
-        { img: '/images/categories/Coffee-Table/banner-12.jpg' },
+        { img: '/images/categories/Coffee-Table/banner-11.webp' },
+        { img: '/images/categories/Coffee-Table/banner-12.webp' },
       ],
     },
   },
@@ -388,9 +390,9 @@ export const categories: any = [
         { img: '/images/categories/Sofas/banner-16a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Sofas/banner-15.jpg' },
-        { img: '/images/categories/Sofas/banner-14.jpg' },
-        { img: '/images/categories/Sofas/banner-16.jpg' },
+        { img: '/images/categories/Sofas/banner-15.webp' },
+        { img: '/images/categories/Sofas/banner-14.webp' },
+        { img: '/images/categories/Sofas/banner-16.webp' },
       ],
     },
   },
@@ -401,8 +403,8 @@ export const categories: any = [
       heading: 'Table Lamps',
       subHeading: 'Subheading for Category Two',
       paragraph: 'Some description about category two goes here.',
-      LeftSideImage: [{ img: '/images/categories/Table-Lamps/banner-25a.png' }],
-      RightSideImage: [{ img: '/images/categories/Table-Lamps/banner-25.jpg' }],
+      LeftSideImage: [{ img: '/images/categories/Table-Lamps/banner-25a.webp' }],
+      RightSideImage: [{ img: '/images/categories/Table-Lamps/banner-25.webp' }],
     },
   },
   {
@@ -428,8 +430,8 @@ export const categories: any = [
         { img: '/images/categories/Bedside-Table/banner-20a.png' },
       ],
       RightSideImage: [
-        { img: '/images/categories/Bedside-Table/banner-19.jpg' },
-        { img: '/images/categories/Bedside-Table/banner-20.jpg' },
+        { img: '/images/categories/Bedside-Table/banner-19.webp' },
+        { img: '/images/categories/Bedside-Table/banner-20.webp' },
       ],
     },
   },
@@ -458,14 +460,14 @@ export const SaleBannerData = [
     link: '/tables/coffee-tables/lucius-coffee-table-set',
     productName: 'Lucius Coffee Table Set',
     price: 'AED 3,500',
-    imageSrc: '/images/salebanner/lucis.png',
+    imageSrc: '/images/salebanner/lucis.webp',
   },
   {
     title: 'Shop Best Sellers',
     link: '/chairs/armchairs/trent-luxury-armchair',
     productName: 'Trent Luxury Armchair',
     price: 'AED 2,400',
-    imageSrc: '/images/salebanner/trent.png',
+    imageSrc: '/images/salebanner/trent.webp',
   },
 ];
 

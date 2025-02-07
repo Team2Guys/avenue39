@@ -40,8 +40,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
   }, [menudata]);
 
   const routinghandler = (mainCategory: string, subCategory: string) => {
-    const routedCat = re_Calling_products.find(
-      (value) =>
+    const routedCat = re_Calling_products.find((value) =>
         TrimUrlHandler(value.mainCategory) === TrimUrlHandler(mainCategory) &&
         TrimUrlHandler(subCategory) == TrimUrlHandler(value.subCategory),
     );
@@ -61,7 +60,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
           href={
             item.name === 'Accessories'
               ? '/accessories'
-              : routinghandler(menudata.name, item.name)
+              : routinghandler((menudata.custom_url || menudata.name),( item.custom_url || item.name))
           }
           className={`flex gap-1 items-center`}
           key={index}

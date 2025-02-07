@@ -67,7 +67,7 @@ const ProductDetail = ({
 
   const [count, setCount] = useState(1);
   const dispatch = useDispatch<Dispatch>();
-  const cartItems = useSelector((state: State) => state.cart.items);
+  const cartItems = useSelector((state: State | any) => state.cart.items);
   const slug = String(params.name);
   const [timeLeft, setTimeLeft] = useState({
     day: 0,
@@ -80,6 +80,7 @@ const ProductDetail = ({
   const [size, setSize] = useState<CartSize | null>(null);
   const [filter, setFilter] = useState<CartSize | null>(null);
   const [productPrice, setProductPrice] = useState(0);
+  const [productDiscPrice, setProductDiscPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
 
@@ -120,6 +121,11 @@ const ProductDetail = ({
       const sizePrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.price || 0 : 0;
       const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
       setProductPrice(Number(finalPrice));
+
+      const filterDiscPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.discountPrice || 0 : 0;
+      const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
+      const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
+      setProductDiscPrice(Number(finalDiscPrice));
     } else {
       setAvailableSizes([]);
       setProductImage([]);
@@ -276,14 +282,25 @@ const ProductDetail = ({
               OUT OF STOCK
             </div>
           )}
-          {product.discountPrice > 0 && (
+
+          {productDiscPrice > 0 ? (
             <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
               {Math.round(
-                ((product.price - product.discountPrice) / product.price) * 100,
+                ((productPrice - productDiscPrice) / productPrice) * 100,
               )}
               % OFF
             </div>
-          )}
+          ) :
+            (
+              product.discountPrice > 0 && (
+                <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
+                  {Math.round(
+                    ((product.price - product.discountPrice) / product.price) * 100,
+                  )}
+                  % OFF
+                </div>
+              )
+            )}
           {product.createdAt &&
             (() => {
               const productDate = new Date(product.createdAt);
@@ -310,29 +327,37 @@ const ProductDetail = ({
             </div>
           </>
         )}
-        {product?.discountPrice > 0 ? (
+
+
+
+        {(product?.discountPrice > 0 || productDiscPrice > 0) ? (
           <ProductPrice className="flex items-center gap-2">
             AED{' '}
-            {productPrice > 0
-              ? formatPrice(productPrice)
-              : product?.discountPrice > 1000
-                ? product.discountPrice.toLocaleString()
-                : product?.discountPrice}
+            {productDiscPrice > 0
+              ? (productDiscPrice > 1000
+                ? productDiscPrice.toLocaleString()
+                : formatPrice(productDiscPrice))
+              : (product?.discountPrice > 1000
+                ? product?.discountPrice.toLocaleString()
+                : product?.discountPrice)}
+
             <NormalText className="font-normal text-base text-slate-400 line-through">
-              AED
-              {product?.price > 1000
-                ? product.price.toLocaleString()
-                : product?.price}
+              AED{' '}
+              {productPrice > 0
+                ? formatPrice(productPrice)
+                : `${formatPrice(product?.price)}`}
             </NormalText>
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">
-            {/* AED {formatPrice(product?.price)} */}
+            AED{' '}
             {productPrice > 0
-              ? `AED ${formatPrice(productPrice)}`
+              ? formatPrice(productPrice)
               : `AED ${formatPrice(product?.price)}`}
           </ProductPrice>
         )}
+
+
         {/* <div className="flex gap-3 font-semibold">
           <span>AVAILABLE:</span>
           {product.stock > 0 ? (
@@ -560,7 +585,7 @@ const ProductDetail = ({
             </span>
             <p className="text-12">
               Pay 4 interest-free payments of AED{' '} { }
-              {productPrice > 0 ? (productPrice / 4).toFixed(1) : (
+              {productPrice > 0 || productDiscPrice > 0 ? productDiscPrice > 0 ? productDiscPrice / 4 : productPrice / 4 : (
                 (product?.discountPrice
                   ? product?.discountPrice
                   : product?.price) / 4
@@ -631,7 +656,7 @@ const ProductDetail = ({
             </span>
             <p className="text-12">
               Pay 4 interest-free payments of AED{' '}
-              {productPrice > 0 ? (productPrice / 4).toFixed(1) : (
+              {productPrice > 0 || productDiscPrice > 0 ? productDiscPrice > 0 ? productDiscPrice / 4 : productPrice / 4 : (
                 (product?.discountPrice
                   ? product?.discountPrice
                   : product?.price) / 4

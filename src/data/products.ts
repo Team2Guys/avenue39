@@ -391,7 +391,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Abstract Vase',
-        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
+        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
       },
       {
         name: 'Monolith Sphere Towers',

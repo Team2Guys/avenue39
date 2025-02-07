@@ -365,13 +365,6 @@ html {
 .slick-next:before {
   content: none !important;
 }
-
-@media (max-width: 895px) {
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
-    display: none !important;
-  }
-}
-
 .detail {
   font-family: var(--font-helvetica) !important;
 }
@@ -389,4 +382,12 @@ html {
 }
 .cardBtn-addToCart:hover svg{
   fill: white;
+}
+@media (max-width: 895px) {
+  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
+    display: none !important;
+  }
+  .card-slider-home .swiper-pagination {
+    bottom: 180px !important;
+  }
 }

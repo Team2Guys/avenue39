@@ -545,13 +545,13 @@ const ProductDetail = ({
             </div>
 
             <Button
-              className="bg-primary text-white font-helvetica flex gap-3 justify-center w-full sm:w-1/2 items-center md:w-full h-12 rounded-2xl mb-3 font-light "
+              className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
               onClick={(e: any) => handleBuyNow(e)}
             >
               <CiShoppingCart size={20} /> BUY IT NOW
             </Button>
 
-            <div className="flex gap-2 mb-4 w-full sm:w-1/2  md:w-full">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
               <Button
                 variant={'main'}
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"

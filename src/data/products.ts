@@ -394,7 +394,7 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
       },
       {
-        name: 'Pair of Rooted Egg Stands',
+        name: 'Rooted Egg Stands',
         posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
       },
     ],

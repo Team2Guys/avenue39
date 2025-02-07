@@ -515,7 +515,7 @@ export const Accessories = [
   'Droplet Stand ',
   'Monolith Sphere Towers',
   'Layered Elegance',
-  'Pair of Rooted Egg Stands',
+  'Rooted Egg Stands',
   'Abstract Vase',
 ];
 export const newArrivals = [

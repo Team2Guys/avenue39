@@ -63,9 +63,10 @@ const Footer: React.FC = () => {
 
         <div className=" text-center">
           <p className="mt-6 tracking-wide font-helvetica text-13 lg:text-15 text-[#686868] max-sm:text-center">
-            {`Avenue39 is more than just a furniture store; it's a philosophy that blends contemporary design with timeless aesthetics. We understand the importance of creating a harmonious environment that reflects your unique personality and taste. Each piece in our collection is thoughtfully selected to offer a perfect fusion of form and function`}.
+          Thoughtfully selected to balance beauty and function.
+
           </p>
-          <div className='w-1/3 m-auto'>
+          <div className='max-w-1/3 m-auto'>
             <form className="mt-6 max-md:mb-5" onSubmit={handleNewsLetter}>
               <div className="relative">
                 <input
@@ -181,7 +182,7 @@ const Footer: React.FC = () => {
           </ul>
         </div>
 
-        <div className=" ">
+        <div className="min-w-[108px] ">
           <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Quick Links
           </h5>
@@ -258,7 +259,7 @@ const Footer: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="pt-5 text-black">
+          <div className="pt-5 text-black w-full">
             <SocialLink socialSize="md:text-[25px]" iconColor={'text-black'} />
           </div>
         </div>

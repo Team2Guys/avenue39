@@ -44,7 +44,7 @@ export const ColorBannerData = [
     imageUrl2: '/images/catalogue/design_chair12.png',
     Heading: 'dining furniture',
     Description:
-      "We're home to beautiful dining chairs that tick off all the latest styles, from Industrial to Minimalist, Scandi to Mid-century. We've designed our dining furniture collection based on customer feedback and the latest trends to make sure it's beautiful, trendy, and durable.",
+      "We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",
   },
 ];
 

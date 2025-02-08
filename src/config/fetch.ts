@@ -109,7 +109,6 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
     }
   }
 
-
   return url;
 };
 

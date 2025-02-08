@@ -1,4 +1,4 @@
-interface recallingTypes {
+export interface recallingTypes {
   id:number,
   mainCategory: string,
   subCategory: string,

@@ -61,7 +61,7 @@ const Navbar = () => {
     queryKey: ['products'],
     queryFn: fetchProducts,
   });
-  const [isProductListOpen, setIsProductListOpen] = useState(false);
+  const [isProductListOpen, setIsProductListOpen] = useState<boolean>(false);
 
   const { loggedInUser } = useSelector((state: State) => state.usrSlice);
 
@@ -202,9 +202,9 @@ const Navbar = () => {
                     {filteredProducts.length > 0 ? (
                       filteredProducts.map((product, index) => (
                      <Link key={product.id || index} href={ 
-                       ChangeUrlHandler(product)
-          
-                     }>
+                       ChangeUrlHandler(product)}
+                       onClick={()=>setIsProductListOpen(false)}
+                      >
                      
                         <div
                           key={product.id}

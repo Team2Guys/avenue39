@@ -10,6 +10,7 @@ import {
 } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { menuData } from '@/data/menu';
+import { re_Calling_products, recallingTypes } from '@/data/Re_call_prod';
 
 const SubCategoriesRow = ({ category }: any) => {
   const path = usePathname();
@@ -25,7 +26,20 @@ const SubCategoriesRow = ({ category }: any) => {
   }, [path]);
 
 
-  console.log(category?.subcategories, "custom_url")
+const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
+
+  const redirect_urls = re_Calling_products.find((item:recallingTypes)=>{
+    if(item.mainCategory.trim().toLowerCase() == categoryName.trim().toLowerCase() && item.subCategory.trim().toLowerCase() === subCatgory.trim().toLowerCase()){
+      return item;
+    }
+  })
+
+  console.log(redirect_urls, "categoryName")
+
+  return `/${generateSlug(redirect_urls ? redirect_urls.redirect_main_cat : categoryName)}/${generateSlug(redirect_urls ? redirect_urls.redirectsubCat :subCatgory)}`
+
+}
+
   return (
     subCategory.length > 0 && (
       <div
@@ -67,26 +81,19 @@ const SubCategoriesRow = ({ category }: any) => {
             },
           }}
         >
-          {(category?.subcategories || subCategory).map((category: any, index: any) => (
+          {(category?.subcategories || subCategory).map((subcat: any, index: any) => (
             <SwiperSlide key={index}>
               <Link
-                href={`/${category?.name === "TV Stands" || category?.name === "Bedside Tables" 
-                    ? "bedroom"
-                    : category?.name === "Armchairs" || category?.name === "Accent Chairs"
-                      ? "chairs"
-                      : category?.name === "Side Tables" || category?.name === "Coffee Tables"
-                        ? "tables"
-                        : category?.name === "Sofa Beds" || category?.name === "Sofas"
-                          ? "living"
-                          : category?.name === "Table Lamps"
-                            ? "lighting"
-                            : category?.name === "Dining Chairs" || category?.name === "Dining Tables" || category?.name === "Office Tables" && Category !== "office-furniture"
-                            ? "dining" : Category
-                  }/${generateSlug((category?.custom_url || category?.name) || category.title)}`}
+        
+                href={
+                 
+                  changeCategoryHandler(category?.name || Category, ((subcat?.custom_url || subcat?.name) || category.title) )
+                
+                }
                 key={category.categoryId}
                 className="w-full text-center whitespace-nowrap bg-[#afa183] rounded-lg py-2 px-2 text-white block"
               >
-                <span>{category?.name || category.title}</span>
+                <span>{subcat?.name || subcat.title}</span>
               </Link>
 
             </SwiperSlide>

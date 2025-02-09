@@ -13,9 +13,7 @@ export class SalesRecordService {
   constructor(private prisma: PrismaService) { }
 
   async Add_sales_record(data: CreateSalesRecordDto) {
-    console.log("===== Data Start ====")
-    console.log(data);
-    console.log("===== Data End ====")
+
     try {
       const {
         amount,
@@ -484,126 +482,142 @@ export class SalesRecordService {
         customHttpException('Payment status already updated!', 'BAD_REQUEST');
       }
 
-      const updatedSalesRecord = await this.prisma.sales_record.update({
-        where: { orderId },
-        data: {
-          paymentStatus: {
-            paymentStatus: paymentStatus,
-            paymentDate: new Date(),
-            checkout: false,
-            success: true,
-          },
-        },
+      // const updatedSalesRecord = await this.prisma.sales_record.update({
+      //   where: { orderId },
+      //   data: {
+      //     paymentStatus: {
+      //       paymentStatus: paymentStatus,
+      //       paymentDate: new Date(),
+      //       checkout: false,
+      //       success: true,
+      //     },
+      //   },
+      // });
+
+      console.log("================ salesRecord  Start =======================")
+      console.log(salesRecord, 'salesRecord');
+      const salesRecordId = Number(salesRecord.id);
+      console.log("================ salesRecord  end =======================")
+
+      const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
+        where: { salesRecordId },
       });
+      console.log("================ salesRecordProduct  Start =======================")
+      console.log(salesRecordProduct, 'salesRecordProduct');
+      console.log("================ salesRecordProduct  End =======================")
 
 
-      // // console.log(salesRecord, 'salesRecord');
-      // const salesRecordId = Number(salesRecord.id);
+      const existingProduct: any = await this.prisma.products.findFirst({
+        where: { id: salesRecordProduct.productData.id },
+      });
+      console.log("================ existingProduct  Start =======================")
+      console.log(existingProduct, 'existingProduct');
+      console.log("================ existingProduct  End =======================")
+      let tempProduct = existingProduct;
+      const selectedSize = salesRecordProduct.productData.selectedSize?.name;
+      const selectedFilter = salesRecordProduct.productData.selectedfilter?.name;
 
-      // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
-      //   where: { salesRecordId },
-      // });
-      // // console.log(salesRecordProduct, 'salesRecordProduct');
+      const quantitySold = salesRecordProduct.quantity;
 
+      if (existingProduct) {
+        let isUpdated = false;
+        const filterCategory = existingProduct.filter[0].additionalInformation;
 
-      // const existingProduct: any = await this.prisma.products.findFirst({
-      //   where: { id: salesRecordProduct.productData.id },
-      // });
+        console.log('debug 2:', filterCategory);
+        if (filterCategory) {
+          console.log(selectedFilter, 'selectedFilter2');
+          const filterVariant = filterCategory.find((item: any) => item.name === selectedFilter);
 
-      // // console.log(existingProduct, 'existingProduct');
+          console.log('debug 1:', filterVariant);
 
-      // const selectedSize = salesRecordProduct.productData.selectedSize?.name;
-      // const selectedFilter = salesRecordProduct.productData.selectedfilter?.name;
+          if (filterVariant) {
+            const filterStock = filterVariant.stock;
 
-      // const quantitySold = salesRecordProduct.quantity;
+            if (filterStock >= quantitySold) {
+              const updatedFilterStock = filterStock - quantitySold;
+              console.log('debug 3:', updatedFilterStock);
+              console.log('debug 4:', existingProduct.filter[0].heading);
+              console.log('debug 5:', filterVariant);
+              const updatedAdditionalInformation = filterCategory.map((item: any) => {
+                if (item.name === selectedFilter) {
+                  item.stock = updatedFilterStock;
+                }
+                return item;
+              });
 
-      // if (existingProduct) {
-      //   let isUpdated = false;
-      //   const filterCategory = existingProduct.filter.find((item: any) => item.heading === 'Color');
+              console.log('debug 6:', tempProduct);
+              // await this.prisma.products.update({
+              //   where: { id: existingProduct.id },
+              //   data: {
+              //     filter: [{
+              //       update: {
+              //         where: { heading: existingProduct.filter[0].heading },
+              //         data: {
+              //           additionalInformation: updatedAdditionalInformation,
+              //         },
+              //       },
+              //     }],
+              //   },
+              // });
 
-      //   console.log('debug 2:', filterCategory);
-      //   if (filterCategory && filterCategory.additionalInformation) {
-      //     const filterVariant = filterCategory.additionalInformation.find((item: any) => item.name === selectedFilter);
+              console.log(`Stock for filter ${selectedFilter} updated to: ${updatedFilterStock}`);
+              isUpdated = true;
+            } else {
+              console.log(`Not enough stock for filter ${selectedFilter}. Deducting from total stock.`);
+            }
+          }
+        }
 
-      //     console.log('debug 1:', filterVariant);
+        if (!isUpdated && selectedSize && existingProduct.sizes) {
+          const sizeVariant = existingProduct.sizes.find((item: any) => item.size === selectedSize);
 
-      //     if (filterVariant) {
-      //       const filterStock = filterVariant.stock;
+          if (sizeVariant) {
+            const sizeStock = sizeVariant.stock;
 
-      //       if (filterStock >= quantitySold) {
-      //         const updatedFilterStock = filterStock - quantitySold;
+            if (sizeStock >= quantitySold) {
+              const updatedSizeStock = sizeStock - quantitySold;
 
-      //         await this.prisma.products.update({
-      //           where: { id: existingProduct.id },
-      //           data: {
-      //             filter: {
-      //               //@ts-expect-error
-      //               update: {
-      //                 where: { color: selectedFilter },
-      //                 data: { stock: updatedFilterStock },
-      //               },
-      //             },
-      //           },
-      //         });
+              await this.prisma.products.update({
+                where: { id: existingProduct.id },
+                data: {
+                  sizes: {
 
-      //         console.log(`Stock for filter ${selectedFilter} updated to: ${updatedFilterStock}`);
-      //         isUpdated = true;
-      //       } else {
-      //         console.log(`Not enough stock for filter ${selectedFilter}. Deducting from total stock.`);
-      //       }
-      //     }
-      //   }
+                    //@ts-expect-error
+                    update: {
+                      where: { size: selectedSize },
+                      data: { stock: updatedSizeStock },
+                    },
+                  },
+                },
+              });
 
-      //   if (!isUpdated && selectedSize && existingProduct.sizes) {
-      //     const sizeVariant = existingProduct.sizes.find((item: any) => item.size === selectedSize);
+              console.log(`Stock for size ${selectedSize} updated to: ${updatedSizeStock}`);
+              isUpdated = true;
+            } else {
+              console.log(`Not enough stock for size ${selectedSize}. Deducting from total stock.`);
+            }
+          }
+        }
 
-      //     if (sizeVariant) {
-      //       const sizeStock = sizeVariant.stock;
+        if (!isUpdated) {
+          const updatedTotalStock = existingProduct.stock - quantitySold;
 
-      //       if (sizeStock >= quantitySold) {
-      //         const updatedSizeStock = sizeStock - quantitySold;
+          if (updatedTotalStock >= 0) {
+            await this.prisma.products.update({
+              where: { id: existingProduct.id },
+              data: {
+                stock: updatedTotalStock,
+              },
+            });
 
-      //         await this.prisma.products.update({
-      //           where: { id: existingProduct.id },
-      //           data: {
-      //             sizes: {
-
-      //               //@ts-expect-error
-      //               update: {
-      //                 where: { size: selectedSize },
-      //                 data: { stock: updatedSizeStock },
-      //               },
-      //             },
-      //           },
-      //         });
-
-      //         console.log(`Stock for size ${selectedSize} updated to: ${updatedSizeStock}`);
-      //         isUpdated = true;
-      //       } else {
-      //         console.log(`Not enough stock for size ${selectedSize}. Deducting from total stock.`);
-      //       }
-      //     }
-      //   }
-
-      //   if (!isUpdated) {
-      //     const updatedTotalStock = existingProduct.stock - quantitySold;
-
-      //     if (updatedTotalStock >= 0) {
-      //       await this.prisma.products.update({
-      //         where: { id: existingProduct.id },
-      //         data: {
-      //           stock: updatedTotalStock,
-      //         },
-      //       });
-
-      //       console.log(`Stock deducted from total stock. Updated total stock to: ${updatedTotalStock}`);
-      //     } else {
-      //       console.log('Not enough stock available to complete the order.');
-      //     }
-      //   }
-      // } else {
-      //   console.log(`Product with ID ${salesRecordProduct.productData.id} not found.`);
-      // }
+            console.log(`Stock deducted from total stock. Updated total stock to: ${updatedTotalStock}`);
+          } else {
+            console.log('Not enough stock available to complete the order.');
+          }
+        }
+      } else {
+        console.log(`Product with ID ${salesRecordProduct.productData.id} not found.`);
+      }
 
 
 

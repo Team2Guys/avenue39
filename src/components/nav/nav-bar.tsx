@@ -403,6 +403,7 @@ const Navbar = () => {
                                   <p className="text-16 text-center font-normal capitalize">
                                     {product.name}
                                   </p>
+                                  
 
                                   <div className="flex justify-center items-end h-full gap-4 ">
                                     <p className="text-15 font-semibold">

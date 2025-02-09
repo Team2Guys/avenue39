@@ -142,6 +142,7 @@ export interface IProduct {
   sizes?: Sizes[];
   filter?: Filter[];
   reviews?:any[]
+  displayName?: string;
   custom_url?:string
 }
 interface Filter {
@@ -156,6 +157,7 @@ interface Sizes {
     name: string;
     price: string;
     discountPrice: string;
+    stock?: string;
 }
 export interface specsDetails {
   id: number;

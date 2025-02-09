@@ -1458,12 +1458,7 @@ export const TermsCondition = [
 
 
 export const policySections = [
-  {
-    title: 'Privacy Policy',
-    description: [
-      "When you visit www.avenue39.com (the 'Website'), we collect, use, disclose, and secure your information under this Privacy Policy. You agree to the terms and conditions stated in this privacy policy by using or accessing our website. If you disagree with any aspect of this policy, we respect your decision to stop using this website. ",
-    ],
-  },
+
   {
     title: 'What Information Do We Collect?',
     description: [
@@ -1524,13 +1519,7 @@ export const policySections = [
 ];
 
 export const ReturnPolicy = [
-  {
-    title: 'Return Policy',
-    description: [
-      'Avenue39 is a brand that people can trust, as we keep their experience with our products beyond their expectations. However, we come to terms with the fact that, occasionally, it is just impossible to prevent returns. Avenue39 has a fair and logical return and refund policy.',
-      'Please read through the following details to learn how we handle returns and refunds.',
-    ],
-  },
+ 
   {
     title: 'Our Commitment to Quality',
     description: [
@@ -1558,10 +1547,6 @@ export const ReturnPolicy = [
   },
 ];
 export const ShippingPolicy = [
-  {
-    title: 'General Information For Delivery Of Our Products',
-    description: ['All orders made through the Avenue39 website depend on product availability at the time of purchase. If any item in your order is not available, we will quickly inform you via email or provide updates on the product page.'],
-  },
   {
     title: 'Delivery Policy',
     description: [

@@ -367,8 +367,8 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Cipriani.webp',
       },
       {
-        name: 'Melodia Sofa Bed',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.webp',
+        name: 'Unico Side Table',
+        posterImageUrl: '/images/HomeProducts/Bedroom/unico.png',
       },
       {
         name: 'Unico Side Table',

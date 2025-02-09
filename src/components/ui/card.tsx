@@ -157,7 +157,6 @@ const Card: React.FC<CardProps> = ({
 
 
 
-
   return (
     <div
       className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
@@ -233,7 +232,7 @@ const Card: React.FC<CardProps> = ({
                     href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
                   >
                     {' '}
-                    {card.name}
+                    {card.displayName ? card.displayName :card.name}
                   </Link>
                 </h3>
                 <div>
@@ -431,7 +430,7 @@ const Card: React.FC<CardProps> = ({
               <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                 <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                   {' '}
-                  {card.name}
+                  {card.displayName? card.displayName : card.name}
                 </Link>
               </h3>
               <div>

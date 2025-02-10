@@ -60,6 +60,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
   });
 
 
+  console.log(sorted, "sorted")
 
   return (
     category && category?.subcategories?.length > 0 && (
@@ -102,7 +103,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
             },
           }}
         >
-          {(sorted || []).map((subcat: any, index: any) => (
+          {(sorted)?.map((subcat: any, index: any) => (
             <SwiperSlide key={index}>
               <Link
         

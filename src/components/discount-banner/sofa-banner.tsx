@@ -129,7 +129,7 @@ const SofaBanner: React.FC = () => {
   };
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2  gap-3 relative px-2 md:px-0 mt-3">
+    <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3">
       <div
         className="sofa_slider1 bg-lightforeground rounded-2xl"
         onMouseEnter={handleMouseEnter}
@@ -192,7 +192,7 @@ const SofaBanner: React.FC = () => {
         {sliderDataa_sofa.map((item, index) => (
           <Swiper
             key={index}
-            className={`h-[290px] ${index === 1 && 'mt-4'}`}
+            className={`${index === 1 && 'mt-5'}`}
             modules={[Autoplay, Pagination]}
             spaceBetween={30}
             slidesPerView={1}
@@ -206,14 +206,14 @@ const SofaBanner: React.FC = () => {
             speed={1500}
           >    {item.slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className={`h-[290px]`}>
+              <div className={`h-44 xsm:h-[200px] xs:h-[290px]`}>
                 <Link href={slide.link}
                   className="w-full h-full rounded-2xl block"
                   style={{
                     backgroundImage: `url(${slide.backgroundImage})`,
-                    backgroundSize: 'cover',
+                    backgroundSize: newWidth < 700 ? 'contain' : 'cover',
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: slide.ImagePosition,
+                    backgroundPosition: newWidth < 700 ? 'center' : slide.ImagePosition,
                   }}
                 >
                   <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">

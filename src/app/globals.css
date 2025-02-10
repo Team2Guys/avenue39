@@ -339,15 +339,11 @@ html {
   img {
   border: 2px solid #afa183;
 }
-
-.slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
-  display: none !important;
-}
 .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
   position: absolute !important;
   left: 7% !important;
-  top: 93% !important;
-  bottom: 0% !important;
+  /* top: 93% !important; */
+  bottom: 0 !important;
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -360,9 +356,27 @@ html {
   cursor: pointer !important;
   padding-bottom: 4px !important;
   z-index: 150 !important;
-  transform: none !important;
+  border: 1px solid rgb(240, 238, 238) !important;
 }
-.slick-next:before {
+.slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
+  position: absolute !important;
+  left: 7% !important;
+  top: 0px !important;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  width: 40px !important;
+  height: 40px !important;
+  background-color: white !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding-top: 7px !important;
+  z-index: 150 !important;
+  border: 1px solid rgb(240, 238, 238) !important;
+}
+.slick-next:before, .slick-prev:before {
   content: none !important;
 }
 .detail {
@@ -385,7 +399,19 @@ html {
 }
 @media (max-width: 895px) {
   .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
-    display: none !important;
+    transform: rotate(-90deg) !important;
+    left: auto !important;
+    right: 1% !important;
+    top: auto !important;
+    bottom: 40px !important;
+    padding-top: -7px !important;
+  }
+  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
+    position: absolute !important;
+    left: 1% !important;
+    top: auto !important;
+    bottom: 40px !important;
+    transform: rotate(-90deg) !important;
   }
   .card-slider-home .swiper-pagination {
     bottom: 180px !important;

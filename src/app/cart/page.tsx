@@ -3,11 +3,11 @@ import Cart from './Cart';
 import { fetchProducts } from '@/config/fetch';
 
 export const metadata: Metadata = {
-  title: 'Shopping Cart – Review & Secure Checkout | Avenue 39',
-  description: 'Review your shopping cart and proceed to our secure checkout. Don’t miss out—complete your order now at Avenue 39',
+  title: 'Shopping Cart – Review & Secure Checkout | Avenue39',
+  description: 'Review your shopping cart and proceed to our secure checkout. Don’t miss out—complete your order now at Avenue39',
   openGraph: {
-    title: 'Shopping Cart – Review & Secure Checkout | Avenue 39',
-    description: 'Review your shopping cart and proceed to our secure checkout. Don’t miss out—complete your order now at Avenue 39',
+    title: 'Shopping Cart – Review & Secure Checkout | Avenue39',
+    description: 'Review your shopping cart and proceed to our secure checkout. Don’t miss out—complete your order now at Avenue39',
     url: "http://185.151.51.28:5004/cart",
   },
   alternates: {

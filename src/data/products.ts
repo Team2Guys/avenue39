@@ -38,11 +38,13 @@ export const ColorBannerData = [
     imageUrl: '/images/ave1.webp',
     imageUrl2: '/images/ave2.webp',
     Heading: 'luxury furniture',
+    url:'/living',
     Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you."  },
   {
     imageUrl: '/images/catalogue/design_chair1.webp',
     imageUrl2: '/images/catalogue/design_chair12.png',
     Heading: 'dining furniture',
+    url:'/dining',
     Description:
       "We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",
   },

@@ -69,10 +69,10 @@ const ColorBanner: React.FC = () => {
                       {slide.Description}
                     </p>
                   </div>
-                  <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-10 px-2 mx-auto">
+                  <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-6 px-2 mx-auto">
                     <Image
                       src={slide.imageUrl2}
-                      className="w-full h-auto object-cover"
+                      className="w-full h-24 md:h-20"
                       alt="Left Image"
                       width={1200}
                       height={1200}
@@ -81,11 +81,11 @@ const ColorBanner: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="lg:w-[70%] w-full ">
-                <Link href={'/dining/chairs'}>
+              <div className="lg:w-[70%] w-full h-full">
+                <Link href={slide.url} className='block h-full w-full'>
                   <Image
                     src={slide.imageUrl}
-                    className="w-full h-auto object-cover "
+                    className="w-full h-full"
                     alt="Right Image"
                     width={1200}
                     height={1200}

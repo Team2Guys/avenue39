@@ -1,5 +1,5 @@
 'use client';
-import { IProduct } from '@/types/types';
+import { ICategory, IProduct } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
@@ -32,8 +32,19 @@ import { useRouter } from 'next/navigation';
 import { loggedInUserAction } from '@redux/slices/user/userSlice';
 import { useAppDispatch } from '@components/Others/HelperRedux';
 import { CiUser } from 'react-icons/ci';
+import SocialLink from '../social-link';
+import { Sheet, SheetContent, SheetOverlay } from '../ui/sheet';
+import { HiBars3BottomRight } from "react-icons/hi2";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { generateSlug } from '@/config';
+import MenuLink from '../menu-link';
 
-const Navbar = () => {
+const Navbar = ({ categories }: { categories: ICategory[] }) => {
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const Navigate = useRouter();
@@ -43,7 +54,9 @@ const Navbar = () => {
     (state: State | any) => state.usrSlice.loggedInUser,
   );
   const dispatch = useAppDispatch();
-
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 20);
@@ -145,10 +158,30 @@ const Navbar = () => {
       console.log(err);
     }
   };
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (sheetRef.current && !sheetRef.current.contains(event.target as Node)) {
+        setIsSheetOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div
-      className={`bg-white dark:text-black ${isSticky ? 'sticky top-0 z-[199]' : ''}`}
+      className={`bg-white dark:text-black ${isSticky ? 'sticky top-0 z-[199] shadow-md md:shadow-none border-b md:border-b-0' : 'border-0 border-transparent z-[199]'}`}
     >
       <Container className="flex items-center justify-between p-2 md:p-4 gap-4 dark:bg-white ">
         <div className="w-3/12 min-w-24">
@@ -201,52 +234,52 @@ const Navbar = () => {
                     </div>
                     {filteredProducts.length > 0 ? (
                       filteredProducts.map((product, index) => (
-                     <Link key={product.id || index} href={ 
-                       ChangeUrlHandler(product)}
-                       onClick={()=>setIsProductListOpen(false)}
-                      >
-                     
-                        <div
-                          key={product.id}
-                          // onClick={() => handleNavigation(product)}
-                          className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
+                        <Link key={product.id || index} href={
+                          ChangeUrlHandler(product)}
+                          onClick={() => setIsProductListOpen(false)}
                         >
-                          <Image
-                            width={100}
-                            height={100}
-                            src={product.posterImageUrl}
-                            alt={product.name}
-                            className="min-h-[100px] min-w-[100px]"
-                          />
-                          <div className="pt-1 flex flex-col gap-2">
-                            <p className="text-18 xsm:text-21 font-normal capitalize">
-                              {product.name}
-                            </p>
-                            <div className="flex items-center gap-4">
-                              {product.discountPrice > 0 ? (
-                                <>
+
+                          <div
+                            key={product.id}
+                            // onClick={() => handleNavigation(product)}
+                            className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
+                          >
+                            <Image
+                              width={100}
+                              height={100}
+                              src={product.posterImageUrl}
+                              alt={product.name}
+                              className="min-h-[100px] min-w-[100px]"
+                            />
+                            <div className="pt-1 flex flex-col gap-2">
+                              <p className="text-18 xsm:text-21 font-normal capitalize">
+                                {product.name}
+                              </p>
+                              <div className="flex items-center gap-4">
+                                {product.discountPrice > 0 ? (
+                                  <>
+                                    <p className="text-15 font-semibold">
+                                      AED <span>{product.discountPrice}</span>
+                                    </p>
+                                    <p className="text-[12px] text-primary-foreground font-bold line-through">
+                                      AED <span>{product.price}</span>
+                                    </p>
+                                  </>
+                                ) : (
                                   <p className="text-15 font-semibold">
-                                    AED <span>{product.discountPrice}</span>
-                                  </p>
-                                  <p className="text-[12px] text-primary-foreground font-bold line-through">
                                     AED <span>{product.price}</span>
                                   </p>
-                                </>
-                              ) : (
-                                <p className="text-15 font-semibold">
-                                  AED <span>{product.price}</span>
-                                </p>
-                              )}
+                                )}
+                              </div>
+                              <RenderStars card={product} />
                             </div>
-                            <RenderStars card={product} />
+
+
                           </div>
 
+                        </Link>
 
-                        </div>
-                     
-                     </Link>
 
-                        
                       ))
                     ) : (
                       <div>No product is found</div>
@@ -262,10 +295,12 @@ const Navbar = () => {
           </div>
         </div>
         <div className="gap-3 lg:gap-3 flex justify-end items-center w-2/12 ps-2">
-          <div className="hidden md:flex justify-between gap-1 lg:gap-1 items-center relative">
-            <Wishlist />
-            <CartItems />
-          </div>
+          {windowWidth > 895 && (
+            <div className="hidden md:flex justify-between gap-1 lg:gap-1 items-center relative">
+              <Wishlist />
+              <CartItems />
+            </div>
+          )}
           <div className="hidden md:flex gap-5 items-center">
             {!userDetails ? (
               <Link
@@ -340,7 +375,7 @@ const Navbar = () => {
                     <IoSearchSharp className="cursor-pointer" size={30} />
                   </button>
                 </DrawerTrigger>
-                <DrawerContent>
+                <DrawerContent className='!z-[200]'>
                   <VisuallyHidden>
                     <DrawerTitle>Navbar</DrawerTitle>
                   </VisuallyHidden>
@@ -358,6 +393,11 @@ const Navbar = () => {
                         onChange={handleInputChange}
                         className="py-4 px-4 pe-11 border block w-full rounded-full text-sm disabled:opacity-50 "
                         placeholder="Search Here..."
+                        ref={(node) => {
+                          if (node) {
+                            node.focus();
+                          }
+                        }}
                       />
                       <button
                         type="submit"
@@ -385,46 +425,46 @@ const Navbar = () => {
                       <div className=" p-2 max-h-[600px] overflow-y-auto custom-scrollbar">
                         <div className="flex flex-wrap justify-center gap-2 -m-2">
                           {filteredProducts.map((product: IProduct) => {
-                            console.log(typeof(product.discountPrice), "discount price")
+                            console.log(typeof (product.discountPrice), "discount price")
                             return (
                               <DrawerTrigger asChild key={product.id}>
-                              <div
-                                onClick={() => handleNavigation(product)}
-                                className="flex border p-2 rounded-md flex-col hover:shadow-md items-center transition duration-300 gap-2 w-[48%] mt-2 cursor-pointer bg-white"
-                              >
-                                <Image
-                                  width={100}
-                                  height={100}
-                                  src={product.posterImageUrl}
-                                  alt={product.name}
-                                  className="min-h-[100px] min-w-[130px]"
-                                />
-                                <div className="flex flex-col gap-2 justify-between h-full">
-                                  <p className="text-16 text-center font-normal capitalize">
-                                    {product.name}
-                                  </p>
-
-                                  <div className="flex justify-center items-end h-full gap-4 ">
-                                    <p className="text-15 font-semibold">
-                                      AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
+                                <div
+                                  onClick={() => handleNavigation(product)}
+                                  className="flex border p-2 rounded-md flex-col hover:shadow-md items-center transition duration-300 gap-2 w-[48%] mt-2 cursor-pointer bg-white"
+                                >
+                                  <Image
+                                    width={100}
+                                    height={100}
+                                    src={product.posterImageUrl}
+                                    alt={product.name}
+                                    className="min-h-[100px] min-w-[130px]"
+                                  />
+                                  <div className="flex flex-col gap-2 justify-between h-full">
+                                    <p className="text-16 text-center font-normal capitalize">
+                                      {product.name}
                                     </p>
-                                    {(product.discountPrice && product.discountPrice > 0) ?
-                                  
-                                     <p className="text-[12px] text-primary-foreground font-bold line-through items-end">
-                                     <span>{product.price}</span>
-                                   </p> : ''
-                                    }
-                                   
-                                  </div>
-                                  <div>
-                                    <RenderStars card={product} />
+
+                                    <div className="flex justify-center items-end h-full gap-4 ">
+                                      <p className="text-15 font-semibold">
+                                        AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
+                                      </p>
+                                      {(product.discountPrice && product.discountPrice > 0) ?
+
+                                        <p className="text-[12px] text-primary-foreground font-bold line-through items-end">
+                                          <span>{product.price}</span>
+                                        </p> : ''
+                                      }
+
+                                    </div>
+                                    <div>
+                                      <RenderStars card={product} />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </DrawerTrigger>
+                              </DrawerTrigger>
                             )
-                          
-})}
+
+                          })}
                         </div>
                       </div>
                     )}
@@ -435,6 +475,83 @@ const Navbar = () => {
                 </DrawerContent>
               </Drawer>
             </form>
+          </div>
+          <div className="md:hidden">
+            <Sheet
+              open={isSheetOpen}
+            >
+              <div onClick={() => setIsSheetOpen(true)}>
+                {/* <div className="triangle-shape bg-black text-white cursor-pointer z-[200]">
+                <button type='submit'> <MdCategory size={25} /></button>
+              </div> */}
+                <HiBars3BottomRight size={30} />
+              </div>
+              <SheetOverlay className='block bg-[#fffc] z-[200]' />
+              <SheetContent className="pb-5 bg-white shadow-lg border min-h-[60vh] h-fit z-[200]" ref={sheetRef}>
+                <IoCloseOutline
+                  onClick={() => setIsSheetOpen(false)}
+                  size={24}
+                  className="cursor-pointer bg-gray-400 rounded-full text-white p-1 absolute top-2 right-2 shadow-md hover:bg-gray-500 transition duration-300"
+                />
+                <div className="pt-5 space-y-2">
+                  {categories
+                    ?.filter((item) => item.name.toLowerCase() !== "sale").map((menu, menuIndex) =>
+                      menu.subcategories && menu.subcategories?.length > 0 ? (
+                        <Accordion
+                          key={menuIndex}
+                          type="single"
+                          collapsible
+                          className="w-full "
+                        >
+                          <AccordionItem value={`item-${menuIndex}`}>
+                            <AccordionTrigger className="font-bold">
+                              <div className='w-fit' onClick={() => setIsSheetOpen(false)}>
+                                <Link
+                                  href={`/${generateSlug(menu.name?.trim()?.toLowerCase() === "home office" ? "office-furniture" : menu.name)}`}
+                                  className="hover:underline font-semibold text-15 flex gap-2 items-center">
+                                  {menu.name}
+                                </Link>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <div className="grid font-semibold space-y-2 px-4">
+
+                                <MenuLink menudata={menu} onLinkClick={() => setIsSheetOpen(false)} />
+
+                              </div>
+
+
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      ) : (
+                        <div key={menuIndex} onClick={() => setIsSheetOpen(false)}>
+                          <Link
+                            href={`/${generateSlug(menu.name)}`}
+                            key={menuIndex}
+
+                            className="hover:underline font-semibold text-15 py-1 block uppercase w-fit"
+                          >
+                            {menu.name}
+                          </Link>
+                        </div>
+                      ),
+                    )}
+                  <div key={'sales'} onClick={() => setIsSheetOpen(false)}>
+                    <Link
+                      href={'/sale'}
+
+                      className="hover:underline text-red-500 font-semibold text-15 py-1 block uppercase w-fit"
+                    >
+                      Sale
+                    </Link>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <SocialLink iconColor="text-black" onLinkClick={() => setIsSheetOpen(false)} />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </Container>

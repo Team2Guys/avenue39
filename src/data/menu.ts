@@ -127,7 +127,7 @@ export const menuData: MenuData = {
     {
       categoryId: 8,
       link: '/products',
-      title: 'Office Tables',
+      title: 'Office furniture',
       icon: officeTables,
     },
     {

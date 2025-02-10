@@ -1,5 +1,5 @@
 'use client';
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import Imageupload from '@components/ImageUpload/Imageupload';
 import { RxCross2 } from 'react-icons/rx';
 import Image from 'next/image';
@@ -68,10 +68,7 @@ const FormLayout = ({
   );
   const [loading, setloading] = useState<boolean>(false);
 
-  const [editCategoryName, setEditCategoryName] = useState<
-    editCategoryNameType | null | undefined
-  >(CategoryName);
-  console.log(setEditCategoryName);
+  const [editCategoryName, setEditCategoryName] = useState<editCategoryNameType | null | undefined>(CategoryName);
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
   let finalToken = token ? token : superAdminToken;
@@ -127,6 +124,13 @@ const FormLayout = ({
       setloading(false);
     }
   };
+
+useEffect(() => {
+  
+  setEditCategoryName(CategoryName)
+  
+}, [editCategory])
+
 
   return (
     <>

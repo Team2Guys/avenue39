@@ -76,14 +76,15 @@ const ProductDetail = ({
   });
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(0);
-  const [size, setSize] = useState<CartSize | null>(null);
-  const [filter, setFilter] = useState<CartSize | null>(null);
+  const [size, setSize] = useState<CartSize | null | undefined>(null);
+  const [filter, setFilter] = useState<CartSize | null | undefined>(null);
   const [productPrice, setProductPrice] = useState(0);
   const [productDiscPrice, setProductDiscPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
   const [customImages, setCustomImages] = useState<any>([]);
     const [isOutStock, setIsOutStock] = useState<boolean>(false)
+    const [totalStock, setTotalStock] = useState<number>(0)
   
 
   const product = params ? params : products?.find((product) => product.name === slug);
@@ -102,6 +103,7 @@ const ProductDetail = ({
     setSelectedSize(index);
     setSize(size)
   };
+  
 
   useEffect(() => {
     if (!product) return;
@@ -155,7 +157,6 @@ const ProductDetail = ({
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
   const stockhandler = () => {
- 
 
     let sizesStock = product && product.sizes?.reduce((accum, value: any) => {
       if (value.stock) {
@@ -175,12 +176,21 @@ const ProductDetail = ({
     }, 0);
 
     const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : product?.stock || 0;
+    setTotalStock(totalStock)
 
     if (!(totalStock > 0)) {
 
       setIsOutStock(true)
     }
+    let firstcolor = (product &&  product?.filter) && product?.filter[0]?.additionalInformation[0]
+    const size:any = (product &&  product?.sizes) && product?.sizes[0]
+    setFilter(firstcolor)
+    setSize(size)
+
   }
+
+
+
 
 /* eslint-disable */
 
@@ -245,38 +255,51 @@ const ProductDetail = ({
 
   const onIncrement = () => {
     const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    if (count < variationQuantity) {
+    console.log(variationQuantity, totalStock, "totakStock")
+    if (count < (totalStock || totalStock)) {
       setCount((prevCount) => prevCount + 1);
     } else {
       toast.error(`Only ${variationQuantity} items in stock!`);
     }
   };
+
+
   const itemToAdd: CartItem = {
     ...product,
     quantity: count,
     selectedSize: size,
-    selectedfilter: filter
+    selectedfilter: filter,
   };
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find(
-      (item: any) =>
-        item.id === product?.id &&
+    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&
         item.selectedSize?.name === itemToAdd.selectedSize?.name &&
         item.selectedfilter?.name === itemToAdd.selectedfilter?.name
     );
-    const currentQuantity = existingCartItem?.quantity || 0;
-    const newQuantity = currentQuantity + count;
-    const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    if (product?.stock && newQuantity > product.stock) {
-      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
-      return;
-    } else if (newQuantity > variationQuantity) {
-      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
-      return;
-    }
+
     dispatch(addItem(itemToAdd));
-    dispatch(openDrawer());
+    // dispatch(openDrawer());
+
+    // if(!existingCartItem){
+    //   console.log(itemToAdd, "existingCartItem", filter)
+    //   dispatch(addItem(itemToAdd));
+    //   dispatch(openDrawer());
+    //   return 
+    // }
+
+   
+    // const currentQuantity = existingCartItem?.quantity || 0;
+    // const newQuantity = currentQuantity + count;
+    // const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
+    // if (product?.stock && newQuantity > product.stock) {
+    //   toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
+    //   return;
+    // } else if (newQuantity > variationQuantity) {
+    //   toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+    //   return;
+    // }
+    // dispatch(addItem(itemToAdd));
+    // dispatch(openDrawer());
   };
 
 
@@ -346,14 +369,11 @@ const ProductDetail = ({
     toast.success('Product added to Wishlist successfully!');
     window.dispatchEvent(new Event('WishlistChanged'));
   };
-  // const handle3D = (e: React.MouseEvent<HTMLElement>) => {
-  //   e.stopPropagation();
-  // };
-
   return (
+
     <div
       className={`flex flex-col md:flex-row w-full justify-between font-helvetica overflow-hidden ${gap} my-6 relative`}
-    >
+    >   
       <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
           thumbs={productImage.length > 0 ? productImage : customImages}

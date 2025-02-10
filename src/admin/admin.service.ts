@@ -47,14 +47,14 @@ export class AdminService {
         return customHttpException('No User found😴', 'FORBIDDEN');
       }
 
-      // const isPasswordValid = await verifyPassword(
-      //   password,
-      //   existingUser.password,
-      //   this.configService,
-      // );
-      // if (!isPasswordValid) {
-      //   throw new UnauthorizedException('Invalid username or password');
-      // }
+      const isPasswordValid = await verifyPassword(
+        password,
+        existingUser.password,
+        this.configService,
+      );
+      if (!isPasswordValid) {
+        throw new UnauthorizedException('Invalid username or password');
+      }
 
       const token = jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
         expiresIn: '24h',

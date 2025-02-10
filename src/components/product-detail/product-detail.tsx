@@ -83,8 +83,13 @@ const ProductDetail = ({
   const [productDiscPrice, setProductDiscPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
+  const [customImages, setCustomImages] = useState<any>([]);
 
   const product = params ? params : products?.find((product) => product.name === slug);
+  console.log('product', product);
+
+  // Safeguard against `product` being undefined
+
 
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
@@ -100,6 +105,19 @@ const ProductDetail = ({
 
   useEffect(() => {
     if (!product) return;
+
+    const posterImage = {
+      imageUrl: product?.posterImageUrl || '',
+      public_id: product?.posterImagePublicId,
+      altText: product?.name || 'Default Name',
+      imageIndex: 0,
+      size: '',
+      color: '',
+    };
+
+    const customProductImage = [posterImage, ...(product?.productImages || [])];
+    setCustomImages(customProductImage);
+
 
     const activeColor = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.name : null;
 
@@ -304,7 +322,7 @@ const ProductDetail = ({
     >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
-          thumbs={productImage.length > 0 ? productImage : product.productImages}
+          thumbs={productImage.length > 0 ? productImage : customImages}
           isZoom={isZoom}
           swiperGap={swiperGap}
           // HoverImage={setHoveredImage}

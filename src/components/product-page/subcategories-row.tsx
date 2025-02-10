@@ -1,41 +1,75 @@
 import { generateSlug } from '@/config';
-import { MenuItem } from '@/types/types';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navigation } from 'swiper/modules';
 import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
 } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { menuData } from '@/data/menu';
+import { re_Calling_products, recallingTypes } from '@/data/Re_call_prod';
 
-const SubCategoriesRow = ({category}:any) => {
-  const path = usePathname();
-  const [subCategory, setSubCategory] = useState<MenuItem[]>([]);
-  const [Category, setCategory] = useState<string | null>(null);
-
-  useEffect(() => {
-    const categoryKey = path?.replace('/', '');
-    const categoryName =categoryKey === 'lighting' ? 'Lighting' : categoryKey === 'office-furniture' ? 'homeOffice' :  categoryKey;
-          setCategory(categoryKey);
-    const subcategory = menuData[categoryName] || [];
-    setSubCategory(subcategory);
-  }, [path]);
+const SubCategoriesRow = ({ category }: any) => {
 
 
-console.log(category?.subcategories, "custom_url")
+
+
+const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
+
+  const redirect_urls = re_Calling_products.find((item:recallingTypes)=>{
+    if(item.mainCategory.trim().toLowerCase() == categoryName.trim().toLowerCase() && item.subCategory.trim().toLowerCase() === subCatgory.trim().toLowerCase()){
+      return item;
+    }
+  })
+
+
+  return `/${generateSlug(redirect_urls ? redirect_urls.redirect_main_cat : categoryName)}/${generateSlug(redirect_urls ? redirect_urls.redirectsubCat :subCatgory)}`
+
+}
+
+
+  const sorted = category?.subcategories.sort((a: any, b: any) => {
+    const subCatA = a.custom_url || a.name;
+    const subCatB = b.custom_url || b.name;
+
+    // Find the corresponding redirect_url for each subcategory
+    const redirectUrlA = re_Calling_products.find((item: recallingTypes) => {
+      return (
+        item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
+        item.subCategory.trim().toLowerCase() === subCatA.trim().toLowerCase()
+      );
+    });
+
+    const redirectUrlB = re_Calling_products.find((item: recallingTypes) => {
+      return (
+        item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
+        item.subCategory.trim().toLowerCase() === subCatB.trim().toLowerCase()
+      );
+    });
+
+    const aContainsRedirect = !!redirectUrlA; // Check if redirectUrlA is found
+    const bContainsRedirect = !!redirectUrlB; // Check if redirectUrlB is found
+
+    if (aContainsRedirect && !bContainsRedirect) {
+      return 1; // Move 'a' to the last
+    }
+    if (!aContainsRedirect && bContainsRedirect) {
+      return -1; // Move 'b' to the last
+    }
+    return 0; // Keep the original order if both or neither match
+  });
+
+
+
   return (
-    subCategory.length > 0 && (
+    category && category?.subcategories?.length > 0 && (
       <div
-        className={`relative ps-2 sm:ps-8 pe-8 ${
-          subCategory.length === 2
+        className={`relative ps-2 sm:ps-8 pe-8 ${(category && category?.subcategories?.length === 2)
             ? 'w-full md:w-6/12 lg:4/12 xl:2/12'
-            : subCategory.length === 4
+            :category && category?.subcategories?.length=== 4
               ? 'w-full sm:w-6/12'
               : 'w-full sm:w-8/12'
-        }`}
+          }`}
       >
         <button
           className="absolute -left-4 sm:left-0 top-1/2 transform -translate-y-1/2 z-10"
@@ -61,22 +95,28 @@ console.log(category?.subcategories, "custom_url")
             320: { slidesPerView: 2 },
             480: { slidesPerView: 3 },
             768: {
-              slidesPerView:(category && category?.subcategories?.length > 4) ||  subCategory.length > 4 ? 4 : (category && category?.subcategories?.length) || subCategory.length,
+              slidesPerView: (category && category?.subcategories?.length > 4) ? 4 : (category && category?.subcategories?.length) 
             },
             1024: {
-              slidesPerView: (category && category?.subcategories?.length > 6 )||  subCategory.length > 6 ? 6 : (category&& category?.subcategories?.length) ||  subCategory.length,
+              slidesPerView: (category && category?.subcategories?.length > 6) ? 6 : (category && category?.subcategories?.length)
             },
           }}
         >
-          {(category?.subcategories || subCategory).map((category:any, index:any) => (
+          {(sorted || []).map((subcat: any, index: any) => (
             <SwiperSlide key={index}>
               <Link
-                href={`/${Category}/${generateSlug((category?.custom_url || category?.name) || category.title)}`}
+        
+                href={
+                 
+                  changeCategoryHandler((category?.custom_url ||category?.name) , ((subcat?.custom_url || subcat?.name) || category.title) )
+                
+                }
                 key={category.categoryId}
                 className="w-full text-center whitespace-nowrap bg-[#afa183] rounded-lg py-2 px-2 text-white block"
               >
-                <span>{category?.name || category.title}</span>
+                <span>{subcat?.name || subcat.title}</span>
               </Link>
+
             </SwiperSlide>
           ))}
         </Swiper>

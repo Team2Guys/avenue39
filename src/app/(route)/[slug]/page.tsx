@@ -126,7 +126,6 @@ console.log(Product.length, "Product")
     mainslug={slug}
     categories={categories}
     info={findCategory}
-    // SubcategoryName={findCategory}
   />
 }
 

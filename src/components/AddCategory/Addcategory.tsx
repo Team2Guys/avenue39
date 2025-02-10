@@ -1,5 +1,5 @@
 'use client';
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import Imageupload from '@components/ImageUpload/Imageupload';
 import { RxCross2 } from 'react-icons/rx';
 import Image from 'next/image';
@@ -26,8 +26,7 @@ const FormLayout = ({
   editCategory,
   setMenuType,
 }: editCategoryProps) => {
-  let CategoryName =
-    editCategory && editCategory.name
+  let CategoryName =editCategory && editCategory.name
       ? {
           name: editCategory.name,
           description: editCategory.description,
@@ -51,10 +50,7 @@ const FormLayout = ({
   );
 
   const [loading, setloading] = useState<boolean>(false);
-  const [editCategoryName, setEditCategoryName] = useState<
-    Category | null | undefined
-  >(CategoryName);
-  console.log(setEditCategoryName);
+  const [editCategoryName, setEditCategoryName] = useState<Category | null | undefined>(CategoryName);
 
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
@@ -99,6 +95,12 @@ const FormLayout = ({
       setloading(false);
     }
   };
+
+  useEffect(() => {
+    setEditCategoryName(CategoryName)
+   
+  }, [editCategory])
+  
 
   return (
     <>

@@ -230,10 +230,7 @@ const ProductDetail = ({
     );
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity =
-      itemToAdd.selectedSize?.stock ||
-      itemToAdd.selectedfilter?.stock ||
-      product.stock;
+    const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
     if (product?.stock && newQuantity > product.stock) {
       toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;

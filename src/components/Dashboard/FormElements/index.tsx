@@ -28,9 +28,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
   setEditProduct,
   categoriesList,
 }) => {
-  const [imagesUrl, setImagesUrl] = useState<any[]>(
-    EditInitialValues ? EditInitialValues.productImages : [],
-  );
+  const [imagesUrl, setImagesUrl] = useState<any[]>(EditInitialValues ? EditInitialValues.productImages : [],);
   const [posterimageUrl, setposterimageUrl] = useState<any[] | undefined | null>(
     EditInitialValues
       ? [

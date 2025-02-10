@@ -1,15 +1,12 @@
 import { generateSlug } from '@/config';
-import { MenuItem } from '@/types/types';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';;
+import React from 'react';
 import { Navigation } from 'swiper/modules';
 import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
 } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { menuData } from '@/data/menu';
 import { re_Calling_products, recallingTypes } from '@/data/Re_call_prod';
 
 const SubCategoriesRow = ({ category }: any) => {

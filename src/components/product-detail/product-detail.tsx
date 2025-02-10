@@ -42,8 +42,7 @@ import { calculateRatingsPercentage, renderStars } from '@/config';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
-import { BsWhatsapp } from 'react-icons/bs';
-import Link from 'next/link';
+
 import { toast } from 'react-toastify';
 
 const ProductDetail = ({

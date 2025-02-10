@@ -117,9 +117,6 @@ export class AddProductDto {
   @IsOptional()
   @IsString()
   sale_counter: string;
-
-
-
   @IsOptional()
   @IsString()
   meta_description: string;
@@ -133,11 +130,20 @@ export class AddProductDto {
   @IsOptional()
   @IsArray()
   sizes: any[]
-
+  
+  @IsOptional()
+  @IsString()
+  custom_url:string
 }
 
 export class UpdateProductDto extends AddProductDto {
   @IsNumber()
   @IsNotEmpty()
   id: number;
+
+  @IsOptional()
+  @IsString()
+  custom_url:string
+
+
 }

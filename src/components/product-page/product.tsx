@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
@@ -40,18 +40,28 @@ const ProductPage = ({
   AllProduct,
   mainslug,
   info,
-  }: ProductPageProps) => {
+}: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
+  
+
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
+  const description = SubcategoryName?.description || info?.description || "";
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
   const filteredCards = productsToFilter
     .filter((card) => {
       if (pathname === '/sale') {
-        return card.discountPrice > 0; 
+        return card.discountPrice > 0;
       }
       return true;
     })
@@ -77,12 +87,12 @@ const ProductPage = ({
   return (
     <>
       {
-     <TopHero
-     breadcrumbs={productsbredcrumbs}
-     categoryName={mainslug ? mainslug : SubcategoryName?.name}
-     subCategorName={SubcategoryName?.name || undefined}
-   />
-   
+        <TopHero
+          breadcrumbs={productsbredcrumbs}
+          categoryName={mainslug ? mainslug : SubcategoryName?.name}
+          subCategorName={SubcategoryName?.name || undefined}
+        />
+
       }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
@@ -100,10 +110,13 @@ const ProductPage = ({
           ) : (
             <div className="flex flex-col items-center">
               <h1 className="text-[45px] font-helvetica font-bold">
-                {SubcategoryName?.name ?SubcategoryName?.name :info?.name}
+                {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-                <p className="text-center">{SubcategoryName?.description ? SubcategoryName?.description : info?.description} </p>
+              <p className="text-center sm:text-base text-sm">
+
+              {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
+              </p>
               </Container>
             </div>
           )}
@@ -117,7 +130,7 @@ const ProductPage = ({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="default">Default</SelectItem>
-                      <SelectItem value="name">A to Z</SelectItem>
+                      {/* <SelectItem value="name">A to Z</SelectItem> */}
                       <SelectItem value="max">Price Max</SelectItem>
                       <SelectItem value="min">Price Min</SelectItem>
                     </SelectGroup>
@@ -153,7 +166,7 @@ const ProductPage = ({
                       card={card}
                       isLoading={false}
                       SubcategoryName={SubcategoryName}
-                      mainCatgory = {mainslug}
+                      mainCatgory={mainslug}
                       cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
 
                     />

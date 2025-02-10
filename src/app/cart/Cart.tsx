@@ -26,14 +26,13 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
             <div className="w-full md:w-7/12 space-y-4">
               <CartItems isCartPage={true} />
               <div className="flex flex-wrap lg:flex-nowrap gap-5 justify-between items-center">
-                <div className="">
+                
                   <Link
                     href="/new-arrivals"
-                    className="bg-main px-6 flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica"
-                  >
+                    className="bg-main px-6 lg:flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica hidden md:flex"
+                    >
                     Continue Shopping
                   </Link>
-                </div>
               </div>
             </div>
             <div className="w-full md:w-5/12">
@@ -58,6 +57,7 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
             </div>
           </div>
         )}
+        
       </Container>
 
 

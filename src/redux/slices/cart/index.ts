@@ -46,7 +46,6 @@ const cartSlice = createSlice({
         }
 
         const price = getItemPrice(item);
-        const discountPrice = price;
 
         const updatedArray = state.items.map((value: any) => {
           if (value.id === existingItem.id) {
@@ -60,17 +59,12 @@ const cartSlice = createSlice({
           }
 
         });
-        
+
         state.items = updatedArray
 
-  openDrawer()
+        openDrawer()
 
       }
-
-
-
-
-
       else {
 
 

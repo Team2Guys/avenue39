@@ -30,7 +30,6 @@ import { addItem } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
 // import paymenticons from '@icons/payment-icons.png';
-import { openDrawer } from '@/redux/slices/drawer';
 import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -44,6 +43,7 @@ import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
 
 import { toast } from 'react-toastify';
+import { openDrawer } from '@/redux/slices/drawer';
 
 const ProductDetail = ({
   params,
@@ -278,7 +278,7 @@ const ProductDetail = ({
     );
 
     dispatch(addItem(itemToAdd));
-    // dispatch(openDrawer());
+    dispatch(openDrawer());
 
     // if(!existingCartItem){
     //   console.log(itemToAdd, "existingCartItem", filter)

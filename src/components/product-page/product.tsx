@@ -41,65 +41,78 @@ const ProductPage = ({
   AllProduct,
   mainslug,
   info,
-  }: ProductPageProps) => {
+}: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
   console.log(ProductData,"ProductData")
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
-  
+
   const processedProducts = productsToFilter.flatMap((prod) => {
-    const colorVariations = prod.filter?.[0]?.additionalInformation || [{ name: "", price: prod.price }];
-  
     if (!prod.sizes || prod.sizes.length === 0) {
-      return colorVariations.map((color) => {
-        const matchedImage = prod.productImages?.find(
-          (img) => img.color?.toLowerCase() === color.name.toLowerCase()
-        )?.imageUrl || prod.posterImageUrl; 
-    
-        return {
+      return [prod]; // No variations, show product as is
+    }
+  
+    if (!prod.productImages || prod.productImages.length === 0) {
+    return [];
+  }
+
+  const uniqueVariations = new Map();
+
+  prod.productImages
+    .filter((img) => img.index)
+    .forEach((img) => {
+      const sizeMatch = prod.sizes?.find(
+        (size) => size.name.toLowerCase() === img.size?.toLowerCase()
+      );
+      const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
+        (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
+      );
+      const hoverImageMatch = prod.productImages.find(
+        (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
+      );
+
+      const variationKey = img.index;
+
+      if (!uniqueVariations.has(variationKey)) {
+        uniqueVariations.set(variationKey, {
           ...prod,
           name: `${prod.name}`,
-          displayName: color.name ? `${prod.name} - ${color.name}` : prod.name,
-          price: Number(color.price ? color.price : prod.price), 
-          discountPrice: 'discountPrice' in color ? Number(color.discountPrice) : prod.discountPrice,
-          posterImageUrl: matchedImage,
-          stock: 'stock' in color ? Number(color.stock) : prod.stock,
-        };
-      });
-    }
-    return prod.sizes.flatMap((size) =>
-      colorVariations.map((color) => {
-        const matchedImage = prod.productImages?.find(
-          (img) =>
-            img.size?.toLowerCase() === size.name.toLowerCase() &&
-            img.color?.toLowerCase() === color.name.toLowerCase()
-        )?.imageUrl ||
-          prod.productImages?.find((img) => img.color?.toLowerCase() === color.name.toLowerCase())?.imageUrl ||
-          prod.posterImageUrl;
-        const firstUploadedImage = prod.productImages.length > 0 ? prod.productImages[0].imageUrl : null;
+          displayName: `${prod.name} - ${
+            img.size?.toLowerCase() === img.color?.toLowerCase()
+              ? img.size
+              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
+          }`,
+          price: sizeMatch
+            ? Number(sizeMatch.price)
+            : filterMatch
+            ? Number(filterMatch.price)
+            : prod.price, 
+          discountPrice: sizeMatch
+            ? Number(sizeMatch.discountPrice)
+            : filterMatch
+            ? Number(filterMatch.discountPrice || 0)
+            : prod.discountPrice,
+          posterImageUrl: img.imageUrl,
+          hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
+          stock: sizeMatch ? sizeMatch.stock : prod.stock,
+        });
+      }
+    });
+
+  return Array.from(uniqueVariations.values());
+});
   
-        return {
-          ...prod,
-         name: `${prod.name}`,
-         displayName: color.name ? `${prod.name} - ${size.name} ${color.name}` : prod.name,
-        price: Number(size.price ? size.price : prod.price),
-        discountPrice: size.discountPrice ? Number(size.discountPrice) : prod.discountPrice,
-        posterImageUrl: matchedImage || firstUploadedImage || prod.posterImageUrl,
-        stock: Number(size.stock ? size.stock : prod.stock),
-        };
-      })
-    );
-  });
   
+
   const filteredCards = processedProducts
     .filter((card) => {
       if (pathname === '/products') {
-        return (card.discountPrice ?? 0) > 0 && card.stock > 0;
+        return card.discountPrice > 0 && card.stock > 0;
       }
       if (pathname === '/sale') {
-        return (card.discountPrice ?? 0) > 0 && card.stock > 0;
+        return card.discountPrice > 0 && card.stock > 0;
       }
       return true;
     })
@@ -109,13 +122,13 @@ const ProductPage = ({
           return a.name.trim().localeCompare(b.name.trim());
         }
         case 'max': {
-          const priceA = (a.discountPrice ?? 0) > 0 ? a.discountPrice ?? 0 : a.price;
-          const priceB = (b.discountPrice ?? 0) > 0 ? b.discountPrice ?? 0 : b.price;
+          const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+          const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
           return priceB - priceA;
         }
         case 'min': {
-          const minPriceA = (a.discountPrice ?? 0) > 0 ? a.discountPrice ?? 0 : a.price;
-          const minPriceB = (b.discountPrice ?? 0) > 0 ? b.discountPrice ?? 0 : b.price;
+          const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+          const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
           return minPriceA - minPriceB;
         }
         default:
@@ -169,7 +182,7 @@ const ProductPage = ({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="default">Default</SelectItem>
-                      <SelectItem value="name">A to Z</SelectItem>
+                      <SelectItem value="name">Name</SelectItem>
                       <SelectItem value="max">Price Max</SelectItem>
                       <SelectItem value="min">Price Min</SelectItem>
                     </SelectGroup>
@@ -189,7 +202,7 @@ const ProductPage = ({
                 Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
               </p>
             </div>
-            <SubCategoriesRow category={info} />
+            <SubCategoriesRow />
           </div>
 
           <div

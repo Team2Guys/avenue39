@@ -110,6 +110,7 @@ export interface ProductImage {
   public_id: string;
   altText?: string;
   imageIndex?: number;
+  index?: string;
 
   size?: string;
 

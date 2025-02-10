@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import ProfileComponent from './ProfileComponent';
 
 export const metadata: Metadata = {
-  title: 'Profile Avenue 39',
+  title: 'Profile Avenue39',
   description: 'Profile description',
   openGraph: {
     title: 'Profile',

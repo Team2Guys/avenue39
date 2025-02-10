@@ -150,15 +150,23 @@ export const totalProductsInCart = (state: CartState): number => {
 };
 
 export const variationProductImage = (item: CartItem) => {
-  const filterImage = item.productImages.find((image) => image.color === item.selectedfilter?.name);
-  const sizeImage = item.productImages.find((image) => image.color === item.selectedSize?.name);
+  if (!Array.isArray(item.productImages)) {
+    return item.posterImageUrl;
+  }
+  const filterImage = item.productImages.find(
+    (image) => image.color === item.selectedfilter?.name
+  );
+  const sizeImage = item.productImages.find(
+    (image) => image.color === item.selectedSize?.name
+  );
   if (sizeImage && filterImage) {
     return sizeImage.imageUrl;
-  } else if (filterImage && !sizeImage) {
+  } else if (filterImage) {
     return filterImage.imageUrl;
   } else {
     return item.posterImageUrl;
   }
-}
+};
+
 export const { addItem, removeItem, updateItemQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

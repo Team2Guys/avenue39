@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Slider from 'react-slick';
-import { FaSortDown } from 'react-icons/fa';
+import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import Image from 'next/image';
 
 const CustomThumbnailSlickSlider = ({
@@ -33,6 +33,14 @@ const CustomThumbnailSlickSlider = ({
         <FaSortDown size={25} className="text-black " />
       </div>
     ),
+    prevArrow: (
+      <div
+        id="prevArrow"
+        className="slick-prev-arrow !flex !justify-center !items-center"
+      >
+        <FaSortUp size={25} className="text-black " />
+      </div>
+    ),
     responsive: [
       {
         breakpoint: 895,
@@ -53,7 +61,7 @@ const CustomThumbnailSlickSlider = ({
         },
       },
       {
-        breakpoint: 500,
+        breakpoint: 400,
         settings: {
           slidesToShow: 2,
           centerMode: true,
@@ -81,7 +89,7 @@ const CustomThumbnailSlickSlider = ({
             className="column-swiper-slider swiper-slide xsm:mx-0 mx-2"
           >
             <Image
-              className={`rounded-lg shadow-md aspect-square ${isZoom ? 'md:h-[120px] 2xl:h-[160px] md:w-[120px] 2xl:w-[160px]' : 'h-[130px] w-[130px]'}`}
+              className={`rounded-lg shadow-md aspect-square ${isZoom ? 'size-28 md:h-[120px] 2xl:h-[160px] md:w-[120px] 2xl:w-[160px]' : 'size-28 xs:h-[130px] w-[130px]'}`}
               src={thumb.imageUrl || '/default-image.jpg'}
               width={150}
               height={150}

@@ -42,6 +42,8 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
   const swiperImageRef = useRef<SwiperType | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [imageZome, setImageZome] = useState<number>(1.5);
   /* eslint-disable */
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   /* eslint-enable */
@@ -59,7 +61,20 @@ const Thumbnail: React.FC<ThumbProps> = ({
       }),
     );
   };
-
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    if(windowWidth < 895){
+      setImageZome(1)
+    }else {
+      setImageZome(1.5)
+    }
+  },[windowWidth])
   useEffect(() => {
     handleSlideChange(Number(activeIndex));
   }, [activeIndex]);
@@ -116,7 +131,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
                       imageSrc={thumb.imageUrl}
                       largeImageSrc={thumb.imageUrl}
                       altText={altText || 'Main Image'}
-                      zoomScale={1.5}
+                      zoomScale={imageZome}
                       inPlace={true}
                       alignTop={true}
                     />

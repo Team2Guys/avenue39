@@ -202,7 +202,7 @@ const ProductPage = ({
                 Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
               </p>
             </div>
-            <SubCategoriesRow />
+            <SubCategoriesRow category={info} />
           </div>
 
           <div

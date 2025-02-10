@@ -37,11 +37,14 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
     }
 
     const similarProducts: IProduct[] = products.filter((prod: IProduct) => {
-      const hasMatchingCategory = prod?.categories && prod?.categories.some( (prodCategory) =>((prodCategory?.custom_url || prodCategory?.name) || "" ).trim().toLocaleLowerCase() === category);
-        return hasMatchingCategory && prod.id !== findProduct.id;
-        });
-    
-
+      const hasMatchingCategory =
+        prod?.categories &&
+        prod?.categories.some(
+          (prodCategory) =>
+            prodCategory?.name.trim().toLocaleLowerCase() === category,
+        );
+      return hasMatchingCategory && prod.id !== findProduct.id;
+    });
     return (
       <Product
         params={findProduct}

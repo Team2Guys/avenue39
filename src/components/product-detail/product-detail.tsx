@@ -440,7 +440,7 @@ const ProductDetail = ({
               AED{' '}
               {productPrice > 0
                 ? formatPrice(productPrice)
-                : `AED ${formatPrice(product?.price)}`}
+                : `${formatPrice(product?.price)}`}
             </NormalText>
           </ProductPrice>
         ) : (

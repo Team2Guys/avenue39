@@ -74,7 +74,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     queryKey: ['products'],
     queryFn: fetchProducts,
   });
-  const [isProductListOpen, setIsProductListOpen] = useState<boolean>(false);
+  const [isProductListOpen, setIsProductListOpen] = useState(false);
 
   const { loggedInUser } = useSelector((state: State) => state.usrSlice);
 

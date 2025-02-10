@@ -82,7 +82,7 @@ const ColorBanner: React.FC = () => {
                 </div>
               </div>
               <div className="lg:w-[70%] w-full h-full">
-                <Link href={slide.url} className='block h-full w-full'>
+                <Link href={slide.link} className='block h-full w-full'>
                   <Image
                     src={slide.imageUrl}
                     className="w-full h-full"

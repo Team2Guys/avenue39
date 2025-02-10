@@ -7,7 +7,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Return Policy | Easy Returns & Refunds Process',
-  description: 'Read our return policy to understand how to return or exchange items easily. Hassle-free refunds and customer-friendly return guidelines.',
+  description:
+    'Read our return policy to understand how to return or exchange items easily. Hassle-free refunds and customer-friendly return guidelines.',
   openGraph: {
     title: 'Return Policy',
     description: 'Return Policy description',
@@ -30,8 +31,22 @@ const ReturnPolicyPage: React.FC = () => {
       <TopHero title="Return - Policy" breadcrumbs={TReturnPolicybredcrumbs} />
 
       <div className="max-w-5xl mx-auto p-4">
+        <div className="space-y-4">
+          <h1 className="text-xl font-semibold mb-2">Return Policy</h1>
+          <p className="text-base w-full text-start">
+            Avenue39 is a brand that people can trust, as we keep their
+            experience with our products beyond their expectations. However, we
+            come to terms with the fact that, occasionally, it is just
+            impossible to prevent returns. Avenue39 has a fair and logical
+            return and refund policy.
+          </p>
+          <p className="text-base w-full text-start">
+            Please read through the following details to learn how we handle
+            returns and refunds.
+          </p>
+        </div>
         {returnPolicyData.map((section: any, index: number) => (
-          <div key={index} className="mb-6">
+          <div key={index} className="mb-6 mt-5">
             <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
             <div className=" space-y-4">
               {section.description.map(

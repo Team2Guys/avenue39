@@ -198,8 +198,8 @@ const Footer: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/cart" target="_self" className="hover:underline">
-                Shopping Cart
+              <Link href="/contact-us" target="_self" className="hover:underline">
+                Contact Us
               </Link>
             </li>
             <li>

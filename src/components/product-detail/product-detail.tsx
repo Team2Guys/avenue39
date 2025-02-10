@@ -42,8 +42,7 @@ import { calculateRatingsPercentage, renderStars } from '@/config';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
-import { BsWhatsapp } from 'react-icons/bs';
-import Link from 'next/link';
+
 import { toast } from 'react-toastify';
 
 const ProductDetail = ({
@@ -83,8 +82,14 @@ const ProductDetail = ({
   const [productDiscPrice, setProductDiscPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
+  const [customImages, setCustomImages] = useState<any>([]);
+    const [isOutStock, setIsOutStock] = useState<boolean>(false)
+  
 
   const product = params ? params : products?.find((product) => product.name === slug);
+
+  // Safeguard against `product` being undefined
+
 
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
@@ -100,6 +105,19 @@ const ProductDetail = ({
 
   useEffect(() => {
     if (!product) return;
+
+    const posterImage = {
+      imageUrl: product?.posterImageUrl || '',
+      public_id: product?.posterImagePublicId,
+      altText: product?.name || 'Default Name',
+      imageIndex: 0,
+      size: '',
+      color: '',
+    };
+
+    const customProductImage = [posterImage, ...(product?.productImages || [])];
+    setCustomImages(customProductImage);
+
 
     const activeColor = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.name : null;
 
@@ -136,6 +154,43 @@ const ProductDetail = ({
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
+  const stockhandler = () => {
+ 
+
+    let sizesStock = product && product.sizes?.reduce((accum, value: any) => {
+      if (value.stock) {
+        return accum += Number(value.stock)
+      }
+      return 0;
+    }, 0)
+    let colorsStock = product && product.filter?.reduce((parentAccume: number, parentvalue: any) => {
+      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+
+        if (value.stock) {
+          return accum + Number(value.stock);
+        }
+        return accum;
+      }, 0);
+      return parentAccume + countedStock;
+    }, 0);
+
+    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : product?.stock || 0;
+
+    if (!(totalStock > 0)) {
+
+      setIsOutStock(true)
+    }
+  }
+
+/* eslint-disable */
+
+  useEffect(() => {
+
+    stockhandler()
+
+  }, [product])
+
+
   const Navigate = useRouter();
   useEffect(() => {
     if (product) {
@@ -212,10 +267,7 @@ const ProductDetail = ({
     );
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity =
-      itemToAdd.selectedSize?.stock ||
-      itemToAdd.selectedfilter?.stock ||
-      product.stock;
+    const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
     if (product?.stock && newQuantity > product.stock) {
       toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;
@@ -304,7 +356,7 @@ const ProductDetail = ({
     >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
-          thumbs={productImage.length > 0 ? productImage : product.productImages}
+          thumbs={productImage.length > 0 ? productImage : customImages}
           isZoom={isZoom}
           swiperGap={swiperGap}
           // HoverImage={setHoveredImage}
@@ -315,7 +367,7 @@ const ProductDetail = ({
       <div className='hidden 2xl:block 2xl:w-[1%]'></div>
       <div className={`${detailsWidth} flex flex-col gap-2 pt-2 2xl:w-[39%]`}>
         <div className="flex gap-2">
-          {product.stock > 0 ? (
+          {!isOutStock ? (
             <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-helvetica">
               IN STOCK { }
             </div>
@@ -387,7 +439,7 @@ const ProductDetail = ({
               AED{' '}
               {productPrice > 0
                 ? formatPrice(productPrice)
-                : `AED ${formatPrice(product?.price)}`}
+                : `${formatPrice(product?.price)}`}
             </NormalText>
           </ProductPrice>
         ) : (
@@ -511,19 +563,7 @@ const ProductDetail = ({
         {/* <NormalText className="mb-2">
           Hurry Up! Only <span className="text-red-600">12</span> left in stock:
         </NormalText> */}
-        {product.stock == 0 ? (
-          <>
-            <Link
-              href="https://wa.me/971505974495"
-              target="_blank"
-              rel="noreferrer"
-              className=" ps-5 pe-10 h-12 w-full mt-5 mb-5 text-white bg-[#64B161] rounded-2xl flex justify-center items-center gap-2 hover:bg-[#56B400]"
-            >
-              <BsWhatsapp size={25} />
-              <span className="font-light text-sm font-helvetica">PRE-ORDER ONLY</span>
-            </Link>
-          </>
-        ) : (
+        {(
           <>
             <div className="flex items-center gap-4 justify-between mb-2">
               <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
@@ -543,21 +583,23 @@ const ProductDetail = ({
                 </button>
               </div>
             </div>
-
+{isOutStock ? null : 
             <Button
               className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
               onClick={(e: any) => handleBuyNow(e)}
             >
               <CiShoppingCart size={20} /> BUY IT NOW
             </Button>
-
+}
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
               <Button
                 variant={'main'}
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) => handleAddToCard(e)}
+                onClick={(e: any) => isOutStock?()=>{} :  handleAddToCard(e)}
+                disable={isOutStock}
+              
               >
-                Add to cart
+           {isOutStock ? "Out of Stock"  :    "Add to cart"}
               </Button>
               <Button
                 variant='outline'
@@ -566,56 +608,9 @@ const ProductDetail = ({
               >
                 Add to Wishlist
               </Button>
-              {/* 
-              <div className="w-full mx-auto md:w-full">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="bg-warning w-full text-white flex gap-3 h-12 rounded-2xl">
-                      TRY AT HOME
-                    </Button>
-                  </DialogTrigger>
 
-                  <DialogOverlay className="bg-white/80" />
-                  <DialogContent className="sm:max-w-[80%] lg:max-w-[30%] bg-white px-0 pt-0 sm:rounded-none border border-gray shadow-sm gap-0 pb-0">
-                    <DialogHeader className="flex items-start px-5 pt-0 py-5 border-b-2">
-                      <DialogTitle className="text-xl xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-wide">
-                        SCAN QR
-                      </DialogTitle>
-                    </DialogHeader>
-                    <QRScanner
-                      hoveredImage={
-                        product?.productImages[0].imageUrl
-                          ? product?.productImages[0].imageUrl
-                          : 'not found'
-                      }
-                      url={slug}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </div> */}
             </div>
-            {/* <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  className="bg-[#afa183] text-white flex gap-3 justify-center w-full sm:w-1/2 items-center lg:w-full h-12 rounded-2xl mb-3 font-light  md:w-full"
-                  onClick={(e) => handle3D(e)}
-                >
-                  <TbCube3dSphere size={20} /> View 3D
-                </Button>
-              </DialogTrigger>
-
-              <DialogOverlay className="bg-white/80" />
-              <DialogContent className="sm:max-w-[80%] lg:max-w-[50%] bg-white px-0 pt-0 sm:rounded-none border border-gray shadow-sm gap-0 pb-0">
-                <DialogHeader className="flex items-start px-5 pt-0 py-5 border-b-2">
-                  <DialogTitle className="text-xl xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-wide">
-                    3D View
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="w-full h-[600px]">
-                  <Product3D modelUrl="/3dmodel/model.glb" />
-                </div>
-              </DialogContent>
-            </Dialog> */}
+           
           </>
         )}
 

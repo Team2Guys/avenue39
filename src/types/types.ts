@@ -110,6 +110,7 @@ export interface ProductImage {
   public_id: string;
   altText?: string;
   imageIndex?: number;
+  index?: string;
 
   size?: string;
 
@@ -142,6 +143,7 @@ export interface IProduct {
   sizes?: Sizes[];
   filter?: Filter[];
   reviews?:any[]
+  displayName?: string;
   custom_url?:string
 }
 interface Filter {
@@ -156,6 +158,7 @@ interface Sizes {
     name: string;
     price: string;
     discountPrice: string;
+    stock?: string;
 }
 export interface specsDetails {
   id: number;

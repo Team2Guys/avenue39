@@ -127,13 +127,19 @@ export const menuData: MenuData = {
     {
       categoryId: 8,
       link: '/products',
-      title: 'Office Tables',
+      title: 'Office furniture',
       icon: officeTables,
     },
     {
       categoryId: 8,
       link: '/products',
       title: 'Office Chairs',
+      icon: officeChair,
+    },
+    {
+      categoryId: 8,
+      link: '/products',
+      title: 'Office Desks',
       icon: officeChair,
     },
     // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
@@ -166,7 +172,7 @@ export const menuData: MenuData = {
     {
       categoryId: 7,
       link: '/products',
-      title: 'Office Tables',
+      title: 'Office Desks',
       icon: officeTables,
     },
     { categoryId: 7, link: '/products', title: 'Side Tables', icon: sideTable },

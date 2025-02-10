@@ -50,7 +50,7 @@ const sliderDataa_sofa_initial = [
         mobileImage: Moblie_Magia.src,
         pro_price: 'AED 6,250',
         subtitle: 'Magia Office Desk',
-        link: '/home-office/office-tables/magia-office-desk',
+        link: '/office-furniture/desks/magia-office-desk',
         buttonPosition: 'top',
         ImagePosition: 'center',
       },

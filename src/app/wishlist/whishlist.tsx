@@ -158,12 +158,10 @@ const WishlistPage = () => {
                       <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                         AED{' '}
                         <span>
-                          {product.discountPrice
-                            ? product.discountPrice
-                            : product.price}
+                          {Number(product.discountPrice) > 0 ? product.discountPrice : product.price}
                         </span>
                       </p>
-                      {product.discountPrice && (
+                      {Number(product.discountPrice) > 0 && Number(product.price) > Number(product.discountPrice) && (
                         <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
                           AED <span>{product.price}</span>
                         </p>

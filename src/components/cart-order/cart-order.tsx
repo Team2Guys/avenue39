@@ -106,6 +106,14 @@ const CartOrder: React.FC = () => {
         >
           Proceed to Checkout
         </Link>
+        <div className="mt-2 md:hidden">
+        <Link
+                  href="/new-arrivals"
+                  className="bg-main px-6 flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica"
+                >
+                  Continue Shopping
+                </Link>
+              </div>
       </div>
     </div>
   );

@@ -98,9 +98,9 @@ export const re_Calling_products:recallingTypes[] = [
   {
     id: 9,
     mainCategory: 'TABLES',
-    subCategory: 'Office Tables',
+    subCategory: 'desks',
     ////////////////
-    redirectsubCat: 'Office Tables',
+    redirectsubCat: 'desks',
     redirect_main_cat: 'office-furniture',
   },
   {

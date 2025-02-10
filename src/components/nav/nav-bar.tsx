@@ -388,26 +388,31 @@ const Navbar = () => {
                             <DrawerTrigger asChild key={product.id}>
                               <div
                                 onClick={() => handleNavigation(product)}
-                                className="flex border p-2 rounded-md flex-col hover:shadow-md items-center transition duration-300 gap-2 w-[48%] mt-2 cursor-pointer bg-white"
+                                className="flex border p-2 rounded-md flex-col hover:shadow-md transition duration-300 gap-2 w-[48%] mt-2 cursor-pointer bg-white justify-between"
                               >
+                                <div>
+
                                 <Image
                                   width={100}
                                   height={100}
                                   src={product.posterImageUrl}
                                   alt={product.name}
-                                  className="min-h-[100px] min-w-[150px]"
+                                  className="min-h-[100px] min-w-[110px] mx-auto"
                                 />
-                                <div className="flex flex-col gap-2">
-                                  <p className="text-16 font-normal capitalize">
+                                  <p className="text-16 font-normal capitalize pt-3">
                                     {product.name}
                                   </p>
-                                  <div className="flex items-center gap-4">
+                                </div>
+                                <div className="flex flex-col gap-2 justify-between">
+                                  <div className="flex gap-4 items-center">
                                     <p className="text-15 font-semibold">
                                       AED <span>{product.price}</span>
                                     </p>
-                                    <p className="text-[12px] text-primary-foreground font-bold line-through">
+                                    {product.discountPrice > 0 &&
+                                    <p className="text-15  text-primary-foreground font-bold line-through">
                                       <span>{product.discountPrice}</span>
                                     </p>
+                                    }
                                   </div>
                                   <div>
                                     <RenderStars card={product} />

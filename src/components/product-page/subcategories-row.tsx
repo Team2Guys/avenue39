@@ -1,5 +1,5 @@
 import { generateSlug } from '@/config';
-import Link from 'next/link';;
+import Link from 'next/link';
 import React from 'react';
 import { Navigation } from 'swiper/modules';
 import {
@@ -61,8 +61,6 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
 
 
 
-console.log(sorted, "sorted")
-
   return (
     category && category?.subcategories?.length > 0 && (
       <div
@@ -104,7 +102,7 @@ console.log(sorted, "sorted")
             },
           }}
         >
-          {(category?.subcategories).map((subcat: any, index: any) => (
+          {(sorted || []).map((subcat: any, index: any) => (
             <SwiperSlide key={index}>
               <Link
         

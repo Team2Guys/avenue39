@@ -28,9 +28,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
   setEditProduct,
   categoriesList,
 }) => {
-  const [imagesUrl, setImagesUrl] = useState<any[]>(
-    EditInitialValues ? EditInitialValues.productImages : [],
-  );
+  const [imagesUrl, setImagesUrl] = useState<any[]>(EditInitialValues ? EditInitialValues.productImages : [],);
   const [posterimageUrl, setposterimageUrl] = useState<any[] | undefined | null>(
     EditInitialValues
       ? [
@@ -38,6 +36,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
           imageUrl: EditInitialValues.posterImageUrl,
           public_id: EditInitialValues.posterImagePublicId,
           altText: EditInitialValues.posterImageAltText,
+          Index: EditInitialValues.posterImageIndex,
         },
       ]
       : [],
@@ -120,6 +119,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
         posterImageUrl: posterImageUrl.imageUrl,
         posterImagePublicId: posterImageUrl.public_id,
         posterImageAltText: posterImageUrl.altText,
+        posterImageIndex: posterImageUrl.Index,
         hoverImageUrl: hoverImageUrl.imageUrl,
         hoverImagePublicId: hoverImageUrl.public_id,
         hoverImageAltText: posterImageUrl.altText,
@@ -224,6 +224,18 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
     setImagesUrlhandler((prev: any) => {
       const updatedImagesUrl = prev.map((item: any, i: number) =>
         i === index ? { ...item, color: newImageIndex } : item,
+      );
+      return updatedImagesUrl;
+    });
+  };
+  const handleIndex = (
+    index: number,
+    newImageIndex: number | string,
+    setImagesUrlhandler: React.Dispatch<React.SetStateAction<any>>,
+  ) => {
+    setImagesUrlhandler((prev: any) => {
+      const updatedImagesUrl = prev.map((item: any, i: number) =>
+        i === index ? { ...item, index: newImageIndex } : item,
       );
       return updatedImagesUrl;
     });
@@ -1467,6 +1479,21 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                 value={item.size}
                                 onChange={(e) =>
                                   handleImageSize(
+                                    index,
+                                    String(e.target.value),
+                                    setImagesUrl,
+                                  )
+                                }
+                              />
+
+                              <input
+                                className="border mt-2 w-full rounded-md border-stroke px-2 text-14 py-2 focus:border-primary active:border-primary outline-none"
+                                placeholder="index"
+                                type="text"
+                                name="index"
+                                value={item.index}
+                                onChange={(e) =>
+                                  handleIndex(
                                     index,
                                     String(e.target.value),
                                     setImagesUrl,

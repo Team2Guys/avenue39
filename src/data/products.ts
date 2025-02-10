@@ -38,13 +38,17 @@ export const ColorBannerData = [
     imageUrl: '/images/ave1.webp',
     imageUrl2: '/images/ave2.webp',
     Heading: 'luxury furniture',
-    Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you."  },
+    Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",
+    link: "/dining"  
+  
+  },
   {
     imageUrl: '/images/catalogue/design_chair1.webp',
     imageUrl2: '/images/catalogue/design_chair12.png',
     Heading: 'dining furniture',
     Description:
-      "We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",
+      "Choosing Avenue39 means choosing a legacy of quality, luxury, and innovation. Our dining furniture spans from the simplistic to the ornate, and quality is always at the forefront.",
+      link: "/dining/chairs"  
   },
 ];
 
@@ -367,8 +371,8 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Cipriani.webp',
       },
       {
-        name: 'Melodia Sofa Bed',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.webp',
+        name: 'Unico Side Table',
+        posterImageUrl: '/images/HomeProducts/Bedroom/unico.png',
       },
       {
         name: 'Unico Side Table',

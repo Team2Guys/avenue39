@@ -61,7 +61,7 @@ const Navbar = () => {
     queryKey: ['products'],
     queryFn: fetchProducts,
   });
-  const [isProductListOpen, setIsProductListOpen] = useState<boolean>(false);
+  const [isProductListOpen, setIsProductListOpen] = useState(false);
 
   const { loggedInUser } = useSelector((state: State) => state.usrSlice);
 
@@ -202,9 +202,9 @@ const Navbar = () => {
                     {filteredProducts.length > 0 ? (
                       filteredProducts.map((product, index) => (
                      <Link key={product.id || index} href={ 
-                       ChangeUrlHandler(product)}
-                       onClick={()=>setIsProductListOpen(false)}
-                      >
+                       ChangeUrlHandler(product)
+          
+                     }>
                      
                         <div
                           key={product.id}
@@ -384,10 +384,8 @@ const Navbar = () => {
                     {!isLoading && !error && filteredProducts.length > 0 && (
                       <div className=" p-2 max-h-[600px] overflow-y-auto custom-scrollbar">
                         <div className="flex flex-wrap justify-center gap-2 -m-2">
-                          {filteredProducts.map((product: IProduct) => {
-                            console.log(typeof(product.discountPrice), "discount price")
-                            return (
-                              <DrawerTrigger asChild key={product.id}>
+                          {filteredProducts.map((product: IProduct) => (
+                            <DrawerTrigger asChild key={product.id}>
                               <div
                                 onClick={() => handleNavigation(product)}
                                 className="flex border p-2 rounded-md flex-col hover:shadow-md items-center transition duration-300 gap-2 w-[48%] mt-2 cursor-pointer bg-white"
@@ -397,24 +395,19 @@ const Navbar = () => {
                                   height={100}
                                   src={product.posterImageUrl}
                                   alt={product.name}
-                                  className="min-h-[100px] min-w-[130px]"
+                                  className="min-h-[100px] min-w-[150px]"
                                 />
-                                <div className="flex flex-col gap-2 justify-between h-full">
-                                  <p className="text-16 text-center font-normal capitalize">
+                                <div className="flex flex-col gap-2">
+                                  <p className="text-16 font-normal capitalize">
                                     {product.name}
                                   </p>
-
-                                  <div className="flex justify-center items-end h-full gap-4 ">
+                                  <div className="flex items-center gap-4">
                                     <p className="text-15 font-semibold">
-                                      AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
+                                      AED <span>{product.price}</span>
                                     </p>
-                                    {(product.discountPrice && product.discountPrice > 0) ?
-                                  
-                                     <p className="text-[12px] text-primary-foreground font-bold line-through items-end">
-                                     <span>{product.price}</span>
-                                   </p> : ''
-                                    }
-                                   
+                                    <p className="text-[12px] text-primary-foreground font-bold line-through">
+                                      <span>{product.discountPrice}</span>
+                                    </p>
                                   </div>
                                   <div>
                                     <RenderStars card={product} />
@@ -422,9 +415,7 @@ const Navbar = () => {
                                 </div>
                               </div>
                             </DrawerTrigger>
-                            )
-                          
-})}
+                          ))}
                         </div>
                       </div>
                     )}

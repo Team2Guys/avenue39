@@ -52,7 +52,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   let sortProducts;
   
 
-console.log(Product.length, "Product")
+console.log(subcategory, "Product")
 
 
     if(slug === "new-arrivals"){
@@ -94,9 +94,9 @@ console.log(Product.length, "Product")
           );
     
           if (foundSubcategory) {
-            return { id: 0, name: foundSubcategory.title };
+            return {...sub, id: 0, name: foundSubcategory.title };
           }
-          return undefined;
+          return ;
         })
           .filter((item: any) => item !== undefined);
     
@@ -116,6 +116,9 @@ console.log(Product.length, "Product")
     
           return indexA - indexB;
         });
+
+
+        
     }
 
 

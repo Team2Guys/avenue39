@@ -82,7 +82,7 @@ const ColorBanner: React.FC = () => {
                 </div>
               </div>
               <div className="lg:w-[70%] w-full ">
-                <Link href={'/dining/chairs'}>
+                <Link href={slide.link}>
                   <Image
                     src={slide.imageUrl}
                     className="w-full h-auto object-cover "

@@ -64,8 +64,7 @@ export const TrimUrlHandler = (name: string | undefined) => {
 
 export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, mainCatgor?: string) => {
   if (!product) return '';
-
-  console.log(product, "product")
+  console.log(product, product.subcategories,  "categoriesMatch")
 
   let url = '';
   const categoryFlag = product?.subcategories && product?.subcategories?.length > 0 && product?.categories && product?.categories?.length > 0;
@@ -75,8 +74,13 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
   );
     const subCategoryMatch = product?.subcategories && product?.subcategories.some((cat: any) =>(cat.custom_url ||cat.name).trim().toLowerCase() === prod.subCategory.trim().toLowerCase());
 
-    return categoriesMatch && subCategoryMatch;
+    
+  console.log( categoriesMatch, "categoriesMatch", subCategoryMatch)
+
+        return categoriesMatch && subCategoryMatch;
   });
+
+  console.log(filteredProduct, "categoriesMatch", categoryFlag)
 
   if (filteredProduct) {
     const cat = product?.categories && product?.categories.find((cat: any) => (cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirect_main_cat.trim().toLowerCase());
@@ -90,16 +94,17 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
   } else if (SubcategoryName && mainCatgor) {
     const category = product?.categories?.find((value: ICategory) => (value?.custom_url || generateSlug(value?.name) ).trim().toLowerCase()== mainCatgor.trim().toLowerCase())
     const subCategory = product.subcategories?.find((subcat) => subcat?.custom_url || subcat?.name)
-
     if (subCategory) {
       url = `/${generateSlug((category?.custom_url || category?.name) || "")}/${generateSlug(subCategory?.custom_url || subCategory?.name)}/${generateSlug(product.custom_url || product.name)}`;
     } else {
       url = `/${generateSlug((category?.custom_url || category?.name) || "")}/${generateSlug(product.custom_url || product.name)}`;
     }
   }
+
   else {
     const category = generateSlug((product.categories && (product.categories[0]?.custom_url || product.categories[0]?.name)) || '').toLowerCase();
     const subCategory = generateSlug((product.subcategories && (product.subcategories[0]?.custom_url || product.subcategories[0]?.name)) || '').toLowerCase();
+ 
     if (subCategory) {
       url = `/${category}/${subCategory}/${generateSlug(product.custom_url || product.name)}`;
     } else {

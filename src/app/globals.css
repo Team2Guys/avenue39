@@ -359,7 +359,7 @@ html {
   align-items: center !important;
   cursor: pointer !important;
   padding-bottom: 4px !important;
-  z-index: 150 !important;
+  z-index: 30 !important;
   transform: none !important;
 }
 .slick-next:before {

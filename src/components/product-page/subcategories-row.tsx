@@ -87,7 +87,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
         
                 href={
                  
-                  changeCategoryHandler(category?.name || Category, ((subcat?.custom_url || subcat?.name) || category.title) )
+                  changeCategoryHandler((category?.custom_url ||category?.name) || Category, ((subcat?.custom_url || subcat?.name) || category.title) )
                 
                 }
                 key={category.categoryId}

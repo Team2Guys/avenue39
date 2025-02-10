@@ -78,8 +78,6 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
     return categoriesMatch && subCategoryMatch;
   });
 
-  console.log(filteredProduct, "filteredProduct")
-
   if (filteredProduct) {
     const cat = product?.categories && product?.categories.find((cat: any) => (cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirect_main_cat.trim().toLowerCase());
     const subCat = product?.subcategories && product?.subcategories.find((cat: any) =>(cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirectsubCat.trim().toLowerCase());

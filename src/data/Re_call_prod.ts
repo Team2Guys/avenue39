@@ -101,7 +101,7 @@ export const re_Calling_products:recallingTypes[] = [
     subCategory: 'Office Tables',
     ////////////////
     redirectsubCat: 'Office Tables',
-    redirect_main_cat: 'HOME OFFICE',
+    redirect_main_cat: 'office-furniture',
   },
   {
     id: 11,

@@ -28,8 +28,9 @@ import { usePathname } from 'next/navigation';
 interface ICartItems {
   isCartPage?: boolean;
   isCheckoutPage?: boolean;
+  isMoblie?: boolean;
 }
-const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
+const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State) => state.cart.items);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -48,7 +49,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
   const updateProductQuantity = (item: CartItem) => {
     const variationQuantity =
       item.selectedSize?.stock || item.selectedfilter?.stock || item.stock;
-  
+
     if (item.quantity > 0) {
       if (item.quantity > variationQuantity) {
         toast.error("Insufficient stock. Please reduce quantity.");
@@ -56,13 +57,13 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
         dispatch(updateItemQuantity({
           id: item.id,
           quantity: item.quantity,
-          selectedSize: item.selectedSize || undefined, 
-          selectedfilter: item.selectedfilter || undefined 
+          selectedSize: item.selectedSize || undefined,
+          selectedfilter: item.selectedfilter || undefined
         }));
       }
     }
   };
-  
+
 
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
@@ -73,9 +74,9 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
     }
     if (!drawerState) {
       dispatch(openDrawer());
-      timeoutRef.current = setTimeout(() => {
-        dispatch(closeDrawer());
-      }, 8000);
+      // timeoutRef.current = setTimeout(() => {
+      //   dispatch(closeDrawer());
+      // }, 8000);
     } else {
       dispatch(closeDrawer());
     }
@@ -86,9 +87,9 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
     }
   };
   const handleLeaveDrawer = () => {
-    timeoutRef.current = setTimeout(() => {
-      dispatch(closeDrawer());
-    }, 8000);
+    // timeoutRef.current = setTimeout(() => {
+    //   dispatch(closeDrawer());
+    // }, 8000);
   };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -125,19 +126,32 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
             </div>
           </div>
           <div
-            className={`w-72 xsm:w-80 z-[52] border absolute top-[65px] ${userDetails ? '-right-[140px] xl:-right-[135px]' : '-right-[30px]'}  -right-[135px] h-[500px] border-[#0000002e] rounded-md py-5 px-5 pe-0 flex flex-col bg-white ${drawerState ? 'block' : 'hidden'}`}
+            className={`w-72 xsm:w-80 z-[200] border absolute ${isMoblie ? 'bottom-[55px] -right-[70px] xs:-right-[135px] h-[300px] p-3' : 'top-[60px] h-[500px] p-5'} ${!isMoblie && (userDetails ? '-right-[140px] xl:-right-[135px]' : '-right-[30px]')} border-[#0000002e] rounded-md flex flex-col bg-white ${drawerState ? 'block' : 'hidden'}`}
             onMouseEnter={handleEnterDrawer}
             onMouseLeave={handleLeaveDrawer}
           >
-            <div className="space-y-0 flex flex-row items-center justify-between border-b-2 pb-6 relative pe-6">
+            {isMoblie && (
               <div
-                className={`absolute -top-[23px] ${userDetails ? 'right-1/2' : 'right-[40px]'}` }
-                style={{zIndex: 1005}}
+                className={`absolute -bottom-[3px] right-[23%] xsm:right-[21%] xs:right-1/2 transform rotate-180 xs:translate-x-8`}
+                style={{ zIndex: 1005 }}
               >
                 <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">
                   <span className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[19px] border-r-white border-b-[20px] border-b-transparent transform rotate-0 absolute top-[2px] -left-[13px] -translate-y-[1px] rounded-t-md"></span>
                 </div>
               </div>
+            )}
+            <div className={`space-y-0 flex flex-row items-center justify-between border-b-2 ${isMoblie ? 'pb-3' : 'pb-4'}  relative `}>
+              {!isMoblie && (
+                <div
+                  className={`absolute -top-[23px] z-[200] ${userDetails ? 'right-1/2' : 'right-[20px]'}`}
+                  style={{ zIndex: 1005 }}
+                >
+                  <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">
+                    <span className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[19px] border-r-white border-b-[20px] border-b-transparent transform rotate-0 absolute top-[2px] -left-[13px] -translate-y-[1px] rounded-t-md"></span>
+                  </div>
+                </div>
+              )}
+
               <h3 className="font-medium md:text-xl uppercase flex items-center gap-2">
                 <GiShoppingCart size={25} /> My Cart{' '}
                 {totalPrice !== 0 && (
@@ -151,7 +165,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               </span>
             </div>
             {totalPrice === 0 ? (
-              <div className="flex justify-center items-center w-full h-96">
+              <div className="flex justify-center items-center w-full h-52">
                 <div className="flex flex-col gap-4 items-center">
                   <IoBagOutline size={50} className="text-black" />
                   <p className="font-medium text-2xl">No Items In Cart</p>
@@ -167,7 +181,7 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
               </div>
             ) : (
               <Fragment>
-                <div className="flex-1 overflow-x-auto mr-6 custom-scroll">
+                <div className="flex-1 overflow-x-auto custom-scroll">
                   <ul className="space-y-4">
                     {cartItems && cartItems.map((item: CartItem) => (
                       <li
@@ -248,15 +262,37 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                     ))}
                   </ul>
                 </div>
-                <div className="border-t-2 py-4 mr-6">
+                <div className={`border-t-2 ${isMoblie ? 'py-2' : 'py-4'}`}>
                   <div className="flex flex-col gap-2 w-full">
                     <NormalText className="text-slate-400 flex justify-between">
                       Total
-                      <ProductPrice className="flex gap-2 mb-4">
+                      <ProductPrice className={`flex gap-2 ${isMoblie ? 'mb-0' : 'mb-4'}`}>
                         AED {totalPrice.toLocaleString()}
                       </ProductPrice>
                     </NormalText>
-                    <div className="flex flex-col gap-2">
+                    {isMoblie ? <div className="flex gap-2">
+                      <Link href="/cart" className="flex gap-4 items-center w-full">
+                        <CustomButtom
+                          variant="light"
+                          onClick={handleCloseDrawer}
+                          className="border-[#EBEBEB] border rounded-2xl"
+                        >
+                          VIEW CART
+                        </CustomButtom>
+                      </Link>
+                      <Link
+                        href="/checkout"
+                        className="flex gap-4 items-center rounded-2xl w-full"
+                      >
+                        <CustomButtom
+                          variant="dark"
+                          className="hover:text-white border-black border rounded-2xl"
+                          onClick={handleCloseDrawer}
+                        >
+                          Check out
+                        </CustomButtom>
+                      </Link>
+                    </div> : <div className="flex flex-col gap-2">
                       <Link href="/cart" className="flex gap-4 items-center">
                         <CustomButtom
                           variant="light"
@@ -278,7 +314,8 @@ const CartItems = ({ isCartPage, isCheckoutPage }: ICartItems) => {
                           Check out
                         </CustomButtom>
                       </Link>
-                    </div>
+                    </div>}
+
                   </div>
                 </div>
               </Fragment>

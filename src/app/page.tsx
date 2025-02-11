@@ -36,7 +36,7 @@ export default async function Home() {
     <>
       <Suspense >
       <HeroVideo />
-      <ColorBanner />
+      <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
       </Suspense>

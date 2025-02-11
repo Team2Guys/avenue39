@@ -8,11 +8,15 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+interface IPROPS {
+  Bannerclas?:any
 
-const ColorBanner: React.FC = () => {
+}
+
+const ColorBanner: React.FC<IPROPS> = ({Bannerclas}) => {
   const [isWide, setIsWide] = useState<number>(window.innerWidth);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
+const isMobile = windowWidth < 770 ? true:false
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -38,22 +42,24 @@ const ColorBanner: React.FC = () => {
     }
   }, [windowWidth]);
 
+console.log(windowWidth, "windowWidth")
+
   return (
-    <section className=" py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper">
+    <section className={` py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? "main_container" : ''}`}>
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
-        autoplay={{
-          delay: 2000,
-          disableOnInteraction: true,
-        }}
+        // autoplay={{
+        //   delay: 2000,
+        //   disableOnInteraction: true,
+        // }}
         speed={1500}
         pagination={{
           clickable: true,
         }}
         loop={false}
-        className="custom-swiper"
+        className={`custom-swiper ${Bannerclas && isMobile ? Bannerclas : ''}`}
       >
         {ColorBannerData.map((slide, index) => (
           <SwiperSlide key={index}>

@@ -419,3 +419,22 @@ html {
     bottom: 190px !important;
   }
 }
+
+
+
+.Bannerclas{
+  padding-bottom: 15px !important;
+  position: relative !important;
+  z-index: 100 !important;
+  margin-bottom: 0px !important;
+
+}
+
+.main_container{
+  padding-bottom: 0px !important;
+}
+
+
+.Bannerclas .swiper-pagination{
+  bottom: -6px !important;
+}

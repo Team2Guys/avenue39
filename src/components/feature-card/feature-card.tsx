@@ -194,7 +194,7 @@ const FeatureCard: React.FC<CardProps> = ({
             />
           </Link>
           <div className="flex justify-between px-1 mt-3">
-            <p className="text-15">{card.name}</p>
+            <p className="text-15">{card.displayName ?card.displayName :card.name}</p>
             <div className="flex">
               {' '}
               {averageRating > 1 && renderStars({ star: averageRating })}

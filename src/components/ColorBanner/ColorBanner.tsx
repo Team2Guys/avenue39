@@ -51,7 +51,7 @@ console.log(windowWidth, "windowWidth")
         spaceBetween={0}
         slidesPerView={1}
         autoplay={{
-          delay: 2000,
+          delay: 4000,
           disableOnInteraction: true,
         }}
         speed={1500}

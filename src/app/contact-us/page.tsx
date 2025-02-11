@@ -29,7 +29,7 @@ const Contact = () => {
   return (
     <>
       <TopHero breadcrumbs={breadcrumbs} />
-      <p className='text-center text-[40px] font-bold mt-10'>Contact Us</p>
+      <h1 className='text-center text-[40px] font-bold mt-10'>Contact Us</h1>
       <Container className="flex flex-wrap md:flex-nowrap items-start md:gap-20 ">
         <div className="w-full md:w-9/12">
           <ContactForm />

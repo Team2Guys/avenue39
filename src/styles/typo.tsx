@@ -13,7 +13,7 @@ export function H1({ children, className }: ITypo) {
 export function ProductName({ children, className }: ITypo) {
   return (
     <div
-      className={`$ font-helvetica text-bold text-[26px] text-primary  ${className}`}
+      className={`font-helvetica text-bold text-[26px] text-primary  ${className}`}
     >
       {children}
     </div>

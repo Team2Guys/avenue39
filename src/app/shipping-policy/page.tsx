@@ -28,13 +28,12 @@ const ShippingPolicy: React.FC = () => {
   return (
     <>
       <TopHero
-        title="Shipping Policy"
         breadcrumbs={TShippingPolicybredcrumbs}
       />
       <div>
+          <h1 className='text-center text-[36px] font-medium mt-5'>Shipping Policy</h1>
         <div className="max-w-5xl mx-auto p-4">
-          
-          <h1 className="text-xl font-semibold mb-2">General Information For Delivery Of Our Products</h1>
+          <h2 className="text-xl font-semibold mb-2">General Information For Delivery Of Our Products</h2>
           <p className='text-base w-full text-start'>All orders made through the Avenue39 website depend on product availability at the time of purchase. If any item in your order is not available, we will quickly inform you via email or provide updates on the product page.</p>
           {shippingPolicyData.map((section: any, index: number) => (
             <div key={index} className="mb-6 mt-4">

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
 import { IProduct, IReview, ProductImage } from '@/types/types';
-import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
+import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 // import QRScanner from '../QR-reader/QR';
 import {
@@ -448,7 +448,7 @@ const ProductDetail = ({
               ) : null;
             })()}
         </div>
-        <ProductName>{product?.name}</ProductName>
+        <h1 className='font-helvetica text-bold text-[26px] text-primary'>{product?.name}</h1>
         {averageRating > 1 && (
           <>
             <div className="flex gap-2 items-center font-helvetica">

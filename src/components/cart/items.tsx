@@ -63,8 +63,6 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       }
     }
   };
-
-
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };
@@ -74,9 +72,9 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
     }
     if (!drawerState) {
       dispatch(openDrawer());
-      // timeoutRef.current = setTimeout(() => {
-      //   dispatch(closeDrawer());
-      // }, 8000);
+      timeoutRef.current = setTimeout(() => {
+        dispatch(closeDrawer());
+      }, 8000);
     } else {
       dispatch(closeDrawer());
     }
@@ -87,9 +85,9 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
     }
   };
   const handleLeaveDrawer = () => {
-    // timeoutRef.current = setTimeout(() => {
-    //   dispatch(closeDrawer());
-    // }, 8000);
+    timeoutRef.current = setTimeout(() => {
+      dispatch(closeDrawer());
+    }, 8000);
   };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -183,9 +181,9 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
               <Fragment>
                 <div className="flex-1 overflow-x-auto custom-scroll">
                   <ul className="space-y-4">
-                    {cartItems && cartItems.map((item: CartItem) => (
+                    {cartItems && cartItems.map((item: CartItem,index) => (
                       <li
-                        key={item.id}
+                        key={index}
                         className="relative flex items-center bg-slate-50 border-dotted gap-3 p-4 w-full rounded-md font-helvetica"
                       >
                         <div className="w-[70px] h-[70px] font-helvetica">
@@ -243,7 +241,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                           {(item.selectedfilter || item.selectedSize) &&
                             <div className='flex flex-nowrap items-center justify-between gap-2'>
                               <div className='flex items-center gap-1 text-13'>
-                                <span className='capitalize'>{item.filter?.at(0)?.heading}:</span>
+                                <span className='capitalize'>{item.filter?.at(0)?.heading}</span>
                                 <span className='capitalize'>{item.selectedfilter?.name}</span>
                               </div>
                               <span className='text-13'>{item.selectedSize?.name}</span>
@@ -324,10 +322,10 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
         </div>
       ) : (
         <div>
-          {cartItems.map((item: any) => (
+          {cartItems.map((item: any,index) => (
             <div
               className="shadow rounded-md w-full p-2 mt-3 flex flex-wrap md:flex-nowrap justify-between items-center bg-white "
-              key={item.id}
+              key={index}
             >
               <div className="flex items-center gap-4 w-full">
                 <Link href={`/product/${generateSlug(item.name)}`}>

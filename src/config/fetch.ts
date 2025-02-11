@@ -76,11 +76,10 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
   });
 
 
+
   if (filteredProduct) {
     const cat = product?.categories && product?.categories.find((cat: any) => (cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirect_main_cat.trim().toLowerCase());
     const subCat = product?.subcategories && product?.subcategories.find((cat: any) =>(cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirectsubCat.trim().toLowerCase());
-
-
     const category = generateSlug(cat?.custom_url || filteredProduct.redirect_main_cat).toLowerCase();
     const subCategory = generateSlug(subCat?.custom_url || filteredProduct.redirectsubCat).toLowerCase();
     url = `/${category}/${subCategory}/${generateSlug(product.custom_url || product.name)}`;

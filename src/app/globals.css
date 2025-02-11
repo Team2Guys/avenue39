@@ -390,7 +390,7 @@ html {
 }
 
 .card-slider-home .swiper-pagination {
-  bottom: 130px !important;
+  bottom: 150px !important;
 }
 
 .cardBtn-quick-view:hover svg{
@@ -416,6 +416,25 @@ html {
     transform: rotate(-90deg) !important;
   }
   .card-slider-home .swiper-pagination {
-    bottom: 180px !important;
+    bottom: 190px !important;
   }
+}
+
+
+
+.Bannerclas{
+  padding-bottom: 15px !important;
+  position: relative !important;
+  z-index: 100 !important;
+  margin-bottom: 0px !important;
+
+}
+
+.main_container{
+  padding-bottom: 0px !important;
+}
+
+
+.Bannerclas .swiper-pagination{
+  bottom: -6px !important;
 }

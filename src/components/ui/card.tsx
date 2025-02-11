@@ -25,6 +25,7 @@ import {
 import { message } from 'antd';
 import Link from 'next/link';
 import { IoIosHeartEmpty } from 'react-icons/io';
+import { toast } from 'react-toastify';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;
@@ -65,6 +66,8 @@ const Card: React.FC<CardProps> = ({
   const [averageRating, setaverageRating] = useState<any>()
   const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
   const [isOutStock, setIsOutStock] = useState<boolean>(false)
+  const [productPrice, setProductPrice] = useState<number>()
+  const [productDiscountPrice, setProductDiscountPrice] = useState<number>()
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -73,7 +76,23 @@ const Card: React.FC<CardProps> = ({
   const itemToAdd: CartItem | any = {
     ...card,
     quantity: 1,
+    selectedSize: (card && card?.sizes) && card?.sizes[0],
+    selectedfilter: (card && card?.filter) && card?.filter[0]?.additionalInformation[0],
   };
+  useEffect(() => {
+    const price =
+      card?.sizes?.[0]?.price ??
+      card?.filter?.[0]?.additionalInformation?.[0]?.price ??
+      card?.price;
+    setProductPrice(Number(price))
+    const discountPrice =
+      card?.sizes?.[0]?.discountPrice ??
+      card?.filter?.[0]?.additionalInformation?.[0]?.discountPrice ??
+      card?.discountPrice;
+    setProductDiscountPrice(Number(discountPrice))
+
+  }, []);
+
   useEffect(() => {
     const cardImage = productImages?.find(
       (item: IProduct) => item.name === card?.name,
@@ -83,65 +102,82 @@ const Card: React.FC<CardProps> = ({
   }, [productImages]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(itemToAdd, 'itemToAdd')
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) => item.id === card?.id);
+    const existingCartItem = cartItems.find((item: any) => item.id === card?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    console.log(existingCartItem, "cartItems")
+    if (!existingCartItem) {
+      dispatch(addItem(itemToAdd));
+      dispatch(openDrawer());
+      return
+    }
+    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum: any, value: any) => {
+      if (value.stock) {
+        return accum += Number(value.stock)
+      }
+      return 0;
+    }, 0)
+    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
+      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+
+        if (value.stock) {
+          return accum + Number(value.stock);
+        }
+        return accum;
+      }, 0);
+      return parentAccume + countedStock;
+    }, 0);
+
+    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
+
     const currentQuantity = existingCartItem?.quantity || 0;
-    const newQuantity = currentQuantity + itemToAdd.quantity;
-
-
-    if (newQuantity > (card?.stock || 0)) {
-      message.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
+    const newQuantity = currentQuantity + 1;
+    const variationQuantity = totalStock
+    if (newQuantity > totalStock) {
+      toast.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
       return;
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
 
-  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>, product: IProduct) => {
-    e.stopPropagation();
-    const newWishlistItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      posterImageUrl: product.posterImageUrl,
-      discountPrice: product.discountPrice,
-      count: 1,
-      stock: product.stock,
-      totalPrice: product.discountPrice ? product.discountPrice : product.price,
-      categories: product.categories,
-      subcategories: product.subcategories, 
-    };
-    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const existingItemIndex = existingWishlist.findIndex(
-      (item: any) => item.id === newWishlistItem.id,
-    );
-    if (existingItemIndex !== -1) {
-      const currentCount = existingWishlist[existingItemIndex].count;
-      if (product.stock && currentCount + 1 > product.stock) {
-        message.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist[existingItemIndex].count += 1;
-      existingWishlist[existingItemIndex].totalPrice =
-        existingWishlist[existingItemIndex].count *
-        (existingWishlist[existingItemIndex].discountPrice ||
-          existingWishlist[existingItemIndex].price);
-    } else {
-      if (product.stock && newWishlistItem.count > product.stock) {
-        message.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist.push(newWishlistItem);
-    }
-    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-    message.success('Product added to Wishlist successfully!');
-    window.dispatchEvent(new Event('WishlistChanged'));
-    console.log(existingWishlist, 'existingWishlist');
-  };
+  const handleAddToWishlist = (product: IProduct) => {
+ 
+     console.log("Wishlist:", itemToAdd);
+     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+     const existingItemIndex = existingWishlist.findIndex(
+       (item: any) => item.id === itemToAdd.id,
+     );
+     if (existingItemIndex !== -1) {
+       const currentCount = existingWishlist[existingItemIndex].count;
+       if (product.stock && currentCount + 1 > product.stock) {
+         toast.error(
+           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+         );
+         return;
+       }
+       existingWishlist[existingItemIndex].count += 1;
+       existingWishlist[existingItemIndex].totalPrice =
+         existingWishlist[existingItemIndex].count *
+         (existingWishlist[existingItemIndex].discountPrice ||
+           existingWishlist[existingItemIndex].price);
+     } else {
+       if (product.stock && itemToAdd.quantity > product.stock) {
+         toast.error(
+           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+         );
+         return;
+       }
+       existingWishlist.push(itemToAdd);
+     }
+     localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+     toast.success('Product added to Wishlist successfully!');
+     window.dispatchEvent(new Event('WishlistChanged'));
+   };
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
@@ -178,7 +214,7 @@ const Card: React.FC<CardProps> = ({
     }
   }
 
-/* eslint-disable */
+  /* eslint-disable */
 
   useEffect(() => {
 
@@ -186,7 +222,7 @@ const Card: React.FC<CardProps> = ({
 
   }, [card])
 
-/* eslint-enable */
+  /* eslint-enable */
 
 
 
@@ -194,6 +230,15 @@ const Card: React.FC<CardProps> = ({
     <div
       className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
+        
+      <div
+                    onClick={(e) => handleAddToWishlist(card)}
+                    onMouseEnter={() => setIsHoverImage(true)}
+                    onMouseLeave={() => setIsHoverImage(false)}
+                    className="absolute z-50 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+                  >
+                    <IoIosHeartEmpty size={20} />
+                  </div>
         {slider ? (
           <Swiper
             className="mySwiper card-slider-home w-full"
@@ -259,13 +304,13 @@ const Card: React.FC<CardProps> = ({
                 </p>
               )}
               <div className="space-y-3">
-                <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
+                <h3 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                   <Link
                     className="cursor-pointer"
                     href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
                   >
                     {' '}
-                    {card.displayName ? card.displayName :card.name}
+                    {card.displayName ? card.displayName : card.name}
                   </Link>
                 </h3>
                 <div>
@@ -429,14 +474,7 @@ const Card: React.FC<CardProps> = ({
                 </div>
               ) : (
                 <div className="relative">
-                  <div
-                    onClick={(e) => handleAddToWishlist(e, card)}
-                    onMouseEnter={() => setIsHoverImage(true)}
-                    onMouseLeave={() => setIsHoverImage(false)}
-                    className="absolute top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
-                  >
-                    <IoIosHeartEmpty size={20} />
-                  </div>
+                 
                   <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                     <Image
                       src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
@@ -456,38 +494,38 @@ const Card: React.FC<CardProps> = ({
                     />
                   </Link>
                 </div>
-
               )}
             </div>
             <div className="space-y-3">
-              <h3 className="text-sm md:text-[22px] text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
+              <h3 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                 <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                   {' '}
-                  {card.displayName? card.displayName : card.name}
+                  {card.displayName ? card.displayName : card.name}
                 </Link>
               </h3>
               <div>
-                {card.discountPrice > 0 ? (
+                {productDiscountPrice && productDiscountPrice > 0 ? (
                   <div className="flex gap-2 justify-center">
                     <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                      AED {new Intl.NumberFormat().format(card.price)}
+                      AED {productPrice}
                     </p>
                     <p className="text-sm md:text-18 font-bold text-[#FF0000]">
-                      AED {new Intl.NumberFormat().format(card.discountPrice)}
+                      AED {productDiscountPrice}
                     </p>
                   </div>
                 ) : (
                   <p className="text-sm md:text-18 font-bold">
-                    AED {new Intl.NumberFormat().format(card.price)}
+                    AED {productPrice}
                   </p>
                 )}
+                <p>{}</p>
               </div>
               {averageRating > 0 && (
                 <div className="flex gap-1 items-center justify-center mt-1 h-5">
                   {renderStars({ star: averageRating })}
                 </div>
               )}
-              {isModel ? null : isOutStock ? <button className='text-red-500 font-bold uppercase w-full bg-main border cursor-default rounded-full py-2'>Out of Stock</button> : (
+              {isModel ? null : isOutStock ? <button className='text-red-500 font-bold uppercase w-full bg-main border cursor-default rounded-full h-8'>Out of Stock</button> : (
                 <div
                   className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto' : 'w-full mb-4'}`}
                   onClick={(e) => handleEventProbation(e)}

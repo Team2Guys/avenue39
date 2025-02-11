@@ -211,7 +211,7 @@ const SofaBanner: React.FC = () => {
                   className="w-full h-full rounded-2xl block"
                   style={{
                     backgroundImage: `url(${slide.backgroundImage})`,
-                    backgroundSize: newWidth < 700 ? 'contain' : 'cover',
+                    backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: newWidth < 700 ? 'center' : slide.ImagePosition,
                   }}

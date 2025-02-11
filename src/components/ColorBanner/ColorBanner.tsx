@@ -8,11 +8,15 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+interface IPROPS {
+  Bannerclas?:any
 
-const ColorBanner: React.FC = () => {
+}
+
+const ColorBanner: React.FC<IPROPS> = ({Bannerclas}) => {
   const [isWide, setIsWide] = useState<number>(window.innerWidth);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
+const isMobile = windowWidth < 770 ? true:false
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -38,14 +42,16 @@ const ColorBanner: React.FC = () => {
     }
   }, [windowWidth]);
 
+console.log(windowWidth, "windowWidth")
+
   return (
-    <section className=" py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper">
+    <section className={` py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? "main_container" : ''}`}>
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
         autoplay={{
-          delay: 2000,
+          delay: 4000,
           disableOnInteraction: true,
         }}
         speed={1500}
@@ -53,7 +59,7 @@ const ColorBanner: React.FC = () => {
           clickable: true,
         }}
         loop={false}
-        className="custom-swiper"
+        className={`custom-swiper ${Bannerclas && isMobile ? Bannerclas : ''}`}
       >
         {ColorBannerData.map((slide, index) => (
           <SwiperSlide key={index}>
@@ -65,14 +71,14 @@ const ColorBanner: React.FC = () => {
                       {slide.Heading}
                     </h1>
                     {/* <p className="text-sm font-normal pb-2">{slide.ShortText}</p> */}
-                    <p className="text-18 font-extralight">
+                    <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
                       {slide.Description}
                     </p>
                   </div>
                   <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-6 px-2 mx-auto">
                     <Image
                       src={slide.imageUrl2}
-                      className="w-full h-24 md:h-20"
+                      className="w-full h-16 md:h-20"
                       alt="Left Image"
                       width={1200}
                       height={1200}

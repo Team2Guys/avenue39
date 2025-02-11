@@ -16,7 +16,7 @@ const Counter: React.FC<CounterProps> = ({
   onDecrement,
 }) => {
   return (
-    <div className="flex items-center border border-gray-300 rounded py-1 md:py-3">
+    <div className="flex items-center border border-gray-300 rounded py-1 md:py-3 w-fit">
       <button
         onClick={onDecrement}
         className="px-2 text-gray-600"

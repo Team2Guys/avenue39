@@ -32,8 +32,8 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existingItem = state.items.find((i) =>i.id === item.id &&   i.selectedSize?.name === item.selectedSize?.name &&
-      i.selectedfilter?.name === item.selectedfilter?.name );
+      const existingItem = state.items.find((i) => i.id === item.id && i.selectedSize?.name === item.selectedSize?.name &&
+        i.selectedfilter?.name === item.selectedfilter?.name);
 
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
@@ -44,17 +44,17 @@ const cartSlice = createSlice({
           return;
         }
         existingItem.quantity = newQuantity;
-       const newItems = state.items;
+        const newItems = state.items;
 
         const updatedArray = newItems.map((value) => {
           if (value.id === 4) {
             return {
               ...value,
               quantity: newQuantity,
-              Totalprice: value.price*newQuantity,
+              Totalprice: value.price * newQuantity,
             };
           } else {
-            return value; 
+            return value;
           }
         });
 
@@ -71,7 +71,7 @@ const cartSlice = createSlice({
         }, 0)
         let colorsStock = item && item.filter?.reduce((parentAccume: number, parentvalue: any) => {
           const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-    
+
             if (value.stock) {
               return accum + Number(value.stock);
             }
@@ -79,7 +79,7 @@ const cartSlice = createSlice({
           }, 0);
           return parentAccume + countedStock;
         }, 0);
-    
+
         const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : item?.stock || 0;
         console.log(totalStock, item.quantity, "cartItems")
 
@@ -99,15 +99,16 @@ const cartSlice = createSlice({
 
     removeItem: (state, action: PayloadAction<CartItem>) => {
       const { id, selectedSize, selectedfilter } = action.payload;
-      if (selectedfilter && !selectedSize) {
-        state.items = state.items.filter(
-          (item) => !(item.id === id && (item.selectedfilter?.name === selectedfilter.name && item.selectedSize === null))
-        );
-      } else if (selectedfilter && selectedSize) {
+      if (selectedfilter && selectedSize) {
         state.items = state.items.filter(
           (item) => !(item.id === id && item.selectedSize?.name === selectedSize?.name && item.selectedfilter?.name === selectedfilter?.name)
         );
-      } else {
+      } else if (selectedfilter) {
+        state.items = state.items.filter(
+          (item) => !(item.id === id && (item.selectedfilter?.name === selectedfilter.name))
+        );
+      }
+      else {
         state.items = state.items.filter((item) => item.id !== action.payload.id);
       }
     },
@@ -173,9 +174,9 @@ export const variationProductImage = (item: CartItem) => {
     (image) => image.color === item.selectedfilter?.name
   );
   const sizeImage = item.productImages.find(
-    (image) => image.color === item.selectedSize?.name
+    (image) => image.size === item.selectedSize?.name && image.color === item.selectedfilter?.name
   );
-  if (sizeImage && filterImage) {
+  if (sizeImage) {
     return sizeImage.imageUrl;
   } else if (filterImage) {
     return filterImage.imageUrl;

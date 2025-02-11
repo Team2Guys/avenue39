@@ -83,9 +83,9 @@ const ProductDetail = ({
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
   const [customImages, setCustomImages] = useState<any>([]);
-    const [isOutStock, setIsOutStock] = useState<boolean>(false)
-    const [totalStock, setTotalStock] = useState<number>(0)
-  
+  const [isOutStock, setIsOutStock] = useState<boolean>(false)
+  const [totalStock, setTotalStock] = useState<number>(0)
+
 
   const product = params ? params : products?.find((product) => product.name === slug);
 
@@ -94,8 +94,7 @@ const ProductDetail = ({
 
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
-    setSelectedSize(null);
-    setSize(null)
+    setSelectedSize(0);
     setFilter(item)
   };
 
@@ -103,7 +102,7 @@ const ProductDetail = ({
     setSelectedSize(index);
     setSize(size)
   };
-  
+
 
   useEffect(() => {
     if (!product) return;
@@ -129,7 +128,6 @@ const ProductDetail = ({
       );
 
       setAvailableSizes(sizesForColor);
-
       const filteredImages = product.productImages.filter(
         (img) => img.color === activeColor &&
           (selectedSize === null || (sizesForColor && img.size === sizesForColor[selectedSize]?.name))
@@ -146,6 +144,8 @@ const ProductDetail = ({
       const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
       const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
+      const defualtSize: any = product?.sizes?.find((prod) => prod.name === (sizesForColor && sizesForColor[0].name));
+      setSize(defualtSize);
     } else {
       setAvailableSizes([]);
       setProductImage([]);
@@ -182,17 +182,16 @@ const ProductDetail = ({
 
       setIsOutStock(true)
     }
-    let firstcolor = (product &&  product?.filter) && product?.filter[0]?.additionalInformation[0]
-    const size:any = (product &&  product?.sizes) && product?.sizes[0]
+    let firstcolor = (product && product?.filter) && product?.filter[0]?.additionalInformation[0]
+    const size: any = (product && product?.sizes) && product?.sizes[0]
     setFilter(firstcolor)
     setSize(size)
-
   }
 
 
 
 
-/* eslint-disable */
+  /* eslint-disable */
 
   useEffect(() => {
 
@@ -255,8 +254,8 @@ const ProductDetail = ({
 
   const onIncrement = () => {
     const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    console.log(variationQuantity, totalStock, "totakStock")
-    if (count < (totalStock || totalStock)) {
+    console.log(variationQuantity, itemToAdd, totalStock, "totakStock", availableSizes)
+    if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {
       toast.error(`Only ${variationQuantity} items in stock!`);
@@ -272,16 +271,14 @@ const ProductDetail = ({
   };
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
     console.log(existingCartItem, "cartItems")
-    if(!existingCartItem){
+    if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
-      return 
+      return
     }
-
-   
 
     let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
       if (value.stock) {
@@ -317,22 +314,41 @@ const ProductDetail = ({
   };
 
 
-  console.log(cartItems  , "cartItems")
+  console.log(cartItems, "cartItems")
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find(
-      (item: any) =>
-        item.id === product?.id &&
-        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-        item.selectedfilter?.name === itemToAdd.selectedfilter?.name
-    );
+    const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    console.log(existingCartItem, "cartItems")
+    if (!existingCartItem) {
+      dispatch(addItem(itemToAdd));
+      dispatch(openDrawer());
+      return
+    }
+
+    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
+      if (value.stock) {
+        return accum += Number(value.stock)
+      }
+      return 0;
+    }, 0)
+    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
+      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+
+        if (value.stock) {
+          return accum + Number(value.stock);
+        }
+        return accum;
+      }, 0);
+      return parentAccume + countedStock;
+    }, 0);
+
+    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
+
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity =
-      itemToAdd.selectedSize?.stock ||
-      itemToAdd.selectedfilter?.stock ||
-      product.stock;
-    if (product?.stock && newQuantity > product.stock) {
+    const variationQuantity = totalStock
+    if (newQuantity > totalStock) {
       toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;
     } else if (newQuantity > variationQuantity) {
@@ -344,18 +360,7 @@ const ProductDetail = ({
   };
 
   const handleAddToWishlist = (product: IProduct) => {
-    // const newWishlistItem = {
-    //   id: product.id,
-    //   name: product.name,
-    //   price: product.price,
-    //   posterImageUrl: product.posterImageUrl,
-    //   discountPrice: product.discountPrice,
-    //   count: 1,
-    //   stock: product.stock,
-    //   totalPrice: product.discountPrice ? product.discountPrice : product.price,
-    //   categories: product.categories,
-    //   subcategories: product.subcategories, 
-    // };
+
     console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const existingItemIndex = existingWishlist.findIndex(
@@ -391,7 +396,7 @@ const ProductDetail = ({
 
     <div
       className={`flex flex-col md:flex-row w-full justify-between font-helvetica overflow-hidden ${gap} my-6 relative`}
-    >   
+    >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
           thumbs={productImage.length > 0 ? productImage : customImages}
@@ -621,23 +626,23 @@ const ProductDetail = ({
                 </button>
               </div>
             </div>
-{isOutStock ? null : 
-            <Button
-              className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
-              onClick={(e: any) => handleBuyNow(e)}
-            >
-              <CiShoppingCart size={20} /> BUY IT NOW
-            </Button>
-}
+            {isOutStock ? null :
+              <Button
+                className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
+                onClick={(e: any) => handleBuyNow(e)}
+              >
+                <CiShoppingCart size={20} /> BUY IT NOW
+              </Button>
+            }
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
               <Button
                 variant={'main'}
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) => isOutStock?()=>{} :  handleAddToCard(e)}
+                onClick={(e: any) => isOutStock ? () => { } : handleAddToCard(e)}
                 disable={isOutStock}
-              
+
               >
-           {isOutStock ? "Out of Stock"  :    "Add to cart"}
+                {isOutStock ? "Out of Stock" : "Add to cart"}
               </Button>
               <Button
                 variant='outline'
@@ -648,7 +653,7 @@ const ProductDetail = ({
               </Button>
 
             </div>
-           
+
           </>
         )}
 

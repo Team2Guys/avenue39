@@ -351,8 +351,8 @@ export const homeProducts: IHomeProducts[] = [
         posterImageUrl: '/images/HomeProducts/Bedroom/Vista.webp',
       },
       {
-        name: 'Milano Sofa Bed ',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Vista.webp',
+        name: 'Melodia Sofa Bed',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Melodia.webp',
       },
       {
         name: 'Yakuba Side Table',

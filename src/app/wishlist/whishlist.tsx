@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import TopHero from '@/components/top-hero';
 import { wishbredcrumbs } from '@/data/data';
 import Container from '@/components/ui/Container';
-import Counter from '@/components/Counter/Counter';
 import { message } from 'antd';
 import { addItem, variationProductImage } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
@@ -17,6 +16,7 @@ import { FaTrash } from 'react-icons/fa';
 import { State } from '@/redux/store';
 import { ChangeUrlHandler } from '@/config/fetch';
 import { toast } from 'react-toastify';
+import Counter from '@/components/counter';
 interface IProduct {
   id: string;
   name: string;
@@ -25,106 +25,142 @@ interface IProduct {
   posterImageUrl: string;
   count: number;
   stock: number;
-  selectedSize: any,
-  selectedfilter: any,
+  selectedSize: any;
+  selectedfilter: any;
 }
 
 const WishlistPage = () => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State) => state.cart.items);
-  const [wishlist, setWishlist] = useState<IProduct[]>([]);
+  const [wishlist, setWishlist] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlist(storedWishlist);
   }, []);
 
-  const handleCountChange = (id: string, newCount: number) => {
+  const handleDeleteItem = (id: number) => {
+      const updatedWishlist = wishlist.filter((item) => item.id !== id);
+      setWishlist(updatedWishlist);
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      message.success('Product removed from Wishlist successfully!');
+      window.dispatchEvent(new Event('WishlistChanged'));
+    };
+        
+  const updateProductQuantity = (item: CartItem) => {
     setWishlist((prevWishlist) => {
-      const updatedWishlist = prevWishlist.map((item) => {
-        if (item.id === id) {
-          const maxStock = Number(item.stock) || 0; // Ensure stock is a number
-  
-          if (newCount > maxStock) {
-            message.error(`Only ${maxStock} items are in stock. Please reduce the quantity.`);
-            return item; // Prevent updating with an invalid count
-          }
-  
-          return { ...item, count: newCount };
+      const updatedWishlist = prevWishlist.map((wishlistItem) => {
+        if (wishlistItem.id === item.id) {
+          return { ...wishlistItem, quantity: item.quantity };
         }
-        return item;
+        return wishlistItem;
       });
-  
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-      return updatedWishlist; // Ensure state updates correctly
+
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      return updatedWishlist;
     });
+    // console.log(existingCartItem, 'cartItems');
+    const variationQuantity =
+      item.selectedSize?.stock || item.selectedfilter?.stock || item.stock;
+    console.log(item, 'first');
+    if (item.quantity > 0) {
+      if (item.quantity > variationQuantity) {
+        toast.error('Insufficient stock. Please reduce quantity.');
+      }
+    }
   };
   
-  const handleDeleteItem = (id: string) => {
-    const updatedWishlist = wishlist.filter((item) => item.id !== id);
-    setWishlist(updatedWishlist);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    message.success('Product removed from Wishlist successfully!');
-    window.dispatchEvent(new Event('WishlistChanged'));
-  };
-  
-  const handleAddToCart = (product: IProduct) => {
-   console.log(product,"product")
-     const itemToAdd: any = {
-       ...product,
-       quantity: product.count,
-       selectedSize: product?.selectedSize,
-       selectedfilter: product?.selectedfilter,
-     };
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
-    console.log(existingCartItem, "cartItems")
-    if(!existingCartItem){
+
+    const handleAddToCart = (product: any) => {
+      console.log(product, 'product');
+      const itemToAdd: any = {
+        ...product,
+        quantity: product.quantity,
+        selectedSize: product?.selectedSize,
+        selectedfilter: product?.selectedfilter,
+      };
+    
+      const existingCartItem = cartItems.find(
+        (item: any) =>
+          item.id === itemToAdd?.id &&
+          item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+          item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
+      );
+    
+      console.log(existingCartItem, 'cartItems');
+    
+      if (!existingCartItem) {
+        dispatch(addItem(itemToAdd));
+        const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+        setWishlist(updatedWishlist);
+        localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+        window.dispatchEvent(new Event('WishlistChanged'));
+        return
+      }
+    
+      let sizesStock =
+        itemToAdd?.sizes?.reduce((accum: number, value: any) => {
+          if (value.stock) {
+            return (accum += Number(value.stock));
+          }
+          return 0;
+        }, 0);
+      
+      let colorsStock =
+        itemToAdd?.filter?.reduce((parentAccume: number, parentvalue: any) => {
+          const countedStock = parentvalue.additionalInformation.reduce(
+            (accum: number, value: any) => {
+              if (value.stock) {
+                return accum + Number(value.stock);
+              }
+              return accum;
+            },
+            0,
+          );
+          return parentAccume + countedStock;
+        }, 0);
+    
+      const totalStock =
+        sizesStock && sizesStock > 0
+          ? sizesStock
+          : colorsStock && colorsStock > 0
+            ? colorsStock
+            : itemToAdd?.stock || 0;
+    
+      const currentQuantity = existingCartItem?.quantity || 0;
+      const newQuantity = currentQuantity + itemToAdd.quantity;
+      const variationQuantity = totalStock;
+    
+      if (newQuantity > totalStock) {
+        toast.error(
+          `Only ${product.stock} items are in stock. You cannot add more than that.`,
+        );
+        return;
+      } else if (newQuantity > variationQuantity) {
+        toast.error(
+          `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`,
+        );
+        return;
+      }
+    
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
-      return 
-    }
+    
+      // **Remove item from wishlist after adding to cart**
+      const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+      setWishlist(updatedWishlist);
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      window.dispatchEvent(new Event('WishlistChanged'));
+    
+      message.success('Product moved to Cart successfully!');
+    };
 
-   
-
-    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum:number, value: any) => {
-      if (value.stock) {
-        return accum += Number(value.stock)
-      }
-      return 0;
-    }, 0)
-    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
-      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-        if (value.stock) {
-          return accum + Number(value.stock);
-        }
-        return accum;
-      }, 0);
-      return parentAccume + countedStock;
-    }, 0);
-
-    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
-
-    const currentQuantity = existingCartItem?.quantity || 0;
-    const newQuantity = currentQuantity + itemToAdd.quantity    ;
-    const variationQuantity = totalStock
-    if (newQuantity > totalStock) {
-      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
-      return;
-    } else if (newQuantity > variationQuantity) {
-      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
-      return;
-    }
-    dispatch(addItem(itemToAdd));
-    dispatch(openDrawer());
-  };
-console.log(wishlist,"wishlist")
+  console.log(wishlist, 'wishlist');
   return (
     <>
       <TopHero breadcrumbs={wishbredcrumbs} />
       {wishlist.length > 0 ? (
-        wishlist.map((product, index) => (
+        wishlist.map((product: any, index) => (
           <Container
             className="grid grid-cols-12 gap-3  bg-white shadow my-5 items-center mt-2 py-2"
             key={index}
@@ -143,7 +179,14 @@ console.log(wishlist,"wishlist")
                 <div className="space-y-2 py-2 md:py-0">
                   <Link href={ChangeUrlHandler(product as any)}>
                     <span className="font-medium text-14 lg:text-16">
-                      {product.name + (product.selectedSize?.name ? ' - ' + product.selectedSize.name + ' (' + product.selectedfilter.name +') ' : '')}
+                      {product.name +
+                        (product.selectedSize?.name
+                          ? ' - ' +
+                            product.selectedSize.name +
+                            ' (' +
+                            product.selectedfilter.name +
+                            ') '
+                          : '')}
                       {/* {product.name} */}
                     </span>
                   </Link>
@@ -152,21 +195,26 @@ console.log(wishlist,"wishlist")
                       <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                         AED{' '}
                         <span>
-                          {
-                            product.selectedSize 
-                            ? (product.selectedSize?.discountPrice > 0 
-                                ? product.selectedSize.discountPrice 
-                                : product.selectedSize.price) 
-                            : (Number(product.discountPrice) > 0 
-                                ? product.discountPrice 
-                                : product.price)
-                          }
+                          {product.selectedSize
+                            ? product.selectedSize?.discountPrice > 0
+                              ? product.selectedSize.discountPrice
+                              : product.selectedSize.price
+                            : Number(product.discountPrice) > 0
+                              ? product.discountPrice
+                              : product.price}
                         </span>
                       </p>
-                      {(Number(product.selectedSize?.discountPrice) > 0 && Number(product.selectedSize?.price) > Number(product.selectedSize?.discountPrice)) ||
-                      (Number(product.discountPrice) > 0 && Number(product.price) > Number(product.discountPrice)) ? (
+                      {(Number(product.selectedSize?.discountPrice) > 0 &&
+                        Number(product.selectedSize?.price) >
+                          Number(product.selectedSize?.discountPrice)) ||
+                      (Number(product.discountPrice) > 0 &&
+                        Number(product.price) >
+                          Number(product.discountPrice)) ? (
                         <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                          AED <span>{product.selectedSize?.price ?? product.price}</span>
+                          AED{' '}
+                          <span>
+                            {product.selectedSize?.price ?? product.price}
+                          </span>
                         </p>
                       ) : null}
 
@@ -180,9 +228,18 @@ console.log(wishlist,"wishlist")
                     </div>
                     <div className="flex flex-wrap gap-4 items-center ">
                     <Counter
-                        count={product.count || 1} // Ensure count is always at least 1
-                        onChangeCount={(newCount) => handleCountChange(product.id, newCount)}
-                      />
+                          count={product.quantity}
+                          stock={product.selectedSize?.stock ?? product.stock}
+                          onIncrement={() => {
+                            const updatedItem = { ...product, quantity: product.quantity + 1 };
+                            updateProductQuantity(updatedItem);
+                          }}
+                          onDecrement={() => {
+                            const updatedItem = { ...product, quantity: product.quantity - 1 };
+                            updateProductQuantity(updatedItem);
+                          }}
+                        />
+
                       <button
                         className="bg-main px-2 lg:px-4 py-2 rounded-md text-white w-fit"
                         onClick={() => handleAddToCart(product)}
@@ -196,9 +253,18 @@ console.log(wishlist,"wishlist")
             </div>
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-2 2xl:col-span-2">
             <Counter
-                  count={product.count || 1} // Ensure count is always at least 1
-                  onChangeCount={(newCount) => handleCountChange(product.id, newCount)}
-                />
+                count={product.quantity}
+                stock={product.selectedSize?.stock ?? product.stock}
+                onIncrement={() => {
+                  const updatedItem = { ...product, quantity: product.quantity + 1 };
+                  updateProductQuantity(updatedItem);
+                }}
+                onDecrement={() => {
+                  const updatedItem = { ...product, quantity: product.quantity - 1 };
+                  updateProductQuantity(updatedItem);
+                }}
+              />
+
             </div>
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-3 2xl:col-span-3">
               <div className="flex items-center justify-evenly gap-1 lg:gap-4">
@@ -206,20 +272,22 @@ console.log(wishlist,"wishlist")
                   <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                     AED{' '}
                     <span>
-                    {
-                            product.selectedSize 
-                            ? (product.selectedSize?.discountPrice > 0 
-                                ? product.selectedSize.discountPrice 
-                                : product.selectedSize.price) 
-                            : (Number(product.discountPrice) > 0 
-                                ? product.discountPrice 
-                                : product.price)
-                          }
+                      {product.selectedSize
+                        ? product.selectedSize?.discountPrice > 0
+                          ? product.selectedSize.discountPrice
+                          : product.selectedSize.price
+                        : Number(product.discountPrice) > 0
+                          ? product.discountPrice
+                          : product.price}
                     </span>
                   </p>
-                  {(product.selectedSize?.discountPrice > 0 || product.discountPrice > 0) && (
+                  {(product.selectedSize?.discountPrice > 0 ||
+                    product.discountPrice > 0) && (
                     <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                      AED <span>{product.selectedSize?.price ?? product.price}</span>
+                      AED{' '}
+                      <span>
+                        {product.selectedSize?.price ?? product.price}
+                      </span>
                     </p>
                   )}
                 </div>

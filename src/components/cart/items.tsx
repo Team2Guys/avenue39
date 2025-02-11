@@ -63,8 +63,6 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       }
     }
   };
-
-
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };

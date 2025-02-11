@@ -17,6 +17,7 @@ import { generateSlug } from '@/config';
 import { MdModeEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 import { State } from '@/redux/store';
+import { ChangeUrlHandler } from '@/config/fetch';
 interface IProduct {
   id: string;
   name: string;
@@ -138,7 +139,7 @@ const WishlistPage = () => {
           >
             <div className="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-5 2xl:col-span-6">
               <div className="flex items-center gap-3">
-                <Link href={`/products/${generateSlug(product.name)}`}>
+                <Link href={ChangeUrlHandler(product as any , product.categories, product.subcategories)}>
                   <Image
                     className="w-[120px] h-[120px] rounded-md"
                     width={300}
@@ -167,9 +168,6 @@ const WishlistPage = () => {
                         </p>
                       )}
                       <div className="flex items-center gap-4">
-                        <Link href={`/product/${generateSlug(product.name)}`}>
-                          <MdModeEdit className="cursor-pointer" size={20} />
-                        </Link>
                         <FaTrash
                           className="cursor-pointer"
                           size={15}
@@ -221,9 +219,6 @@ const WishlistPage = () => {
                   )}
                 </div>
                 <div className="flex items-center gap-4">
-                  <Link href={`/product/${generateSlug(product.name)}`}>
-                    <MdModeEdit className="cursor-pointer" size={20} />
-                  </Link>
                   <FaTrash
                     className="cursor-pointer"
                     size={15}

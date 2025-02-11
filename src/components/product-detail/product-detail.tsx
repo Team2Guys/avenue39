@@ -31,7 +31,7 @@ import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
 // import paymenticons from '@icons/payment-icons.png';
 import { CartItem, CartSize } from '@/redux/slices/cart/types';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
 import { calculateRatingsPercentage, renderStars } from '@/config';
@@ -85,7 +85,11 @@ const ProductDetail = ({
   const [customImages, setCustomImages] = useState<any>([]);
     const [isOutStock, setIsOutStock] = useState<boolean>(false)
     const [totalStock, setTotalStock] = useState<number>(0)
+    const pathname = usePathname();
+    const pathSegments = pathname.split("/").filter(Boolean); // Remove empty segments
   
+    const mainCatgor = pathSegments[0] || ""; // First part of the path
+    const SubcategoryName = pathSegments[1] || ""; // Second part of the path
 
   const product = params ? params : products?.find((product) => product.name === slug);
 
@@ -281,10 +285,6 @@ const ProductDetail = ({
       return 
     }
 
-
-    
-
-
    
 
     let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
@@ -346,8 +346,13 @@ const ProductDetail = ({
     dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
+ 
 
-  const handleAddToWishlist = (product: IProduct) => {
+  const handleAddToWishlist = (
+    product: IProduct,
+    mainCatgor: string,
+    SubcategoryName: string
+  )=> {
     const newWishlistItem = {
       id: product.id,
       name: product.name,
@@ -357,6 +362,8 @@ const ProductDetail = ({
       count: 1,
       stock: product.stock,
       totalPrice: product.discountPrice ? product.discountPrice : product.price,
+      mainCatgor: mainCatgor || "", // Main category
+      SubcategoryName: SubcategoryName || "", // Subcategory
     };
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const existingItemIndex = existingWishlist.findIndex(
@@ -643,7 +650,7 @@ const ProductDetail = ({
               <Button
                 variant='outline'
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={() => handleAddToWishlist(product)}
+                onClick={() => handleAddToWishlist(product, SubcategoryName, mainCatgor)}
               >
                 Add to Wishlist
               </Button>

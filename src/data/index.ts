@@ -1425,8 +1425,8 @@ export const TermsCondition = [
     title: "Warranty & Product Care",
     description: [
       "All of Avenue39's products come backed by a limited guarantee against manufacturing faults. Each product has different warranty coverage.",
-      "Damage brought on by regular wear and use, misconduct, incorrect installation, or exposure to extreme conditions is not covered by the guarantee.",
-      "To ensure lifetime, customers must follow the product care instructions."
+      "Damage brought on by regular wear and tear, misconduct, incorrect installation, or exposure to extreme conditions is not covered by the guarantee.",
+      "To ensure lifespan of products, customers must follow the product care instructions."
     ]
   },
   {

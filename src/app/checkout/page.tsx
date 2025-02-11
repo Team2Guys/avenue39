@@ -119,15 +119,19 @@ const Checkout = () => {
       // Create a shallow copy of the item
       const { sizes, filter, ...updatedItem } = item;
     
+      console.log(sizes, filter)
+
       // Check for selectedSize and selectedfilter
       if (updatedItem.selectedSize) {
         const { price, discountPrice, ...updatedSize  } = updatedItem.selectedSize;
         updatedItem.selectedSize = updatedSize as any; // Keep only the properties you want
+        console.log(price, discountPrice)
       }
     
       if (updatedItem.selectedfilter) {
         const { price, discountPrice, ...updatedFilter } = updatedItem.selectedfilter;
         updatedItem.selectedfilter = updatedFilter as any; // Keep only the properties you want
+        console.log(price, discountPrice)
       }
     
       return updatedItem; // Return the updated item

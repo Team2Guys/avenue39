@@ -260,7 +260,7 @@ const Footer: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="pt-5 text-black text-center w-fit mr-auto">
+          <div className="pt-5 text-black text-center w-fit mx-auto">
             <SocialLink socialSize="md:text-[25px]" iconColor={'text-black'} />
           </div>
           </div>

@@ -95,8 +95,6 @@ const ProductDetail = ({
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
     setSelectedSize(0);
-    const defualtSize: any = product?.sizes?.at(0);
-    setSize(defualtSize);
     setFilter(item)
   };
 
@@ -130,7 +128,6 @@ const ProductDetail = ({
       );
 
       setAvailableSizes(sizesForColor);
-
       const filteredImages = product.productImages.filter(
         (img) => img.color === activeColor &&
           (selectedSize === null || (sizesForColor && img.size === sizesForColor[selectedSize]?.name))
@@ -147,6 +144,8 @@ const ProductDetail = ({
       const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
       const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
+      const defualtSize: any = product?.sizes?.find((prod) => prod.name === (sizesForColor && sizesForColor[0].name));
+      setSize(defualtSize);
     } else {
       setAvailableSizes([]);
       setProductImage([]);
@@ -255,7 +254,7 @@ const ProductDetail = ({
 
   const onIncrement = () => {
     const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    console.log(variationQuantity, totalStock, "totakStock")
+    console.log(variationQuantity, itemToAdd, totalStock, "totakStock", availableSizes)
     if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {

@@ -63,8 +63,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       }
     }
   };
-
-
+  console.log(cartItems,'cartItems')
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };
@@ -212,7 +211,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                                   ).toLocaleString()}
                                 </span>
                               </ProductPrice>
-                              : item.discountPrice > 0 ? (
+                              : (item.discountPrice !== item.price) && item.discountPrice > 0 ? (
                                 <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                   <span>
                                     AED{' '}
@@ -366,7 +365,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                           ).toLocaleString()}
                         </span>
                       </ProductPrice> :
-                      item.discountPrice > 0 ? (
+                      (item.discountPrice !== item.price) && item.discountPrice > 0 ? (
                         <>
                           <p className="text-16 xs:text-18 font-bold text-nowrap">
                             AED <span>{item?.discountPrice * item.quantity}</span>
@@ -446,7 +445,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                         ).toLocaleString()}
                       </span>
                     </ProductPrice>
-                    : item.discountPrice > 0 ? (
+                    : (item.discountPrice !== item.price) && item.discountPrice > 0 ? (
                       <>
                         <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
                           AED{' '}
@@ -465,7 +464,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                       </>
                     ) : (
                       <>
-                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-center w-full pl-20">
+                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
                           AED{' '}
                           <span>
                             {(item?.price * item.quantity).toLocaleString()}

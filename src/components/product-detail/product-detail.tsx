@@ -272,34 +272,27 @@ const ProductDetail = ({
   };
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&
-        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-        item.selectedfilter?.name === itemToAdd.selectedfilter?.name
-    );
-
-    dispatch(addItem(itemToAdd));
-    dispatch(openDrawer());
-
-    // if(!existingCartItem){
-    //   console.log(itemToAdd, "existingCartItem", filter)
-    //   dispatch(addItem(itemToAdd));
-    //   dispatch(openDrawer());
-    //   return 
-    // }
+    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id)
+    if(!existingCartItem){
+      console.log(itemToAdd, "existingCartItem", filter)
+      dispatch(addItem(itemToAdd));
+      dispatch(openDrawer());
+      return 
+    }
 
    
-    // const currentQuantity = existingCartItem?.quantity || 0;
-    // const newQuantity = currentQuantity + count;
-    // const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    // if (product?.stock && newQuantity > product.stock) {
-    //   toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
-    //   return;
-    // } else if (newQuantity > variationQuantity) {
-    //   toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
-    //   return;
-    // }
-    // dispatch(addItem(itemToAdd));
-    // dispatch(openDrawer());
+    const currentQuantity = existingCartItem?.quantity || 0;
+    const newQuantity = currentQuantity + count;
+    const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
+    if (product?.stock && newQuantity > product.stock) {
+      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+      return;
+    }
+    dispatch(addItem(itemToAdd));
+    dispatch(openDrawer());
   };
 
 

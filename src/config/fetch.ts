@@ -64,7 +64,6 @@ export const TrimUrlHandler = (name: string | undefined) => {
 
 export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, mainCatgor?: string) => {
   if (!product) return '';
-  console.log(product, product.subcategories,  "categoriesMatch")
 
   let url = '';
   const categoryFlag = product?.subcategories && product?.subcategories?.length > 0 && product?.categories && product?.categories?.length > 0;
@@ -73,14 +72,9 @@ export const ChangeUrlHandler = (product: IProduct, SubcategoryName?: string, ma
     const categoriesMatch = product?.categories && product?.categories.some((cat: any) => cat.name.trim().toLowerCase() === prod.mainCategory.trim().toLowerCase()
   );
     const subCategoryMatch = product?.subcategories && product?.subcategories.some((cat: any) =>(cat.custom_url ||cat.name).trim().toLowerCase() === prod.subCategory.trim().toLowerCase());
-
-    
-  console.log( categoriesMatch, "categoriesMatch", subCategoryMatch)
-
         return categoriesMatch && subCategoryMatch;
   });
 
-  console.log(filteredProduct, "categoriesMatch", categoryFlag)
 
   if (filteredProduct) {
     const cat = product?.categories && product?.categories.find((cat: any) => (cat.custom_url ||cat.name).trim().toLowerCase() === filteredProduct.redirect_main_cat.trim().toLowerCase());

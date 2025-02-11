@@ -1,11 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from './types';
 import { message } from 'antd';
-import { openDrawer } from '../drawer';
 
 interface CartState {
   items: CartItem[];
 }
+const getItemPrice = (item: CartItem) => {
+  let price;
+  if (item.selectedSize) {
+    price = Number(item.selectedSize.discountPrice)
+      ? Number(item.selectedSize.discountPrice)
+      : Number(item.selectedSize.price);
+  } else if (item.selectedfilter) {
+    price = Number(item.selectedfilter.discountPrice)
+      ? Number(item.selectedfilter.discountPrice)
+      : Number(item.selectedfilter.price);
+  } else {
+    price = item.discountPrice ? item.discountPrice : item.price;
+  }
+  return price;
+};
+
+
 const initialState: CartState = {
   items: [],
 };
@@ -13,70 +29,46 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem: (state: any, action: PayloadAction<CartItem>) => {
+    addItem: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existingItem = state.items.find((i: any) => i.id === item.id);
+      const existingItem = state.items.find((i) =>i.id === item.id );
 
-      const getItemPrice = (item: CartItem) => {
-        let price;
-        if (item.selectedSize) {
-          price = Number(item.selectedSize.discountPrice) ? Number(item.selectedSize.discountPrice) : Number(item.selectedSize.price);
-        } else if (item.selectedfilter) {
-          price = Number(item.selectedfilter.discountPrice)
-            ? Number(item.selectedfilter.discountPrice)
-            : Number(item.selectedfilter.price);
-        } else {
-          price = item.discountPrice ? item.discountPrice : item.price;
-        }
-        return price;
-      };
-
-
-      if ((!existingItem)) {
-        console.log(existingItem, "existingItem")
-
-
-        const newQuantity = existingItem?.quantity + item.quantity;
-
+      if (existingItem) {
+        const newQuantity = existingItem.quantity + item.quantity;
         if (newQuantity > (item.stock || 0)) {
           message.error(
             `Only ${item?.stock} items are in stock. You cannot add more.`
           );
           return;
         }
+        existingItem.quantity = newQuantity;
+       const newItems = state.items;
 
-        const price = getItemPrice(item);
-
-        const updatedArray = state.items.map((value: any) => {
-          if (value.id === existingItem.id) {
+        const updatedArray = newItems.map((value) => {
+          if (value.id === 4) {
             return {
               ...value,
               quantity: newQuantity,
-              totalPrice: newQuantity * price,
-              price: price
-
+              Totalprice: value.price*newQuantity,
             };
+          } else {
+            return value; 
           }
-
         });
-
-        state.items = updatedArray
-
-        openDrawer()
-
-      }
-      else {
+        state.items = updatedArray;
 
 
-        console.log(item, "existingItem")
-
+      } else {
+        if (item.quantity > (item.stock || 0)) {
+          message.error(`Cannot add more than ${item.stock} items to the cart.`);
+          return;
+        }
         const price = getItemPrice(item);
         const discountPrice = price;
         state.items.push({
           ...item,
           price,
           discountPrice,
-          totalPrice: price
         });
       }
     },

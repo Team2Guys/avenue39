@@ -192,6 +192,15 @@ const Card: React.FC<CardProps> = ({
     <div
       className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
+        
+      <div
+                    onClick={(e) => handleAddToWishlist(e, card)}
+                    onMouseEnter={() => setIsHoverImage(true)}
+                    onMouseLeave={() => setIsHoverImage(false)}
+                    className="absolute top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+                  >
+                    <IoIosHeartEmpty size={20} />
+                  </div>
         {slider ? (
           <Swiper
             className="mySwiper card-slider-home w-full"
@@ -427,14 +436,7 @@ const Card: React.FC<CardProps> = ({
                 </div>
               ) : (
                 <div className="relative">
-                  <div
-                    onClick={(e) => handleAddToWishlist(e, card)}
-                    onMouseEnter={() => setIsHoverImage(true)}
-                    onMouseLeave={() => setIsHoverImage(false)}
-                    className="absolute top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
-                  >
-                    <IoIosHeartEmpty size={20} />
-                  </div>
+                 
                   <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                     <Image
                       src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}

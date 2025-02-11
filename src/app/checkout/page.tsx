@@ -215,10 +215,11 @@ const Checkout = () => {
                         value={formik.values.first_name}
                       />
                       <LabelInput
-                        label="Last Name"
+                        label="Last Name *"
                         id="last_name"
                         name="last_name"
                         type="text"
+                        required
                         onChange={formik.handleChange}
                         value={formik.values.last_name}
                       />

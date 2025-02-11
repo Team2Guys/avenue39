@@ -63,6 +63,7 @@ const CheckoutForm = () => {
             placeholder="Enter last Name"
             onChange={formik.handleChange}
             value={formik.values.lastName}
+            required
           />
         </div>
         <LabelInput

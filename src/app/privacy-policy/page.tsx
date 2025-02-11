@@ -27,12 +27,13 @@ export const metadata: Metadata = {
 const PrivacyPolicy: React.FC = () => {
   return (
     <>
-      <TopHero title="Privacy-Policy" breadcrumbs={PrivacyPolicybredcrumbs} />
+      <TopHero breadcrumbs={PrivacyPolicybredcrumbs} />
       <div>
+      <h1 className='text-center text-[36px] font-medium mt-5'>Privacy-Policy</h1>
         <div className="max-w-5xl mx-auto p-4">
-        <h1 className="text-xl font-semibold mb-2">
+        <h2 className="text-xl font-semibold mb-2">
         Privacy Policy
-          </h1>
+          </h2>
           <p className='text-base'>When you visit www.avenue39.com (the &apos;Website&apos;), we collect, use, disclose, and secure your information under this Privacy Policy. You agree to the terms and conditions stated in this privacy policy by using or accessing our website. If you disagree with any aspect of this policy, we respect your decision to stop using this website.</p>
           {policySections.map((section: any, index: number) => (
             <div key={index} className="mb-6 mt-5">

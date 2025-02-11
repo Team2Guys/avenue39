@@ -342,7 +342,7 @@ html {
 .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
   position: absolute !important;
   left: 7% !important;
-  /* top: 93% !important; */
+  top: 93% !important;
   bottom: 0 !important;
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -355,13 +355,14 @@ html {
   align-items: center !important;
   cursor: pointer !important;
   padding-bottom: 4px !important;
-  z-index: 150 !important;
+  z-index: 30 !important;
   border: 1px solid rgb(240, 238, 238) !important;
+  transform:none !important;
 }
 .slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
   position: absolute !important;
   left: 7% !important;
-  top: 0px !important;
+  top: 1% !important;
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -373,8 +374,9 @@ html {
   align-items: center !important;
   cursor: pointer !important;
   padding-top: 7px !important;
-  z-index: 150 !important;
+  z-index: 30 !important;
   border: 1px solid rgb(240, 238, 238) !important;
+  transform:none !important;
 }
 .slick-next:before, .slick-prev:before {
   content: none !important;

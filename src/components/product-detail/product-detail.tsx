@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
 import { IProduct, IReview, ProductImage } from '@/types/types';
-import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
+import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 // import QRScanner from '../QR-reader/QR';
 import {
@@ -94,8 +94,9 @@ const ProductDetail = ({
 
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
-    setSelectedSize(null);
-    setSize(null)
+    setSelectedSize(0);
+    const defualtSize: any = product?.sizes?.at(0);
+    setSize(defualtSize);
     setFilter(item)
   };
 
@@ -256,7 +257,7 @@ const ProductDetail = ({
   const onIncrement = () => {
     const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
     console.log(variationQuantity, totalStock, "totakStock")
-    if (count < (totalStock || totalStock)) {
+    if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {
       toast.error(`Only ${variationQuantity} items in stock!`);
@@ -272,19 +273,44 @@ const ProductDetail = ({
   };
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id)
+    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    console.log(existingCartItem, "cartItems")
     if(!existingCartItem){
-      console.log(itemToAdd, "existingCartItem", filter)
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
       return 
     }
 
+
+    
+
+
    
+
+    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
+      if (value.stock) {
+        return accum += Number(value.stock)
+      }
+      return 0;
+    }, 0)
+    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
+      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+
+        if (value.stock) {
+          return accum + Number(value.stock);
+        }
+        return accum;
+      }, 0);
+      return parentAccume + countedStock;
+    }, 0);
+
+    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
+
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    if (product?.stock && newQuantity > product.stock) {
+    const variationQuantity = totalStock
+    if (newQuantity > totalStock) {
       toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;
     } else if (newQuantity > variationQuantity) {
@@ -296,6 +322,7 @@ const ProductDetail = ({
   };
 
 
+  console.log(cartItems  , "cartItems")
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(
@@ -421,7 +448,7 @@ const ProductDetail = ({
               ) : null;
             })()}
         </div>
-        <ProductName>{product?.name}</ProductName>
+        <h1 className='font-helvetica text-bold text-[26px] text-primary'>{product?.name}</h1>
         {averageRating > 1 && (
           <>
             <div className="flex gap-2 items-center font-helvetica">

@@ -99,6 +99,8 @@ const Card: React.FC<CardProps> = ({
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>, product: IProduct) => {
     e.stopPropagation();
+
+    console.log(product, "product")
     const newWishlistItem = {
       id: product.id,
       name: product.name,

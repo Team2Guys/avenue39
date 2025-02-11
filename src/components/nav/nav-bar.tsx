@@ -425,7 +425,6 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                       <div className=" p-2 max-h-[600px] overflow-y-auto custom-scrollbar">
                         <div className="flex flex-wrap justify-center gap-2 -m-2">
                           {filteredProducts.map((product: IProduct) => {
-                            console.log(typeof (product.discountPrice), "discount price")
                             return (
                               <DrawerTrigger asChild key={product.id}>
                                 <div

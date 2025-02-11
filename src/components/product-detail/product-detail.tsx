@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
 import { IProduct, IReview, ProductImage } from '@/types/types';
-import { NormalText, ProductName, ProductPrice } from '@/styles/typo';
+import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 // import QRScanner from '../QR-reader/QR';
 import {

@@ -272,19 +272,44 @@ const ProductDetail = ({
   };
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id)
+    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    console.log(existingCartItem, "cartItems")
     if(!existingCartItem){
-      console.log(itemToAdd, "existingCartItem", filter)
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
       return 
     }
 
+
+    
+
+
    
+
+    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
+      if (value.stock) {
+        return accum += Number(value.stock)
+      }
+      return 0;
+    }, 0)
+    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
+      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+
+        if (value.stock) {
+          return accum + Number(value.stock);
+        }
+        return accum;
+      }, 0);
+      return parentAccume + countedStock;
+    }, 0);
+
+    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
+
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    if (product?.stock && newQuantity > product.stock) {
+    const variationQuantity = totalStock
+    if (newQuantity > totalStock) {
       toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
       return;
     } else if (newQuantity > variationQuantity) {
@@ -296,6 +321,7 @@ const ProductDetail = ({
   };
 
 
+  console.log(cartItems  , "cartItems")
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(

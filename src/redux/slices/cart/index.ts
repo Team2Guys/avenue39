@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from './types';
 import { message } from 'antd';
+import { toast } from 'react-toastify';
 
 interface CartState {
   items: CartItem[];
@@ -31,7 +32,8 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existingItem = state.items.find((i) =>i.id === item.id );
+      const existingItem = state.items.find((i) =>i.id === item.id &&   i.selectedSize?.name === item.selectedSize?.name &&
+      i.selectedfilter?.name === item.selectedfilter?.name );
 
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
@@ -55,12 +57,34 @@ const cartSlice = createSlice({
             return value; 
           }
         });
+
+        console.log(updatedArray, "cartItems")
         state.items = updatedArray;
 
 
       } else {
-        if (item.quantity > (item.stock || 0)) {
-          message.error(`Cannot add more than ${item.stock} items to the cart.`);
+        let sizesStock = item && item.sizes?.reduce((accum, value: any) => {
+          if (value.stock) {
+            return accum += Number(value.stock)
+          }
+          return 0;
+        }, 0)
+        let colorsStock = item && item.filter?.reduce((parentAccume: number, parentvalue: any) => {
+          const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+    
+            if (value.stock) {
+              return accum + Number(value.stock);
+            }
+            return accum;
+          }, 0);
+          return parentAccume + countedStock;
+        }, 0);
+    
+        const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : item?.stock || 0;
+        console.log(totalStock, item.quantity, "cartItems")
+
+        if (item.quantity > (totalStock || 0)) {
+          toast.error(`Cannot add more than ${item.stock} items to the cart.`);
           return;
         }
         const price = getItemPrice(item);

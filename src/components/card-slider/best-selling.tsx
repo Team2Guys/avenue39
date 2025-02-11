@@ -153,7 +153,7 @@ const BestSellingSlider: React.FC = () => {
             modules={[Navigation, Pagination]}
             className="mySwiper "
           >
-            {processedProducts.map((card) => (
+            {processedProducts.length > 0 && processedProducts.map((card) => (
               <SwiperSlide key={card.id} className="mb-8">
                 <FeatureCard
                   isLoading={isProductsLoading}

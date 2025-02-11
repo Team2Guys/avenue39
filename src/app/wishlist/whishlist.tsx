@@ -6,18 +6,17 @@ import { wishbredcrumbs } from '@/data/data';
 import Container from '@/components/ui/Container';
 import Counter from '@/components/Counter/Counter';
 import { message } from 'antd';
-import { addItem } from '@cartSlice/index';
+import { addItem, variationProductImage } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import Link from 'next/link';
-import { generateSlug } from '@/config';
-import { MdModeEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 import { State } from '@/redux/store';
 import { ChangeUrlHandler } from '@/config/fetch';
+import { toast } from 'react-toastify';
 interface IProduct {
   id: string;
   name: string;
@@ -26,6 +25,8 @@ interface IProduct {
   posterImageUrl: string;
   count: number;
   stock: number;
+  selectedSize: any,
+  selectedfilter: any,
 }
 
 const WishlistPage = () => {
@@ -39,22 +40,26 @@ const WishlistPage = () => {
   }, []);
 
   const handleCountChange = (id: string, newCount: number) => {
-    const updatedWishlist = wishlist.map((item) => {
-      if (item.id === id) {
-        if (newCount > (item.stock || 0)) {
-          message.error(
-            `Only ${item.stock} items are in stock. Please reduce the quantity.`,
-          );
-          return item;
+    setWishlist((prevWishlist) => {
+      const updatedWishlist = prevWishlist.map((item) => {
+        if (item.id === id) {
+          const maxStock = Number(item.stock) || 0; // Ensure stock is a number
+  
+          if (newCount > maxStock) {
+            message.error(`Only ${maxStock} items are in stock. Please reduce the quantity.`);
+            return item; // Prevent updating with an invalid count
+          }
+  
+          return { ...item, count: newCount };
         }
-        return { ...item, count: newCount };
-      }
-      return item;
+        return item;
+      });
+  
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+      return updatedWishlist; // Ensure state updates correctly
     });
-
-    setWishlist(updatedWishlist);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
   };
+  
   const handleDeleteItem = (id: string) => {
     const updatedWishlist = wishlist.filter((item) => item.id !== id);
     setWishlist(updatedWishlist);
@@ -62,72 +67,59 @@ const WishlistPage = () => {
     message.success('Product removed from Wishlist successfully!');
     window.dispatchEvent(new Event('WishlistChanged'));
   };
+  
   const handleAddToCart = (product: IProduct) => {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    //@ts-ignore
-    const existingItem = cartItems.find((item: any) => item.id === product.id);
-    if (existingItem) {
-      const totalQuantity = existingItem.quantity + product.count;
-      if (totalQuantity > (product.stock || 0)) {
-        message.error(
-          `Product already exists in the cart. You cannot add more than ${product.stock} units. Please reduce the quantity.`,
-        );
-        return;
-      }
-      const updatedCart = cart.map((item: IProduct) =>
-        item.id === product.id
-          ? {
-            ...item,
-            count: totalQuantity,
-            totalPrice:
-              (product.discountPrice || product.price) * totalQuantity,
-          }
-          : item,
-      );
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-      window.dispatchEvent(new Event('cartChanged'));
-      message.success('Quantity updated in the cart!');
-    } else {
-      const totalQuantityInCart = cart.reduce(
-        (accum: number, item: IProduct) => {
-          if (item.id === product.id) {
-            return accum + item.count;
-          }
-          return accum;
-        },
-        0,
-      );
-      if (totalQuantityInCart + product.count > (product.stock || 0)) {
-        message.error(
-          `You cannot add more of this product. Total stock is ${product.stock}, and you already have ${totalQuantityInCart} in your cart.`,
-        );
-        return;
-      }
-      if (product.count > (product.stock || 0)) {
-        message.error(
-          `Cannot add to cart. Total stock for this product is ${product.stock}.`,
-        );
-        return;
-      }
-      const newItem = { ...product, count: product.count };
-      cart.push(newItem);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      window.dispatchEvent(new Event('cartChanged'));
-      message.success('Product added to Cart successfully!');
+   console.log(product,"product")
+     const itemToAdd: any = {
+       ...product,
+       quantity: product.count,
+       selectedSize: product?.selectedSize,
+       selectedfilter: product?.selectedfilter,
+     };
+    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    console.log(existingCartItem, "cartItems")
+    if(!existingCartItem){
+      dispatch(addItem(itemToAdd));
+      dispatch(openDrawer());
+      return 
     }
-    const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
-    setWishlist(updatedWishlist);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    window.dispatchEvent(new Event('WishlistChanged'));
-    //@ts-ignore
-    const itemToAdd: CartItem = {
-      ...product,
-      quantity: product.count,
-    };
+
+   
+
+    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum:number, value: any) => {
+      if (value.stock) {
+        return accum += Number(value.stock)
+      }
+      return 0;
+    }, 0)
+    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
+      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+
+        if (value.stock) {
+          return accum + Number(value.stock);
+        }
+        return accum;
+      }, 0);
+      return parentAccume + countedStock;
+    }, 0);
+
+    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
+
+    const currentQuantity = existingCartItem?.quantity || 0;
+    const newQuantity = currentQuantity + itemToAdd.quantity    ;
+    const variationQuantity = totalStock
+    if (newQuantity > totalStock) {
+      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+      return;
+    }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
-
+console.log(wishlist,"wishlist")
   return (
     <>
       <TopHero breadcrumbs={wishbredcrumbs} />
@@ -139,19 +131,20 @@ const WishlistPage = () => {
           >
             <div className="col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-5 2xl:col-span-6">
               <div className="flex items-center gap-3">
-                <Link href={ChangeUrlHandler(product as any , product.categories, product.subcategories)}>
+                <Link href={ChangeUrlHandler(product as any)}>
                   <Image
                     className="w-[120px] h-[120px] rounded-md"
                     width={300}
                     height={300}
-                    src={product.posterImageUrl}
+                    src={variationProductImage(product as any)}
                     alt={product.name}
                   />
                 </Link>
                 <div className="space-y-2 py-2 md:py-0">
-                  <Link href={`/products/${generateSlug(product.name)}`}>
+                  <Link href={ChangeUrlHandler(product as any)}>
                     <span className="font-medium text-14 lg:text-16">
-                      {product.name}
+                      {product.name + (product.selectedSize?.name ? ' - ' + product.selectedSize.name + ' (' + product.selectedfilter.name +') ' : '')}
+                      {/* {product.name} */}
                     </span>
                   </Link>
                   <div className="block md:hidden space-y-2">
@@ -159,14 +152,24 @@ const WishlistPage = () => {
                       <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                         AED{' '}
                         <span>
-                          {Number(product.discountPrice) > 0 ? product.discountPrice : product.price}
+                          {
+                            product.selectedSize 
+                            ? (product.selectedSize?.discountPrice > 0 
+                                ? product.selectedSize.discountPrice 
+                                : product.selectedSize.price) 
+                            : (Number(product.discountPrice) > 0 
+                                ? product.discountPrice 
+                                : product.price)
+                          }
                         </span>
                       </p>
-                      {Number(product.discountPrice) > 0 && Number(product.price) > Number(product.discountPrice) && (
+                      {(Number(product.selectedSize?.discountPrice) > 0 && Number(product.selectedSize?.price) > Number(product.selectedSize?.discountPrice)) ||
+                      (Number(product.discountPrice) > 0 && Number(product.price) > Number(product.discountPrice)) ? (
                         <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                          AED <span>{product.price}</span>
+                          AED <span>{product.selectedSize?.price ?? product.price}</span>
                         </p>
-                      )}
+                      ) : null}
+
                       <div className="flex items-center gap-4">
                         <FaTrash
                           className="cursor-pointer"
@@ -175,12 +178,10 @@ const WishlistPage = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-4 items-center">
-                      <Counter
-                        count={product.count}
-                        onChangeCount={(newCount) =>
-                          handleCountChange(product.id, newCount)
-                        }
+                    <div className="flex flex-wrap gap-4 items-center ">
+                    <Counter
+                        count={product.count || 1} // Ensure count is always at least 1
+                        onChangeCount={(newCount) => handleCountChange(product.id, newCount)}
                       />
                       <button
                         className="bg-main px-2 lg:px-4 py-2 rounded-md text-white w-fit"
@@ -194,12 +195,10 @@ const WishlistPage = () => {
               </div>
             </div>
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-2 2xl:col-span-2">
-              <Counter
-                count={product.count}
-                onChangeCount={(newCount) =>
-                  handleCountChange(product.id, newCount)
-                }
-              />
+            <Counter
+                  count={product.count || 1} // Ensure count is always at least 1
+                  onChangeCount={(newCount) => handleCountChange(product.id, newCount)}
+                />
             </div>
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-3 2xl:col-span-3">
               <div className="flex items-center justify-evenly gap-1 lg:gap-4">
@@ -207,14 +206,20 @@ const WishlistPage = () => {
                   <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                     AED{' '}
                     <span>
-                      {product.discountPrice
-                        ? product.discountPrice
-                        : product.price}
+                    {
+                            product.selectedSize 
+                            ? (product.selectedSize?.discountPrice > 0 
+                                ? product.selectedSize.discountPrice 
+                                : product.selectedSize.price) 
+                            : (Number(product.discountPrice) > 0 
+                                ? product.discountPrice 
+                                : product.price)
+                          }
                     </span>
                   </p>
-                  {product.discountPrice > 0 && (
+                  {(product.selectedSize?.discountPrice > 0 || product.discountPrice > 0) && (
                     <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                      AED <span>{product.price}</span>
+                      AED <span>{product.selectedSize?.price ?? product.price}</span>
                     </p>
                   )}
                 </div>

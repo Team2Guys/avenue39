@@ -45,16 +45,17 @@ const LandscapeCard: React.FC<CardProps> = ({ card, isLoading }) => {
   }, [isLoading]);
 
   const handleAddToWishlist = (product: IProduct) => {
-    // Create a new wishlist item
     const newWishlistItem = {
-      id: product.id, // Ensure you have the correct property here
+      id: product.id,
       name: product.name,
       price: product.price,
       posterImageUrl: product.posterImageUrl,
       discountPrice: product.discountPrice,
-      count: 1, // Initialize count to 1 for a new item
+      count: 1,
       stock: product.stock,
       totalPrice: product.discountPrice ? product.discountPrice : product.price,
+      categories: product.categories,
+      subcategories: product.subcategories, 
     };
 
     // Retrieve existing wishlist from local storage

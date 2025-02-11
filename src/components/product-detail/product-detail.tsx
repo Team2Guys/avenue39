@@ -31,7 +31,7 @@ import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
 // import paymenticons from '@icons/payment-icons.png';
 import { CartItem, CartSize } from '@/redux/slices/cart/types';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
 import { calculateRatingsPercentage, renderStars } from '@/config';
@@ -85,11 +85,7 @@ const ProductDetail = ({
   const [customImages, setCustomImages] = useState<any>([]);
     const [isOutStock, setIsOutStock] = useState<boolean>(false)
     const [totalStock, setTotalStock] = useState<number>(0)
-    const pathname = usePathname();
-    const pathSegments = pathname.split("/").filter(Boolean); // Remove empty segments
   
-    const mainCatgor = pathSegments[0] || ""; // First part of the path
-    const SubcategoryName = pathSegments[1] || ""; // Second part of the path
 
   const product = params ? params : products?.find((product) => product.name === slug);
 
@@ -346,28 +342,24 @@ const ProductDetail = ({
     dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
- 
 
-  const handleAddToWishlist = (
-    product: IProduct,
-    mainCatgor: string,
-    SubcategoryName: string
-  )=> {
-    const newWishlistItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      posterImageUrl: product.posterImageUrl,
-      discountPrice: product.discountPrice,
-      count: 1,
-      stock: product.stock,
-      totalPrice: product.discountPrice ? product.discountPrice : product.price,
-      mainCatgor: mainCatgor || "", // Main category
-      SubcategoryName: SubcategoryName || "", // Subcategory
-    };
+  const handleAddToWishlist = (product: IProduct) => {
+    // const newWishlistItem = {
+    //   id: product.id,
+    //   name: product.name,
+    //   price: product.price,
+    //   posterImageUrl: product.posterImageUrl,
+    //   discountPrice: product.discountPrice,
+    //   count: 1,
+    //   stock: product.stock,
+    //   totalPrice: product.discountPrice ? product.discountPrice : product.price,
+    //   categories: product.categories,
+    //   subcategories: product.subcategories, 
+    // };
+    console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const existingItemIndex = existingWishlist.findIndex(
-      (item: any) => item.id === newWishlistItem.id,
+      (item: any) => item.id === itemToAdd.id,
     );
     if (existingItemIndex !== -1) {
       const currentCount = existingWishlist[existingItemIndex].count;
@@ -383,13 +375,13 @@ const ProductDetail = ({
         (existingWishlist[existingItemIndex].discountPrice ||
           existingWishlist[existingItemIndex].price);
     } else {
-      if (product.stock && newWishlistItem.count > product.stock) {
+      if (product.stock && itemToAdd.quantity > product.stock) {
         toast.error(
           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
         );
         return;
       }
-      existingWishlist.push(newWishlistItem);
+      existingWishlist.push(itemToAdd);
     }
     localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
     toast.success('Product added to Wishlist successfully!');
@@ -650,7 +642,7 @@ const ProductDetail = ({
               <Button
                 variant='outline'
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={() => handleAddToWishlist(product, SubcategoryName, mainCatgor)}
+                onClick={() => handleAddToWishlist(product)}
               >
                 Add to Wishlist
               </Button>

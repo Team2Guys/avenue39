@@ -19,11 +19,7 @@ const SingleProduct = async ({ slug ,subslug,mainslug}: { slug: string[],mainslu
   }
 
   const similarProducts: IProduct[] = products.filter((prod: IProduct) => {
-    const hasMatchingCategory =
-      prod?.categories &&
-      prod?.categories.some(
-        (prodCategory) =>
-          prodCategory.name.trim().toLocaleLowerCase() === categoryName,
+    const hasMatchingCategory =prod?.categories &&prod?.categories.some((prodCategory) =>(prodCategory.custom_url || prodCategory.name).trim().toLocaleLowerCase() === categoryName,
       );
     return hasMatchingCategory && prod.id !== findProduct.id;
   });

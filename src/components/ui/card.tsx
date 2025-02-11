@@ -108,6 +108,8 @@ const Card: React.FC<CardProps> = ({
       count: 1,
       stock: product.stock,
       totalPrice: product.discountPrice ? product.discountPrice : product.price,
+      categories: product.categories,
+      subcategories: product.subcategories, 
     };
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const existingItemIndex = existingWishlist.findIndex(

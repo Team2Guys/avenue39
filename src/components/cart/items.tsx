@@ -24,6 +24,7 @@ import { GiShoppingCart } from 'react-icons/gi';
 import { CartItem } from '@/redux/slices/cart/types';
 import { toast } from 'react-toastify';
 import { usePathname } from 'next/navigation';
+import { ChangeUrlHandler } from '@/config/fetch';
 
 interface ICartItems {
   isCartPage?: boolean;
@@ -330,7 +331,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
               key={item.id}
             >
               <div className="flex items-center gap-4 w-full">
-                <Link href={`/product/${generateSlug(item.name)}`}>
+                <Link href={ChangeUrlHandler(item as any)}>
                   <div className="w-24 h-24">
                     <Image
                       width={isCheckoutPage ? 50 : 100}
@@ -343,7 +344,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                 </Link>
                 <div className="w-full">
                   <div className='flex flex-col gap-1'>
-                    <Link href={`/product/${generateSlug(item.name)}`}>
+                    <Link href={ChangeUrlHandler(item as any)}>
                       <span className="text-16 xl:text-18">{item.name}</span>
                     </Link>
                     {(item.selectedfilter || item.selectedSize) &&
@@ -385,7 +386,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                       )}
                     {!isCheckoutPage && (
                       <div className="flex items-center gap-4">
-                        <Link href={`/product/${generateSlug(item.name)}`}>
+                        <Link href={ChangeUrlHandler(item as any)}>
                           <MdModeEdit className="cursor-pointer" size={20} />
                         </Link>
                         <FaTrash

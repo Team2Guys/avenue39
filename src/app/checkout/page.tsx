@@ -86,35 +86,56 @@ const Checkout = () => {
     }
   }, [selectedState]);
 
-  console.log(cartItems)
-
 
   const handlePayment = async (values: any) => {
 
-    await cartItems.map((item) => {
-      if (item.selectedSize) {
-        if (item.selectedSize.price) {
-          //@ts-expect-error
-          delete item.selectedSize.price;
-        }
-        if (item.selectedSize.discountPrice) {
-          delete item.selectedSize.discountPrice;
-        }
-      }
+    // await cartItems.map((item) => {
+    //   if (item.selectedSize) {
+    //     if (item.selectedSize.price) {
+    //       //@ts-expect-error
+    //       delete item.selectedSize.price;
+    //     }
+    //     if (item.selectedSize.discountPrice) {
+    //       delete item.selectedSize.discountPrice;
+    //     }
+    //   }
 
-      if (item.selectedfilter) {
-        if (item.selectedfilter.price) {
-          //@ts-expect-error
-          delete item.selectedfilter.price;
-        }
-        if (item.selectedfilter.discountPrice) {
-          delete item.selectedfilter.discountPrice;
-        }
-      }
-      delete item.sizes;
-      delete item.filter;
-    });
+    //   if (item.selectedfilter) {
+    //     if (item.selectedfilter.price) {
+    //       //@ts-expect-error
+    //       delete item.selectedfilter.price;
+    //     }
+    //     if (item.selectedfilter.discountPrice) {
+    //       delete item.selectedfilter.discountPrice;
+    //     }
+    //   }
+    //   delete item.sizes;
+    //   delete item.filter;
+    // });
 
+
+
+    const cartItems_refactor = await Promise.all(cartItems.map((item) => {
+      // Create a shallow copy of the item
+      const { sizes, filter, ...updatedItem } = item;
+    
+      console.log(sizes, filter)
+
+      // Check for selectedSize and selectedfilter
+      if (updatedItem.selectedSize) {
+        const { price, discountPrice, ...updatedSize  } = updatedItem.selectedSize;
+        updatedItem.selectedSize = updatedSize as any; // Keep only the properties you want
+        console.log(price, discountPrice)
+      }
+    
+      if (updatedItem.selectedfilter) {
+        const { price, discountPrice, ...updatedFilter } = updatedItem.selectedfilter;
+        updatedItem.selectedfilter = updatedFilter as any; // Keep only the properties you want
+        console.log(price, discountPrice)
+      }
+    
+      return updatedItem; // Return the updated item
+    }));
     try {
       let totalPayment = totalPrice + shippingfee;
 
@@ -126,7 +147,7 @@ const Checkout = () => {
           {
             ...values,
             amount: totalPayment,
-            orderedProductDetails: cartItems,
+            orderedProductDetails: cartItems_refactor,
             shippment_Fee: shippingfee,
             phone_number: Number(values.phone_number),
           },
@@ -194,10 +215,11 @@ const Checkout = () => {
                         value={formik.values.first_name}
                       />
                       <LabelInput
-                        label="Last Name"
+                        label="Last Name *"
                         id="last_name"
                         name="last_name"
                         type="text"
+                        required
                         onChange={formik.handleChange}
                         value={formik.values.last_name}
                       />

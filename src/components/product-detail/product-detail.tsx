@@ -83,9 +83,9 @@ const ProductDetail = ({
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
   const [customImages, setCustomImages] = useState<any>([]);
-    const [isOutStock, setIsOutStock] = useState<boolean>(false)
-    const [totalStock, setTotalStock] = useState<number>(0)
-  
+  const [isOutStock, setIsOutStock] = useState<boolean>(false)
+  const [totalStock, setTotalStock] = useState<number>(0)
+
 
   const product = params ? params : products?.find((product) => product.name === slug);
 
@@ -104,7 +104,7 @@ const ProductDetail = ({
     setSelectedSize(index);
     setSize(size)
   };
-  
+
 
   useEffect(() => {
     if (!product) return;
@@ -183,8 +183,8 @@ const ProductDetail = ({
 
       setIsOutStock(true)
     }
-    let firstcolor = (product &&  product?.filter) && product?.filter[0]?.additionalInformation[0]
-    const size:any = (product &&  product?.sizes) && product?.sizes[0]
+    let firstcolor = (product && product?.filter) && product?.filter[0]?.additionalInformation[0]
+    const size: any = (product && product?.sizes) && product?.sizes[0]
     setFilter(firstcolor)
     setSize(size)
   }
@@ -192,7 +192,7 @@ const ProductDetail = ({
 
 
 
-/* eslint-disable */
+  /* eslint-disable */
 
   useEffect(() => {
 
@@ -272,14 +272,14 @@ const ProductDetail = ({
   };
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
     console.log(existingCartItem, "cartItems")
-    if(!existingCartItem){
+    if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
-      return 
-    }   
+      return
+    }
 
     let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
       if (value.stock) {
@@ -315,17 +315,17 @@ const ProductDetail = ({
   };
 
 
-  console.log(cartItems  , "cartItems")
+  console.log(cartItems, "cartItems")
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) =>item.id === product?.id &&   item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-    item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
+    const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
     console.log(existingCartItem, "cartItems")
-    if(!existingCartItem){
+    if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
-      return 
-    }   
+      return
+    }
 
     let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
       if (value.stock) {
@@ -405,7 +405,7 @@ const ProductDetail = ({
 
     <div
       className={`flex flex-col md:flex-row w-full justify-between font-helvetica overflow-hidden ${gap} my-6 relative`}
-    >   
+    >
       <div className="flex-grow  md:w-1/2 lg:w-7/12 2xl:w-[55%] w-full no-select">
         <Thumbnail
           thumbs={productImage.length > 0 ? productImage : customImages}
@@ -537,7 +537,7 @@ const ProductDetail = ({
                 <div className="flex space-x-4 mt-2">
                   {product?.filter?.[0]?.additionalInformation.map((item, index) => {
                     const image = product.productImages.find(
-                      (img) => img.color === item.name
+                      (img) => img?.color === item?.name
                     );
                     if (!image) return null;
 
@@ -605,7 +605,7 @@ const ProductDetail = ({
                     className="bg-[#F5F5F5] p-2 rounded-md w-14 text-center font-normal text-14 text-lightdark flex flex-col"
                   >
                     <span>{value}</span>
-                    <span className="text-10">{label.toUpperCase()}</span>
+                    <span className="text-10">{label?.toUpperCase()}</span>
                   </div>
                 ))}
               </div>
@@ -635,23 +635,23 @@ const ProductDetail = ({
                 </button>
               </div>
             </div>
-{isOutStock ? null : 
-            <Button
-              className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
-              onClick={(e: any) => handleBuyNow(e)}
-            >
-              <CiShoppingCart size={20} /> BUY IT NOW
-            </Button>
-}
+            {isOutStock ? null :
+              <Button
+                className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
+                onClick={(e: any) => handleBuyNow(e)}
+              >
+                <CiShoppingCart size={20} /> BUY IT NOW
+              </Button>
+            }
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
               <Button
                 variant={'main'}
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) => isOutStock?()=>{} :  handleAddToCard(e)}
+                onClick={(e: any) => isOutStock ? () => { } : handleAddToCard(e)}
                 disable={isOutStock}
-              
+
               >
-           {isOutStock ? "Out of Stock"  :    "Add to cart"}
+                {isOutStock ? "Out of Stock" : "Add to cart"}
               </Button>
               <Button
                 variant='outline'
@@ -662,7 +662,7 @@ const ProductDetail = ({
               </Button>
 
             </div>
-           
+
           </>
         )}
 

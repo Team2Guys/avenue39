@@ -173,9 +173,9 @@ export const variationProductImage = (item: CartItem) => {
     (image) => image.color === item.selectedfilter?.name
   );
   const sizeImage = item.productImages.find(
-    (image) => image.color === item.selectedSize?.name
+    (image) => image.size === item.selectedSize?.name && image.color === item.selectedfilter?.name
   );
-  if (sizeImage && filterImage) {
+  if (sizeImage) {
     return sizeImage.imageUrl;
   } else if (filterImage) {
     return filterImage.imageUrl;

@@ -8,10 +8,10 @@ import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Contact Us - Get in Touch Today | Avenue39',
-  description: 'Reach out to Avenue39 today! Whether you have questions, need support, or want to collaborate, we’re here to help. Get in touch now!',
+  description: 'Reach out to Avenue39 today! Whether you have questions, need support, or want to collaborate, we’re here to help. Get in touch now!',
   openGraph: {
     title: 'Contact Us - Get in Touch Today | Avenue39',
-    description: 'Reach out to Avenue39 today! Whether you have questions, need support, or want to collaborate, we’re here to help. Get in touch now!',
+    description: 'Reach out to Avenue39 today! Whether you have questions, need support, or want to collaborate, we’re here to help. Get in touch now!',
     url: 'fullUrl',
     images: [
       {

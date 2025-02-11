@@ -17,11 +17,13 @@ interface FeatureProps {
 
 const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
 
+  console.log(similarProducts, "similarProducts")
   const processedProducts = similarProducts?.flatMap((prod) => {
-    if (!prod.sizes || prod.sizes.length === 0) {
-      return [prod]; // No variations, show product as is
+    if ((!prod.sizes || prod?.sizes?.length === 0) || (!prod.filter || prod?.filter?.length ===0)) {
+      return [prod];
     }
   
+    console.log(prod, "similarProducts")
     if (!prod.productImages || prod.productImages.length === 0) {
     return [];
   }
@@ -96,13 +98,15 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
       swiperRef.current.swiper.autoplay.start();
     }
   };
+
+  console.log(processedProducts, "similarProducts")
   return (
     <div
       className="slider-container"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {similarProducts?.length ? (
+      {processedProducts?.length ? (
         <>
           <div
             className={`text-end mb-3 px-4 flex ${title ? 'justify-between' : 'justify-end'}`}

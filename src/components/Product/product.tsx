@@ -23,7 +23,7 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
 }) => {
   const slug = params.name;
   console.log(slug, 'slug');
-  console.log(reviews, 'reviews');
+  console.log(similarProducts, 'similarProducts');
   const additional_columns_handler = () => {
     const section = product?.sections;
     if (section && section.length > 0) {

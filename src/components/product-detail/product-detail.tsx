@@ -94,8 +94,9 @@ const ProductDetail = ({
 
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
-    setSelectedSize(null);
-    setSize(null)
+    setSelectedSize(0);
+    const defualtSize: any = product?.sizes?.at(0);
+    setSize(defualtSize);
     setFilter(item)
   };
 
@@ -256,7 +257,7 @@ const ProductDetail = ({
   const onIncrement = () => {
     const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
     console.log(variationQuantity, totalStock, "totakStock")
-    if (count < (totalStock || totalStock)) {
+    if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {
       toast.error(`Only ${variationQuantity} items in stock!`);

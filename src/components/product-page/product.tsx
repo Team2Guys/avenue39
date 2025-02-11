@@ -192,7 +192,7 @@ const ProductPage = ({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="default">Default</SelectItem>
-                      {/* <SelectItem value="name">A to Z</SelectItem> */}
+                      <SelectItem value="name">A - Z</SelectItem>
                       <SelectItem value="max">Price Max</SelectItem>
                       <SelectItem value="min">Price Min</SelectItem>
                     </SelectGroup>

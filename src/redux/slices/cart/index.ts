@@ -32,7 +32,8 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existingItem = state.items.find((i) =>i.id === item.id );
+      const existingItem = state.items.find((i) =>i.id === item.id &&   i.selectedSize?.name === item.selectedSize?.name &&
+      i.selectedfilter?.name === item.selectedfilter?.name );
 
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
@@ -80,6 +81,7 @@ const cartSlice = createSlice({
         }, 0);
     
         const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : item?.stock || 0;
+        console.log(totalStock, item.quantity, "cartItems")
 
         if (item.quantity > (totalStock || 0)) {
           toast.error(`Cannot add more than ${item.stock} items to the cart.`);

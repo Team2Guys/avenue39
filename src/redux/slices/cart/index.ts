@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from './types';
 import { message } from 'antd';
+import { toast } from 'react-toastify';
 
 interface CartState {
   items: CartItem[];
@@ -55,12 +56,33 @@ const cartSlice = createSlice({
             return value; 
           }
         });
+
+        console.log(updatedArray, "cartItems")
         state.items = updatedArray;
 
 
       } else {
-        if (item.quantity > (item.stock || 0)) {
-          message.error(`Cannot add more than ${item.stock} items to the cart.`);
+        let sizesStock = item && item.sizes?.reduce((accum, value: any) => {
+          if (value.stock) {
+            return accum += Number(value.stock)
+          }
+          return 0;
+        }, 0)
+        let colorsStock = item && item.filter?.reduce((parentAccume: number, parentvalue: any) => {
+          const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+    
+            if (value.stock) {
+              return accum + Number(value.stock);
+            }
+            return accum;
+          }, 0);
+          return parentAccume + countedStock;
+        }, 0);
+    
+        const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : item?.stock || 0;
+
+        if (item.quantity > (totalStock || 0)) {
+          toast.error(`Cannot add more than ${item.stock} items to the cart.`);
           return;
         }
         const price = getItemPrice(item);

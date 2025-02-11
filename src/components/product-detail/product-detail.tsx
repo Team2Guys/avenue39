@@ -273,14 +273,20 @@ const ProductDetail = ({
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find((item: any) =>item.id === product?.id)
+    console.log(existingCartItem, "existing card item")
     if(!existingCartItem){
-      console.log(itemToAdd, "existingCartItem", filter)
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
       return 
     }
 
+
+    
+
+
    
+
+
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
     const variationQuantity =itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
@@ -296,6 +302,7 @@ const ProductDetail = ({
   };
 
 
+  console.log(cartItems  , "cartItems")
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find(

@@ -388,7 +388,7 @@ html {
 }
 
 .card-slider-home .swiper-pagination {
-  bottom: 130px !important;
+  bottom: 150px !important;
 }
 
 .cardBtn-quick-view:hover svg{
@@ -414,6 +414,6 @@ html {
     transform: rotate(-90deg) !important;
   }
   .card-slider-home .swiper-pagination {
-    bottom: 180px !important;
+    bottom: 190px !important;
   }
 }

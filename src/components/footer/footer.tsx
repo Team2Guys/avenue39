@@ -266,7 +266,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </Container>
-      <div className="bg-main mt-10 py-3 px-4">
+      <div className="bg-main mb-7 md:mb-0 mt-10 py-3 px-4">
         <Container className="flex flex-wrap justify-center sm:justify-between items-center gap-x-8 gap-y-4 pb-10 md:pb-0 ">
           <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticaligh">
             Copyright © 2025 avenue39 All rights reserved.

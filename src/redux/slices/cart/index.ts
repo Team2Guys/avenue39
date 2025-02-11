@@ -39,7 +39,7 @@ const cartSlice = createSlice({
         const newQuantity = existingItem.quantity + item.quantity;
         if (newQuantity > (item.stock || 0)) {
           message.error(
-            `Only ${item?.stock} items are in stock. You cannot add more. from cart`
+            `Only ${item?.stock} items are in stock. You cannot add more.`
           );
           return;
         }

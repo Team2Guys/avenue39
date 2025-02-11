@@ -213,11 +213,12 @@ const Footer: React.FC = () => {
             </li>
           </ul>
         </div>
-        <div className=" flex flex-col md:items-center">
+        <div className="flex flex-col md:items-center items-center xs:items-start text-center xs:text-start w-full xs:w-fit">
+          <div className='flex flex-col md:items-center w-fit'>
           <h5 className="font-extralight font-helvetica w-full sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
           </h5>
-          <div className="mt-6 w-full flex max-w-56  text-[#686868]">
+          <div className="mt-6 xs:w-full flex max-w-56  text-[#686868]">
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
               <div className=" w-full rounded-sm">
                 <div className="flex items-center gap-2 py-2 ">
@@ -230,7 +231,7 @@ const Footer: React.FC = () => {
             </Link>
           </div>
 
-          <div className="w-full max-w-56  text-[#686868]">
+          <div className="xs:w-full max-w-56  text-[#686868]">
             <Link href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
               <div className=" w-full  rounded-sm">
                 <div className="flex items-center gap-2 py-2">
@@ -246,7 +247,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="mt-2  text-[#686868]">
-            <div className=" w-full max-w-56 rounded-sm ">
+            <div className="xs:w-full max-w-56 rounded-sm ">
               <Link
                 className='flex gap-2 items-center'
                 href="mailto:cs@avenue39.com"
@@ -259,8 +260,9 @@ const Footer: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="pt-5 text-black w-full">
+          <div className="pt-5 text-black text-center w-fit mx-auto">
             <SocialLink socialSize="md:text-[25px]" iconColor={'text-black'} />
+          </div>
           </div>
         </div>
       </Container>

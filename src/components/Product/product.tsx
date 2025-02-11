@@ -209,30 +209,36 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
     //     </div>
     //   ),
     // },
+    
     {
-      label: 'Additional Information',
-      content: (
-        <>
-          {dataSource && dataSource.length > 0 ? (
-            <Table
-              columns={columns}
-              dataSource={dataSource}
-              pagination={false}
-              bordered
-              rowKey="name"
-              className="detail font-helvetica"
-            />
-          ) : null}
-        </>
-      ),
+      label: "Additional Information",
+      content:
+        dataSource && dataSource.length > 0 ? (
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            pagination={false}
+            bordered
+            rowKey="name"
+            className="detail font-helvetica"
+          />
+        ) : null,
     },
   ]);
 
+  const filteredTabs = tabs.filter(
+    (tab) =>
+      !(
+        tab.label === "Additional Information" &&
+        (!dataSource || dataSource.length === 0)
+      )
+  );
+  
   const cartpageBreadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: product?.name ?? 'Product Page' },
+    { label: "Home", href: "/" },
+    { label: product?.name ?? "Product Page" },
   ];
-
+  
   useEffect(() => {
     additional_columns_handler();
   }, [product]);
@@ -267,7 +273,7 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
       </Container>
       {product && (
         <div className="">
-          <DetailTabs tabs={tabs} />
+          <DetailTabs tabs={filteredTabs} />
         </div>
       )}
 

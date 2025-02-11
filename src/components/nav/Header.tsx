@@ -51,12 +51,12 @@ const Header = () => {
   return (
     <>
       <TopNav />
-      <Navbar />
+      <Navbar categories={sortedCategories} />
       <MenuBar
         categories={sortedCategories}
         //  menuData={menuData} loading={loading} error={error}
       />
-      <BottomBar categories={sortedCategories} />
+      <BottomBar />
     </>
   );
 };

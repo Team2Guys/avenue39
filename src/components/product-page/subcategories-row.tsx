@@ -31,8 +31,6 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
   const sorted = category?.subcategories.sort((a: any, b: any) => {
     const subCatA = a.custom_url || a.name;
     const subCatB = b.custom_url || b.name;
-
-    // Find the corresponding redirect_url for each subcategory
     const redirectUrlA = re_Calling_products.find((item: recallingTypes) => {
       return (
         item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
@@ -60,6 +58,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
   });
 
 
+  console.log(sorted, "sorted", category)
 
   return (
     category && category?.subcategories?.length > 0 && (
@@ -102,7 +101,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
             },
           }}
         >
-          {(sorted || []).map((subcat: any, index: any) => (
+          {(sorted)?.map((subcat: any, index: any) => (
             <SwiperSlide key={index}>
               <Link
         

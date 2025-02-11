@@ -5,6 +5,23 @@ import { message } from 'antd';
 interface CartState {
   items: CartItem[];
 }
+const getItemPrice = (item: CartItem) => {
+  let price;
+  if (item.selectedSize) {
+    price = Number(item.selectedSize.discountPrice)
+      ? Number(item.selectedSize.discountPrice)
+      : Number(item.selectedSize.price);
+  } else if (item.selectedfilter) {
+    price = Number(item.selectedfilter.discountPrice)
+      ? Number(item.selectedfilter.discountPrice)
+      : Number(item.selectedfilter.price);
+  } else {
+    price = item.discountPrice ? item.discountPrice : item.price;
+  }
+  return price;
+};
+
+
 const initialState: CartState = {
   items: [],
 };
@@ -14,28 +31,7 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existingItem = state.items.find(
-        (i) =>
-          i.id === item.id &&
-          i.selectedSize?.name === item.selectedSize?.name &&
-          i.selectedfilter?.name === item.selectedfilter?.name
-      );
-
-      const getItemPrice = (item: CartItem) => {
-        let price;
-        if (item.selectedSize) {
-          price = Number(item.selectedSize.discountPrice)
-            ? Number(item.selectedSize.discountPrice)
-            : Number(item.selectedSize.price);
-        } else if (item.selectedfilter) {
-          price = Number(item.selectedfilter.discountPrice)
-            ? Number(item.selectedfilter.discountPrice)
-            : Number(item.selectedfilter.price);
-        } else {
-          price = item.discountPrice ? item.discountPrice : item.price;
-        }
-        return price;
-      };
+      const existingItem = state.items.find((i) =>i.id === item.id );
 
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
@@ -46,6 +42,22 @@ const cartSlice = createSlice({
           return;
         }
         existingItem.quantity = newQuantity;
+       const newItems = state.items;
+
+        const updatedArray = newItems.map((value) => {
+          if (value.id === 4) {
+            return {
+              ...value,
+              quantity: newQuantity,
+              Totalprice: value.price*newQuantity,
+            };
+          } else {
+            return value; 
+          }
+        });
+        state.items = updatedArray;
+
+
       } else {
         if (item.quantity > (item.stock || 0)) {
           message.error(`Cannot add more than ${item.stock} items to the cart.`);
@@ -130,15 +142,23 @@ export const totalProductsInCart = (state: CartState): number => {
 };
 
 export const variationProductImage = (item: CartItem) => {
-  const filterImage = item.productImages.find((image) => image.color === item.selectedfilter?.name);
-  const sizeImage = item.productImages.find((image) => image.color === item.selectedSize?.name);
+  if (!Array.isArray(item.productImages)) {
+    return item.posterImageUrl;
+  }
+  const filterImage = item.productImages.find(
+    (image) => image.color === item.selectedfilter?.name
+  );
+  const sizeImage = item.productImages.find(
+    (image) => image.color === item.selectedSize?.name
+  );
   if (sizeImage && filterImage) {
     return sizeImage.imageUrl;
-  } else if (filterImage && !sizeImage) {
+  } else if (filterImage) {
     return filterImage.imageUrl;
   } else {
     return item.posterImageUrl;
   }
-}
+};
+
 export const { addItem, removeItem, updateItemQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

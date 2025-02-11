@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
@@ -44,9 +44,19 @@ const ProductPage = ({
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
+  
+
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
-  console.log(ProductData,"ProductData")
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
+  const description = SubcategoryName?.description || info?.description || "";
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
   const processedProducts = productsToFilter.flatMap((prod) => {
@@ -112,7 +122,7 @@ const ProductPage = ({
         return card.discountPrice > 0 && card.stock > 0;
       }
       if (pathname === '/sale') {
-        return card.discountPrice > 0 && card.stock > 0;
+        return card.discountPrice > 0;
       }
       return true;
     })
@@ -138,40 +148,40 @@ const ProductPage = ({
 
   return (
     <>
-      <TopHero
-        breadcrumbs={productsbredcrumbs}
-        categoryName={mainslug ? mainslug : SubcategoryName?.name}
-        subCategorName={SubcategoryName?.name || undefined}
-      />
+      {
+        <TopHero
+          breadcrumbs={productsbredcrumbs}
+          categoryName={mainslug ? mainslug : SubcategoryName?.name}
+          subCategorName={SubcategoryName?.name || undefined}
+        />
 
+      }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
-        {
-            pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
-              <div className="flex flex-col items-center">
-                {newArrivals.map((item, index) => (
-                  <div key={index} className="text-center">
-                    <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
-                    <Container>
-                      <p>{item.description}</p>
-                    </Container>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                <h1 className="text-[45px] font-helvetica font-bold">
-                  {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
-                </h1>
-                <Container>
-                  <p className="text-center">
-                    {SubcategoryName?.description ? SubcategoryName?.description : info?.description}
-                  </p>
-                </Container>
-              </div>
-            )
-          }
+          {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
+            <div className="flex flex-col items-center">
+              {newArrivals.map((item, index) => (
+                <div key={index} className="text-center">
+                  <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
+                  <Container>
+                    <p>{item.description}</p>
+                  </Container>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              <h1 className="text-[45px] font-helvetica font-bold">
+                {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
+              </h1>
+              <Container>
+              <p className="text-center sm:text-base text-sm">
 
+              {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
+              </p>
+              </Container>
+            </div>
+          )}
           <div className="sm:mt-4 mt-10 flex items-center justify-between gap-4 py-2 px-2 flex-col md:flex-row">
             <div className="flex items-center gap-4">
               <div className="flex gap-2 items-center">
@@ -182,7 +192,7 @@ const ProductPage = ({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="default">Default</SelectItem>
-                      <SelectItem value="name">Name</SelectItem>
+                      {/* <SelectItem value="name">A to Z</SelectItem> */}
                       <SelectItem value="max">Price Max</SelectItem>
                       <SelectItem value="min">Price Min</SelectItem>
                     </SelectGroup>
@@ -202,7 +212,7 @@ const ProductPage = ({
                 Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
               </p>
             </div>
-            <SubCategoriesRow />
+            <SubCategoriesRow category={info} />
           </div>
 
           <div
@@ -220,7 +230,7 @@ const ProductPage = ({
                       card={card}
                       isLoading={false}
                       SubcategoryName={SubcategoryName}
-                      mainCatgory = {mainslug}
+                      mainCatgory={mainslug}
                       cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
 
                     />

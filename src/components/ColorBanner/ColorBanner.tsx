@@ -65,14 +65,14 @@ const ColorBanner: React.FC = () => {
                       {slide.Heading}
                     </h1>
                     {/* <p className="text-sm font-normal pb-2">{slide.ShortText}</p> */}
-                    <p className="text-18 font-extralight">
+                    <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
                       {slide.Description}
                     </p>
                   </div>
                   <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-6 px-2 mx-auto">
                     <Image
                       src={slide.imageUrl2}
-                      className="w-full h-24 md:h-20"
+                      className="w-full h-16 md:h-20"
                       alt="Left Image"
                       width={1200}
                       height={1200}

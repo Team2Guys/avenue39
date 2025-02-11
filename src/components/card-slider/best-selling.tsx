@@ -7,16 +7,14 @@ import 'swiper/css/pagination';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '@/config/fetch';
-import FeatureCard from '../feature-card/feature-card';
+// import FeatureCard from '../feature-card/feature-card';
 import { IProduct } from '@/types/types';
 import { Navigation, Pagination } from 'swiper/modules';
 import CardSkaleton from '../Skaleton/productscard';
+import Card from '../ui/card';
 
 const BestSellingSlider: React.FC = () => {
-  const { data: products = [], isLoading: isProductsLoading } = useQuery<
-    IProduct[],
-    Error
-  >({
+  const { data: products = [], isLoading: isProductsLoading } = useQuery<IProduct[],Error>({
     queryKey: ['products'],
     queryFn: fetchProducts,
   });
@@ -155,10 +153,10 @@ const BestSellingSlider: React.FC = () => {
           >
             {processedProducts.length > 0 && processedProducts.map((card) => (
               <SwiperSlide key={card.id} className="mb-8">
-                <FeatureCard
+                <Card
                   isLoading={isProductsLoading}
                   card={card}
-                  cardHeight="h-[280px] xsm:h-[220px] sm:h-[240px] md:h-[270px] xl:h-[220px] 2xl:h-[280px]"
+                  // cardHeight="h-[280px] xsm:h-[220px] sm:h-[240px] md:h-[270px] xl:h-[220px] 2xl:h-[280px]"
                 />
               </SwiperSlide>
             ))}

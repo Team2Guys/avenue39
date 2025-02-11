@@ -50,10 +50,10 @@ console.log(windowWidth, "windowWidth")
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
-        // autoplay={{
-        //   delay: 2000,
-        //   disableOnInteraction: true,
-        // }}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: true,
+        }}
         speed={1500}
         pagination={{
           clickable: true,

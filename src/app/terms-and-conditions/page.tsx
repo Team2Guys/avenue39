@@ -27,12 +27,13 @@ export const metadata: Metadata = {
 const TermsAndConitions: React.FC = () => {
   return (
     <>
-      <TopHero title="Terms & Conditions-Avenue39" breadcrumbs={Tersmandcondition} />
+      <TopHero breadcrumbs={Tersmandcondition} />
       <div>
+        <h1 className='text-center text-[36px] font-medium mt-5'>Terms & Conditions-Avenue39</h1>
         <div className="max-w-5xl mx-auto p-4 mt-5 md:mt-10">
-          <h1 className="text-xl font-semibold mb-2">
+          <h2 className="text-xl font-semibold mb-2">
             Terms & Conditions – Avenue39
-          </h1>
+          </h2>
           <p>Welcome to Avenue39. These terms and conditions describe how to use our website, and how to adhere to them, especially when you make a purchase.</p>
           <ol className=" space-y-4 mt-5">
             {TermsCondition.map((section: any, index: number) => (

@@ -96,9 +96,9 @@ const BestSellingSlider: React.FC = () => {
       {products.length > 0 ? (
         <>
           <div className="text-end mb-3 px-4 flex justify-between">
-            <h1 className="lg:text-3xl text-2xl text-left font-semibold flex">
+            <h2 className="lg:text-3xl text-2xl text-left font-semibold flex">
               Best Sellers
-            </h1>
+            </h2>
             <div>
               <button
                 className="button"

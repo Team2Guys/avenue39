@@ -60,7 +60,7 @@ const ProductPage = ({
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
   const processedProducts = productsToFilter.flatMap((prod) => {
-    if (!prod.sizes || prod.sizes.length === 0) {
+    if (!prod.sizes || prod.sizes.length === 0 || !prod.filter || prod.filter.length === 0) {
       return [prod]; 
     }
   

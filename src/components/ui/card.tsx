@@ -80,16 +80,15 @@ const Card: React.FC<CardProps> = ({
   };
   useEffect(() => {
     const price =
-      card?.sizes?.[0]?.price ??
-      card?.filter?.[0]?.additionalInformation?.[0]?.price ??
-      card?.price;
+      // card?.sizes?.[0]?.price ??
+      // card?.filter?.[0]?.additionalInformation?.[0]?.price ??
+       card?.price;
     setProductPrice(Number(price))
     const discountPrice =
-      card?.sizes?.[0]?.discountPrice ??
-      card?.filter?.[0]?.additionalInformation?.[0]?.discountPrice ??
+      // card?.sizes?.[0]?.discountPrice ??
+      // card?.filter?.[0]?.additionalInformation?.[0]?.discountPrice ??
       card?.discountPrice;
     setProductDiscountPrice(Number(discountPrice))
-
   }, []);
 
   useEffect(() => {

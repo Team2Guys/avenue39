@@ -61,7 +61,7 @@ const ProductPage = ({
 
   const processedProducts = productsToFilter.flatMap((prod) => {
     if (!prod.sizes || prod.sizes.length === 0) {
-      return [prod]; // No variations, show product as is
+      return [prod]; 
     }
   
     if (!prod.productImages || prod.productImages.length === 0) {

@@ -232,7 +232,7 @@ const Card: React.FC<CardProps> = ({
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
         
       <div
-                    onClick={(e) => handleAddToWishlist(card)}
+                    onClick={() => handleAddToWishlist(card)}
                     onMouseEnter={() => setIsHoverImage(true)}
                     onMouseLeave={() => setIsHoverImage(false)}
                     className="absolute z-50 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"

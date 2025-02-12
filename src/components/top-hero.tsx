@@ -53,8 +53,6 @@ const TopHero: React.FC<TopHeroProps> = ({
                       <BreadcrumbSeparator>
                         <BsSlash />
                       </BreadcrumbSeparator>
-
-                      {/* Make categoryName a Link if subCategorName or productName exists */}
                       {subCategorName || productName ? (
                         <Link
                           className="text-14 font-medium text-[#959595] capitalize"
@@ -67,8 +65,6 @@ const TopHero: React.FC<TopHeroProps> = ({
                           {categoryName}
                         </BreadcrumbPage>
                       )}
-
-                      {/* If subcategory exists but no product, show it as text */}
                       {subCategorName && !productName && (
                         <>
                           <BreadcrumbSeparator>
@@ -80,7 +76,6 @@ const TopHero: React.FC<TopHeroProps> = ({
                         </>
                       )}
 
-                      {/* If both subcategory and product exist, make subcategory a link */}
                       {subCategorName && productName && (
                         <>
                           <BreadcrumbSeparator>
@@ -94,8 +89,6 @@ const TopHero: React.FC<TopHeroProps> = ({
                           </Link>
                         </>
                       )}
-
-                      {/* If product exists, show it as text */}
                       {productName && (
                         <>
                           <BreadcrumbSeparator>

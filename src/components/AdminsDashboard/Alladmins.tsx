@@ -48,10 +48,9 @@ function Admins({ setselecteMenu }: any) {
     try {
       const token = localStorage.getItem('superAdminToken');
       if (!token) {
-        // Handle case where token is not available
         return;
       }
-      setDelLoading(id); // Set loading state for the specific admin being deleted
+      setDelLoading(id); 
       await axios.delete(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/admins/deletAdmin/${id}`,
         {
@@ -66,7 +65,7 @@ function Admins({ setselecteMenu }: any) {
     } catch (error) {
       console.error('Error deleting admin:', error);
     } finally {
-      setDelLoading(null); // Reset loading state after delete operation completes
+      setDelLoading(null);
     }
   };
 
@@ -118,7 +117,7 @@ function Admins({ setselecteMenu }: any) {
       title: 'Actions',
       key: 'actions',
       render: (text: any, record: any) =>
-        delLoading === record._id ? ( // Check if loading state matches current admin ID
+        delLoading === record._id ? ( 
           <Loader />
         ) : (
           <RiDeleteBin6Line

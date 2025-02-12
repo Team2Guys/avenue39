@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-// import Authhook from '@/hooks/AuthHook';
 import Footer from './footer/footer';
 import Header from './nav/Header';
 
@@ -36,6 +35,3 @@ const PathnameWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default PathnameWrapper
-// Authhook(
-//   PathnameWrapper
-// );

@@ -7,10 +7,9 @@ import Card from '../ui/card';
 
 
 interface ProductGridProps {
-  products: IProduct[]; // Array of products to render
-  // CardComponent: React.FC<any>; // The Card component to render each product
-  imageHeight: string; // The height of the image
-  slider?: boolean; // Whether
+  products: IProduct[]; 
+  imageHeight: string; 
+  slider?: boolean;
   isHomepage?: boolean;
   isLandscape?: boolean;
   calculateHeight?: string;

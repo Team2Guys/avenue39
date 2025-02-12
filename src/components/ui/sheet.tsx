@@ -64,10 +64,6 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      {/* <SheetPrimitive.Close className={`absolute left-4 top-4 rounded-sm opacity-100 ring-offset-background transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 bg-black text-white focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none ${closeClass}`}>
-      <IoIosClose size={25} />
-        <span className="sr-only">Close</span>
-      </SheetPrimitive.Close> */}
     </SheetPrimitive.Content>
   </SheetPortal>
 ));

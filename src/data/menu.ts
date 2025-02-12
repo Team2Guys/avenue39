@@ -1,7 +1,6 @@
 import icon3 from '@icons/3.png';
 import diningTable from '@assets/menu-icons/dining-table.png';
 import diningChair from '@assets/menu-icons/dining-chair.png';
-// import accessories from '@assets/menu-icons/furnitures.png';
 import sideCabinets from '@assets/menu-icons/cabinet.png';
 import sideTable from '@assets/menu-icons/side-table.png';
 import sofa from '@assets/menu-icons/sofa.png';
@@ -44,13 +43,6 @@ export const menuData: MenuData = {
       title: 'TV Stands',
       icon: tvCabinets,
     },
-    // {
-    //   categoryId: 3,
-    //   link: '/products',
-    //   title: 'Accessories',
-    //   icon: accessories,
-    // },
-    // { link: '/products', title: 'Sale', icon: "/images/sale.png" }
   ],
   living: [
     {
@@ -81,13 +73,6 @@ export const menuData: MenuData = {
       icon: coffeeTables,
     },
     { categoryId: 4, link: '/products', title: 'Sofa Beds', icon: sofaBed },
-    // {
-    //   categoryId: 4,
-    //   link: '/products',
-    //   title: 'Accessories',
-    //   icon: accessories,
-    // },
-    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   bedroom: [
     {
@@ -115,13 +100,6 @@ export const menuData: MenuData = {
       icon: tvCabinets,
     },
     { categoryId: 5, link: '/products', title: 'Sofa Beds', icon: sofaBed },
-    // {
-    //   categoryId: 5,
-    //   link: '/products',
-    //   title: 'Accessories',
-    //   icon: accessories,
-    // },
-    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   homeOffice: [
     {
@@ -142,7 +120,6 @@ export const menuData: MenuData = {
       title: 'Office Desks',
       icon: officeChair,
     },
-    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   chairs: [
     { categoryId: 6, link: '/products', title: 'Armchairs', icon: armchair },
@@ -160,7 +137,6 @@ export const menuData: MenuData = {
       icon: diningChair,
     },
     { categoryId: 6, link: '/products', title: 'Barstools', icon: barstool },
-    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   tables: [
     {
@@ -188,7 +164,6 @@ export const menuData: MenuData = {
       title: 'Bedside Tables',
       icon: bedsideTables,
     },
-    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
 
   Lighting: [
@@ -204,11 +179,9 @@ export const menuData: MenuData = {
       title: 'Table Lamps',
       icon: tableLamps,
     },
-    // { link: '/products', title: 'Sale', icon: '/images/sale.png' },
   ],
   Accessories: [{ link: '/products', title: 'Accessories', icon: icon3 }],
   'New Arrivals': [{ link: '/products', title: 'New Arrivals', icon: icon3 }],
-    // Sale: [{ link: '/products', title: 'Sale', icon: icon3 }],
 };
 
 export const staticHeaderCategories: string[] = [
@@ -219,8 +192,6 @@ export const staticHeaderCategories: string[] = [
   'Chairs',
   'Tables',
   'Lighting',
-  // 'Clearance',
   'Accessories',
   'New Arrivals',
-  // 'Sale',
 ];

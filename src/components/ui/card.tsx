@@ -80,13 +80,9 @@ const Card: React.FC<CardProps> = ({
   };
   useEffect(() => {
     const price =
-      // card?.sizes?.[0]?.price ??
-      // card?.filter?.[0]?.additionalInformation?.[0]?.price ??
        card?.price;
     setProductPrice(Number(price))
     const discountPrice =
-      // card?.sizes?.[0]?.discountPrice ??
-      // card?.filter?.[0]?.additionalInformation?.[0]?.discountPrice ??
       card?.discountPrice;
     setProductDiscountPrice(Number(discountPrice))
   }, []);
@@ -302,7 +298,7 @@ const Card: React.FC<CardProps> = ({
                 </p>
               )}
               <div className="space-y-3">
-                <h3 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
+                <h2 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                   <Link
                     className="cursor-pointer"
                     href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
@@ -310,7 +306,7 @@ const Card: React.FC<CardProps> = ({
                     {' '}
                     {card.displayName ? card.displayName : card.name}
                   </Link>
-                </h3>
+                </h2>
                 <div>
                   {card.discountPrice > 0 ? (
                     <div className="flex gap-2 justify-center">
@@ -495,12 +491,12 @@ const Card: React.FC<CardProps> = ({
               )}
             </div>
             <div className="space-y-3">
-              <h3 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
+              <h2 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                 <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                   {' '}
                   {card.displayName ? card.displayName : card.name}
                 </Link>
-              </h3>
+              </h2>
               <div>
                 {productDiscountPrice && productDiscountPrice > 0 ? (
                   <div className="flex gap-2 justify-center">

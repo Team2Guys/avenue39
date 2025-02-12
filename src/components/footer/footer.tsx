@@ -90,7 +90,6 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* <Container className="grid grid-cols-5 sm:gap-x-4 md:gap-x-5 lg:gap-x-8 gap-y-8 px-4 mx-auto  items-center justify-between bg-green-300"> */}
       <Container className="flex flex-wrap justify-between gap-10 ">
         <div className=" px-2">
           <h5 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">

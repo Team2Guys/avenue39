@@ -33,7 +33,6 @@ const HeroVideo: React.FC = () => {
           </div>
         </Container>
       </div>
-      {/* </> */}
     </>
   );
 };

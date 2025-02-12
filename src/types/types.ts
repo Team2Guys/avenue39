@@ -30,16 +30,7 @@ export interface IContainer {
   children: ReactNode;
   className?: string;
 }
-export interface TimerSliderItem {
-  discountText: string;
-  dealText: string;
-  price: string;
-  productName: string;
-  buttonText: string;
-  image: any;
-  productId: number;
-  endDate: string;
-}
+
 export type BRAND = {
   logo: string;
   name: string;
@@ -48,22 +39,8 @@ export type BRAND = {
   sales: number;
   conversion: number;
 };
-// export type TSliderSettings = {
-//   dots: boolean;
-//   infinite: boolean;
-//   speed: number;
-//   slidesToShow: number;
-//   slidesToScroll: number;
-// };
 
-export type TSlide = {
-  image: any;
-  bannerHeading: any;
-  bannerSubHeading: any;
-  text: string;
-  buttonText: string;
-  buttonLink: string;
-};
+
 export type TTimeRemaining = {
   days: number;
   hours: number;
@@ -83,28 +60,10 @@ export interface MenuItem {
   link: string;
 }
 
-// Define the interface for the menu data object
 export interface MenuData {
   [key: string]: MenuItem[];
 }
 
-export type BannerImage = {
-  image: StaticImageData;
-  altText: string;
-};
-
-export interface ICard {
-  id: number;
-  image: any;
-  name: string;
-  price: number;
-  discount?: number;
-  sale: string;
-  reviews: number;
-  productType?: string;
-  description?: string;
-  additionalInformation?: AdditionalInformation[];
-}
 export interface ProductImage {
   imageUrl: string;
   public_id: string;
@@ -196,21 +155,6 @@ export interface ITestimonialCard {
   reviews: number;
 }
 
-export interface ISliderData {
-  tabTitle: string;
-  cards: IProduct[];
-}
-export interface IDiscountProducts {
-  id: number;
-  imageUrl: StaticImageData;
-  title: string;
-}
-
-export interface ISocialIcons {
-  id: number;
-  imageUrl: StaticImageData;
-  title: string;
-}
 export interface ISaleItems {
   id: number;
   imageUrl: StaticImageData;
@@ -223,38 +167,16 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-// interface Product {
-//   image: string;
-//   name: string;
-//   price: number;
-//   originalPrice?: number;
-//   discount?: string;
-//   rating: number;
-// }
-
 export interface MissionData {
   title: string;
   description: string;
   icon: any;
 }
-export interface Country {
-  code: string;
-  name: string;
-}
-
 export interface City {
   country: string;
   name: string;
 }
-export interface Feature {
-  link: string;
-  image: any;
-  title: string;
-  rating: number;
-  currentPrice: number;
-  originalPrice: number;
-  discount: number;
-}
+
 
 export interface IProductCategory {
   id: string;

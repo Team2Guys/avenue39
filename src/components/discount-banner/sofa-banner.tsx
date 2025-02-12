@@ -153,7 +153,6 @@ const SofaBanner: React.FC = () => {
           {sofaData_slides.map((slide) => (
             <SwiperSlide key={slide.id}>
               <div className="flex flex-wrap items-center px-2 pb-4 xs:pb-0  sm:ps-20 md:ps-6 lg:ps-8 3xl:ps-[123px] h-full xs:h-[400px] sm:h-[500px] md:h-[600px]">
-                {/* Text Content */}
                 <div className="w-full xs:w-1/3 max-xs:text-center max-xs:pt-5">
                   <div>
                     <Link
@@ -170,7 +169,6 @@ const SofaBanner: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                {/* Image */}
                 <div className="w-full xs:w-2/3 relative">
                   <Link href={slide.link}>
                     <Image

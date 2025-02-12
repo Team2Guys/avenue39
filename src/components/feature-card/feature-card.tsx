@@ -76,10 +76,6 @@ const FeatureCard: React.FC<CardProps> = ({
     queryFn: fetchReviews,
   });
   const productId = card?.id;
-  // const filteredReviews = reviews.filter(
-  //   (review) => review.productId === productId,
-  // );
-
   const filteredReviews = Array.isArray(reviews)
     ? reviews.filter((review) => review.productId === productId)
     : [];

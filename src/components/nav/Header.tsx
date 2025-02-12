@@ -52,10 +52,7 @@ const Header = () => {
     <>
       <TopNav />
       <Navbar categories={sortedCategories} />
-      <MenuBar
-        categories={sortedCategories}
-        //  menuData={menuData} loading={loading} error={error}
-      />
+      <MenuBar categories={sortedCategories} />
       <BottomBar />
     </>
   );

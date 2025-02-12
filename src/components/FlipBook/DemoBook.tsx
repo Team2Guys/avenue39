@@ -10,7 +10,6 @@ import Image from 'next/image';
 const DemoBook: React.FC = () => {
   const flipBook = useRef<any>(null);
 
-  // Adjust the book data to ensure it's an even number of pages
   const adjustBookData = (data: typeof originalBookData) => {
     if (data.length % 2 !== 0) {
       data.push({
@@ -22,7 +21,6 @@ const DemoBook: React.FC = () => {
     }
     return data;
   };
-  // Adjust the book data
   const bookData = adjustBookData([...originalBookData]);
 
   return (
@@ -79,19 +77,6 @@ const DemoBook: React.FC = () => {
           ),
         )}
       </HTMLFlipBook>
-
-      {/* Uncomment below code for navigation */}
-      {/* <div className="container absolute bottom-10 md:px-40 ">
-        <div className="flex justify-between">
-          <button type="button" onClick={prevButtonClick}>
-            <BsFillArrowLeftCircleFill size={25} className="border border-white rounded-full" />
-          </button>
-          [<span>{page + 1}</span> of <span>{totalPage}</span>]
-          <button type="button" onClick={nextButtonClick}>
-            <BsFillArrowRightCircleFill size={25} className="border border-white rounded-full" />
-          </button>
-        </div>
-      </div> */}
     </div>
   );
 };

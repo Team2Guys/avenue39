@@ -56,8 +56,7 @@ const Testimonial: React.FC<TestimonialProps> = ({ testimonialitems }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading delay
-    const timer = setTimeout(() => setLoading(false), 3000); // Simulate 2-second loading time
+    const timer = setTimeout(() => setLoading(false), 3000); 
     return () => clearTimeout(timer);
   }, []);
 

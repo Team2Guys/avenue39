@@ -60,7 +60,7 @@ const ProductPage = ({
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
   const processedProducts = productsToFilter.flatMap((prod) => {
-    if (!prod.sizes || prod.sizes.length === 0) {
+    if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
       return [prod]; 
     }
   
@@ -79,6 +79,7 @@ const ProductPage = ({
       const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
         (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
       );
+      console.log(filterMatch,"filterMatch",img)
       const hoverImageMatch = prod.productImages.find(
         (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
       );
@@ -94,6 +95,8 @@ const ProductPage = ({
               ? img.size
               : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
           }`,
+          sizeName:img.size ,
+          colorName:img.color,
           price: sizeMatch
             ? Number(sizeMatch.price)
             : filterMatch

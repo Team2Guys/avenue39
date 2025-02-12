@@ -144,6 +144,8 @@ export interface IProduct {
   filter?: Filter[];
   reviews?:any[]
   displayName?: string;
+  sizeName?: string;
+  colorName?: string;
   custom_url?:string
 }
 interface Filter {

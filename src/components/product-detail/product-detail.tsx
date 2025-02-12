@@ -100,9 +100,11 @@ const ProductDetail = ({
 
   const handleSizeClick = (index: any, size: CartSize) => {
     setSelectedSize(index);
+    console.log(size, 'size')
     setSize(size)
   };
 
+  console.log(size, 'size')
 
   useEffect(() => {
     if (!product) return;
@@ -124,7 +126,7 @@ const ProductDetail = ({
 
     if (activeColor) {
       const sizesForColor = product.sizes?.filter(size =>
-        product.productImages.some(img => img.color === activeColor && img.size === (size?.name ||""))
+        product.productImages.some(img => img.color === activeColor && img.size === (size?.name || ""))
       );
 
       setAvailableSizes(sizesForColor);
@@ -144,8 +146,10 @@ const ProductDetail = ({
       const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
       const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
-      const defualtSize: any = product?.sizes?.find((prod) => prod?.name === (sizesForColor && sizesForColor[0]?.name));
-      setSize(defualtSize);
+      if (!size) {
+        const defualtSize: any = product?.sizes?.find((prod) => prod?.name === (sizesForColor && sizesForColor[0]?.name));
+        setSize(defualtSize);
+      }
     } else {
       setAvailableSizes([]);
       setProductImage([]);
@@ -183,9 +187,10 @@ const ProductDetail = ({
       setIsOutStock(true)
     }
     let firstcolor = (product && product?.filter) && product?.filter[0]?.additionalInformation[0]
-    const size: any = (product && product?.sizes) && product?.sizes[0]
+    const Size: any = (product && product?.sizes) && product?.sizes[0]
     setFilter(firstcolor)
-    setSize(size)
+    setSize(Size)
+
   }
 
 
@@ -273,7 +278,7 @@ const ProductDetail = ({
     e.stopPropagation();
     const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
       item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
-    console.log(existingCartItem, "cartItems")
+    console.log(existingCartItem, "cartItems",)
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
@@ -314,7 +319,6 @@ const ProductDetail = ({
   };
 
 
-  console.log(cartItems, "cartItems")
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
@@ -359,38 +363,50 @@ const ProductDetail = ({
     Navigate.push('/checkout');
   };
 
-  const handleAddToWishlist = (product: IProduct) => {
-
-    console.log("Wishlist:", itemToAdd);
+  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    // console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const existingItemIndex = existingWishlist.findIndex(
-      (item: any) => item.id === itemToAdd.id,
-    );
-    if (existingItemIndex !== -1) {
-      const currentCount = existingWishlist[existingItemIndex].count;
-      if (product.stock && currentCount + 1 > product.stock) {
-        toast.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist[existingItemIndex].count += 1;
-      existingWishlist[existingItemIndex].totalPrice =
-        existingWishlist[existingItemIndex].count *
-        (existingWishlist[existingItemIndex].discountPrice ||
-          existingWishlist[existingItemIndex].price);
-    } else {
-      if (product.stock && itemToAdd.quantity > product.stock) {
-        toast.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist.push(itemToAdd);
+    if (!Array.isArray(existingWishlist)) {
+      existingWishlist = [];
     }
-    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-    toast.success('Product added to Wishlist successfully!');
-    window.dispatchEvent(new Event('WishlistChanged'));
+
+    const existingWishlistItem = existingWishlist.find((item: any) =>
+      item.id === itemToAdd.id &&
+      item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name
+    );
+
+    if (!existingWishlistItem) {
+      existingWishlist.push(itemToAdd);
+      localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+      // console.log('Added to wishlist:', itemToAdd);
+      window.dispatchEvent(new Event('WishlistChanged'));
+      toast.success('Product added to Wishlist successfully!');
+    } else {
+      const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || itemToAdd.stock;
+      const addedQuantity = existingWishlistItem.quantity + count;
+      console.log('Item already exists in wishlist:', variationQuantity, addedQuantity, size, itemToAdd.selectedSize, existingWishlistItem);
+      if (addedQuantity > totalStock) {
+        toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
+        return;
+      } else if (addedQuantity > variationQuantity) {
+        toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+        return;
+      }
+      existingWishlist = existingWishlist.map((item: any) =>
+        item.id === existingWishlistItem.id &&
+          item.selectedSize?.name === existingWishlistItem.selectedSize?.name &&
+          item.selectedfilter?.name === existingWishlistItem.selectedfilter?.name
+          ? { ...item, quantity: item.quantity + (count || 1) }
+          : item
+      );
+
+      localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+      window.dispatchEvent(new Event('WishlistChanged'));
+      // console.log('Item already exists in wishlist:', variationQuantity, addedQuantity ,count );
+      toast.success('Product quantity updated in Wishlist.');
+    }
   };
   return (
 
@@ -647,7 +663,7 @@ const ProductDetail = ({
               <Button
                 variant='outline'
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={() => handleAddToWishlist(product)}
+                onClick={(e: React.MouseEvent<HTMLElement>) => handleAddToWishlist(e)}
               >
                 Add to Wishlist
               </Button>

@@ -67,7 +67,7 @@ const ProductDetail = ({
   const [count, setCount] = useState(1);
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
-  const slug = String(params.name);
+  const slug = String(params?.name);
   const [timeLeft, setTimeLeft] = useState({
     day: 0,
     hour: 0,
@@ -87,7 +87,7 @@ const ProductDetail = ({
   const [totalStock, setTotalStock] = useState<number>(0)
 
 
-  const product = params ? params : products?.find((product) => product.name === slug);
+  const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
 
   // Safeguard against `product` being undefined
 
@@ -124,7 +124,7 @@ const ProductDetail = ({
 
     if (activeColor) {
       const sizesForColor = product.sizes?.filter(size =>
-        product.productImages.some(img => img.color === activeColor && img.size === size.name)
+        product.productImages.some(img => img.color === activeColor && img.size === (size?.name ||""))
       );
 
       setAvailableSizes(sizesForColor);
@@ -144,7 +144,7 @@ const ProductDetail = ({
       const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
       const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
-      const defualtSize: any = product?.sizes?.find((prod) => prod.name === (sizesForColor && sizesForColor[0].name));
+      const defualtSize: any = product?.sizes?.find((prod) => prod?.name === (sizesForColor && sizesForColor[0]?.name));
       setSize(defualtSize);
     } else {
       setAvailableSizes([]);
@@ -528,7 +528,7 @@ const ProductDetail = ({
                 <div className="flex space-x-4 mt-2">
                   {product?.filter?.[0]?.additionalInformation.map((item, index) => {
                     const image = product.productImages.find(
-                      (img) => img.color === item.name
+                      (img) => img?.color === item?.name
                     );
                     if (!image) return null;
 
@@ -559,7 +559,7 @@ const ProductDetail = ({
               )}
               <div className="flex space-x-4">
                 {availableSizes.map((size: { name: string, price: string }, index: number) => {
-                  const [sizeName, sizeType] = size.name.split(' ');
+                  const [sizeName, sizeType] = size?.name.split(' ');
                   return (
                     <div
                       key={index}
@@ -596,7 +596,7 @@ const ProductDetail = ({
                     className="bg-[#F5F5F5] p-2 rounded-md w-14 text-center font-normal text-14 text-lightdark flex flex-col"
                   >
                     <span>{value}</span>
-                    <span className="text-10">{label.toUpperCase()}</span>
+                    <span className="text-10">{label?.toUpperCase()}</span>
                   </div>
                 ))}
               </div>

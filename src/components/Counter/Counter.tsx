@@ -37,7 +37,7 @@ const Counter: React.FC<CounterProps> = ({ count, onChangeCount }) => {
   };
   console.log(count, 'count');
   return (
-    <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3 w-fit">
+    <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3 w-24 sm:w-fit">
       <button
         onClick={onDecrement}
         className="px-2 text-gray-600"
@@ -50,7 +50,7 @@ const Counter: React.FC<CounterProps> = ({ count, onChangeCount }) => {
         value={count}
         onKeyDown={handleKeyDown}
         onChange={onChange}
-        className="mx-2 text-center w-12 border-none outline-none"
+        className="mx-2 text-center w-3 sm:w-12 border-none outline-none"
       />
       <button onClick={onIncrement} className="px-2 text-gray-600">
         <HiPlusSm size={20} />

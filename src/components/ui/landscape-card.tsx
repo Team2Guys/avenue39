@@ -27,6 +27,7 @@ import { openDrawer } from '@/redux/slices/drawer';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { message } from 'antd';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { toast } from 'react-toastify';
 interface CardProps {
   card: IProduct;
   isLoading?: boolean;
@@ -44,52 +45,39 @@ const LandscapeCard: React.FC<CardProps> = ({ card, isLoading }) => {
     }
   }, [isLoading]);
 
-  const handleAddToWishlist = (product: IProduct) => {
-    // Create a new wishlist item
-    const newWishlistItem = {
-      id: product.id, // Ensure you have the correct property here
-      name: product.name,
-      price: product.price,
-      posterImageUrl: product.posterImageUrl,
-      discountPrice: product.discountPrice,
-      count: 1, // Initialize count to 1 for a new item
-      stock: product.stock,
-      totalPrice: product.discountPrice ? product.discountPrice : product.price,
-    };
+ const handleAddToWishlist = (product: IProduct) => {
 
-    // Retrieve existing wishlist from local storage
+    console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-
-    // Check if the product is already in the wishlist
     const existingItemIndex = existingWishlist.findIndex(
-      (item: any) => item.id === newWishlistItem.id,
-    ); // Use newWishlistItem.id here
-
+      (item: any) => item.id === itemToAdd.id,
+    );
     if (existingItemIndex !== -1) {
-      // If it exists, increment the count and update the total price
+      const currentCount = existingWishlist[existingItemIndex].count;
+      if (product.stock && currentCount + 1 > product.stock) {
+        toast.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
       existingWishlist[existingItemIndex].count += 1;
       existingWishlist[existingItemIndex].totalPrice =
         existingWishlist[existingItemIndex].count *
         (existingWishlist[existingItemIndex].discountPrice ||
           existingWishlist[existingItemIndex].price);
     } else {
-      // If it doesn't exist, add the new item to the wishlist
-      existingWishlist.push(newWishlistItem);
+      if (product.stock && itemToAdd.quantity > product.stock) {
+        toast.error(
+          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+        );
+        return;
+      }
+      existingWishlist.push(itemToAdd);
     }
-
-    // Save updated wishlist back to local storage
     localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-
-    // Show success message
-    message.success('Product added to Wishlist successfully!');
-
-    // Dispatch custom event to update the count in the navbar
+    toast.success('Product added to Wishlist successfully!');
     window.dispatchEvent(new Event('WishlistChanged'));
-
-    // Debugging: log the current state of the wishlist
-    console.log(existingWishlist, 'existingWishlist');
   };
-
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
   };

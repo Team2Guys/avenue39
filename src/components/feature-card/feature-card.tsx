@@ -26,6 +26,7 @@ import { message } from 'antd';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { State } from '@/redux/store';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 interface CardProps {
   card: IProduct;
@@ -85,48 +86,39 @@ const FeatureCard: React.FC<CardProps> = ({
   const { averageRating } = calculateRatingsPercentage(filteredReviews);
 
 
-  const handleAddToWishlist = (product: IProduct) => {
-    const newWishlistItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      posterImageUrl: product.posterImageUrl,
-      discountPrice: product.discountPrice,
-      count: 1,
-      stock: product.stock,
-      totalPrice: product.discountPrice ? product.discountPrice : product.price,
+   const handleAddToWishlist = (product: IProduct) => {
+  
+      console.log("Wishlist:", itemToAdd);
+      let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const existingItemIndex = existingWishlist.findIndex(
+        (item: any) => item.id === itemToAdd.id,
+      );
+      if (existingItemIndex !== -1) {
+        const currentCount = existingWishlist[existingItemIndex].count;
+        if (product.stock && currentCount + 1 > product.stock) {
+          toast.error(
+            `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+          );
+          return;
+        }
+        existingWishlist[existingItemIndex].count += 1;
+        existingWishlist[existingItemIndex].totalPrice =
+          existingWishlist[existingItemIndex].count *
+          (existingWishlist[existingItemIndex].discountPrice ||
+            existingWishlist[existingItemIndex].price);
+      } else {
+        if (product.stock && itemToAdd.quantity > product.stock) {
+          toast.error(
+            `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+          );
+          return;
+        }
+        existingWishlist.push(itemToAdd);
+      }
+      localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+      toast.success('Product added to Wishlist successfully!');
+      window.dispatchEvent(new Event('WishlistChanged'));
     };
-    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const existingItemIndex = existingWishlist.findIndex(
-      (item: any) => item.id === newWishlistItem.id,
-    );
-    if (existingItemIndex !== -1) {
-      const currentCount = existingWishlist[existingItemIndex].count;
-      if (product.stock && currentCount + 1 > product.stock) {
-        message.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist[existingItemIndex].count += 1;
-      existingWishlist[existingItemIndex].totalPrice =
-        existingWishlist[existingItemIndex].count *
-        (existingWishlist[existingItemIndex].discountPrice ||
-          existingWishlist[existingItemIndex].price);
-    } else {
-      if (product.stock && newWishlistItem.count > product.stock) {
-        message.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist.push(newWishlistItem);
-    }
-    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-    message.success('Product added to Wishlist successfully!');
-    window.dispatchEvent(new Event('WishlistChanged'));
-    console.log(existingWishlist, 'existingWishlist');
-  };
 
   return (
     <div className="space-y-3 px-4 relative">

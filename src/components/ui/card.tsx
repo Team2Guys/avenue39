@@ -22,7 +22,6 @@ import {
   DialogOverlay,
   DialogTrigger,
 } from '../ui/dialog';
-import { message } from 'antd';
 import Link from 'next/link';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { toast } from 'react-toastify';
@@ -145,51 +144,39 @@ const Card: React.FC<CardProps> = ({
     dispatch(openDrawer());
   };
 
-  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>, product: IProduct) => {
-    e.stopPropagation();
-
-    console.log(product, "product")
-    const newWishlistItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      posterImageUrl: product.posterImageUrl,
-      discountPrice: product.discountPrice,
-      count: 1,
-      stock: product.stock,
-      totalPrice: product.discountPrice ? product.discountPrice : product.price,
-    };
-    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const existingItemIndex = existingWishlist.findIndex(
-      (item: any) => item.id === newWishlistItem.id,
-    );
-    if (existingItemIndex !== -1) {
-      const currentCount = existingWishlist[existingItemIndex].count;
-      if (product.stock && currentCount + 1 > product.stock) {
-        message.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist[existingItemIndex].count += 1;
-      existingWishlist[existingItemIndex].totalPrice =
-        existingWishlist[existingItemIndex].count *
-        (existingWishlist[existingItemIndex].discountPrice ||
-          existingWishlist[existingItemIndex].price);
-    } else {
-      if (product.stock && newWishlistItem.count > product.stock) {
-        message.error(
-          `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-        );
-        return;
-      }
-      existingWishlist.push(newWishlistItem);
-    }
-    localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-    message.success('Product added to Wishlist successfully!');
-    window.dispatchEvent(new Event('WishlistChanged'));
-    console.log(existingWishlist, 'existingWishlist');
-  };
+  const handleAddToWishlist = (product: IProduct) => {
+ 
+     console.log("Wishlist:", itemToAdd);
+     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+     const existingItemIndex = existingWishlist.findIndex(
+       (item: any) => item.id === itemToAdd.id,
+     );
+     if (existingItemIndex !== -1) {
+       const currentCount = existingWishlist[existingItemIndex].count;
+       if (product.stock && currentCount + 1 > product.stock) {
+         toast.error(
+           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+         );
+         return;
+       }
+       existingWishlist[existingItemIndex].count += 1;
+       existingWishlist[existingItemIndex].totalPrice =
+         existingWishlist[existingItemIndex].count *
+         (existingWishlist[existingItemIndex].discountPrice ||
+           existingWishlist[existingItemIndex].price);
+     } else {
+       if (product.stock && itemToAdd.quantity > product.stock) {
+         toast.error(
+           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
+         );
+         return;
+       }
+       existingWishlist.push(itemToAdd);
+     }
+     localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+     toast.success('Product added to Wishlist successfully!');
+     window.dispatchEvent(new Event('WishlistChanged'));
+   };
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
@@ -244,7 +231,7 @@ const Card: React.FC<CardProps> = ({
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
         
       <div
-                    onClick={(e) => handleAddToWishlist(e, card)}
+                    onClick={() => handleAddToWishlist(card)}
                     onMouseEnter={() => setIsHoverImage(true)}
                     onMouseLeave={() => setIsHoverImage(false)}
                     className="absolute z-50 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"

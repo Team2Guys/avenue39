@@ -22,7 +22,7 @@ export default function NotFound() {
           </Link>
           <Link
             className="w-35 sm:w-40 h-10 sm:h-12 text-14 flex justify-center items-center rounded-full bg-transparent text-primary hover:bg-primary border border-primary hover:border-primary hover:text-white transition"
-            href="/contact"
+            href="/contact-us"
           >
             Contact Us
           </Link>

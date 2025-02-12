@@ -161,7 +161,7 @@ const ProductPage = ({
       }
       <Container className="my-5 flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="w-full">
-          {pathname === '/sale' ? null : pathname === '/new-arrivals' ? (
+          {pathname === '/new-arrivals' ? (
             <div className="flex flex-col items-center">
               {newArrivals.map((item, index) => (
                 <div key={index} className="text-center">
@@ -178,8 +178,7 @@ const ProductPage = ({
                 {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-              <p className="text-center sm:text-base text-sm">
-
+              <p className={`text-center sm:text-base text-sm ${pathname === '/sale' && 'hidden'}`}>
               {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
               </p>
               </Container>

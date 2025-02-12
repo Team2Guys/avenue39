@@ -194,4 +194,5 @@ export const staticHeaderCategories: string[] = [
   'Lighting',
   'Accessories',
   'New Arrivals',
+  'Sale'
 ];

@@ -13,9 +13,6 @@ const RenderStars: React.FC<starProps> = ({ card }) => {
     queryFn: fetchReviews,
   });
   const productId = card?.id;
-  // const filteredReviews = reviews.filter(
-  //   (review) => review.productId === productId,
-  // );
   const filteredReviews = Array.isArray(reviews)
     ? reviews.filter((review) => review.productId === productId)
     : [];

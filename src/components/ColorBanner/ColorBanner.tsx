@@ -70,7 +70,6 @@ console.log(windowWidth, "windowWidth")
                     <h1 className="text-2xl pb-1 uppercase font-semibold">
                       {slide.Heading}
                     </h1>
-                    {/* <p className="text-sm font-normal pb-2">{slide.ShortText}</p> */}
                     <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
                       {slide.Description}
                     </p>

@@ -16,61 +16,41 @@ interface SlugPageProps {
   }>;
 }
 
-
 export async function generateMetadata({
   params,
 }: SlugPageProps): Promise<Metadata> {
   const { slug } = await params;
   let metaObject: any;
-
   const headersList = await headers();
   const domain = headersList.get('x-forwarded-host') || headersList.get('host') || '';
   const protocol = headersList.get('x-forwarded-proto') || 'https';
   const pathname = headersList.get('x-invoke-path') || '/';
-
   const fullUrl = `${protocol}://${domain}${pathname}`;
   metaObject = await Meta_handler(slug, fullUrl);
-
-
   return metaObject;
 }
 
 const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const { slug } = await params;
-
   const categories = await fetchCategories();
   const AllProduct = await fetchProducts();
-
   const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.custom_url || item.name) === slug);
   if (!findCategory) {
     return <NotFound />;
   }
-
   const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'office-furniture' ? 'homeOffice' : slug;
   const subcategory = menuData[categoryName] || [];
-
   let sortProducts;
-  
-
-console.log(subcategory, "Product")
-
-
     if(slug === "new-arrivals"){
-
       const ProductSet = new Set(Product.map(generateSlug));
       const SubcategorySet = new Set(Subcategory.map(generateSlug));
       const CategorySet = new Set(categories.map(generateSlug));
-      
       const filterProds = AllProduct.map((prods: any) => {
         const productSlug = generateSlug(prods.name);
-      
         if (!ProductSet.has(productSlug)) {
           return null; 
         }
 
-
-
-      
         const filteredSubcategories = prods.subcategories.filter((subcat: any) => 
           SubcategorySet.has(generateSlug(subcat.name)) && 
           subcat.categories.some((value: any) => CategorySet.has(generateSlug(value.name)))
@@ -116,11 +96,7 @@ console.log(subcategory, "Product")
     
           return indexA - indexB;
         });
-
-
-        
     }
-
 
   return <Shop
     ProductData={sortProducts}

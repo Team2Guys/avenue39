@@ -11,7 +11,6 @@ const AddAdmin = ({ setselecteMenu }: any) => {
   const [error, setError] = useState<string | null | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Initialize state for form data
   const [formData, setFormData] = useState({
     fullname: '',
     email: '',
@@ -22,10 +21,8 @@ const AddAdmin = ({ setselecteMenu }: any) => {
     canDeleteCategory: false,
   });
 
-  // Function to handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // Update the form data state with the new value
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,

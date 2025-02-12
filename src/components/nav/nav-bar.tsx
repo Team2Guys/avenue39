@@ -241,7 +241,6 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
                           <div
                             key={product.id}
-                            // onClick={() => handleNavigation(product)}
                             className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
                           >
                             <Image
@@ -298,12 +297,6 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
           <form onSubmit={(e) => e.preventDefault()}>
             <Drawer direction="top">
               <DrawerTrigger asChild>
-                {/* <button
-                    type="submit"
-                    className="cursor-pointer block md:hidden"
-                  >
-                    <IoSearchSharp className="cursor-pointer" size={30} />
-                  </button> */}
                 <form
                   className="relative w-full bg-white z-[199]"
                   onSubmit={(e) => e.preventDefault()}
@@ -504,9 +497,6 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
               open={isSheetOpen}
             >
               <div onClick={() => setIsSheetOpen(true)}>
-                {/* <div className="triangle-shape bg-black text-white cursor-pointer z-[200]">
-                <button type='submit'> <MdCategory size={25} /></button>
-              </div> */}
                 <HiBars3BottomRight size={30} />
               </div>
               <SheetOverlay className='block bg-[#fffc] z-[200]' />

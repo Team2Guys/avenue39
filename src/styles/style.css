@@ -124,10 +124,8 @@
   width: 4px !important;
   height: 5px !important;
   overflow-y: scroll;
-  /* Optional: Adding padding, margin, and other styles */
 }
 
-/* Custom scrollbar styling */
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px; /* Width of the entire scrollbar */
 }
@@ -160,12 +158,6 @@
   background: #c6c6c6 !important;
   border-radius: 5px !important;
 }
-/* .product-hover-icons {
-  display: none;
-}
-.product-card:hover .product-hover-icons {
-  display: flex;
-} */
 .hot-products .slick-slide .product-card {
   margin-bottom: 40px;
 }
@@ -310,7 +302,6 @@
   position: absolute;
   bottom: 35px !important;
   left: 30%;
-  /* transform: translateX(-50%); */
   display: flex;
   gap: 10px;
   width: 100%;
@@ -319,9 +310,6 @@
   list-style: none;
   text-align: center;
 
-  /* justify-content: end; */
-
-  /* height: 8px; */
 }
 .timer_slider .slick-dots .slick-active button::before {
   width: 25px;
@@ -338,7 +326,6 @@
   height: 10px;
   content: '';
   border: 1px solid #e3e4e6;
-  /* background-color:#e3e4e6; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border-radius: 50%;
@@ -419,7 +406,6 @@
 }
 .dark input[type='number']::-webkit-inner-spin-button,
 .dark input[type='number']::-webkit-outer-spin-button {
-  /* -webkit-appearance:; */
   background-color: #24303f !important;
   text-align: black;
 }

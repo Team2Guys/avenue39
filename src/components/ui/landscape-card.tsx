@@ -120,10 +120,6 @@ const LandscapeCard: React.FC<CardProps> = ({ card, isLoading }) => {
       onClick={() => handleNavigation()}
     >
       <div className="relative w-fit mx-auto sm:w-5/12 md:w-4/12 lg:w-5/12 overflow-hidden rounded-xl">
-        {/* <div className="bg-white rounded-full absolute top-4 right-6 flex flex-col gap-2 py-2 px-1 product-hover-icons z-[1] opacity-0 group-hover:opacity-100 transition-opacity">
-          <PiEyeThin size={17} className="cursor-pointer" />
-          <CiHeart size={18} className="cursor-pointer" />
-        </div> */}
         <div
           onClick={() => handleAddToWishlist(card)}
           className=" w-10 h-12 absolute right-2 top-2 rounded-xl  flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer"

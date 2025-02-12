@@ -218,12 +218,6 @@ const FormLayout = ({
                           </div>
                         ) : null}
                       </div>
-
-
-
-
-                      
-
                       <div>
                         <label className="mb-3 block py-4 px-2 text-sm font-medium text-black dark:text-white">
                           Category Description

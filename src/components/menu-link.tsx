@@ -53,8 +53,6 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
   return (
     <>
       {subCategory?.map((item, index) => (
-
-
         <Link
           href={
             item.name === 'Accessories'
@@ -67,8 +65,6 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
         >
           {item.name}
         </Link>
-
-
       ))}
     </>
   );

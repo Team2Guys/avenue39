@@ -29,15 +29,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
-// import paymenticons from '@icons/payment-icons.png';
 import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
 import { calculateRatingsPercentage, renderStars } from '@/config';
-// import { TbCube3dSphere } from 'react-icons/tb';
-// import Product3D from '../3DView/Product3D';
-// import ARExperience from '../ARModelViewer';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
@@ -86,12 +82,7 @@ const ProductDetail = ({
   const [isOutStock, setIsOutStock] = useState<boolean>(false)
   const [totalStock, setTotalStock] = useState<number>(0)
 
-
   const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
-
-  // Safeguard against `product` being undefined
-
-
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
     setSelectedSize(0);
@@ -192,18 +183,10 @@ const ProductDetail = ({
     setSize(Size)
 
   }
-
-
-
-
   /* eslint-disable */
-
   useEffect(() => {
-
     stockhandler()
-
   }, [product])
-
 
   const Navigate = useRouter();
   useEffect(() => {
@@ -418,7 +401,6 @@ const ProductDetail = ({
           thumbs={productImage.length > 0 ? productImage : customImages}
           isZoom={isZoom}
           swiperGap={swiperGap}
-          // HoverImage={setHoveredImage}
           isLoading={false}
           activeIndex={0}
         />
@@ -510,22 +492,8 @@ const ProductDetail = ({
           </ProductPrice>
         )}
 
-
-        {/* <div className="flex gap-3 font-semibold">
-          <span>AVAILABLE:</span>
-          {product.stock > 0 ? (
-            <span className="text-[#56B400]">In Stock</span>
-          ) : (
-            <span className="text-[#EE1C25]">Out Of Stock</span>
-          )}
-        </div> */}
         <p className="text-lightdark text-14 tracking-wide leading-6 font-helvetica">
-          {
-            // isExpanded
-            //   ? product?.description
-            //   :
-            truncateText(product?.description, 120)
-          }
+          {truncateText(product?.description, 120)}
         </p>
 
         <div>
@@ -596,9 +564,6 @@ const ProductDetail = ({
               </div>
             </div>
           )}
-
-
-
         </div>
 
         {product.sale_counter &&
@@ -618,10 +583,6 @@ const ProductDetail = ({
               </div>
             </>
           )}
-
-        {/* <NormalText className="mb-2">
-          Hurry Up! Only <span className="text-red-600">12</span> left in stock:
-        </NormalText> */}
         {(
           <>
             <div className="flex items-center gap-4 justify-between mb-2">

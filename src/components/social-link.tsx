@@ -57,14 +57,6 @@ const SocialLink: React.FC<LinkSocial> = ({
           />
         </Link>
       </div>
-      {/* <Link
-        href="https://twitter.com/avenue39home"
-        target="_blank"
-        className={`${linkClass}`}
-      >
-        <FaXTwitter className={`text-[16px] md:text-[20px] ${socialSize}`} />
-      </Link> */}
-      {/* <Link href='https://www.linkedin.com/company/avenue39home' target='_blank' className={`${linkClass}`}><FaLinkedinIn className={`text-[16px] md:text-[20px] ${socialSize}`} /></Link> */}
     </div>
   );
 };

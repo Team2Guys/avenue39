@@ -10,17 +10,10 @@ function Admins({ setselecteMenu, setEditAdmin }: any) {
   const [admins, setAdmins] = useState([]);
   const [loading, setloading] = useState<boolean>(false);
   const [delLoading, setDelLoading] = useState<string | null>(null);
-  // const [editLoading, setEditLoading] = useState<string | null>(null);
 
   useEffect(() => {
     const getAllAdmins = async () => {
       try {
-        // setloading(true);
-        // const token = Cookies.get('superAdminToken');
-        // if (!token) {
-        //   return;
-        // }
-
         const headers = {
           token: 'token',
         };
@@ -48,16 +41,11 @@ function Admins({ setselecteMenu, setEditAdmin }: any) {
 
   const handleDelete = async (id: string) => {
     try {
-      // const token = localStorage.getItem('superAdminToken');
-      // if (!token) {
-      //   return;
-      // }
       setDelLoading(id);
       await axios.delete(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/delete-admin`,
         {
           headers: {
-            // token: token,
             adminId: id,
           },
         },
@@ -68,7 +56,7 @@ function Admins({ setselecteMenu, setEditAdmin }: any) {
     } catch (error) {
       console.error('Error deleting admin:', error);
     } finally {
-      setDelLoading(null); // Reset loading state after delete operation completes
+      setDelLoading(null); 
     }
   };
 
@@ -137,9 +125,6 @@ function Admins({ setselecteMenu, setEditAdmin }: any) {
       title: 'Edit',
       key: 'edit',
       render: (text: any, record: any) => (
-        // editLoading === record.id ? (
-        //   <Loader />
-        // ) : (
         <FaEdit
           className="cursor-pointer text-slate-500"
           size={20}
@@ -149,7 +134,6 @@ function Admins({ setselecteMenu, setEditAdmin }: any) {
           }}
         />
       ),
-      // ),
     },
     {
       title: 'Actions',

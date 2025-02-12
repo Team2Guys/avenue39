@@ -125,7 +125,7 @@ export default function RootLayout({
         {/* <!-- End Google Tag Manager (noscript) → */}
      {/* NoScript Fallback */}
      <noscript>
-        <img  height="1"  width="1"  style={{ display: "none" }}
+        <Image  height="1"  width="1"  style={{ display: "none" }}
           src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1" alt="Facebook Pixel" />
       </noscript>
 

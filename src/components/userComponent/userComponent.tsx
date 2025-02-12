@@ -31,19 +31,10 @@ export default function UserComponent({
 
   return (
     <>
-      {/* {SelectComonent ? <SelectComonent /> : null} */}
 
       <Fragment>
         <div className="grid grid-cols-1 justify-center px-2 py-5">
           <div className="max-w-screen-sm mx-auto px-2 py-5 xs:p-5 sm:p-10 shadow-[0px_3px_6px_#00000029] rounded-md h-fit">
-            {/* <div className="flex flex-col items-center  mb-10">
-                <h2 className="text-xl text-[#3A393C] lg:text-4xl">
-                  {adminFlag ? `Sign in as ${adminType}` : title && title}
-                </h2>
-                <p className="text-sm text-[#9096B2] mt-3 text-center">
-                  {descrition && descrition}
-                </p>
-              </div> */}
 
             <Tabs value={activeTab} onValueChange={handleTabChange}>
               <TabsList className=" w-full text-center space-x-4  flex justify-center items-center">
@@ -76,8 +67,6 @@ export default function UserComponent({
                         value={field.value}
                         onChange={field.onChange}
                         style={{ backgroundColor: '#F6F6F6 !important' }}
-                        // Icons={field.Icon}
-                        // iconClassName={field.iconClassName}
                       />
                     ))}
                     {error ? (
@@ -137,8 +126,6 @@ export default function UserComponent({
                         placeholder={field.placeholder}
                         value={field.value}
                         onChange={field.onChange}
-                        // Icons={field.Icon}
-                        // iconClassName={field.iconClassName}
                       />
                     ))}
                     {error ? (

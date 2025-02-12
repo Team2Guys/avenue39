@@ -23,12 +23,10 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-
-  // Close menu if click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setActiveMenu(null); // Close dropdown if clicked outside
+        setActiveMenu(null);
       }
     };
 
@@ -58,7 +56,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
 
   const handleMouseEnter = (menu: string) => {
     if (activeMenu === menu) {
-      return; // Prevent opening dropdown if the same menu is hovered
+      return; 
     }
     setActiveMenu(menu);
   };
@@ -71,7 +69,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
 
   const handleClickMenu = (menu: string) => {
     if (activeMenu === menu) {
-      setActiveMenu(null); // Toggle dropdown if the same menu is clicked
+      setActiveMenu(null); 
     } else {
       setActiveMenu(menu);
     }

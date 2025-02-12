@@ -235,8 +235,6 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                                       item?.price * item.quantity
                                     ).toLocaleString()}
                                   </span>
-                                  {/* <NormalText className="text-slate-400 line-through w-20 text-end text-nowrap !text-[15px]">
-                            </NormalText> */}
                                 </ProductPrice>
                               )}
                           </div>
@@ -476,9 +474,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                   <div>
                     {!isCheckoutPage && (
                       <div className="flex items-center gap-2">
-                        {/* <Link href={`/product/${generateSlug(item.name)}`}>
-          <MdModeEdit className="cursor-pointer" size={20} />
-        </Link> */}
+                      
                         <FaTrash
                           className="cursor-pointer"
                           size={15}

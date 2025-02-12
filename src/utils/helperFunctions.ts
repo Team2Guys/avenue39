@@ -42,11 +42,6 @@ export const ImageRemoveHandler = async (
   imagePublicId: string,
   setterFunction: any,
 ) => {
-  // const requestConfig: AxiosRequestConfig = {
-  //   data: { imageUrl: imagePublicId },
-  // };
-  // console.log('function called');
-  // console.log(imagePublicId);
   try {
     const response = await axios.delete(
       `${process.env.NEXT_PUBLIC_PRODUCT_IMAGE}/api/file-upload/DelImage/${imagePublicId}`,

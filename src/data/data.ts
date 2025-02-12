@@ -81,7 +81,6 @@ export const inputFields = [
   { name: 'name', type: 'text' },
   { name: 'description', type: 'text' },
   { name: 'price', type: 'number' },
-  // { name: "category", type: 'text' },
   { name: 'discountPrice', type: 'number' },
 ];
 
@@ -166,13 +165,6 @@ export const AddProductvalidationSchema = Yup.object().shape({
       colorName: Yup.string().nullable(),
     }),
   ),
-  // additionalInformation: Yup.array().of(
-  //   Yup.object().shape({
-  //     name: Yup.string().nullable(),
-  //     detail: Yup.string().nullable(),
-  //   }),
-  // ),
-  // categoriesId: Yup.number().required('Category is required'),
 });
 
 export const AddproductsinitialValues: IProductAdd = {

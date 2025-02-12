@@ -79,9 +79,6 @@ const CreateAdmin = ({
 
   const handleSubmit = async () => {
     try {
-      // let token = Cookies.get('superAdminToken');
-      // if (!token) return null;
-
       if (!formData.fullname || !formData.email || !formData.password) {
         showToast('warn', 'Name, email and password is required');
       }
@@ -103,7 +100,6 @@ const CreateAdmin = ({
       }
 
       setFormData(intitalValues);
-      // setEditProduct(intitalValues);
       return showToast('success', response.data.message);
     } catch (err: any) {
       if (err.response && err.response.data && err.response.data.message) {
@@ -285,7 +281,6 @@ const CreateAdmin = ({
           >
             <Button
               type="button"
-              // className="px-3 py-1 bg-primary rounded hover:bg-[#A30817] text-white"
               variant={'underline'}
               onClick={handleClearAllPermissions}
             >
@@ -294,7 +289,6 @@ const CreateAdmin = ({
             <Button
               type="button"
               variant={'underline'}
-              // className="px-3 py-1 bg-primary rounded hover:bg-[#222222] text-white "
               onClick={handleAddAllPermissions}
             >
               Mark All permissions
@@ -309,7 +303,6 @@ const CreateAdmin = ({
             sm={{ order: 1, span: 24 }}
             xs={{ order: 1, span: 24 }}
           >
-            {/* //{error ? <p className="text-primary">{error}</p> : null} */}
           </Col>
 
           <Col

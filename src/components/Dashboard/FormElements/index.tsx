@@ -443,35 +443,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                           ) : null}
                         </div>
 
-                        {/* <div className="w-[33%]">
-                          <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                            Purchase Price
-                          </label>
-                          <input
-                            type="number"
-                            name="purchasePrice"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.purchasePrice}
-                            placeholder="Purchase Price"
-                            className={`w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary ${
-                              formik.touched.purchasePrice &&
-                              formik.errors.purchasePrice
-                                ? 'border-red-500'
-                                : ''
-                            }`}
-                          />
-                          {formik.touched.purchasePrice &&
-                          formik.errors.purchasePrice ? (
-                            <div className="text-red-500 dark:text-red-700 text-sm">
-                              {
-                                formik.errors.purchasePrice as FormikErrors<
-                                  FormValues['purchasePrice']
-                                >
-                              }
-                            </div>
-                          ) : null}
-                        </div> */}
                         <div className="w-1/2 xs:w-1/3">
                           <label className="mb-3 block text-sm font-medium text-black dark:text-white mt-4">
                             Discount Price
@@ -616,28 +587,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                         </div>
                       </div>
                       <div className="flex gap-4 flex-col">
-                        {/* <div className="w-2/4">
-                          <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                            Product Code
-                          </label>
-                          <input
-                            type="text"
-                            name="code"
-                            onChange={formik.handleChange}
-                            value={formik.values.code}
-                            placeholder="Product code"
-                            className={`w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary ${
-                              formik.touched.name && formik.errors.name
-                                ? 'border-red-500'
-                                : ''
-                            }`}
-                          />
-                          {formik.touched.name && formik.errors.code ? (
-                            <div className="text-red-500 dark:text-red-700 text-sm">
-                              {formik.errors.code as String}
-                            </div>
-                          ) : null}
-                        </div> */}
+
                         <div className="w-full">
                           <label className="mb-3 block py-4 px-2 text-sm font-medium text-black dark:text-white">
                             Select Parent Category (at least one)
@@ -747,94 +697,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                         </div>
                       ) : null}
                     </div>
-
-                    {/* {VariationOption === 'withoutVariation' && (
-                      <>
-                        {withoutVariation.map((inputField, index) => (
-                          <div key={index} className="mb-4">
-                            <label className="block text-sm font-medium mb-1 text-dark dark:text-white">
-                              {inputField.name.charAt(0).toLocaleUpperCase() +
-                                inputField.name.slice(1)}
-                            </label>
-                            <Field
-                              type={inputField.type}
-                              name={inputField.name}
-                              className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary "
-                            />
-                            <ErrorMessage
-                              name={inputField.name}
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        ))}
-                      </>
-                    )}
-
-                    {VariationOption === 'withVariation' && (
-                      <>
-                        <FieldArray name="variantStockQuantities">
-                          {({ push, remove }) => (
-                            <div>
-                              {formik.values.variantStockQuantities &&
-                                formik.values.variantStockQuantities.map(
-                                  (model: any, index: any) => (
-                                    <div
-                                      key={index}
-                                      className="flex flex-col md:flex-row md:items-center mb-4"
-                                    >
-                                      <div className="md:flex-1 md:mr-4 mb-4 md:mb-0">
-                                        <Field
-                                          type="text"
-                                          name={`variantStockQuantities[${index}].variant`}
-                                          placeholder="Variant"
-                                          className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary "
-                                        />
-                                        <ErrorMessage
-                                          name={`variantStockQuantities[${index}].variant`}
-                                          component="div"
-                                          className="text-red-500 mt-1"
-                                        />
-                                      </div>
-                                      <div className="md:flex-1 md:mr-4 mb-4 md:mb-0">
-                                        <Field
-                                          type="number"
-                                          name={`variantStockQuantities[${index}].quantity`}
-                                          placeholder="Quantity"
-                                          className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary "
-                                        />
-                                        <ErrorMessage
-                                          name={`variantStockQuantities[${index}].quantity`}
-                                          component="div"
-                                          className="text-red-500 mt-1"
-                                        />
-                                      </div>
-                                      <div className="md:flex-none text-right text-red dark:text-red ">
-                                        <button
-                                          type="button"
-                                          onClick={() => remove(index)}
-                                          className="text-red-500 hover:text-red-700"
-                                        >
-                                          Remove
-                                        </button>
-                                      </div>
-                                    </div>
-                                  ),
-                                )}
-                              <div className="text-left">
-                                <button
-                                  type="button"
-                                  onClick={() => push({ name: '', detail: '' })}
-                                  className="px-4 py-2 bg-black text-white dark:bg-gray-800 rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black"
-                                >
-                                  Add Variation
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </FieldArray>
-                      </>
-                    )} */}
                   </div>
 
                   <div className="rounded-sm border border-stroke bg-white  dark:bg-black">
@@ -932,7 +794,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                             ),
                                           )}
 
-                                          {/* Button to add a new model within the current section */}
                                           <button
                                             type="button"
                                             onClick={() =>
@@ -1098,7 +959,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                               ),
                             )}
 
-                            {/* Button to add a new section */}
                             <button
                               type="button"
                               onClick={() =>

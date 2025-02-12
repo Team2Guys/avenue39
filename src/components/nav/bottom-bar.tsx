@@ -68,9 +68,6 @@ const BottomBar = () => {
         <AiOutlineHome size={25} />
       </Link>
       <WishlistCount />
-      {/* <Link href={'/cart'}>
-        <IoBagOutline size={25} />
-      </Link> */}
       {windowWidth < 895 && (
         <div className='relative'>
           <CartItems isMoblie={true} />

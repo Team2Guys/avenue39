@@ -156,7 +156,6 @@ const BestSellingSlider: React.FC = () => {
                 <Card
                   isLoading={isProductsLoading}
                   card={card}
-                  // cardHeight="h-[280px] xsm:h-[220px] sm:h-[240px] md:h-[270px] xl:h-[220px] 2xl:h-[280px]"
                 />
               </SwiperSlide>
             ))}

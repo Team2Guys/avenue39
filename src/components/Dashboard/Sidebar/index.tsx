@@ -67,7 +67,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
-  // console.log(loggedInUser, "loggedInUser");
   return (
     <aside
       ref={sidebar}
@@ -75,7 +74,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
-      {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-2">
         <Link href="/">
           <Image width={176} height={32} src={logoimage} alt="Logo" priority />
@@ -103,7 +101,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           </svg>
         </button>
       </div>
-      {/* <!-- SIDEBAR HEADER --> */}
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
@@ -206,15 +203,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }`}
                       >
                         <ul className="mb-3 mt-3 flex flex-col gap-2.5 pl-6">
-                          {/* <Link
-                              href="/dashboard/Add_Category/AddNewCategory"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ${pathname ===
-                                "dashboard/Add_Category/AddNewCategory" &&
-                                "text-white"
-                                } `}
-                            >
-                              Add Categories
-                            </Link> */}
                           <li>
                             <Link
                               href="/dashboard/category"
@@ -293,7 +281,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
                   );
                 }}
@@ -311,7 +298,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           'bg-black dark:bg-main'
                         }`}
                         onClick={(e) => {
-                          e.preventDefault(); // Prevent default link behavior
+                          e.preventDefault(); 
                           sidebarExpanded
                             ? handleClick()
                             : setSidebarExpanded(true);
@@ -326,7 +313,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           }`}
                         />
                       </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
                           !open && 'hidden'
@@ -398,7 +384,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
                   );
                 }}
@@ -416,7 +401,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           'bg-black dark:bg-primary'
                         }`}
                         onClick={(e) => {
-                          e.preventDefault(); // Prevent default link behavior
+                          e.preventDefault(); 
                           sidebarExpanded
                             ? handleClick()
                             : setSidebarExpanded(true);
@@ -431,7 +416,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           }`}
                         />
                       </Link>
-                      {/* <!-- Dropdown Menu Start --> */}
+                     
                       <div
                         className={`translate transform overflow-hidden ${
                           !open && 'hidden'
@@ -451,7 +436,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
+                     
                     </React.Fragment>
                   );
                 }}
@@ -482,18 +467,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Settings
                 </Link>
               </li>
-              {/* <!-- Menu Item Settings --> */}
             </ul>
           </div>
 
-          {/* <!-- Others Group --> */}
-          {/* <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              OTHERS
-            </h3>            
-          </div> */}
         </nav>
-        {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
   );

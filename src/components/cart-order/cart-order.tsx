@@ -46,12 +46,6 @@ const CartOrder: React.FC = () => {
   return (
     <div className="shadow border border-[#EEEEEE] rounded-md p-2 md:p-4 w-full space-y-5 mt-5 md:mt-0">
       <p className="text-center text-[26px]">Cart</p>
-      {/* <div className="flex justify-between items-center border-t-2 pt-4">
-        <p className="text-[#666666] text-20">Subtotal</p>
-        <p className="font-bold text-18">
-          AED <span><SubTotal /></span>
-        </p>
-      </div> */}
       <div className="flex justify-between items-center pt-4">
         <p className="text-[#666666] font-bold text-20">Total</p>
         <p className="font-medium text-[26px]">
@@ -107,13 +101,13 @@ const CartOrder: React.FC = () => {
           Proceed to Checkout
         </Link>
         <div className="mt-2 md:hidden">
-        <Link
-                  href="/new-arrivals"
-                  className="bg-main px-6 flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica"
-                >
-                  Continue Shopping
-                </Link>
-              </div>
+          <Link
+            href="/new-arrivals"
+            className="bg-main px-6 flex justify-center items-center rounded-2xl text-white h-[60px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica"
+          >
+            Continue Shopping
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ export class SalesRecordService {
       let raw = JSON.stringify({
         amount: amount * 100,
         currency: process.env.PAYMOD_CURRENCY,
-        payment_methods: [158, 49727, 52742, 52741, 52992, 53201],
+        payment_methods: [21903, 46090,46089,26884],
         items: [...updatedProducts, staticProduct].map((item: any) => ({
           ...item,
           description: item.description?.slice(0, 255),
@@ -89,8 +89,27 @@ export class SalesRecordService {
           if (!existingProduct) {
             throw new Error(`Product with ID ${product.id} not found`);
           }
+          
+          let sizesStock:any = existingProduct && existingProduct.sizes?.reduce((accum:number, value: any) => {
+            if (value.stock) {
+              return accum += Number(value.stock)
+            }
+            return 0;
+          }, 0)
+          let colorsStock = existingProduct && existingProduct.filter?.reduce((parentAccume: number, parentvalue: any) => {
+            const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+      
+              if (value.stock) {
+                return accum + Number(value.stock);
+              }
+              return accum;
+            }, 0);
+            return parentAccume + countedStock;
+          }, 0);
+      
+          const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : product?.stock || 0;
 
-          if (existingProduct.stock < product.quantity) {
+          if (totalStock < product.quantity) {
             throw new Error(
               `Not enough stock for product with ID ${product.id}. Available stock: ${existingProduct.stock}`,
             );

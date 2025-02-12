@@ -61,7 +61,7 @@ const ProductPage = ({
 
   const processedProducts = productsToFilter.flatMap((prod) => {
     if (!prod.sizes || prod.sizes.length === 0) {
-      return [prod]; // No variations, show product as is
+      return [prod]; 
     }
   
     if (!prod.productImages || prod.productImages.length === 0) {
@@ -79,9 +79,6 @@ const ProductPage = ({
       const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
         (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
       );
-      console.log("sizeMatch:", sizeMatch); 
-      console.log("filterMatch:", filterMatch);
-
       const hoverImageMatch = prod.productImages.find(
         (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
       );

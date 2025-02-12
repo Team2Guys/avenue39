@@ -20,8 +20,8 @@ const BestSellingSlider: React.FC = () => {
   });
 
   const processedProducts = products.flatMap((prod) => {
-    if (!prod.sizes || prod.sizes.length === 0) {
-      return [prod]; // No variations, show product as is
+    if ((!prod.sizes || prod?.sizes?.length === 0) && (!prod.filter || prod?.filter?.length ===0)) {
+      return [prod];
     }
   
     if (!prod.productImages || prod.productImages.length === 0) {
@@ -31,45 +31,48 @@ const BestSellingSlider: React.FC = () => {
   const uniqueVariations = new Map();
 
   prod.productImages
-    .filter((img) => img.index)
-    .forEach((img) => {
-      const sizeMatch = prod.sizes?.find(
-        (size) => size.name.toLowerCase() === img.size?.toLowerCase()
-      );
-      const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
-        (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
-      );
-      const hoverImageMatch = prod.productImages.find(
-        (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
-      );
+  .filter((img) => img.index)
+  .forEach((img) => {
+    const sizeMatch = prod.sizes?.find(
+      (size) => size.name.toLowerCase() === img.size?.toLowerCase()
+    );
+    const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
+      (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
+    );
+    console.log(filterMatch,"filterMatch",img)
+    const hoverImageMatch = prod.productImages.find(
+      (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
+    );
 
-      const variationKey = img.index;
+    const variationKey = img.index;
 
-      if (!uniqueVariations.has(variationKey)) {
-        uniqueVariations.set(variationKey, {
-          ...prod,
-          name: `${prod.name}`,
-          displayName: `${prod.name} - ${
-            img.size?.toLowerCase() === img.color?.toLowerCase()
-              ? img.size
-              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
-          }`,
-          price: sizeMatch
-            ? Number(sizeMatch.price)
-            : filterMatch
-            ? Number(filterMatch.price)
-            : prod.price, 
-          discountPrice: sizeMatch
-            ? Number(sizeMatch.discountPrice)
-            : filterMatch
-            ? Number(filterMatch.discountPrice || 0)
-            : prod.discountPrice,
-          posterImageUrl: img.imageUrl,
-          hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
-          stock: sizeMatch ? sizeMatch.stock : prod.stock,
-        });
-      }
-    });
+    if (!uniqueVariations.has(variationKey)) {
+      uniqueVariations.set(variationKey, {
+        ...prod,
+        name: `${prod.name}`,
+        displayName: `${prod.name} - ${
+          img.size?.toLowerCase() === img.color?.toLowerCase()
+            ? img.size
+            : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
+        }`,
+        sizeName:img.size ,
+        colorName:img.color,
+        price: sizeMatch
+          ? Number(sizeMatch.price)
+          : filterMatch
+          ? Number(filterMatch.price)
+          : prod.price, 
+        discountPrice: sizeMatch
+          ? Number(sizeMatch.discountPrice)
+          : filterMatch
+          ? Number(filterMatch.discountPrice || 0)
+          : prod.discountPrice,
+        posterImageUrl: img.imageUrl,
+        hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
+        stock: sizeMatch ? sizeMatch.stock : prod.stock,
+      });
+    }
+  });
 
   return Array.from(uniqueVariations.values());
 });

@@ -22,7 +22,6 @@ import {
   DialogOverlay,
   DialogTrigger,
 } from '../ui/dialog';
-import { message } from 'antd';
 import Link from 'next/link';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { toast } from 'react-toastify';

@@ -15,7 +15,7 @@ import CustomButtom from '../ui/custom-button';
 import Counter from '../counter';
 import { IoBagOutline } from 'react-icons/io5';
 import { TfiClose } from 'react-icons/tfi';
-import { generateSlug, TotalProducts } from '@/config';
+import { TotalProducts } from '@/config';
 import { closeDrawer, openDrawer } from '@/redux/slices/drawer';
 import { FaTrash } from 'react-icons/fa';
 import { MdModeEdit } from 'react-icons/md';

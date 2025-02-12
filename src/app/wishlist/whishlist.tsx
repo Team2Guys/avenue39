@@ -17,17 +17,7 @@ import { State } from '@/redux/store';
 import { ChangeUrlHandler } from '@/config/fetch';
 import { toast } from 'react-toastify';
 import Counter from '@/components/counter';
-interface IProduct {
-  id: string;
-  name: string;
-  price: number;
-  discountPrice?: number | any;
-  posterImageUrl: string;
-  count: number;
-  stock: number;
-  selectedSize: any;
-  selectedfilter: any;
-}
+
 
 const WishlistPage = () => {
   const dispatch = useDispatch<Dispatch>();

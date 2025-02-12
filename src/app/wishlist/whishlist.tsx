@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import TopHero from '@/components/top-hero';
 import { wishbredcrumbs } from '@/data/data';
 import Container from '@/components/ui/Container';
-import { message } from 'antd';
 import { addItem, variationProductImage } from '@cartSlice/index';
 import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
@@ -29,18 +28,28 @@ const WishlistPage = () => {
     setWishlist(storedWishlist);
   }, []);
 
-  const handleDeleteItem = (id: number) => {
-      const updatedWishlist = wishlist.filter((item) => item.id !== id);
-      setWishlist(updatedWishlist);
-      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-      message.success('Product removed from Wishlist successfully!');
-      window.dispatchEvent(new Event('WishlistChanged'));
-    };
-        
+  const handleDeleteItem = (product: any) => {
+    const updatedWishlist = wishlist.filter((item) =>
+      !(item.id === product.id &&
+        item.selectedSize?.name === product.selectedSize?.name &&
+        item.selectedfilter?.name === product.selectedfilter?.name)
+    );
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    window.dispatchEvent(new Event('WishlistChanged'));
+
+    toast.success('Product moved to Cart successfully!');
+  };
+
   const updateProductQuantity = (item: CartItem) => {
     setWishlist((prevWishlist) => {
       const updatedWishlist = prevWishlist.map((wishlistItem) => {
-        if (wishlistItem.id === item.id) {
+        if (
+          wishlistItem.id === item.id &&
+          wishlistItem.selectedSize?.name === item.selectedSize?.name &&
+          wishlistItem.selectedfilter?.name === item.selectedfilter?.name
+        ) {
           return { ...wishlistItem, quantity: item.quantity };
         }
         return wishlistItem;
@@ -49,101 +58,102 @@ const WishlistPage = () => {
       localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
       return updatedWishlist;
     });
-    // console.log(existingCartItem, 'cartItems');
-    const variationQuantity =
-      item.selectedSize?.stock || item.selectedfilter?.stock || item.stock;
-    console.log(item, 'first');
-    if (item.quantity > 0) {
-      if (item.quantity > variationQuantity) {
-        toast.error('Insufficient stock. Please reduce quantity.');
-      }
+    window.dispatchEvent(new Event('WishlistChanged'));
+    const variationQuantity = item.selectedSize?.stock || item.selectedfilter?.stock || item.stock;
+    if (item.quantity > variationQuantity) {
+      toast.error('Insufficient stock. Please reduce quantity.');
     }
   };
-  
 
-    const handleAddToCart = (product: any) => {
-      console.log(product, 'product');
-      const itemToAdd: any = {
-        ...product,
-        quantity: product.quantity,
-        selectedSize: product?.selectedSize,
-        selectedfilter: product?.selectedfilter,
-      };
-    
-      const existingCartItem = cartItems.find(
-        (item: any) =>
-          item.id === itemToAdd?.id &&
-          item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-          item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
-      );
-    
-      console.log(existingCartItem, 'cartItems');
-    
-      if (!existingCartItem) {
-        dispatch(addItem(itemToAdd));
-        const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
-        setWishlist(updatedWishlist);
-        localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-        window.dispatchEvent(new Event('WishlistChanged'));
-        return
-      }
-    
-      let sizesStock =
-        itemToAdd?.sizes?.reduce((accum: number, value: any) => {
-          if (value.stock) {
-            return (accum += Number(value.stock));
-          }
-          return 0;
-        }, 0);
-      
-      let colorsStock =
-        itemToAdd?.filter?.reduce((parentAccume: number, parentvalue: any) => {
-          const countedStock = parentvalue.additionalInformation.reduce(
-            (accum: number, value: any) => {
-              if (value.stock) {
-                return accum + Number(value.stock);
-              }
-              return accum;
-            },
-            0,
-          );
-          return parentAccume + countedStock;
-        }, 0);
-    
-      const totalStock =
-        sizesStock && sizesStock > 0
-          ? sizesStock
-          : colorsStock && colorsStock > 0
-            ? colorsStock
-            : itemToAdd?.stock || 0;
-    
-      const currentQuantity = existingCartItem?.quantity || 0;
-      const newQuantity = currentQuantity + itemToAdd.quantity;
-      const variationQuantity = totalStock;
-    
-      if (newQuantity > totalStock) {
-        toast.error(
-          `Only ${product.stock} items are in stock. You cannot add more than that.`,
-        );
-        return;
-      } else if (newQuantity > variationQuantity) {
-        toast.error(
-          `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`,
-        );
-        return;
-      }
-    
+
+  const handleAddToCart = (product: any) => {
+    console.log(product, 'product');
+    const itemToAdd: any = {
+      ...product,
+      quantity: product.quantity,
+      selectedSize: product?.selectedSize,
+      selectedfilter: product?.selectedfilter,
+    };
+
+    const existingCartItem = cartItems.find(
+      (item: any) =>
+        item.id === itemToAdd?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
+    );
+
+    console.log(existingCartItem, 'cartItems');
+
+    if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
-      dispatch(openDrawer());
-    
-      // **Remove item from wishlist after adding to cart**
       const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
       setWishlist(updatedWishlist);
       localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
       window.dispatchEvent(new Event('WishlistChanged'));
-    
-      message.success('Product moved to Cart successfully!');
-    };
+      return
+    }
+
+    let sizesStock =
+      itemToAdd?.sizes?.reduce((accum: number, value: any) => {
+        if (value.stock) {
+          return (accum += Number(value.stock));
+        }
+        return 0;
+      }, 0);
+
+    let colorsStock =
+      itemToAdd?.filter?.reduce((parentAccume: number, parentvalue: any) => {
+        const countedStock = parentvalue.additionalInformation.reduce(
+          (accum: number, value: any) => {
+            if (value.stock) {
+              return accum + Number(value.stock);
+            }
+            return accum;
+          },
+          0,
+        );
+        return parentAccume + countedStock;
+      }, 0);
+
+    const totalStock =
+      sizesStock && sizesStock > 0
+        ? sizesStock
+        : colorsStock && colorsStock > 0
+          ? colorsStock
+          : itemToAdd?.stock || 0;
+
+    const currentQuantity = existingCartItem?.quantity || 0;
+    const newQuantity = currentQuantity + itemToAdd.quantity;
+    const variationQuantity = totalStock;
+
+    if (newQuantity > totalStock) {
+      toast.error(
+        `Only ${product.stock} items are in stock. You cannot add more than that.`,
+      );
+      return;
+    } else if (newQuantity > variationQuantity) {
+      toast.error(
+        `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`,
+      );
+      return;
+    }
+
+    dispatch(addItem(itemToAdd));
+    dispatch(openDrawer());
+
+    // **Remove item from wishlist after adding to cart**
+    const updatedWishlist = wishlist.filter((item) =>
+      !(item.id === itemToAdd.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name) // Remove matching item
+    );
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    window.dispatchEvent(new Event('WishlistChanged'));
+
+    toast.success('Product moved to Cart successfully!');
+  };
 
   console.log(wishlist, 'wishlist');
   return (
@@ -167,19 +177,20 @@ const WishlistPage = () => {
                   />
                 </Link>
                 <div className="space-y-2 py-2 md:py-0">
-                  <Link href={ChangeUrlHandler(product as any)}>
-                    <span className="font-medium text-14 lg:text-16">
-                      {product.name +
-                        (product.selectedSize?.name
-                          ? ' - ' +
-                            product.selectedSize.name +
-                            ' (' +
-                            product.selectedfilter.name +
-                            ') '
-                          : '')}
-                      {/* {product.name} */}
-                    </span>
-                  </Link>
+                  <div className='flex flex-col gap-1'>
+                    <Link href={ChangeUrlHandler(product as any)}>
+                      <span className="text-16 xl:text-18">{product.name}</span>
+                    </Link>
+                    {(product.selectedfilter || product.selectedSize) &&
+                      <>
+                        <div className='flex items-center gap-1 text-13'>
+                          <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                          <span className='capitalize'>{product.selectedfilter?.name}</span>
+                        </div>
+                        <span className='text-13'>{product.selectedSize?.name}</span>
+                      </>
+                    }
+                  </div>
                   <div className="block md:hidden space-y-2">
                     <div className=" flex items-center gap-4 ">
                       <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
@@ -196,9 +207,9 @@ const WishlistPage = () => {
                       </p>
                       {(Number(product.selectedSize?.discountPrice) > 0 &&
                         Number(product.selectedSize?.price) >
-                          Number(product.selectedSize?.discountPrice)) ||
-                      (Number(product.discountPrice) > 0 &&
-                        Number(product.price) >
+                        Number(product.selectedSize?.discountPrice)) ||
+                        (Number(product.discountPrice) > 0 &&
+                          Number(product.price) >
                           Number(product.discountPrice)) ? (
                         <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
                           AED{' '}
@@ -212,23 +223,23 @@ const WishlistPage = () => {
                         <FaTrash
                           className="cursor-pointer"
                           size={15}
-                          onClick={() => handleDeleteItem(product.id)}
+                          onClick={() => handleDeleteItem(product)}
                         />
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-4 items-center ">
-                    <Counter
-                          count={product.quantity}
-                          stock={product.selectedSize?.stock ?? product.stock}
-                          onIncrement={() => {
-                            const updatedItem = { ...product, quantity: product.quantity + 1 };
-                            updateProductQuantity(updatedItem);
-                          }}
-                          onDecrement={() => {
-                            const updatedItem = { ...product, quantity: product.quantity - 1 };
-                            updateProductQuantity(updatedItem);
-                          }}
-                        />
+                      <Counter
+                        count={product.quantity}
+                        stock={product.selectedSize?.stock || product.selectedfilter?.stock || product.stock}
+                        onIncrement={() => {
+                          const updatedItem = { ...product, quantity: product.quantity + 1 };
+                          updateProductQuantity(updatedItem);
+                        }}
+                        onDecrement={() => {
+                          const updatedItem = { ...product, quantity: product.quantity - 1 };
+                          updateProductQuantity(updatedItem);
+                        }}
+                      />
 
                       <button
                         className="bg-main px-2 lg:px-4 py-2 rounded-md text-white w-fit"
@@ -242,9 +253,9 @@ const WishlistPage = () => {
               </div>
             </div>
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-2 2xl:col-span-2">
-            <Counter
+              <Counter
                 count={product.quantity}
-                stock={product.selectedSize?.stock ?? product.stock}
+                stock={product.selectedSize?.stock || product.selectedfilter?.stock || product.stock}
                 onIncrement={() => {
                   const updatedItem = { ...product, quantity: product.quantity + 1 };
                   updateProductQuantity(updatedItem);
@@ -273,19 +284,19 @@ const WishlistPage = () => {
                   </p>
                   {(product.selectedSize?.discountPrice > 0 ||
                     product.discountPrice > 0) && (
-                    <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                      AED{' '}
-                      <span>
-                        {product.selectedSize?.price ?? product.price}
-                      </span>
-                    </p>
-                  )}
+                      <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
+                        AED{' '}
+                        <span>
+                          {product.selectedSize?.price ?? product.price}
+                        </span>
+                      </p>
+                    )}
                 </div>
                 <div className="flex items-center gap-4">
                   <FaTrash
                     className="cursor-pointer"
                     size={15}
-                    onClick={() => handleDeleteItem(product.id)}
+                    onClick={() => handleDeleteItem(product)}
                   />
                 </div>
               </div>

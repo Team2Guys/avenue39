@@ -72,11 +72,12 @@ const Card: React.FC<CardProps> = ({
     e.stopPropagation();
   };
 
+
   const itemToAdd: CartItem | any = {
     ...card,
     quantity: 1,
-    selectedSize: (card && card?.sizes) && card?.sizes[0],
-    selectedfilter: (card && card?.filter) && card?.filter[0]?.additionalInformation[0],
+    selectedSize: (card?.sizes?.find((size:any) => size.name === card.sizeName)),
+    selectedfilter: (card?.filter?.[0]?.additionalInformation?.find((size:any) => size.name === card.colorName)),
   };
   useEffect(() => {
     const price =
@@ -139,39 +140,67 @@ const Card: React.FC<CardProps> = ({
     dispatch(openDrawer());
   };
 
-  const handleAddToWishlist = (product: IProduct) => {
- 
-     console.log("Wishlist:", itemToAdd);
-     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-     const existingItemIndex = existingWishlist.findIndex(
-       (item: any) => item.id === itemToAdd.id,
-     );
-     if (existingItemIndex !== -1) {
-       const currentCount = existingWishlist[existingItemIndex].count;
-       if (product.stock && currentCount + 1 > product.stock) {
-         toast.error(
-           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-         );
-         return;
-       }
-       existingWishlist[existingItemIndex].count += 1;
-       existingWishlist[existingItemIndex].totalPrice =
-         existingWishlist[existingItemIndex].count *
-         (existingWishlist[existingItemIndex].discountPrice ||
-           existingWishlist[existingItemIndex].price);
-     } else {
-       if (product.stock && itemToAdd.quantity > product.stock) {
-         toast.error(
-           `Only ${product.stock} items are in stock. You cannot add more to your wishlist.`,
-         );
-         return;
-       }
-       existingWishlist.push(itemToAdd);
-     }
-     localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-     toast.success('Product added to Wishlist successfully!');
-     window.dispatchEvent(new Event('WishlistChanged'));
-   };
+  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    console.log("Wishlist:", itemToAdd);
+    let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    if (!Array.isArray(existingWishlist)) {
+      existingWishlist = [];
+    }
+
+    const existingWishlistItem = existingWishlist.find((item: any) =>
+      item.id === itemToAdd.id &&
+      item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+      item.selectedfilter?.name === itemToAdd.selectedfilter?.name
+    );
+
+    if (!existingWishlistItem) {
+      existingWishlist.push(itemToAdd);
+      localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+      console.log('Added to wishlist:', itemToAdd);
+      toast.success('Product added to Wishlist successfully!');
+    } else {
+      const variationQuantity = existingWishlistItem.selectedSize?.stock || existingWishlistItem.selectedfilter?.stock || existingWishlistItem.stock;
+      const addedQuantity = existingWishlistItem.quantity + 1;
+      let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum: any, value: any) => {
+        if (value.stock) {
+          return accum += Number(value.stock)
+        }
+        return 0;
+      }, 0)
+      let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
+        const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
+  
+          if (value.stock) {
+            return accum + Number(value.stock);
+          }
+          return accum;
+        }, 0);
+        return parentAccume + countedStock;
+      }, 0);
+  
+      const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
+      console.log('Item already exists in wishlist:', variationQuantity, addedQuantity ,1 ,existingWishlistItem, card?.sizeName);
+      if (addedQuantity > variationQuantity) {
+        toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+        return;
+      } else if ( addedQuantity > totalStock) {
+        toast.error(`Only ${existingWishlistItem.stock} items are in stock. You cannot add more than that.`);
+        return;
+      }
+      existingWishlist = existingWishlist.map((item: any) =>
+        item.id === existingWishlistItem.id &&
+          item.selectedSize?.name === existingWishlistItem.selectedSize?.name &&
+          item.selectedfilter?.name === existingWishlistItem.selectedfilter?.name
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+
+      localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
+      window.dispatchEvent(new Event('WishlistChanged'));
+      toast.success('Product quantity updated in Wishlist.');
+    }
+  };
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
@@ -224,15 +253,15 @@ const Card: React.FC<CardProps> = ({
     <div
       className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
-        
-      <div
-                    onClick={() => handleAddToWishlist(card)}
-                    onMouseEnter={() => setIsHoverImage(true)}
-                    onMouseLeave={() => setIsHoverImage(false)}
-                    className="absolute z-50 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
-                  >
-                    <IoIosHeartEmpty size={20} />
-                  </div>
+
+        <div
+          onClick={(e) => handleAddToWishlist(e)}
+          onMouseEnter={() => setIsHoverImage(true)}
+          onMouseLeave={() => setIsHoverImage(false)}
+          className="absolute z-50 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+        >
+          <IoIosHeartEmpty size={20} />
+        </div>
         {slider ? (
           <Swiper
             className="mySwiper card-slider-home w-full"
@@ -468,7 +497,7 @@ const Card: React.FC<CardProps> = ({
                 </div>
               ) : (
                 <div className="relative">
-                 
+
                   <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                     <Image
                       src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
@@ -512,7 +541,7 @@ const Card: React.FC<CardProps> = ({
                     AED {productPrice}
                   </p>
                 )}
-                <p>{}</p>
+                <p>{ }</p>
               </div>
               {averageRating > 0 && (
                 <div className="flex gap-1 items-center justify-center mt-1 h-5">

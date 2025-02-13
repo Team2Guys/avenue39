@@ -711,9 +711,10 @@ export class SalesRecordService {
     })
 
     try {
-       const recipients = email
-         ? `${email}`
-         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      const recipients = `mujtaba.shafique01@gmail.com`
+      //  const recipients = email
+      //    ? `${email}`
+      //    : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,

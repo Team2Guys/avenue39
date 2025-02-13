@@ -502,26 +502,26 @@ export class SalesRecordService {
         where: { orderId },
       });
 
-      if (!salesRecord) {
-        customHttpException('Order not found', 'NOT_FOUND');
-      }
+      // if (!salesRecord) {
+      //   customHttpException('Order not found', 'NOT_FOUND');
+      // }
 
-      if (salesRecord.paymentStatus.paymentStatus) {
-        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-        customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      }
+      // if (salesRecord.paymentStatus.paymentStatus) {
+      //   console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
+      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      // }
 
-      const updatedSalesRecord = await this.prisma.sales_record.update({
-        where: { orderId },
-        data: {
-          paymentStatus: {
-            paymentStatus: paymentStatus,
-            paymentDate: new Date(),
-            checkout: false,
-            success: true,
-          },
-        },
-      });
+      // const updatedSalesRecord = await this.prisma.sales_record.update({
+      //   where: { orderId },
+      //   data: {
+      //     paymentStatus: {
+      //       paymentStatus: paymentStatus,
+      //       paymentDate: new Date(),
+      //       checkout: false,
+      //       success: true,
+      //     },
+      //   },
+      // });
 
 
 
@@ -702,19 +702,17 @@ export class SalesRecordService {
     orderId: string,
     purchaseDate: string,
   ) {
-    console.log("======= PRODUCT DETAILS =======")
-    console.log(productDetails)
+
     let TotalProductsPrice = 0;
     await productDetails.forEach(({ productData }: any) => {
-      console.log(productData)
       TotalProductsPrice = productData.discountPrice ? TotalProductsPrice + productData.discountPrice : TotalProductsPrice + productData.price;
     })
 
     try {
-      const recipients = `mujtaba.shafique01@gmail.com`
-      //  const recipients = email
-      //    ? `${email}`
-      //    : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+
+      const recipients = email
+        ? `${email}`
+        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,
@@ -744,6 +742,7 @@ export class SalesRecordService {
         }
 
         .main-container {
+        font-size:14px;
             padding: 20px;
         }
 
@@ -801,6 +800,7 @@ export class SalesRecordService {
             background-color: #F6F6F6;
             padding: 15px;
             margin-top: 20px;
+           
         }
 
         .purchase-table {
@@ -919,10 +919,10 @@ export class SalesRecordService {
             align-items: center;
             justify-content: center;
             margin-top: 50px;
-            gap: 20px;
+            margin-bottom: 30px;
+           
             width: 100%;
-            align-items: center;
-            padding:30px;
+            
         }
 
         .step {
@@ -976,15 +976,15 @@ export class SalesRecordService {
                 <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739340257/rztttx6wr9shaqkrgoqe.png"
                     alt="Brand Logo">
             </div>
-            <h4 style="text-align:center;">ORDER#${orderId}</h4>
-            <p style="text-align:center;">${purchaseDate}</p>
+            <h3 style="text-align:center; margin:0; padding:0">ORDER#${orderId}</h3>
+            <p style="text-align:center;margin:0;padding:0">${purchaseDate}</p>
             <h1 style="text-align:center;">Order Confirmed</h1>
 
             <div class="progress-container" style="text-align:center;">
                 <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739343204/Group_1000004286_1_f4espe.png" alt="Progress Status">
             </div>
-            <p style="text-align:center;">Dear Customer,</p>
-            <p style="text-align:center;">Thank you very much for the order you placed with <a
+            <p style="text-align:center;">Dear <b>Customer,</b></p>
+            <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
                     href="https://avenue39.com/">www.avenue39.com</a></p>
 
             <a href="#" class="order-button">View Your Order</a>
@@ -992,67 +992,68 @@ export class SalesRecordService {
                 dispatch.</p>
             <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
             <p style="text-align:center;">All The Best,</p>
-            <p style="text-align:center;"><strong>The Team at "Avenue39"</strong></p>
+            <p style="text-align:center;">The Team at<strong>"Avenue39"</strong></p>
             <div class="purchase-details">
-                <h3>Purchase Details</h3>
+               <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
             <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
     <thead>
-        <tr>
-            <th style="text-align: left; padding: 8px;">#</th>
-            <th style="text-align: left; padding: 8px;">Product</th>
-            <th style="text-align: center; padding: 8px;">Product Price</th>
-        </tr>
+      
     </thead>
-    <tbody>
-        ${productDetails.map(({ productData }, index) => `
-            <tr>
-                <td style="padding: 10px; text-align: center;">${index + 1}</td>
-                <td style="padding: 10px;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <img src="${productData.posterImageUrl}" alt="${productData.name}" style="height: 100px; width: 100px; border-radius: 5px;">
-                        <div style="margin-left: 10px; ">
-                            <p style="margin: 0; font-weight: bold;">${productData.name}</p>
-                            ${productData.selectedfilter ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Filter: ${productData.selectedfilter.name}</p>` : ''}
-                            ${productData.selectedSize ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Size: ${productData.selectedSize.name} - Stock: ${productData.selectedSize.stock}</p>` : ''}
-                        </div>
-                    </div>
-                </td>
-                <td style="padding: 10px; text-align: center; font-weight: bold;">${productData.price}</td>
-            </tr>
-        `).join('')}
-    </tbody>
+   <tbody>
+  ${productDetails.map(({ productData }) => `
+    <tr style="border: none;">
+      <td style="padding: 10px; border: none;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
+          <tr style="border: none;">
+            <td align="center" valign="middle" style="padding: 10px; border: none;">
+              <img src="${productData.posterImageUrl}" alt="${productData.name}" 
+                   style="height: 100px; width: 100px; border-radius: 5px; display: block;">
+            </td>
+            <td valign="middle" style="border: none;">
+              <p style="margin: 0; font-weight: bold;">${productData.name}</p>
+              ${productData.selectedfilter ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Filter: ${productData.selectedfilter.name}</p>` : ''}
+              ${productData.selectedSize ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Size: ${productData.selectedSize.name}</p>` : ''}
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="padding: 10px; text-align: center; border: none;">QTY: ${productData.selectedSize ? productData.selectedSize.stock : productData.quantity}</td>
+      <td style="padding: 10px; text-align: center; font-weight: bold; border: none;">${productData.price}</td>
+    </tr>
+  `).join('')}
+</tbody>
+
 </table>
 
 
                                 <body style="font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0;">
 <table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
     <tr>
-        <td style="width: 50%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
+        <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
             <table style="width: 100%; border-collapse: collapse;">
-               ${email && ` <tr>
+               ${email ? ` <tr>
                     <th style="padding: 8px; text-align: left;">Customer Email:</th>
-                    <td style="padding: 8px;">${email}</td>
-                </tr>`}
+                    <td style="padding: 8px; padding-left:0px">${email}</td>
+                </tr> ` : ''}
                 <tr>
                     <th style="padding: 8px; text-align: left;">Customer Phone:</th>
-                    <td style="padding: 8px;">${phone}</td>
+                    <td style="padding: 8px; padding-left:0px">${phone}</td>
                 </tr>
                 <tr>
                     <th style="padding: 8px; text-align: left;">Customer Address:</th>
-                    <td style="padding: 8px;">${address}</td>
+                    <td style="padding: 8px; padding-left:0px">${address}</td>
                 </tr>
             </table>
         </td>
 
-        <!-- Pricing Section -->
-        <td style="width: 50%; vertical-align: top; padding: 10px;">
+        <td style="width: 40%;  padding: 10px;">
             <table style="width: 100%; border-collapse: collapse;">
-                <tr style="border-bottom: 2px solid #ccc;">
-                    <td colspan="5" style="padding: 8px; font-weight: bold;">Subtotal</td>
+                <tr >
+                    <td colspan="5" style="padding: 8px; ">Subtotal</td>
                     <td style="padding: 8px;">${TotalProductsPrice}</td>
                 </tr>
                 <tr style="border-bottom: 2px solid #ccc;">
-                    <td colspan="5" style="padding: 8px; font-weight: bold;">Shipment</td>
+                    <td colspan="5" style="padding: 8px; ">Shipment</td>
                     <td style="padding: 8px;">${TotalProductsPrice > 1000 ? "Free" : 20}</td>
                 </tr>
                 <tr>
@@ -1071,16 +1072,16 @@ export class SalesRecordService {
     </div>
 </body>
         <div class="categories">
-            <span>METAL</span>
-            <span>SYMPHONY</span>
-            <span>SKIN TOUCH</span>
-            <span>PLAIN</span>
-            <span>MARBLE</span>
-            <span>LEATHER</span>
-            <span>CEMENT GREY</span>
+            <span>Dinning</span>
+            <span>Living</span>
+            <span>Bedroom</span>
+            <span>Chairs</span>
+            <span>Tables</span>
+            <span>Home Office</span>
+            <span>Lighting</span>
+            <span>Accessories</span>
         </div>
         <div class="social-icons">
-            <a href="#"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/linkedin-icon_z7kyeq.png" alt="linkedin"></a>
             <a href="https://www.facebook.com/avenue39home"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
             <a href="https://www.pinterest.com/avenue39home/"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/pinterest-icon_dsvge7.png" alt="pinterest"></a>
         </div>

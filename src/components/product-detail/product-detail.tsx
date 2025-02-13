@@ -95,7 +95,7 @@ const ProductDetail = ({
     setSize(size)
   };
 
-  console.log(size, 'size')
+  console.log(product, 'productdata')
 
   useEffect(() => {
     if (!product) return;

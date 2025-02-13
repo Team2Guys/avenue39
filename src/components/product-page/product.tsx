@@ -80,7 +80,6 @@ const ProductPage = ({
       const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
         (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
       );
-      console.log(filterMatch,"filterMatch",img)
       const hoverImageMatch = prod.productImages.find(
         (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
       );

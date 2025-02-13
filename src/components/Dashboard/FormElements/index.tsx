@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Formik, FieldArray, FormikErrors, Form } from 'formik';
 
 import Imageupload from '@components/ImageUpload/Imageupload';
@@ -57,7 +57,19 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
     any | null | undefined
   >(EditProductValue);
   const [imgError, setError] = useState<string | null | undefined>();
+  const dragImage = useRef<number | null>(null);
+  const draggedOverImage = useRef<number | null>(null);
 
+  function handleSort() {
+    if (dragImage.current === null || draggedOverImage.current === null) return;
+
+    const imagesClone = [...imagesUrl];
+    const temp = imagesClone[dragImage.current];
+    imagesClone[dragImage.current] = imagesClone[draggedOverImage.current];
+    imagesClone[draggedOverImage.current] = temp;
+
+    setImagesUrl(imagesClone);
+  }
   useLayoutEffect(() => {
     const CategoryHandler = async () => {
       try {
@@ -229,13 +241,13 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
     });
   };
   const handleIndex = (
-    index: number,
+    index: string,
     newImageIndex: number | string,
     setImagesUrlhandler: React.Dispatch<React.SetStateAction<any>>,
   ) => {
     setImagesUrlhandler((prev: any) => {
-      const updatedImagesUrl = prev.map((item: any, i: number) =>
-        i === index ? { ...item, index: newImageIndex } : item,
+      const updatedImagesUrl = prev.map((item: any) =>
+        item.public_id === index ? { ...item, index: newImageIndex } : item,
       );
       return updatedImagesUrl;
     });
@@ -1280,9 +1292,15 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                         {imagesUrl.map((item: any, index) => {
                           return (
-                            <div key={index}>
+                            <div key={index} 
+                            draggable
+                            onDragStart={() => (dragImage.current = index)}
+                            onDragEnter={() => (draggedOverImage.current = index)}
+                            onDragEnd={handleSort}
+                            onDragOver={(e) => e.preventDefault()}
+                            >
                               <div className="relative group rounded-lg overflow-hidden shadow-md bg-white transform transition-transform duration-300 hover:scale-105">
-                                <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white rounded-full">
+                                <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white rounded-full" draggable>
                                   <RxCross2
                                     className="cursor-pointer text-red-500 dark:text-red-700"
                                     size={17}
@@ -1354,9 +1372,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
                                 value={item.index}
                                 onChange={(e) =>
                                   handleIndex(
-                                    index,
+                                    item.public_id,
                                     String(e.target.value),
                                     setImagesUrl,
+                                    
                                   )
                                 }
                               />

@@ -80,15 +80,15 @@ const BestSellingSlider: React.FC = () => {
     });
 
     if (processedProducts.length > 0) {
-      const filteredProducts = processedProducts.filter((card: CartItem) => {
-        const sizeStock = card?.sizes?.find((size) => size.name === card.sizeName)?.stock;
-        const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)?.stock;
-        const totalStock = Number(sizeStock) || Number(filterStock) || card.stock;
+      // const filteredProducts = processedProducts.filter((card: CartItem) => {
+      //   const sizeStock = card?.sizes?.find((size) => size.name === card.sizeName)?.stock;
+      //   const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)?.stock;
+      //   const totalStock = Number(sizeStock) || Number(filterStock) || card.stock;
 
-        return totalStock > 0;
-      });
+      //   return totalStock > 0;
+      // });
 
-      setFilterProducts(filteredProducts);
+      setFilterProducts(processedProducts);
     }
   }, [products]);
 

@@ -502,26 +502,26 @@ export class SalesRecordService {
         where: { orderId },
       });
 
-      // if (!salesRecord) {
-      //   customHttpException('Order not found', 'NOT_FOUND');
-      // }
+      if (!salesRecord) {
+        customHttpException('Order not found', 'NOT_FOUND');
+      }
 
-      // if (salesRecord.paymentStatus.paymentStatus) {
-      //   console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      // }
+      if (salesRecord.paymentStatus.paymentStatus) {
+        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
+        customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      }
 
-      // const updatedSalesRecord = await this.prisma.sales_record.update({
-      //   where: { orderId },
-      //   data: {
-      //     paymentStatus: {
-      //       paymentStatus: paymentStatus,
-      //       paymentDate: new Date(),
-      //       checkout: false,
-      //       success: true,
-      //     },
-      //   },
-      // });
+      const updatedSalesRecord = await this.prisma.sales_record.update({
+        where: { orderId },
+        data: {
+          paymentStatus: {
+            paymentStatus: paymentStatus,
+            paymentDate: new Date(),
+            checkout: false,
+            success: true,
+          },
+        },
+      });
 
 
 

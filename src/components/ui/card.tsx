@@ -76,12 +76,15 @@ const Card: React.FC<CardProps> = ({
   const itemToAdd: CartItem | any = {
     ...card,
     quantity: 1,
-    selectedSize: (card?.sizes?.find((size:any) => size.name === card.sizeName)),
-    selectedfilter: (card?.filter?.[0]?.additionalInformation?.find((size:any) => size.name === card.colorName)),
+    selectedSize: card?.sizes?.find((size) => size.name === card.sizeName)
+      ?? ((isHomepage || slider) ? card?.sizes?.[0] : undefined),
+    selectedfilter: card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)
+      ?? ((isHomepage || slider) ? card?.filter?.[0]?.additionalInformation?.[0] : undefined),
   };
+
   useEffect(() => {
     const price =
-       card?.price;
+      card?.price;
     setProductPrice(Number(price))
     const discountPrice =
       card?.discountPrice;
@@ -170,7 +173,7 @@ const Card: React.FC<CardProps> = ({
       }, 0)
       let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
         const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-  
+
           if (value.stock) {
             return accum + Number(value.stock);
           }
@@ -178,13 +181,13 @@ const Card: React.FC<CardProps> = ({
         }, 0);
         return parentAccume + countedStock;
       }, 0);
-  
+
       const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
-      console.log('Item already exists in wishlist:', variationQuantity, addedQuantity ,1 ,existingWishlistItem, card?.sizeName);
+      console.log('Item already exists in wishlist:', variationQuantity, addedQuantity, 1, existingWishlistItem, card?.sizeName);
       if (addedQuantity > variationQuantity) {
         toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
         return;
-      } else if ( addedQuantity > totalStock) {
+      } else if (addedQuantity > totalStock) {
         toast.error(`Only ${existingWishlistItem.stock} items are in stock. You cannot add more than that.`);
         return;
       }
@@ -252,6 +255,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div
       className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
+      {/* {itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || itemToAdd.stock} {isOutStock} */}
       <div className="relative w-full overflow-hidden rounded-t-[35px] group">
 
         <div

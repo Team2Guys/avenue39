@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -9,6 +9,7 @@ import { IProduct } from '@/types/types';
 import { Navigation, Autoplay, Pagination } from 'swiper/modules';
 import CardSkaleton from '../Skaleton/productscard';
 import Card from '../ui/card';
+import { CartItem } from '@/redux/slices/cart/types';
 
 interface FeatureProps {
   similarProducts?: IProduct[];
@@ -16,66 +17,79 @@ interface FeatureProps {
 }
 
 const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
-
+  const [filterProducts, setFilterProducts] = useState<CartItem[]>([])
   console.log(similarProducts, "similarProducts")
-  const processedProducts = similarProducts?.flatMap((prod) => {
-    if ((!prod.sizes || prod?.sizes?.length === 0) && (!prod.filter || prod?.filter?.length ===0)) {
-      return [prod];
-    }
-  
-    console.log(prod, "similarProducts")
-    if (!prod.productImages || prod.productImages.length === 0) {
-    return [];
-  }
+  useEffect(() => {
+    const processedProducts = similarProducts?.flatMap((prod) => {
+      if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
+        return [prod];
+      }
 
-  const uniqueVariations = new Map();
+      if (!prod.productImages || prod.productImages.length === 0) {
+        return [];
+      }
 
-  prod.productImages
-  .filter((img) => img.index)
-  .forEach((img) => {
-    const sizeMatch = prod.sizes?.find(
-      (size) => size.name.toLowerCase() === img.size?.toLowerCase()
-    );
-    const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
-      (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
-    );
-    const hoverImageMatch = prod.productImages.find(
-      (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
-    );
+      const uniqueVariations = new Map();
 
-    const variationKey = img.index;
+      prod.productImages
+        .filter((img) => img.index)
+        .forEach((img) => {
+          const sizeMatch = prod.sizes?.find(
+            (size) => size.name?.toLowerCase() === img.size?.toLowerCase()
+          );
+          const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
+            (filterItem) => filterItem.name?.toLowerCase() === img.color?.toLowerCase()
+          );
 
-    if (!uniqueVariations.has(variationKey)) {
-      uniqueVariations.set(variationKey, {
-        ...prod,
-        name: `${prod.name}`,
-        displayName: `${prod.name} - ${
-          img.size?.toLowerCase() === img.color?.toLowerCase()
-            ? img.size
-            : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
-        }`,
-        sizeName:img.size ,
-        colorName:img.color,
-        price: sizeMatch
-          ? Number(sizeMatch.price)
-          : filterMatch
-          ? Number(filterMatch.price)
-          : prod.price, 
-        discountPrice: sizeMatch
-          ? Number(sizeMatch.discountPrice)
-          : filterMatch
-          ? Number(filterMatch.discountPrice || 0)
-          : prod.discountPrice,
-        posterImageUrl: img.imageUrl,
-        hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
-        stock: sizeMatch ? sizeMatch.stock : prod.stock,
+          const hoverImageMatch = prod.productImages.find(
+            (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
+          );
+
+          const variationKey = img.index;
+
+          if (!uniqueVariations.has(variationKey)) {
+            uniqueVariations.set(variationKey, {
+              ...prod,
+              name: prod.name,
+              displayName: `${prod.name} - ${img.size?.toLowerCase() === img.color?.toLowerCase()
+                ? img.size
+                : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
+                }`,
+              sizeName: img.size,
+              colorName: img.color,
+              price: sizeMatch
+                ? Number(sizeMatch.price)
+                : filterMatch
+                  ? Number(filterMatch.price)
+                  : Number(prod.price),
+              discountPrice: sizeMatch
+                ? Number(sizeMatch.discountPrice)
+                : filterMatch
+                  ? Number(filterMatch.discountPrice || 0)
+                  : Number(prod.discountPrice),
+              posterImageUrl: img.imageUrl,
+              hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
+              stock: sizeMatch?.stock ?? prod.stock,
+            });
+          }
+        });
+
+      return Array.from(uniqueVariations.values());
+    });
+
+    if (processedProducts && processedProducts.length > 0) {
+      const filteredProducts = processedProducts.filter((card: CartItem) => {
+        const sizeStock = card?.sizes?.find((size) => size.name === card.sizeName)?.stock;
+        const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)?.stock;
+        const totalStock = Number(sizeStock) || Number(filterStock) || card.stock;
+
+        return totalStock > 0;
       });
-    }
-  });
 
-  return Array.from(uniqueVariations.values());
-});
-  
+      setFilterProducts(filteredProducts);
+    }
+  }, [similarProducts]);
+
   const swiperRef = useRef<any>(null);
 
   const next = () => {
@@ -100,15 +114,13 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
       swiperRef.current.swiper.autoplay.start();
     }
   };
-
-  console.log(processedProducts, "similarProducts")
   return (
     <div
       className="slider-container"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {processedProducts?.length ? (
+      {similarProducts?.length ? (
         <>
           <div
             className={`text-end mb-3 px-4 flex ${title ? 'justify-between' : 'justify-end'}`}
@@ -174,7 +186,7 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
             modules={[Navigation, Autoplay, Pagination]}
             className="mySwiper"
           >
-            {processedProducts && processedProducts.map((card: IProduct) => (
+            {filterProducts && filterProducts.map((card: IProduct) => (
               <SwiperSlide className="mb-10" key={card.id}>
                 <Card
                   card={card}

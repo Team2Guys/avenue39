@@ -18,6 +18,7 @@ import Card from '@/components/ui/card';
 import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
+import { CartItem } from '@/redux/slices/cart/types';
 
 interface ProductPageProps {
   layout: string;
@@ -116,9 +117,16 @@ const ProductPage = ({
   return Array.from(uniqueVariations.values());
 });
   
-  
 
   const filteredCards = processedProducts
+    .filter((card: CartItem) => {
+     const sizeStock =  card?.sizes?.find((size) => size.name === card.sizeName);
+     const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName);
+      const totalStock = Number(sizeStock?.stock) || Number(filterStock?.stock) || card.stock
+      if (totalStock > 0){
+        return true
+      }
+    })
     .filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
@@ -223,8 +231,8 @@ const ProductPage = ({
             }`}
           >
             {filteredCards.length > 0 ? (
-              filteredCards.map((card) => (
-                <div key={card.id} className="flex">
+              filteredCards.map((card,index) => (
+                <div key={index} className="flex">
                   {layout === 'grid' ? (
                     <Card
                       card={card}

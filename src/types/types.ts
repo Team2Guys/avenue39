@@ -113,6 +113,7 @@ interface Filter {
     name: string;
     price: string;
     discountPrice: string;
+    stock?: number;
   }[];
 }
 interface Sizes {

@@ -15,7 +15,8 @@ const Address = () => {
           </span>{' '}
           Address
         </p>
-        <p className="text-[19px] text-[#666666] font-medium">
+        <p className='text-19 xsm:text-2xl md:text-21 xl:text-2xl font-medium mb-2'>Two Guys (Partnered Showroom)</p>
+        <p className="text-18 xsm:text-[19px] text-[#666666] font-medium">
           23 22nd St - Al Quoz Industrial Area 4 - Dubai–{' '}
           <Link
             target="_blank"

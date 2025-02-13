@@ -246,7 +246,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
     setImagesUrlhandler: React.Dispatch<React.SetStateAction<any>>,
   ) => {
     setImagesUrlhandler((prev: any) => {
-      const updatedImagesUrl = prev.map((item: any, i: number) =>
+      const updatedImagesUrl = prev.map((item: any) =>
         item.public_id === index ? { ...item, index: newImageIndex } : item,
       );
       return updatedImagesUrl;

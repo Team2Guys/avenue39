@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'about',
+    canonical: '/about-us',
   },
 };
 const About = () => {

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'privacy-policy',
+    canonical: '/privacy-policy',
   },
 }
 

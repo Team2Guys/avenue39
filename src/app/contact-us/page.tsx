@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'contact',
+    canonical: '/contact-us',
   },
 };
 

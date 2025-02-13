@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'terms-condition',
+    canonical: '/terms-and-conditions',
   },
 };
 

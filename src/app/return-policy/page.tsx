@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'return-policy',
+    canonical: '/return-policy',
   },
 };
 

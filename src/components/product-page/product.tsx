@@ -18,7 +18,7 @@ import Card from '@/components/ui/card';
 import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
-import { CartItem } from '@/redux/slices/cart/types';
+import { CartSize } from '@/redux/slices/cart/types';
 
 interface ProductPageProps {
   layout: string;
@@ -119,43 +119,46 @@ const ProductPage = ({
 });
   
 
-  const filteredCards = processedProducts
-    .filter((card: CartItem) => {
-     const sizeStock =  card?.sizes?.find((size) => size.name === card.sizeName);
-     const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName);
-      const totalStock = Number(sizeStock?.stock) || Number(filterStock?.stock) || card.stock
-      if (totalStock > 0){
-        return true
+const filteredCards = processedProducts
+  .filter((card) => {
+    if (pathname === '/products') {
+      return card.discountPrice > 0 && card.stock > 0;
+    }
+    if (pathname === '/sale') {
+      return card.discountPrice > 0;
+    }
+    return true;
+  })
+  .sort((a, b) => {
+    const sizeStockA = a?.sizes?.find((size: CartSize) => size.name === a.sizeName);
+    const filterStockA = a?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === a.colorName);
+    const totalStockA = Number(sizeStockA?.stock) || Number(filterStockA?.stock) || a.stock;
+
+    const sizeStockB = b?.sizes?.find((size: CartSize) => size.name === b.sizeName);
+    const filterStockB = b?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === b.colorName);
+    const totalStockB = Number(sizeStockB?.stock) || Number(filterStockB?.stock) || b.stock;
+
+    if (totalStockA === 0 && totalStockB > 0) return 1; 
+    if (totalStockA > 0 && totalStockB === 0) return -1; 
+
+    switch (sortOption) {
+      case 'name':
+        return a.name.trim().localeCompare(b.name.trim());
+      case 'max': {
+        const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+        const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+        return priceB - priceA;
       }
-    })
-    .filter((card) => {
-      if (pathname === '/products') {
-        return card.discountPrice > 0 && card.stock > 0;
+      case 'min': {
+        const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+        const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+        return minPriceA - minPriceB;
       }
-      if (pathname === '/sale') {
-        return card.discountPrice > 0;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      switch (sortOption) {
-        case 'name': {
-          return a.name.trim().localeCompare(b.name.trim());
-        }
-        case 'max': {
-          const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-          const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
-          return priceB - priceA;
-        }
-        case 'min': {
-          const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-          const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
-          return minPriceA - minPriceB;
-        }
-        default:
-          return 0;
-      }
-    });
+      default:
+        return 0;
+    }
+  });
+
 
   return (
     <>

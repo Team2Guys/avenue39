@@ -18,7 +18,7 @@ interface FeatureProps {
 
 const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
   const [filterProducts, setFilterProducts] = useState<CartItem[]>([])
-  console.log(similarProducts, "similarProducts")
+  // console.log(similarProducts, "similarProducts")
   useEffect(() => {
     const processedProducts = similarProducts?.flatMap((prod) => {
       if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
@@ -78,15 +78,15 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
     });
 
     if (processedProducts && processedProducts.length > 0) {
-      const filteredProducts = processedProducts.filter((card: CartItem) => {
-        const sizeStock = card?.sizes?.find((size) => size.name === card.sizeName)?.stock;
-        const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)?.stock;
-        const totalStock = Number(sizeStock) || Number(filterStock) || card.stock;
+      // const filteredProducts = processedProducts.filter((card: CartItem) => {
+      //   const sizeStock = card?.sizes?.find((size) => size.name === card.sizeName)?.stock;
+      //   const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)?.stock;
+      //   const totalStock = Number(sizeStock) || Number(filterStock) || card.stock;
 
-        return totalStock > 0;
-      });
+      //   return totalStock > 0;
+      // });
 
-      setFilterProducts(filteredProducts);
+      setFilterProducts(processedProducts);
     }
   }, [similarProducts]);
 

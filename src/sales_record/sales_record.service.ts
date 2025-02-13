@@ -635,7 +635,7 @@ export class SalesRecordService {
       // }
 
       const { user_email, address, phoneNumber, createdAt } = await this.prisma.sales_record.findFirst({ where: { orderId } });
-      const { productData } = await this.prisma.sales_record_products.findFirst({ where: { orderId } });
+      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
       const purchaseDate = formatDate(createdAt);
       await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate);
       await this.sendOrderConfirmationEmail(
@@ -704,15 +704,16 @@ export class SalesRecordService {
   ) {
     console.log("======= PRODUCT DETAILS =======")
     console.log(productDetails)
-    const productsArray = Array.isArray(productDetails) ? productDetails : [productDetails];
-    const TotalProductsPrice = productsArray.reduce((accum: number, value: any) => {
-      return accum + (value.discountPrice ? value.discountPrice : value.price);
-    }
-      , 0);
+    let TotalProductsPrice = 0;
+    await productDetails.forEach(({ productData }: any) => {
+      console.log(productData)
+      TotalProductsPrice = productData.discountPrice ? TotalProductsPrice + productData.discountPrice : TotalProductsPrice + productData.price;
+    })
+
     try {
-      const recipients = email
-        ? `${email}`
-        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+       const recipients = email
+         ? `${email}`
+         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,
@@ -993,79 +994,75 @@ export class SalesRecordService {
             <p style="text-align:center;"><strong>The Team at "Avenue39"</strong></p>
             <div class="purchase-details">
                 <h3>Purchase Details</h3>
-                <table class="purchase-table">
-                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th >Product</th>
-                                            
-                                            <th>Product Price</th>
-                                           
-                                        </tr>
-                                    </thead>
-
- <tbody>
-                                        ${productsArray.map((product, index) => `
-                                            <tr>
-                                                <td>${index + 1}</td>
-                                                <td><div style="display:flex;gap:10px; align-items:center; justify-content:center; width: 200px">
-                                                <p> <img src="${product.posterImageUrl}" alt="${product.name}" style="height:40px; width:40px;"></p> 
-                                                 <p style="margin-left: 10px">${product.name}</p></div></td>
-                                             
-                                                <td style="text-align:center;">${product.price}</td>
+            <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th style="text-align: left; padding: 8px;">#</th>
+            <th style="text-align: left; padding: 8px;">Product</th>
+            <th style="text-align: center; padding: 8px;">Product Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        ${productDetails.map(({ productData }, index) => `
+            <tr>
+                <td style="padding: 10px; text-align: center;">${index + 1}</td>
+                <td style="padding: 10px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img src="${productData.posterImageUrl}" alt="${productData.name}" style="height: 100px; width: 100px; border-radius: 5px;">
+                        <div style="margin-left: 10px; ">
+                            <p style="margin: 0; font-weight: bold;">${productData.name}</p>
+                            ${productData.selectedfilter ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Filter: ${productData.selectedfilter.name}</p>` : ''}
+                            ${productData.selectedSize ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Size: ${productData.selectedSize.name} - Stock: ${productData.selectedSize.stock}</p>` : ''}
+                        </div>
+                    </div>
+                </td>
+                <td style="padding: 10px; text-align: center; font-weight: bold;">${productData.price}</td>
             </tr>
-              `).join('')}
+        `).join('')}
+    </tbody>
+</table>
 
-
-                                   
-
-
-
-                                    </tbody> 
-
-
-                                </table>
 
                                 <body style="font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0;">
-    <table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
-        <tr>
-            <td style="width: 50%; vertical-align: top; padding: 10px;">
-                <table style="width: 100%; border-collapse: collapse;">
-                   
-                    <tr>
-                        <th style="padding: 5px;">Customer Email:</th>
-                        <td style="padding: 5px;">${email}</td>
-                    </tr>
-                    <tr>
-                        <th style="padding: 5px;">Customer Phone:</th>
-                        <td style="padding: 5px;">${phone}</td>
-                    </tr>
-                    <tr>
-                        <th style="padding: 5px;">Customer Address:</th>
-                        <td style="padding: 5px;">${address}</td>
-                    </tr>
-                </table>
-            </td>
-           
-        </tr>
-         <td style="width: 50%; vertical-align: top; padding: 10px;">
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr style="border-bottom: 2px solid #ccc;">
-                        <td colspan="5" style="padding: 5px;">Subtotal</td>
-                        <td style="padding: 5px;">${TotalProductsPrice}</td>
-                    </tr>
-                    <tr style="border-bottom: 2px solid #ccc;">
-                        <td colspan="5" style="padding: 5px;">Shipment</td>
-                        <td style="padding: 5px;">${TotalProductsPrice > 250 ? "Free" : 20}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="5" style="padding: 5px; font-weight: bold;">Total</td>
-                        <td style="padding: 5px; font-weight: bold;">${TotalProductsPrice > 250 ? TotalProductsPrice : 20 + TotalProductsPrice}</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
+    <tr>
+        <td style="width: 50%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
+            <table style="width: 100%; border-collapse: collapse;">
+               ${email && ` <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Email:</th>
+                    <td style="padding: 8px;">${email}</td>
+                </tr>`}
+                <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Phone:</th>
+                    <td style="padding: 8px;">${phone}</td>
+                </tr>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Address:</th>
+                    <td style="padding: 8px;">${address}</td>
+                </tr>
+            </table>
+        </td>
+
+        <!-- Pricing Section -->
+        <td style="width: 50%; vertical-align: top; padding: 10px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 2px solid #ccc;">
+                    <td colspan="5" style="padding: 8px; font-weight: bold;">Subtotal</td>
+                    <td style="padding: 8px;">${TotalProductsPrice}</td>
+                </tr>
+                <tr style="border-bottom: 2px solid #ccc;">
+                    <td colspan="5" style="padding: 8px; font-weight: bold;">Shipment</td>
+                    <td style="padding: 8px;">${TotalProductsPrice > 1000 ? "Free" : 20}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="padding: 8px; font-weight: bold;">Total</td>
+                    <td style="padding: 8px; font-weight: bold;">${TotalProductsPrice > 250 ? TotalProductsPrice : 20 + TotalProductsPrice}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
     </div>
     
     <div style="text-align: center; margin-top: 20px; background-color: #AFA183; padding: 14px;">

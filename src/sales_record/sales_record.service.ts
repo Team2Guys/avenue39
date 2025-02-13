@@ -7,15 +7,23 @@ import { PrismaService } from '../prisma/prisma.service';
 import { customHttpException } from '../utils/helper';
 import { generateUniqueString } from '../utils/func';
 import { error } from 'console';
+import * as nodemailer from 'nodemailer';
+import { formatDate } from 'src/config';
 
 @Injectable()
 export class SalesRecordService {
   constructor(private prisma: PrismaService) { }
-
+  private transporter = nodemailer.createTransport({
+    host: 'mail.blindsandcurtains.ae',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.ADMIN_MAIL,
+      pass: process.env.ADMIN_PASSWORD,
+    },
+  });
   async Add_sales_record(data: CreateSalesRecordDto) {
-    console.log("===== Data Start ====")
-    console.log(data);
-    console.log("===== Data End ====")
+
     try {
       const {
         amount,
@@ -91,8 +99,8 @@ export class SalesRecordService {
           if (!existingProduct) {
             throw new Error(`Product with ID ${product.id} not found`);
           }
-          
-          let sizesStock:any = existingProduct && existingProduct.sizes?.reduce((accum:number, value: any) => {
+
+          let sizesStock: any = existingProduct && existingProduct.sizes?.reduce((accum: number, value: any) => {
             if (value.stock) {
               return accum += Number(value.stock)
             }
@@ -100,7 +108,7 @@ export class SalesRecordService {
           }, 0)
           let colorsStock = existingProduct && existingProduct.filter?.reduce((parentAccume: number, parentvalue: any) => {
             const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-      
+
               if (value.stock) {
                 return accum + Number(value.stock);
               }
@@ -108,7 +116,7 @@ export class SalesRecordService {
             }, 0);
             return parentAccume + countedStock;
           }, 0);
-      
+
           const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : product?.stock || 0;
 
           if (totalStock < product.quantity) {
@@ -516,6 +524,8 @@ export class SalesRecordService {
       });
 
 
+
+
       // // console.log(salesRecord, 'salesRecord');
       // const salesRecordId = Number(salesRecord.id);
 
@@ -624,11 +634,17 @@ export class SalesRecordService {
       //   console.log(`Product with ID ${salesRecordProduct.productData.id} not found.`);
       // }
 
+      const { user_email, address, phoneNumber, createdAt } = await this.prisma.sales_record.findFirst({ where: { orderId } });
+      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
+      const purchaseDate = formatDate(createdAt);
+      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate);
+      await this.sendOrderConfirmationEmail(
+        null, phoneNumber, address, productData, null, orderId, purchaseDate
+      );
 
 
 
 
-      // console.log(updatedSalesRecord, 'updatedSalesRecord');
       return { message: 'Payment status updated successfuly🎉', orderId };
     } catch (error: unknown) {
       console.log(error, 'error');
@@ -642,6 +658,7 @@ export class SalesRecordService {
       }
     }
   }
+
 
   async track_order(id: string) {
     try {
@@ -674,5 +691,410 @@ export class SalesRecordService {
 
   apiTester() {
     return 'api is working';
+  }
+
+  private async sendOrderConfirmationEmail(
+    email: string,
+    phone: string,
+    address: string,
+    productDetails: any,
+    shipmentFee: number,
+    orderId: string,
+    purchaseDate: string,
+  ) {
+
+    let TotalProductsPrice = 0;
+    await productDetails.forEach(({ productData }: any) => {
+      TotalProductsPrice = productData.discountPrice ? TotalProductsPrice + productData.discountPrice : TotalProductsPrice + productData.price;
+    })
+
+    try {
+
+      const recipients = email
+        ? `${email}`
+        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      const mailOptions = {
+        from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
+        to: recipients,
+        subject: 'Order Confirmation - avenue39.com',
+        html: `<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #AFA183;
+            border-bottom: 5px solid #AFA183;
+        }
+
+        .main-container {
+        font-size:14px;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .header img {
+            max-width: 250px;
+        }
+
+        .status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .status div {
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            font-weight: bold;
+        }
+
+        .confirmed {
+            background-color: #000000;
+            color: #fff;
+        }
+
+        .shipping,
+        .received {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .order-button {
+            display: block;
+            width: 200px;
+            text-align: center;
+            background-color: #AFA183;
+            color: white;
+            padding: 10px;
+            margin: 20px auto;
+            text-decoration: none;
+            border-radius: 1px;
+        }
+
+        .purchase-details {
+            background-color: #F6F6F6;
+            padding: 15px;
+            margin-top: 20px;
+           
+        }
+
+        .purchase-table {
+            width: 100%;
+            border-collapse: collapse;
+             text-align: center;
+        }
+
+        .purchase-table th,
+        .purchase-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .footer {
+            background-color: #AFA183;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .features {
+            background-color: #ff6600;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .categories {
+            padding: 15px;
+            border-top: 2px solid #ccc;
+        }
+
+        .categories span {
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .social-icons {
+            padding: 15px;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 20px;
+            color: black;
+        }
+
+        .features {
+            background-color: #ff6600;
+            color: white;
+            width: 100%;
+            align-items: center;
+            padding:30px;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature img {
+            width: 30px;
+            height: auto;
+        }
+
+        .categories {
+            margin-top: 10px;
+            padding: 15px;
+            border-top: 2px solid #ccc;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .categories span {
+            margin: 0 10px;
+            font-size: 14px;
+            font-weight: 100;
+        }
+
+        .social-icons {
+            padding: 15px;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 20px;
+            color: black;
+        }
+
+        .progress-container {
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+           
+            width: 100%;
+            
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 2px;
+            background-color: black;
+            top: 25px;
+            left: 100%;
+            transform: translateX(-40%);
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: 2px solid black;
+            font-size: 24px;
+        }
+
+        .completed .icon {
+            background-color: #000000;
+            color: white;
+            border: none;
+        }
+
+        .step p {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-container">
+            <div class="header" style="text-align:center;">
+                <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739340257/rztttx6wr9shaqkrgoqe.png"
+                    alt="Brand Logo">
+            </div>
+            <h3 style="text-align:center; margin:0; padding:0">ORDER#${orderId}</h3>
+            <p style="text-align:center;margin:0;padding:0">${purchaseDate}</p>
+            <h1 style="text-align:center;">Order Confirmed</h1>
+
+            <div class="progress-container" style="text-align:center;">
+                <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739343204/Group_1000004286_1_f4espe.png" alt="Progress Status">
+            </div>
+            <p style="text-align:center;">Dear <b>Customer,</b></p>
+            <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
+                    href="https://avenue39.com/">www.avenue39.com</a></p>
+
+            <a href="#" class="order-button">View Your Order</a>
+            <p style="text-align:center;">Your order has now been sent to the warehouse to prepare for packing and
+                dispatch.</p>
+            <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
+            <p style="text-align:center;">All The Best,</p>
+            <p style="text-align:center;">The Team at<strong>"Avenue39"</strong></p>
+            <div class="purchase-details">
+               <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
+            <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      
+    </thead>
+   <tbody>
+  ${productDetails.map(({ productData }) => `
+    <tr style="border: none;">
+      <td style="padding: 10px; border: none;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
+          <tr style="border: none;">
+            <td align="center" valign="middle" style="padding: 10px; border: none;">
+              <img src="${productData.posterImageUrl}" alt="${productData.name}" 
+                   style="height: 100px; width: 100px; border-radius: 5px; display: block;">
+            </td>
+            <td valign="middle" style="border: none;">
+              <p style="margin: 0; font-weight: bold;">${productData.name}</p>
+              ${productData.selectedfilter ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Filter: ${productData.selectedfilter.name}</p>` : ''}
+              ${productData.selectedSize ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Size: ${productData.selectedSize.name}</p>` : ''}
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="padding: 10px; text-align: center; border: none;">QTY: ${productData.selectedSize ? productData.selectedSize.stock : productData.quantity}</td>
+      <td style="padding: 10px; text-align: center; font-weight: bold; border: none;">${productData.price}</td>
+    </tr>
+  `).join('')}
+</tbody>
+
+</table>
+
+
+                                <body style="font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0;">
+<table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
+    <tr>
+        <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
+            <table style="width: 100%; border-collapse: collapse;">
+               ${email ? ` <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Email:</th>
+                    <td style="padding: 8px; padding-left:0px">${email}</td>
+                </tr> ` : ''}
+                <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Phone:</th>
+                    <td style="padding: 8px; padding-left:0px">${phone}</td>
+                </tr>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Address:</th>
+                    <td style="padding: 8px; padding-left:0px">${address}</td>
+                </tr>
+            </table>
+        </td>
+
+        <td style="width: 40%;  padding: 10px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr >
+                    <td colspan="5" style="padding: 8px; ">Subtotal</td>
+                    <td style="padding: 8px;">${TotalProductsPrice}</td>
+                </tr>
+                <tr style="border-bottom: 2px solid #ccc;">
+                    <td colspan="5" style="padding: 8px; ">Shipment</td>
+                    <td style="padding: 8px;">${TotalProductsPrice > 1000 ? "Free" : 20}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="padding: 8px; font-weight: bold;">Total</td>
+                    <td style="padding: 8px; font-weight: bold;">${TotalProductsPrice > 250 ? TotalProductsPrice : 20 + TotalProductsPrice}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; background-color: #AFA183; padding: 14px;">
+        <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/features_lbnmr6.png" alt="features" style="display: block; margin: auto; max-width: 100%; height: auto;">
+    </div>
+</body>
+        <div class="categories">
+            <span>Dinning</span>
+            <span>Living</span>
+            <span>Bedroom</span>
+            <span>Chairs</span>
+            <span>Tables</span>
+            <span>Home Office</span>
+            <span>Lighting</span>
+            <span>Accessories</span>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/avenue39home"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
+            <a href="https://www.pinterest.com/avenue39home/"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/pinterest-icon_dsvge7.png" alt="pinterest"></a>
+        </div>
+    </div>
+</body>
+
+</html>`,
+      };
+
+      await this.transporter.sendMail(mailOptions);
+      console.log('Confirmation email sent successfully');
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   }
 }

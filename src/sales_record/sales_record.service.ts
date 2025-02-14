@@ -55,7 +55,7 @@ export class SalesRecordService {
       let raw = JSON.stringify({
         amount: amount * 100,
         currency: process.env.PAYMOD_CURRENCY,
-        payment_methods: [21903, 59867,59865,26884],
+        payment_methods: [21903, 59867,59865,59980,59979],
         items: [...updatedProducts, staticProduct].map((item: any) => ({
           ...item,
           description: item.description?.slice(0, 255),

@@ -6,6 +6,7 @@ const nextConfig = {
       'example.com',
       'res.cloudinary.com',
       'unsplash.com',
+      "www.facebook.com"
     ],
    
   },

@@ -10,10 +10,21 @@ import { ProductDetailSkeleton } from '../product-detail/skelton';
 
 const SingleProduct = async ({ slug ,subslug,mainslug}: { slug: string[],mainslug:string ,subslug:string }) => {
   const categoryName = slug[0];
+  const subcat = slug[1];
   const productName = slug[2];
   const products = await fetchProducts();
 
-  const findProduct = products.find((item: IProduct) => generateSlug(item.custom_url || item.name) === productName);
+  const findProduct = products.find((item: IProduct) =>{
+    const hasMatchingCategory =item?.categories &&item?.categories.some((prodCategory) =>(prodCategory.custom_url || generateSlug(prodCategory.name)).trim().toLocaleLowerCase() === categoryName,
+  );
+  const subCategory =item?.subcategories &&item?.subcategories.some((prodCategory) =>(prodCategory.custom_url || generateSlug(prodCategory.name)).trim().toLocaleLowerCase() === subcat,
+);
+    
+    return (  generateSlug(item.custom_url || item.name) === productName) && (hasMatchingCategory && subCategory)
+  }
+   
+
+);
   if (!findProduct) {
     return <NotFound />;
   }

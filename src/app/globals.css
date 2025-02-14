@@ -438,3 +438,11 @@ html {
 .Bannerclas .swiper-pagination{
   bottom: -6px !important;
 }
+
+@media (max-width: 480px) {
+  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev,
+  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}

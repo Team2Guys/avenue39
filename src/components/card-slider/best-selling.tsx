@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '@/config/fetch';
 // import FeatureCard from '../feature-card/feature-card';
 import { IProduct } from '@/types/types';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import CardSkaleton from '../Skaleton/productscard';
 import Card from '../ui/card';
 import { CartItem } from '@/redux/slices/cart/types';
@@ -54,8 +54,8 @@ const BestSellingSlider: React.FC = () => {
               ...prod,
               name: prod.name,
               displayName: `${prod.name} - ${img.size?.toLowerCase() === img.color?.toLowerCase()
-                  ? img.size
-                  : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
+                ? img.size
+                : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
                 }`,
               sizeName: img.size,
               colorName: img.color,
@@ -134,7 +134,10 @@ const BestSellingSlider: React.FC = () => {
             slidesPerView={1}
             spaceBetween={20}
             loop={true}
-            autoplay={false}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
             navigation={{
               nextEl: '.button-next',
               prevEl: '.button-prev',
@@ -166,11 +169,11 @@ const BestSellingSlider: React.FC = () => {
                 slidesPerView: 1.5,
               },
             }}
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination , Autoplay]}
             className="mySwiper "
           >
-            {filterProducts.length > 0 && filterProducts.map((card) => (
-              <SwiperSlide key={card.id} className="mb-8">
+            {filterProducts.length > 0 && filterProducts.map((card , index) => (
+              <SwiperSlide key={index} className="mb-8">
                 <Card
                   isLoading={isProductsLoading}
                   card={card}

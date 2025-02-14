@@ -504,6 +504,7 @@ export class SalesRecordService {
 
       const salesRecord: any = await this.prisma.sales_record.findUnique({
         where: { orderId },
+        include: { products: true }
       });
       console.log(data);
 
@@ -529,116 +530,69 @@ export class SalesRecordService {
       });
 
 
+      for (const prod of salesRecord.products) {
+        const existingProduct: any = await this.prisma.products.findFirst({
+          where: { id: prod.productData.id },
+        });
+        if (prod.productData.selectedfilter && !prod.productData.selectedSize) {
+          const findFilter = existingProduct.filter[0]?.additionalInformation.find(
+            (item: any) => item.name.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()
+          );
+
+          if (findFilter) {
+            const remainingStock = findFilter.stock - prod.quantity;
+
+            const updatedAdditionalInformation = existingProduct.filter[0].additionalInformation.map((item: any) =>
+              item.name.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()
+                ? { ...item, stock: remainingStock }
+                : item
+            );
 
 
-      // // console.log(salesRecord, 'salesRecord');
-      // const salesRecordId = Number(salesRecord.id);
+            const updatedProduct: any = await this.prisma.products.update({
+              where: { id: existingProduct.id },
+              data: {
+                filter: {
+                  set: [
+                    {
+                      ...existingProduct.filter[0],
+                      additionalInformation: updatedAdditionalInformation
+                    },
+                  ],
+                },
+              },
+            });
+          } else {
+            console.log('Filter not found!');
+          }
+        }
+        else if (prod.productData.selectedSize && prod.productData.selectedfilter) {
+          const findSize = existingProduct.sizes.find((item: any) => item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase());
+          const remainingStock = findSize.stock - prod.quantity;
+          const updatedProduct: any = await this.prisma.products.update({
+            where: { id: existingProduct.id },
+            data: {
+              sizes: {
+                set: existingProduct.sizes.map((item: any) =>
+                  item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()
+                    ? { ...item, stock: remainingStock }
+                    : item
+                ),
+              }
+            }
+          });
+        } else {
+          const remainingStock = existingProduct.stock - prod.quantity;
+          const updatedProduct: any = await this.prisma.products.update({
+            where: { id: existingProduct.id },
+            data: {
+              stock: remainingStock
+            }
+          });
+        }
 
 
-      // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
-      //   where: { salesRecordId },
-      // });
-      // // console.log(salesRecordProduct, 'salesRecordProduct');
-
-
-      // const existingProduct: any = await this.prisma.products.findFirst({
-      //   where: { id: salesRecordProduct.productData.id },
-      // });
-
-      // // console.log(existingProduct, 'existingProduct');
-
-      // const selectedSize = salesRecordProduct.productData.selectedSize?.name;
-      // const selectedFilter = salesRecordProduct.productData.selectedfilter?.name;
-
-      // const quantitySold = salesRecordProduct.quantity;
-
-      // if (existingProduct) {
-      //   let isUpdated = false;
-      //   const filterCategory = existingProduct.filter.find((item: any) => item.heading === 'Color');
-
-      //   console.log('debug 2:', filterCategory);
-      //   if (filterCategory && filterCategory.additionalInformation) {
-      //     const filterVariant = filterCategory.additionalInformation.find((item: any) => item.name === selectedFilter);
-
-      //     console.log('debug 1:', filterVariant);
-
-      //     if (filterVariant) {
-      //       const filterStock = filterVariant.stock;
-
-      //       if (filterStock >= quantitySold) {
-      //         const updatedFilterStock = filterStock - quantitySold;
-
-      //         await this.prisma.products.update({
-      //           where: { id: existingProduct.id },
-      //           data: {
-      //             filter: {
-      //               //@ts-expect-error
-      //               update: {
-      //                 where: { color: selectedFilter },
-      //                 data: { stock: updatedFilterStock },
-      //               },
-      //             },
-      //           },
-      //         });
-
-      //         console.log(`Stock for filter ${selectedFilter} updated to: ${updatedFilterStock}`);
-      //         isUpdated = true;
-      //       } else {
-      //         console.log(`Not enough stock for filter ${selectedFilter}. Deducting from total stock.`);
-      //       }
-      //     }
-      //   }
-
-      //   if (!isUpdated && selectedSize && existingProduct.sizes) {
-      //     const sizeVariant = existingProduct.sizes.find((item: any) => item.size === selectedSize);
-
-      //     if (sizeVariant) {
-      //       const sizeStock = sizeVariant.stock;
-
-      //       if (sizeStock >= quantitySold) {
-      //         const updatedSizeStock = sizeStock - quantitySold;
-
-      //         await this.prisma.products.update({
-      //           where: { id: existingProduct.id },
-      //           data: {
-      //             sizes: {
-
-      //               //@ts-expect-error
-      //               update: {
-      //                 where: { size: selectedSize },
-      //                 data: { stock: updatedSizeStock },
-      //               },
-      //             },
-      //           },
-      //         });
-
-      //         console.log(`Stock for size ${selectedSize} updated to: ${updatedSizeStock}`);
-      //         isUpdated = true;
-      //       } else {
-      //         console.log(`Not enough stock for size ${selectedSize}. Deducting from total stock.`);
-      //       }
-      //     }
-      //   }
-
-      //   if (!isUpdated) {
-      //     const updatedTotalStock = existingProduct.stock - quantitySold;
-
-      //     if (updatedTotalStock >= 0) {
-      //       await this.prisma.products.update({
-      //         where: { id: existingProduct.id },
-      //         data: {
-      //           stock: updatedTotalStock,
-      //         },
-      //       });
-
-      //       console.log(`Stock deducted from total stock. Updated total stock to: ${updatedTotalStock}`);
-      //     } else {
-      //       console.log('Not enough stock available to complete the order.');
-      //     }
-      //   }
-      // } else {
-      //   console.log(`Product with ID ${salesRecordProduct.productData.id} not found.`);
-      // }
+      }
 
       const { user_email, address, phoneNumber, createdAt, firstName, lastName } = await this.prisma.sales_record.findFirst({ where: { orderId } });
       const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
@@ -647,9 +601,6 @@ export class SalesRecordService {
       await this.sendOrderConfirmationEmail(
         null, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName
       );
-
-
-
 
       return { message: 'Payment status updated successfuly🎉', orderId };
     } catch (error: unknown) {

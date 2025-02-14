@@ -673,7 +673,7 @@ export class SalesRecordService {
         ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
-        from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
+        from: `"Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,
         subject: 'Order Confirmation - avenue39.com',
         html: `<!DOCTYPE html>
@@ -822,6 +822,14 @@ export class SalesRecordService {
             margin: 0 10px;
             font-weight: bold;
         }
+        @media (max-width: 600px) { /* For mobile screens */
+        .categories {
+            padding: 15px;
+        }
+      .categories span {
+        font-size: 10px;
+      }
+}
 
         .social-icons {
             padding: 15px;
@@ -952,7 +960,7 @@ export class SalesRecordService {
                 dispatch.</p>
             <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
             <p style="text-align:center;">All The Best,</p>
-            <p style="text-align:center;">The Team at<strong>"Avenue39"</strong></p>
+            <p style="text-align:center;">The team at <strong>"Avenue39"</strong></p>
             <div class="purchase-details">
                <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
             <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
@@ -992,19 +1000,19 @@ export class SalesRecordService {
         <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
             <table style="width: 100%; border-collapse: collapse;">
              <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Name:</th>
+                    <th style="padding: 8px; text-align: left;">Name:</th>
                     <td style="padding: 8px; padding-left:0px">${firstName} ${lastName}</td>
                 </tr>
                ${email ? ` <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Email:</th>
+                    <th style="padding: 8px; text-align: left;">Email:</th>
                     <td style="padding: 8px; padding-left:0px">${email}</td>
                 </tr> ` : ''}
                 <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Phone:</th>
+                    <th style="padding: 8px; text-align: left;">Phone:</th>
                     <td style="padding: 8px; padding-left:0px">${phone}</td>
                 </tr>
                 <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Address:</th>
+                    <th style="padding: 8px; text-align: left;">Address:</th>
                     <td style="padding: 8px; padding-left:0px">${address}</td>
                 </tr>
             </table>

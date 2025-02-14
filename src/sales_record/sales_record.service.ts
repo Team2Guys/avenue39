@@ -511,10 +511,10 @@ export class SalesRecordService {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      // if (salesRecord.paymentStatus.paymentStatus) {
-      //   console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      // }
+      if (salesRecord.paymentStatus.paymentStatus) {
+        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
+        customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId },
@@ -716,10 +716,10 @@ export class SalesRecordService {
 
     try {
 
-      const recipients = `mujtaba.shafique01@gmail.com`
-      // const recipients = email
-      //   ? `${email}`
-      //   : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      // const recipients = `mujtaba.shafique01@gmail.com`
+      const recipients = email
+        ? `${email}`
+        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,

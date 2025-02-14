@@ -55,7 +55,7 @@ export class SalesRecordService {
       let raw = JSON.stringify({
         amount: amount * 100,
         currency: process.env.PAYMOD_CURRENCY,
-        payment_methods: [21903, 59867, 59865, 26884],
+        payment_methods: [21903, 59867, 59865, 59980, 59979],
         items: [...updatedProducts, staticProduct].map((item: any) => ({
           ...item,
           description: item.description?.slice(0, 255),
@@ -512,10 +512,10 @@ export class SalesRecordService {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      // if (salesRecord.paymentStatus.paymentStatus) {
-      //   console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      // }
+      if (salesRecord.paymentStatus.paymentStatus) {
+        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
+        customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId },
@@ -594,13 +594,13 @@ export class SalesRecordService {
 
       }
 
-      // const { user_email, address, phoneNumber, createdAt } = await this.prisma.sales_record.findFirst({ where: { orderId } });
-      // const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
-      // const purchaseDate = formatDate(createdAt);
-      // await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate);
-      // await this.sendOrderConfirmationEmail(
-      //   null, phoneNumber, address, productData, null, orderId, purchaseDate
-      // );
+      const { user_email, address, phoneNumber, createdAt } = await this.prisma.sales_record.findFirst({ where: { orderId } });
+      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
+      const purchaseDate = formatDate(createdAt);
+      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate);
+      await this.sendOrderConfirmationEmail(
+        null, phoneNumber, address, productData, null, orderId, purchaseDate
+      );
 
       return { message: 'Payment status updated successfuly🎉', orderId };
     } catch (error: unknown) {
@@ -658,6 +658,8 @@ export class SalesRecordService {
     shipmentFee: number,
     orderId: string,
     purchaseDate: string,
+    firstName: string,
+    lastName: string
   ) {
 
     let TotalProductsPrice = 0;
@@ -667,7 +669,6 @@ export class SalesRecordService {
 
     try {
 
-      // const recipients = `mujtaba.shafique01@gmail.com`
       const recipients = email
         ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
@@ -697,6 +698,7 @@ export class SalesRecordService {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-top: 5px solid #AFA183;
             border-bottom: 5px solid #AFA183;
+            background-color: #fff;
         }
 
         .main-container {
@@ -941,7 +943,7 @@ export class SalesRecordService {
             <div class="progress-container" style="text-align:center;">
                 <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739343204/Group_1000004286_1_f4espe.png" alt="Progress Status">
             </div>
-            <p style="text-align:center;">Dear <b>Customer,</b></p>
+            <p style="text-align:center;">Dear <b>${firstName} ${lastName},</b></p>
             <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
                     href="https://avenue39.com/">www.avenue39.com</a></p>
 
@@ -989,6 +991,10 @@ export class SalesRecordService {
     <tr>
         <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
             <table style="width: 100%; border-collapse: collapse;">
+             <tr>
+                    <th style="padding: 8px; text-align: left;">Customer Name:</th>
+                    <td style="padding: 8px; padding-left:0px">${firstName} ${lastName}</td>
+                </tr>
                ${email ? ` <tr>
                     <th style="padding: 8px; text-align: left;">Customer Email:</th>
                     <td style="padding: 8px; padding-left:0px">${email}</td>

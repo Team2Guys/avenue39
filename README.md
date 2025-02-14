@@ -2,4 +2,4 @@
 - touch primsa (e.g. seed)
 - npx prisma db seed
 - pg_dump "url" --file=backup.sql
-- psql "url" -f backup.sql
+- psql "postgresql://admin_avenue39:avenue39%403223@185.151.51.28:5432/avenue39_db"  -f backup_last.sql

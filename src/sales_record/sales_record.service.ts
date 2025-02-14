@@ -149,9 +149,11 @@ export class SalesRecordService {
         //   });
 
         // }
-
+        console.log("============ DATA after order =============", data)
         let newSalesRecord = await prisma.sales_record.create({
           data: {
+            firstName: data.first_name,
+            lastName: data.last_name,
             user_email: data.user_email,
             products: {
               create: data.orderedProductDetails.map((product) => ({
@@ -168,6 +170,7 @@ export class SalesRecordService {
               checkoutStatus: true,
               paymentStatus: false,
             },
+            orderNote: data.note,
           },
           include: { products: true },
         });
@@ -498,9 +501,11 @@ export class SalesRecordService {
   async updatePaymentStatus(data: updatePaymentStatusDto) {
     try {
       const { orderId, paymentStatus } = data;
+
       const salesRecord: any = await this.prisma.sales_record.findUnique({
         where: { orderId },
       });
+      console.log(data);
 
       if (!salesRecord) {
         customHttpException('Order not found', 'NOT_FOUND');
@@ -529,6 +534,7 @@ export class SalesRecordService {
       // // console.log(salesRecord, 'salesRecord');
       // const salesRecordId = Number(salesRecord.id);
 
+      
       // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
       //   where: { salesRecordId },
       // });
@@ -710,6 +716,7 @@ export class SalesRecordService {
 
     try {
 
+      // const recipients = `mujtaba.shafique01@gmail.com`
       const recipients = email
         ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;

@@ -594,12 +594,12 @@ export class SalesRecordService {
 
       }
 
-      const { user_email, address, phoneNumber, createdAt } = await this.prisma.sales_record.findFirst({ where: { orderId } });
+      const { user_email, address, phoneNumber, createdAt, firstName, lastName } = await this.prisma.sales_record.findFirst({ where: { orderId } });
       const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
       const purchaseDate = formatDate(createdAt);
-      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate);
+      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName);
       await this.sendOrderConfirmationEmail(
-        null, phoneNumber, address, productData, null, orderId, purchaseDate
+        null, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName
       );
 
       return { message: 'Payment status updated successfuly🎉', orderId };

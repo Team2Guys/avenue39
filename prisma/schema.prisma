@@ -75,7 +75,7 @@ model Categories {
   updatedAt           DateTime        @default(now())
   last_editedBy       String?
   short_description   String?
-  custom_url            String?
+  custom_url          String?
 }
 
 model SubCategories {
@@ -94,7 +94,7 @@ model SubCategories {
   updatedAt           DateTime     @default(now())
   last_editedBy       String?
   short_description   String?
-  custom_url            String?
+  custom_url          String?
 }
 
 model Reviews {
@@ -134,6 +134,8 @@ model Admins {
 
 model sales_record {
   id            Int                     @id @default(autoincrement())
+  firstName     String
+  lastName      String
   user_email    String
   createdAt     DateTime                @default(now())
   address       String?
@@ -141,6 +143,7 @@ model sales_record {
   paymentStatus Json?
   phoneNumber   String?
   products      sales_record_products[]
+  orderNote     String?
 }
 
 model sales_record_products {

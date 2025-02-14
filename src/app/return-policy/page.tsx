@@ -13,10 +13,7 @@ export const metadata: Metadata = {
     title: 'Return Policy',
     description: 'Return Policy description',
     url: 'fullUrl',
-    images: [
-      {
-        url: 'imageUrl',
-        alt: 'altText',
+    images: [{url: 'imageUrl',alt: 'altText',
       },
     ],
   },

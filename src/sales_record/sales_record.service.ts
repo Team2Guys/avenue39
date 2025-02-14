@@ -55,7 +55,7 @@ export class SalesRecordService {
       let raw = JSON.stringify({
         amount: amount * 100,
         currency: process.env.PAYMOD_CURRENCY,
-        payment_methods: [21903, 59867, 59865, 26884],
+        payment_methods: [21903, 59867, 59865, 59980, 59979],
         items: [...updatedProducts, staticProduct].map((item: any) => ({
           ...item,
           description: item.description?.slice(0, 255),
@@ -501,6 +501,7 @@ export class SalesRecordService {
   async updatePaymentStatus(data: updatePaymentStatusDto) {
     try {
       const { orderId, paymentStatus } = data;
+
       const salesRecord: any = await this.prisma.sales_record.findUnique({
         where: { orderId },
       });
@@ -510,10 +511,10 @@ export class SalesRecordService {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      // if (salesRecord.paymentStatus.paymentStatus) {
-      //   console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      // }
+      if (salesRecord.paymentStatus.paymentStatus) {
+        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
+        customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId },
@@ -532,6 +533,7 @@ export class SalesRecordService {
 
       // // console.log(salesRecord, 'salesRecord');
       // const salesRecordId = Number(salesRecord.id);
+
 
       // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
       //   where: { salesRecordId },
@@ -716,10 +718,10 @@ export class SalesRecordService {
 
     try {
 
-      const recipients = `mujtaba.shafique01@gmail.com`
-      // const recipients = email
-      //   ? `${email}`
-      //   : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      // const recipients = `mujtaba.shafique01@gmail.com`
+      const recipients = email
+        ? `${email}`
+        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,

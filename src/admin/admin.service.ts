@@ -135,10 +135,10 @@ export class AdminService {
         where: { email },
       });
 
-      if (existingUser)
-        return customHttpException('Already user exists😴', 'CONFLICT');
+      if (existingUser) return customHttpException('Already user exists😴', 'CONFLICT');
 
       const hashedPassword = await hashPassword(password, this.configService);
+      
       const user = await this.prisma.admins.create({
         data: {
           ...signupUserDto,

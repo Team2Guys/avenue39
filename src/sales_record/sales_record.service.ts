@@ -149,9 +149,11 @@ export class SalesRecordService {
         //   });
 
         // }
-
+        console.log("============ DATA after order =============", data)
         let newSalesRecord = await prisma.sales_record.create({
           data: {
+            firstName: data.first_name,
+            lastName: data.last_name,
             user_email: data.user_email,
             products: {
               create: data.orderedProductDetails.map((product) => ({
@@ -168,6 +170,7 @@ export class SalesRecordService {
               checkoutStatus: true,
               paymentStatus: false,
             },
+            orderNote: data.note,
           },
           include: { products: true },
         });
@@ -502,15 +505,16 @@ export class SalesRecordService {
       const salesRecord: any = await this.prisma.sales_record.findUnique({
         where: { orderId },
       });
+      console.log(data);
 
       if (!salesRecord) {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      if (salesRecord.paymentStatus.paymentStatus) {
-        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-        customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      }
+      // if (salesRecord.paymentStatus.paymentStatus) {
+      //   console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
+      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      // }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId },
@@ -712,9 +716,10 @@ export class SalesRecordService {
 
     try {
 
-      const recipients = email
-        ? `${email}`
-        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      const recipients = `mujtaba.shafique01@gmail.com`
+      // const recipients = email
+      //   ? `${email}`
+      //   : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,

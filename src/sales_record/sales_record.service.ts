@@ -498,6 +498,7 @@ export class SalesRecordService {
   async updatePaymentStatus(data: updatePaymentStatusDto) {
     try {
       const { orderId, paymentStatus } = data;
+
       const salesRecord: any = await this.prisma.sales_record.findUnique({
         where: { orderId },
       });
@@ -529,6 +530,7 @@ export class SalesRecordService {
       // // console.log(salesRecord, 'salesRecord');
       // const salesRecordId = Number(salesRecord.id);
 
+      
       // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
       //   where: { salesRecordId },
       // });

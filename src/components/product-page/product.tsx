@@ -46,7 +46,6 @@ const ProductPage = ({
   const [sortOption, setSortOption] = useState<string>('default');
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
-  console.log(ProductData,"ProductData")
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
   
   const processedProducts = productsToFilter.flatMap((prod) => {
@@ -54,9 +53,7 @@ const ProductPage = ({
   
     if (!prod.sizes || prod.sizes.length === 0) {
       return colorVariations.map((color) => {
-        const matchedImage = prod.productImages?.find(
-          (img) => img.color?.toLowerCase() === color.name.toLowerCase()
-        )?.imageUrl || prod.posterImageUrl; 
+        const matchedImage = prod.productImages?.find((img) => img.color?.toLowerCase() === color.name.toLowerCase())?.imageUrl || prod.posterImageUrl; 
     
         return {
           ...prod,
@@ -93,8 +90,7 @@ const ProductPage = ({
     );
   });
   
-  const filteredCards = processedProducts
-    .filter((card) => {
+  const filteredCards = processedProducts.filter((card) => {
       if (pathname === '/products') {
         return (card.discountPrice ?? 0) > 0 && card.stock > 0;
       }
@@ -123,6 +119,10 @@ const ProductPage = ({
       }
     });
 
+
+
+
+    
   return (
     <>
       <TopHero

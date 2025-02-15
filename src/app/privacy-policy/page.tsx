@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   },
 }
 
+
+
 const PrivacyPolicy: React.FC = () => {
   return (
     <>
@@ -63,6 +65,8 @@ const PrivacyPolicy: React.FC = () => {
                                       cs@avenue39.com
                                     </Link>
                                   );
+
+
                                 } else if (part === '[[WHATSAPP_LINK]]') {
                                   return (
                                     <Link key={idx2} target="_blank" href="https://wa.me/971505974495" className="text-red-600 hover:underline">
@@ -85,6 +89,8 @@ const PrivacyPolicy: React.FC = () => {
         </div>
       </div>
     </>
+
+    
   );
 };
 

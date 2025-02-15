@@ -117,13 +117,10 @@ console.log(Product.length, "Product")
           return indexA - indexB;
         });
     }
-
-
-
-    
-
   return <Shop
+
     ProductData={sortProducts}
+    
     AllProduct={AllProduct}
     isCategory={true}
     mainslug={slug}

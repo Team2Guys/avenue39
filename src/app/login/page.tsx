@@ -13,6 +13,7 @@ const Login = () => {
   };
   return (
     <Fragment>
+
       <div className="grid grid-cols-1 justify-center px-2 pt-5">
         <div
           className={`${activeTab === 'login' ? 'max-w-screen-sm' : 'max-w-screen-md'} w-full mx-auto px-2 py-5 xs:p-5 sm:p-10 shadow-[0px_3px_6px_#00000029] rounded-md mb-5 h-fit login-form-wrapper`}
@@ -20,6 +21,7 @@ const Login = () => {
           <LoginForm onTabChange={handleTabChange} activeTab={activeTab} />
         </div>
       </div>
+      
       <Services className="custom-services-wrapper" />
     </Fragment>
   );

@@ -11,7 +11,7 @@ import { Table } from 'antd';
 import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
 
-const Product = ({params,similarProducts,reviews,product,products,subslug,mainslug}: {
+const Product = ({ params, reviews, similarProducts ,product, products, subslug, mainslug }: {
   params: IProductDetail;
   reviews: IReview[];
   product: IProduct;
@@ -19,10 +19,10 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
   products?: IProduct[];
   subslug?: string;
   mainslug?: string;
-  
+
 }) => {
   const slug = params.name;
-  console.log(slug, 'slug',reviews);
+  console.log(slug, 'slug', reviews);
   const additional_columns_handler = () => {
     const section = product?.sections;
     if (section && section.length > 0) {
@@ -121,12 +121,12 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
         (!dataSource || dataSource.length === 0)
       )
   );
-  
+
   const cartpageBreadcrumbs = [
     { label: "Home", href: "/" },
     { label: product?.name ?? "Product Page" },
   ];
-  
+
   useEffect(() => {
     additional_columns_handler();
   }, [product]);
@@ -134,9 +134,9 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
   return (
     <div>
       <TopHero breadcrumbs={cartpageBreadcrumbs}
-           categoryName={mainslug ? mainslug : subslug}
-           subCategorName={subslug}
-           productName={product?.name}
+        categoryName={mainslug ? mainslug : subslug}
+        subCategorName={subslug}
+        productName={product?.name}
       />
       <Container>
         {!product ? (
@@ -164,8 +164,10 @@ const Product = ({params,similarProducts,reviews,product,products,subslug,mainsl
           <DetailTabs tabs={filteredTabs} />
         </div>
       )}
-
-      <div className="mt-10 pt-10 mb-20 border-t-2">
+      <Container className="w-full relative mt-10">
+        <FeatureSlider similarProducts={products?.slice(0,15) || []} title={true} isBestSeller={true} />
+      </Container>
+      <div className="mt-10 pt-10 mb-10 border-t-2">
         <Container>
           <FeatureSlider similarProducts={similarProducts} title={true} />
         </Container>

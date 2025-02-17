@@ -56,7 +56,6 @@ export interface IServiceItem {
 export interface MenuItem {
   categoryId?: number;
   title: string;
-  icon: any;
   link: string;
 }
 

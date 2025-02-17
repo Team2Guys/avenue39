@@ -41,9 +41,8 @@ const Products: React.FC<SlugPageProps> = async ({ params }) => {
 
   const SubCategoriesFinder = re_Calling_products.find((value) =>  generateSlug(value.mainCategory).trim().toLocaleLowerCase() === slug && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcat);
 
-  console.log(SubCategoriesFinder, "SubCategoriesFinder")
   if(SubCategoriesFinder){
- if(SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase() !==slug && subcat !== SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase()) 
+ if(SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase() !==slug && subcat == SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase()) 
  return notFound()
   }
  

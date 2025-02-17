@@ -143,12 +143,20 @@ export const re_Calling_products:recallingTypes[] = [
   },
   
   {
-    id: 15,
+    id: 16,
     mainCategory: 'DINING',
     subCategory: 'TV Stands',
     redirectsubCat: 'TV Stands',
     redirect_main_cat: 'BEDROOM',
   },
+  {
+    id: 16,
+    mainCategory: 'DINING',
+    subCategory: 'Barstools',
+    redirectsubCat: 'Barstools',
+    redirect_main_cat: 'CHAIRS',
+  },
+
 ];
 
 

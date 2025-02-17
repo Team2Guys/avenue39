@@ -1,7 +1,6 @@
 import React, { useState, FC } from 'react';
 import Container from '../ui/Container';
 import { TiArrowSortedUp } from 'react-icons/ti';
-import BestSellingSlider from '../card-slider/best-selling';
 
 interface Tab {
   label: string;
@@ -44,9 +43,6 @@ const DetailTabs: FC<DetailTabsProps> = ({ tabs }) => {
         <Container className="px-4">
           <div className="w-full  sm:px-4 font-Helveticalight">
             {tabs[activeTab].content}
-          </div>
-          <div className="w-full relative mt-10">
-            <BestSellingSlider />
           </div>
         </Container>
       </div>

@@ -381,6 +381,10 @@ html {
 .slick-next:before, .slick-prev:before {
   content: none !important;
 }
+
+.slick-best-seller .slick-arrow.slick-next , .slick-best-seller .slick-arrow.slick-prev {
+  display: none !important;
+}
 .detail {
   font-family: var(--font-helvetica) !important;
 }

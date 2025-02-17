@@ -186,8 +186,8 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title }) => {
             modules={[Navigation, Autoplay, Pagination]}
             className="mySwiper"
           >
-            {filterProducts && filterProducts.map((card: IProduct) => (
-              <SwiperSlide className="mb-10" key={card.id}>
+            {filterProducts && filterProducts.map((card: IProduct, index) => (
+              <SwiperSlide className="mb-10" key={index}>
                 <Card
                   card={card}
                   isLoading={false}

@@ -30,7 +30,7 @@ const CustomThumbnailSlickSlider = ({
         id="nextArrow"
         className="slick-next-arrow !flex !justify-center !items-center"
       >
-        <FaSortDown size={25} className="text-black " />
+        <FaSortDown className="text-black text-18 xs:text-[25px]" />
       </div>
     ),
     prevArrow: (
@@ -38,7 +38,7 @@ const CustomThumbnailSlickSlider = ({
         id="prevArrow"
         className="slick-prev-arrow !flex !justify-center !items-center"
       >
-        <FaSortUp size={25} className="text-black " />
+        <FaSortUp className="text-black text-18 xs:text-[25px]" />
       </div>
     ),
     responsive: [
@@ -52,18 +52,9 @@ const CustomThumbnailSlickSlider = ({
         },
       },
       {
-        breakpoint: 640,
+        breakpoint: 450,
         settings: {
           slidesToShow: 3,
-          centerMode: true,
-          vertical: false,
-          infinite: thumbs.length > 1,
-        },
-      },
-      {
-        breakpoint: 400,
-        settings: {
-          slidesToShow: 2,
           centerMode: true,
           vertical: false,
           infinite: thumbs.length > 1,
@@ -89,7 +80,7 @@ const CustomThumbnailSlickSlider = ({
             className="column-swiper-slider swiper-slide xsm:mx-0 mx-2"
           >
             <Image
-              className={`rounded-lg shadow-md aspect-square ${isZoom ? 'size-28 md:h-[120px] 2xl:h-[160px] md:w-[120px] 2xl:w-[160px]' : 'size-28 xs:h-[130px] w-[130px]'}`}
+              className={`rounded-lg shadow-md aspect-square ${isZoom ? 'size-24 xs:size-28 md:h-[120px] 2xl:h-[160px] md:w-[120px] 2xl:w-[160px]' : 'size-28 xs:h-[130px] w-[130px]'}`}
               src={thumb.imageUrl || '/default-image.jpg'}
               width={150}
               height={150}

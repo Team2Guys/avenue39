@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineHome } from 'react-icons/ai';
-import { MdLogin } from 'react-icons/md';
 import { Popover } from 'antd';
 import { useSelector } from 'react-redux';
 import { State } from '@/redux/store';
@@ -12,6 +11,8 @@ import { useAppDispatch } from '@components/Others/HelperRedux';
 import { useRouter } from 'next/navigation';
 import CartItems from '../cart/items';
 import WishlistCount from '../wishlist/wishlist';
+import { IoPersonOutline } from 'react-icons/io5';
+import { TiArrowSortedUp } from 'react-icons/ti';
 
 const BottomBar = () => {
   const [open, setOpen] = useState(false);
@@ -61,9 +62,12 @@ const BottomBar = () => {
   }, []);
 
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <div className="flex justify-between items-center px-4 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-50">
+    <div className="flex justify-between items-center px-4 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-[51]">
       <Link href={'/'}>
         <AiOutlineHome size={25} />
       </Link>
@@ -73,9 +77,10 @@ const BottomBar = () => {
           <CartItems isMoblie={true} />
         </div>
       )}
+      
       {!userDetails ? (
         <Link href={'/login'}>
-          <MdLogin size={25} />
+          <IoPersonOutline size={22} />
         </Link>
       ) : (
         <Popover
@@ -128,6 +133,10 @@ const BottomBar = () => {
           </div>
         </Popover>
       )}
+      <div className='flex flex-col items-center' onClick={scrollToTop}>
+      <TiArrowSortedUp size={30} />
+      <p className='text-11 -mt-[10px]'>On Top</p>
+      </div>
     </div>
   );
 };

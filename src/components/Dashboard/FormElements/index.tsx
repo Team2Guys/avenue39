@@ -253,6 +253,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
     });
   };
 
+  
   const handleImageSize = (
     index: number,
     newImageIndex: number | string,

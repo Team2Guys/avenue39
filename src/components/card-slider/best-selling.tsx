@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,85 +12,70 @@ import { IProduct } from '@/types/types';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import CardSkaleton from '../Skaleton/productscard';
 import Card from '../ui/card';
-import { CartItem } from '@/redux/slices/cart/types';
 
 const BestSellingSlider: React.FC = () => {
-  const [filterProducts, setFilterProducts] = useState<CartItem[]>([])
   const { data: products = [], isLoading: isProductsLoading } = useQuery<IProduct[], Error>({
     queryKey: ['products'],
     queryFn: fetchProducts,
   });
 
-  useEffect(() => {
-    const processedProducts = products.flatMap((prod) => {
-      if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
-        return [prod];
-      }
-
-      if (!prod.productImages || prod.productImages.length === 0) {
-        return [];
-      }
-
-      const uniqueVariations = new Map();
-
-      prod.productImages
-        .filter((img) => img.index)
-        .forEach((img) => {
-          const sizeMatch = prod.sizes?.find(
-            (size) => size.name?.toLowerCase() === img.size?.toLowerCase()
-          );
-          const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
-            (filterItem) => filterItem.name?.toLowerCase() === img.color?.toLowerCase()
-          );
-
-          const hoverImageMatch = prod.productImages.find(
-            (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
-          );
-
-          const variationKey = img.index;
-
-          if (!uniqueVariations.has(variationKey)) {
-            uniqueVariations.set(variationKey, {
-              ...prod,
-              name: prod.name,
-              displayName: `${prod.name} - ${img.size?.toLowerCase() === img.color?.toLowerCase()
-                ? img.size
-                : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
-                }`,
-              sizeName: img.size,
-              colorName: img.color,
-              price: sizeMatch
-                ? Number(sizeMatch.price)
-                : filterMatch
-                  ? Number(filterMatch.price)
-                  : Number(prod.price),
-              discountPrice: sizeMatch
-                ? Number(sizeMatch.discountPrice)
-                : filterMatch
-                  ? Number(filterMatch.discountPrice || 0)
-                  : Number(prod.discountPrice),
-              posterImageUrl: img.imageUrl,
-              hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
-              stock: sizeMatch?.stock ?? prod.stock,
-            });
-          }
-        });
-
-      return Array.from(uniqueVariations.values());
-    });
-
-    if (processedProducts.length > 0) {
-      // const filteredProducts = processedProducts.filter((card: CartItem) => {
-      //   const sizeStock = card?.sizes?.find((size) => size.name === card.sizeName)?.stock;
-      //   const filterStock = card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)?.stock;
-      //   const totalStock = Number(sizeStock) || Number(filterStock) || card.stock;
-
-      //   return totalStock > 0;
-      // });
-
-      setFilterProducts(processedProducts);
+  const processedProducts = products.flatMap((prod) => {
+    if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
+      return [prod];
     }
-  }, [products]);
+
+    if (!prod.productImages || prod.productImages.length === 0) {
+      return [];
+    }
+
+    const uniqueVariations = new Map();
+
+    prod.productImages
+      .filter((img) => img.index)
+      .forEach((img) => {
+        const sizeMatch = prod.sizes?.find(
+          (size) => size.name?.toLowerCase() === img.size?.toLowerCase()
+        );
+        const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
+          (filterItem) => filterItem.name?.toLowerCase() === img.color?.toLowerCase()
+        );
+
+        const hoverImageMatch = prod.productImages.find(
+          (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
+        );
+
+        const variationKey = img.index;
+
+        if (!uniqueVariations.has(variationKey)) {
+          uniqueVariations.set(variationKey, {
+            ...prod,
+            name: prod.name,
+            displayName: `${prod.name} - ${img.size?.toLowerCase() === img.color?.toLowerCase()
+              ? img.size
+              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
+              }`,
+            sizeName: img.size,
+            colorName: img.color,
+            price: sizeMatch
+              ? Number(sizeMatch.price)
+              : filterMatch
+                ? Number(filterMatch.price)
+                : Number(prod.price),
+            discountPrice: sizeMatch
+              ? Number(sizeMatch.discountPrice)
+              : filterMatch
+                ? Number(filterMatch.discountPrice || 0)
+                : Number(prod.discountPrice),
+            posterImageUrl: img.imageUrl,
+            hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
+            stock: sizeMatch?.stock ?? prod.stock,
+          });
+        }
+      });
+
+    return Array.from(uniqueVariations.values());
+  });
+
 
 
   const swiperRef = useRef<any>(null);
@@ -169,10 +154,10 @@ const BestSellingSlider: React.FC = () => {
                 slidesPerView: 1.5,
               },
             }}
-            modules={[Navigation, Pagination , Autoplay]}
+            modules={[Navigation, Pagination, Autoplay]}
             className="mySwiper "
           >
-            {filterProducts.length > 0 && filterProducts.map((card , index) => (
+            {processedProducts.length > 0 && processedProducts.map((card, index) => (
               <SwiperSlide key={index} className="mb-8">
                 <Card
                   isLoading={isProductsLoading}

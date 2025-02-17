@@ -33,7 +33,7 @@ const DetailTabs: FC<DetailTabsProps> = ({ tabs }) => {
               {activeTab === index && (
                 <TiArrowSortedUp
                   size={30}
-                  className="absolute rounded-t-md -bottom-12 left-1/2 -translate-x-1/2 hidden xs:block"
+                  className="absolute rounded-t-md -bottom-7 left-1/2 -translate-x-1/2"
                 />
               )}
             </button>

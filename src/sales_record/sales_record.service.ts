@@ -126,29 +126,6 @@ export class SalesRecordService {
           }
         }
 
-        // const existingSalesRecord = await prisma.sales_record.findUnique({
-        //   where: { user_email: data.user_email },
-        //   include: { products: true },
-        // });
-
-        // let newSalesRecord: any;
-
-        // if (existingSalesRecord) {
-        //   newSalesRecord = await prisma.sales_record.update({
-        //     where: { user_email: data.user_email },
-        //     data: {
-        //       products: {
-        //         create: data.orderedProductDetails.map((product) => ({
-        //           quantity: product.quantity,
-        //           productData: product,
-        //           orderId: String(result.intention_order_id)
-        //         })),
-        //       },
-        //     },
-        //     include: { products: true },
-        //   });
-
-        // }
         console.log("============ DATA after order =============", data)
         let newSalesRecord = await prisma.sales_record.create({
           data: {
@@ -502,23 +479,24 @@ export class SalesRecordService {
     try {
       const { orderId, paymentStatus } = data;
 
+
       const salesRecord: any = await this.prisma.sales_record.findUnique({
-        where: { orderId },
+        where: { orderId: orderId.trim() },
         include: { products: true }
       });
-      console.log(data);
+      console.log(salesRecord);
 
       if (!salesRecord) {
         customHttpException('Order not found', 'NOT_FOUND');
       }
+      console.log(typeof (salesRecord.paymentStatus.paymentStatus), 'paymentStatus');
 
-      if (salesRecord.paymentStatus.paymentStatus) {
-        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-        customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      }
+      // if (salesRecord.paymentStatus.paymentStatus) {
+      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      // }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
-        where: { orderId },
+        where: { orderId: orderId.trim() },
         data: {
           paymentStatus: {
             paymentStatus: paymentStatus,
@@ -594,8 +572,9 @@ export class SalesRecordService {
 
       }
 
-      const { user_email, address, phoneNumber, createdAt, firstName, lastName } = await this.prisma.sales_record.findFirst({ where: { orderId } });
-      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
+      const { user_email, address, phoneNumber, createdAt, firstName, lastName } = salesRecord
+      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId: orderId.trim() } });
+      console.log(productData, "product data")
       const purchaseDate = formatDate(createdAt);
       await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName);
       await this.sendOrderConfirmationEmail(
@@ -673,10 +652,12 @@ export class SalesRecordService {
         ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
-        from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
+        from: `"Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,
         subject: 'Order Confirmation - avenue39.com',
-        html: `<!DOCTYPE html>
+        html: `
+        
+        <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -822,6 +803,14 @@ export class SalesRecordService {
             margin: 0 10px;
             font-weight: bold;
         }
+        @media (max-width: 600px) { /* For mobile screens */
+        .categories {
+            padding: 15px;
+        }
+      .categories span {
+        font-size: 10px;
+      }
+}
 
         .social-icons {
             padding: 15px;
@@ -882,6 +871,7 @@ export class SalesRecordService {
             margin-bottom: 30px;
            
             width: 100%;
+            background-color:white;
             
         }
 
@@ -932,16 +922,16 @@ export class SalesRecordService {
 <body>
     <div class="container">
         <div class="main-container">
-            <div class="header" style="text-align:center;">
-                <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739340257/rztttx6wr9shaqkrgoqe.png"
+            <div class="header" style="text-align:center; background-color:white">
+                <img src="https://res.cloudinary.com/dz7nqwiev/image/upload/v1739884192/logo_3_kfsy2k.jpg"
                     alt="Brand Logo">
             </div>
             <h3 style="text-align:center; margin:0; padding:0">ORDER#${orderId}</h3>
             <p style="text-align:center;margin:0;padding:0">${purchaseDate}</p>
             <h1 style="text-align:center;">Order Confirmed</h1>
 
-            <div class="progress-container" style="text-align:center;">
-                <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739343204/Group_1000004286_1_f4espe.png" alt="Progress Status">
+            <div class="progress-container" style="text-align:center; background-color: white ;">
+                <img src="https://res.cloudinary.com/dz7nqwiev/image/upload/v1739884153/Frame_2_qij2br.jpg" alt="Progress Status">
             </div>
             <p style="text-align:center;">Dear <b>${firstName} ${lastName},</b></p>
             <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
@@ -952,7 +942,7 @@ export class SalesRecordService {
                 dispatch.</p>
             <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
             <p style="text-align:center;">All The Best,</p>
-            <p style="text-align:center;">The Team at<strong>"Avenue39"</strong></p>
+            <p style="text-align:center;">The team at <strong>"Avenue39"</strong></p>
             <div class="purchase-details">
                <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
             <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
@@ -992,19 +982,19 @@ export class SalesRecordService {
         <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
             <table style="width: 100%; border-collapse: collapse;">
              <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Name:</th>
+                    <th style="padding: 8px; text-align: left;">Name:</th>
                     <td style="padding: 8px; padding-left:0px">${firstName} ${lastName}</td>
                 </tr>
                ${email ? ` <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Email:</th>
+                    <th style="padding: 8px; text-align: left;">Email:</th>
                     <td style="padding: 8px; padding-left:0px">${email}</td>
                 </tr> ` : ''}
                 <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Phone:</th>
+                    <th style="padding: 8px; text-align: left;">Phone:</th>
                     <td style="padding: 8px; padding-left:0px">${phone}</td>
                 </tr>
                 <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Address:</th>
+                    <th style="padding: 8px; text-align: left;">Address:</th>
                     <td style="padding: 8px; padding-left:0px">${address}</td>
                 </tr>
             </table>
@@ -1036,14 +1026,15 @@ export class SalesRecordService {
     </div>
 </body>
         <div class="categories">
-            <span>Dinning</span>
-            <span>Living</span>
-            <span>Bedroom</span>
-            <span>Chairs</span>
-            <span>Tables</span>
-            <span>Home Office</span>
-            <span>Lighting</span>
-            <span>Accessories</span>
+        <a href="https://www.avenue39.com/dining" target="_blank">Dinning</a>
+<a href="https://www.avenue39.com/living" target="_blank">Living</a>
+<a href="https://www.avenue39.com/bedroom" target="_blank">Bedroom</a>
+<a href="https://www.avenue39.com/chairs" target="_blank">Chairs</a>
+<a href="https://www.avenue39.com/tables" target="_blank">Tables</a>
+<a href="https://www.avenue39.com/office-furniture" target="_blank">Home Office</a>
+<a href="https://www.avenue39.com/lighting" target="_blank">Lighting</a>
+<a href="https://www.avenue39.com/accessories" target="_blank">Accessories</a>
+
         </div>
         <div class="social-icons">
             <a href="https://www.facebook.com/avenue39home"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
@@ -1052,7 +1043,9 @@ export class SalesRecordService {
     </div>
 </body>
 
-</html>`,
+</html>
+
+`,
       };
 
       await this.transporter.sendMail(mailOptions);

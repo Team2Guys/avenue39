@@ -501,11 +501,12 @@ export class SalesRecordService {
   async updatePaymentStatus(data: updatePaymentStatusDto) {
     try {
       const { orderId, paymentStatus } = data;
+      
 
       const salesRecord: any = await this.prisma.sales_record.findUnique({
-        where: { orderId },
+        where: { orderId: orderId.trim() },
       });
-      console.log(data);
+      console.log(typeof(orderId), "order",  salesRecord);
 
       if (!salesRecord) {
         customHttpException('Order not found', 'NOT_FOUND');

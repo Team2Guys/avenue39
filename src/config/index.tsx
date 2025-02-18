@@ -2,7 +2,7 @@ import { selectTotalPrice, totalProductsInCart } from '@/redux/slices/cart';
 import { State } from '@/redux/store';
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import { IReview } from '@/types/types';
+import { IProduct, IReview } from '@/types/types';
 import { MdStar, MdStarBorder } from 'react-icons/md';
 
 export const SubTotal = () => {
@@ -95,4 +95,64 @@ export const renderStars = ({ star = 0 }: { star?: number }) => {
     }
   }
   return stars;
+};
+
+
+export const variationProducts = ({ products }: { products: IProduct[] }) => {
+  return products?.flatMap((prod) => {
+    if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
+      return [prod];
+    }
+
+    if (!prod.productImages || prod.productImages.length === 0) {
+      return [];
+    }
+
+    const uniqueVariations = new Map();
+
+    prod.productImages
+      .filter((img) => img.index)
+      .forEach((img) => {
+        const sizeMatch = prod.sizes?.find(
+          (size) => size.name?.toLowerCase() === img.size?.toLowerCase()
+        );
+        const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
+          (filterItem) => filterItem.name?.toLowerCase() === img.color?.toLowerCase()
+        );
+
+        const hoverImageMatch = prod.productImages.find(
+          (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
+        );
+
+        const variationKey = img.index;
+
+        if (!uniqueVariations.has(variationKey)) {
+          uniqueVariations.set(variationKey, {
+            ...prod,
+            name: prod.name,
+            displayName: `${prod.name} - ${img.size?.toLowerCase() === img.color?.toLowerCase()
+              ? img.size
+              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
+              }`,
+            sizeName: img.size,
+            colorName: img.color,
+            price: sizeMatch
+              ? Number(sizeMatch.price)
+              : filterMatch
+                ? Number(filterMatch.price)
+                : Number(prod.price),
+            discountPrice: sizeMatch
+              ? Number(sizeMatch.discountPrice)
+              : filterMatch
+                ? Number(filterMatch.discountPrice || 0)
+                : Number(prod.discountPrice),
+            posterImageUrl: img.imageUrl,
+            hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
+            stock: sizeMatch?.stock ?? prod.stock,
+          });
+        }
+      });
+
+    return Array.from(uniqueVariations.values());
+  })
 };

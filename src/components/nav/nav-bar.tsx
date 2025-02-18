@@ -41,8 +41,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { generateSlug } from '@/config';
+import { generateSlug, variationProducts } from '@/config';
 import MenuLink from '../menu-link';
+import { variationProductImage } from '@/redux/slices/cart';
+import { CartItem } from '@/redux/slices/cart/types';
 
 const Navbar = ({ categories }: { categories: ICategory[] }) => {
   const [open, setOpen] = useState(false);
@@ -88,8 +90,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     }
   }, [loggedInUser]);
 
-  const products = productsData || [];
-
+  const products = variationProducts({ products: productsData || []}) ;
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
@@ -145,6 +146,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
       }, 50);
     }
   }, []);
+  console.log(filteredProducts,'filteredProducts')
 
   const logoutHhandler = () => {
     try {
@@ -197,7 +199,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             </Link>
           </div>
         </div>
-        <div className="w-full hidden sm:block max-w-[35%] lg:max-w-[58%] xl:max-w-[43%] 2xl:max-w-[40%] 2xl:mr-[40px]">
+        <div className="w-full hidden sm:block max-w-[45%] lg:max-w-[58%] xl:max-w-[43%] 2xl:max-w-[40%] 2xl:mr-[40px]">
           <div className="bg-whtie">
             <form
               className="relative w-full sm:block hidden bg-white z-[1099]"
@@ -246,15 +248,15 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                             <Image
                               width={100}
                               height={100}
-                              src={product.posterImageUrl}
+                              src={variationProductImage(product) || product.posterImageUrl}
                               alt={product.name}
                               className="size-20 md:size-24"
                             />
-                            <div className="pt-1 flex flex-col gap-2">
+                            <div className="pt-1 flex flex-col gap-2 w-full md:w-fit">
                               <p className="text-17 md:text-21 font-normal capitalize">
                                 {product.name}
                               </p>
-                              <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-1 xs:gap-4">
                                 {product.discountPrice > 0 ? (
                                   <>
                                     <p className="text-15 font-semibold">
@@ -270,6 +272,14 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                   </p>
                                 )}
                               </div>
+                              {(product.colorName || product.sizeName) &&
+                                <div className='flex flex-wrap items-center justify-between gap-3 w-full md:w-56'>
+                                  <div className='flex items-center gap-1 text-13'>
+                                    <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                                    <span className='capitalize'>{product.colorName}</span>
+                                  </div>
+                                  <span className='text-13'>{product.sizeName}</span>
+                                </div>}
                               <RenderStars card={product} />
                             </div>
 
@@ -307,7 +317,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                     value={searchText}
                     onChange={handleInputChange}
                     onClick={() => setIsProductListOpen(true)}
-                    className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-9 z-[199] border-[#afa183] border-opacity-30 font-extralight"
+                    className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-9 pr-2 z-[199] border-[#afa183] border-opacity-30 font-extralight"
                     placeholder="Search Here..."
                   />
                   <button
@@ -370,7 +380,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                   {!isLoading && !error && filteredProducts.length > 0 && (
                     <div className=" p-2 max-h-[600px] overflow-y-auto custom-scrollbar">
                       <div className="flex flex-wrap justify-center gap-2 -m-2">
-                        {filteredProducts.map((product: IProduct) => {
+                        {filteredProducts.map((product: CartItem) => {
                           console.log(typeof (product.discountPrice), "discount price")
                           return (
                             <DrawerTrigger asChild key={product.id}>
@@ -390,18 +400,26 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                     {product.name}
                                   </p>
 
-                                  <div className="flex justify-center items-end h-full gap-4 ">
-                                    <p className="text-15 font-semibold">
+                                  <div className="flex justify-center items-center gap-2 xs:gap-4">
+                                    <p className="text-14 xs:text-15 font-semibold">
                                       AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
                                     </p>
                                     {(product.discountPrice && product.discountPrice > 0) ?
 
-                                      <p className="text-[12px] text-primary-foreground font-bold line-through items-end">
-                                        <span>{product.price}</span>
+                                      <p className="text-11 xs:text-[12px] text-primary-foreground font-bold line-through">
+                                      AED {product.price}
                                       </p> : ''
                                     }
 
                                   </div>
+                                  {(product.colorName || product.sizeName) &&
+                                <div className='flex items-center justify-center gap-3 flex-wrap'>
+                                  <div className='flex items-center gap-1 text-13'>
+                                    <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                                    <span className='capitalize'>{product.colorName}</span>
+                                  </div>
+                                  <span className='text-13'>{product.sizeName}</span>
+                                </div>}
                                   <div>
                                     <RenderStars card={product} />
                                   </div>

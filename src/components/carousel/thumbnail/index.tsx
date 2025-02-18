@@ -44,9 +44,6 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const swiperImageRef = useRef<SwiperType | null>(null);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   const [imageZome, setImageZome] = useState<number>(1.5);
-  /* eslint-disable */
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
-  /* eslint-enable */
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const preloadImages = (images: string[]) => {

@@ -19,6 +19,7 @@ import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
 import { CartSize } from '@/redux/slices/cart/types';
+import { variationProducts } from '@/config';
 
 interface ProductPageProps {
   layout: string;
@@ -60,62 +61,7 @@ const ProductPage = ({
 
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
-  const processedProducts = productsToFilter.flatMap((prod) => {
-    if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
-      return [prod]; 
-    }
-  
-    if (!prod.productImages || prod.productImages.length === 0) {
-    return [];
-  }
-
-  const uniqueVariations = new Map();
-
-  prod.productImages
-    .filter((img) => img.index)
-    .forEach((img) => {
-      const sizeMatch = prod.sizes?.find(
-        (size) => size.name.toLowerCase() === img.size?.toLowerCase()
-      );
-      const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
-        (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
-      );
-      const hoverImageMatch = prod.productImages.find(
-        (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
-      );
-
-      const variationKey = img.index;
-
-      if (!uniqueVariations.has(variationKey)) {
-        uniqueVariations.set(variationKey, {
-          ...prod,
-          name: `${prod.name}`,
-          displayName: `${prod.name} - ${
-            img.size?.toLowerCase() === img.color?.toLowerCase()
-              ? img.size
-              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
-          }`,
-          sizeName:img.size ,
-          colorName:img.color,
-          price: sizeMatch
-            ? Number(sizeMatch.price)
-            : filterMatch
-            ? Number(filterMatch.price)
-            : prod.price, 
-          discountPrice: sizeMatch
-            ? Number(sizeMatch.discountPrice)
-            : filterMatch
-            ? Number(filterMatch.discountPrice || 0)
-            : prod.discountPrice,
-          posterImageUrl: img.imageUrl,
-          hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
-          stock: sizeMatch ? sizeMatch.stock : prod.stock,
-        });
-      }
-    });
-
-  return Array.from(uniqueVariations.values());
-});
+  const processedProducts = variationProducts({products: productsToFilter});
   
 
 const filteredCards = processedProducts
@@ -157,8 +103,6 @@ const filteredCards = processedProducts
         return 0;
     }
   });
-
-
   return (
     <>
       {

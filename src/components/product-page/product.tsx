@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Card from '@/components/ui/card';
-import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
 import { CartSize } from '@/redux/slices/cart/types';
@@ -181,18 +180,14 @@ const filteredCards = processedProducts
             {filteredCards.length > 0 ? (
               filteredCards.map((card,index) => (
                 <div key={index} className="flex">
-                  {layout === 'grid' ? (
                     <Card
                       card={card}
                       isLoading={false}
                       SubcategoryName={SubcategoryName}
                       mainCatgory={mainslug}
                       cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
-
+                      cardLayout={layout}
                     />
-                  ) : (
-                    <LandscapeCard card={card} isLoading={false} />
-                  )}
                 </div>
               ))
             ) : (

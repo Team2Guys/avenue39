@@ -48,7 +48,6 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   // const [imageZome, setImageZome] = useState<number>(1.5);
   const [isMobile, setIsMobile] = useState<boolean>(false);
-
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const preloadImages = (images: string[]) => {
     return Promise.all(
@@ -129,15 +128,15 @@ const Thumbnail: React.FC<ThumbProps> = ({
                 {thumbs.map((thumb, index) => (
                   <SwiperSlide key={index}>
                     {isMobile ?
-                      <Zoom>
-                        <Image
-                          src={thumb.imageUrl}
-                          alt={altText || "Main Image"}
-                          style={{ width: "100%", height: "auto", cursor: "zoom-in" }}
-                          width={600}
-                          height={600}
-                        />
-                      </Zoom>
+                        <Zoom>
+                          <Image
+                            src={thumb.imageUrl}
+                            alt={altText || "Main Image"}
+                            style={{ width: "100%", height: "auto", cursor: "zoom-in" }}
+                            width={600}
+                            height={600}
+                          />
+                        </Zoom>
                       : <SideBySideMagnifier
                         imageSrc={thumb.imageUrl}
                         largeImageSrc={thumb.imageUrl}

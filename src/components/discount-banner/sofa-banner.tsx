@@ -30,7 +30,7 @@ const sofaData_slides = [
     title: 'Rafael Office Desk',
     product_price: 'AED 5,500',
     image: rafael,
-    link: '/office-furniture/tables/rafael-office-desk',
+    link: '/office-furniture/desks/rafael-office-desk',
   },
   {
     id: 3,

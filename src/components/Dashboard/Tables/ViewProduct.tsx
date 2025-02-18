@@ -22,6 +22,10 @@ interface Product {
   createdAt: string;
 }
 
+
+
+
+
 interface CategoryProps {
   Categories: any;
   setCategory: any;
@@ -168,10 +172,43 @@ const ViewProduct: React.FC<CategoryProps> = ({
       width: 200,
     },
     {
-      title: 'Stock Quantity',
+      title: "Stock Quantity",
       width: 170,
-      dataIndex: 'stock',
-      key: 'stock',
+      dataIndex: "stock",
+      key: "stock",
+      render: (text: any, record: any) => {
+        const sizes =
+          record.sizes && record.sizes.length > 0
+            ? record.sizes
+            : record.filter && record.filter.length > 0
+            ? record.filter[0]
+            : [];
+    
+        console.log(sizes, "sizes");
+    
+        return (
+          <>
+            {sizes.length > 0 ? (
+              <select name="custom-select" id="stock">
+                <option  value="0">
+                Variations Stock
+                  </option>
+                {sizes.map((item: any, index: number) => (
+                  <option className='flex' disabled key={index} value={index+1} >
+                 <span className='block'>Variant: {item.name} </span>   <br />
+                   
+                   <span>QTY: {item.stock} </span>
+                  </option>
+                ))}
+              </select>
+            ) : (
+         
+                <p>{record.stock}</p>
+         
+            )}
+          </>
+        );
+      },
     },
     {
       title: 'Create At',

@@ -23,7 +23,7 @@ jobs:
         run: echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps --include=optional sharp
 
       - name: Build
         run: npm run build

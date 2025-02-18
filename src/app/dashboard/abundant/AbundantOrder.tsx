@@ -65,7 +65,7 @@ const AbundantOrder = ({
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={'Abundant Order'} />
+      <Breadcrumb pageName={'Abandoned Order'} />
       <OrderList
         orderData={abundantOrderData}
         orderColumns={ordercolumns}

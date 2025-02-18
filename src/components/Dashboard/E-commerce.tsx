@@ -88,7 +88,7 @@ const ECommerce = ({records}: {records: RECORDS}) => {
             )}
             {!canViewSales ? null : (
               <CardDataStats
-                title="Abundant Orders"
+                title="Abandoned Orders"
                 total={
                   records?.Total_abandant_order
                     ? records?.Total_abandant_order

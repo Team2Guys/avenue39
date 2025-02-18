@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /comments/feed
+Disallow: /search/{search_term_string}
+Disallow: /cart
+Disallow: /signup
+Disallow: /login
+
+Sitemap: https://avenue39.com/sitemap.xml

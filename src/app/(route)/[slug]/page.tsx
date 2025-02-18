@@ -63,27 +63,15 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
       }).filter(Boolean);
       sortProducts= filterProds
     }else {
-      sortProducts = findCategory.products.map((prod: any) => {
-        const clonedProd = { ...prod, subcategories: [...prod.subcategories] };
-        const clonedSubcategories = clonedProd.subcategories
-          ? JSON.parse(JSON.stringify(clonedProd.subcategories))
-          : [];
+      sortProducts = AllProduct.filter((product:any)=>{
+        return product.subcategories.some((productSubcategory:any) => 
+          findCategory.subcategories.some((findSubcategory:any) => 
+            productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
+          )
+        );
+      }
     
-        const matchingSubcategories = clonedSubcategories?.map((sub: ICategory) => {
-          const foundSubcategory = subcategory?.find((item) => item.title === sub.name,
-          );
-    
-          if (foundSubcategory) {
-            return {...sub, id: 0, name: foundSubcategory.title };
-          }
-          return ;
-        })
-          .filter((item: any) => item !== undefined);
-    
-        clonedProd.subcategories = matchingSubcategories;
-    
-        return clonedProd;
-      })
+    )
         .sort((a: any, b: any) => {
           if (!a.subcategories || a.subcategories.length === 0) return 1;
           if (!b.subcategories || b.subcategories.length === 0) return -1;

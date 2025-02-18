@@ -156,3 +156,14 @@ export const variationProducts = ({ products }: { products: IProduct[] }) => {
     return Array.from(uniqueVariations.values());
   })
 };
+
+export const variationName = ({ product }: { product: IProduct }) => {
+  if (product.sizeName && product.colorName && product.sizeName.includes(product.colorName)) {
+    return product.displayName = `${product.name} -  ${product.sizeName}`;
+  }
+  else if(product.colorName && !product.sizeName){
+  return product.displayName = `${product.name} -  (${product.colorName})`;
+} else {
+  return product.displayName;
+}
+}

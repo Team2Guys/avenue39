@@ -90,13 +90,13 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     }
   }, [loggedInUser]);
 
-  const products = variationProducts({ products: productsData || []}) ;
+  const products = variationProducts({ products: productsData || []});
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
 
   const handleNavigation = (product: IProduct) => {
-    let url = ChangeUrlHandler(product);
+    let url = productUrl(product as CartItem);
     Navigate.push(url);
     setIsProductListOpen(false);
   };
@@ -109,29 +109,8 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
       product.description.toLowerCase().includes(searchTerm) ||
       product.price.toString().includes(searchTerm) ||
       product.discountPrice.toString().includes(searchTerm) ||
-      (product.colors &&
-        product.colors.some((color: string) =>
-          color.toLowerCase().includes(searchTerm),
-        )) ||
-      (product.spacification &&
-        product.spacification.some((spec) =>
-          Object.values(spec).some((value) =>
-            value.toString().toLowerCase().includes(searchTerm),
-          ),
-        )) ||
-      product.additionalInformation.some((info) =>
-        Object.values(info).some((value) =>
-          value.toString().toLowerCase().includes(searchTerm),
-        ),
-      ) ||
-      (product.categories &&
-        product.categories.some((category) =>
-          category.name.toLowerCase().includes(searchTerm),
-        )) ||
-      (product.subcategories &&
-        product.subcategories.some((subcategory) =>
-          subcategory.name.toLowerCase().includes(searchTerm),
-        ))
+      product.colorName?.toLowerCase().includes(searchTerm) ||
+      product.sizeName?.toLowerCase().includes(searchTerm)
     );
   });
 
@@ -146,7 +125,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
       }, 50);
     }
   }, []);
-  console.log(filteredProducts,'filteredProducts')
+  
 
   const logoutHhandler = () => {
     try {
@@ -180,6 +159,20 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const productUrl = (product: CartItem) => {
+    const baseUrl = ChangeUrlHandler(product);
+  
+    let filterParams = '';
+    if (product.colorName) {
+      filterParams += `?filter=${generateSlug(product.colorName)}`;
+    }
+  
+    if (product.sizeName) {
+      filterParams += `${filterParams ? '&' : '?'}size=${generateSlug(product.sizeName)}`;
+    }
+   return `${baseUrl}${filterParams}`;
+  }
 
   return (
     <div
@@ -236,13 +229,11 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                     </div>
                     {filteredProducts.length > 0 ? (
                       filteredProducts.map((product, index) => (
-                        <Link key={product.id || index} href={
-                          ChangeUrlHandler(product)}
+                        <Link key={index} href={
+                          productUrl(product)}
                           onClick={() => setIsProductListOpen(false)}
                         >
-
                           <div
-                            key={product.id}
                             className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
                           >
                             <Image
@@ -282,8 +273,6 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                 </div>}
                               <RenderStars card={product} />
                             </div>
-
-
                           </div>
 
                         </Link>

@@ -7,7 +7,7 @@ import React from 'react';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
 
-const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:string }) => {
+const SubCategoryProducts = async ({ slug,mainslug , filterParam ,sizeParam}: { slug: string[],mainslug:string , filterParam?: string , sizeParam?: string}) => {
   let subcategoryName = slug[1];
   let category = slug[0];
   let newCategory: string | undefined;
@@ -52,7 +52,8 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}
-        
+        filterParam={filterParam}
+        sizeParam={sizeParam}
       />
     );
   }

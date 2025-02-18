@@ -55,7 +55,7 @@ export class SalesRecordService {
       let raw = JSON.stringify({
         amount: amount * 100,
         currency: process.env.PAYMOD_CURRENCY,
-        payment_methods: [21903, 59867,59865,59980,59979],
+        payment_methods: [21903, 59867, 59865, 59980, 59979],
         items: [...updatedProducts, staticProduct].map((item: any) => ({
           ...item,
           description: item.description?.slice(0, 255),
@@ -126,29 +126,6 @@ export class SalesRecordService {
           }
         }
 
-        // const existingSalesRecord = await prisma.sales_record.findUnique({
-        //   where: { user_email: data.user_email },
-        //   include: { products: true },
-        // });
-
-        // let newSalesRecord: any;
-
-        // if (existingSalesRecord) {
-        //   newSalesRecord = await prisma.sales_record.update({
-        //     where: { user_email: data.user_email },
-        //     data: {
-        //       products: {
-        //         create: data.orderedProductDetails.map((product) => ({
-        //           quantity: product.quantity,
-        //           productData: product,
-        //           orderId: String(result.intention_order_id)
-        //         })),
-        //       },
-        //     },
-        //     include: { products: true },
-        //   });
-
-        // }
         console.log("============ DATA after order =============", data)
         let newSalesRecord = await prisma.sales_record.create({
           data: {
@@ -501,24 +478,25 @@ export class SalesRecordService {
   async updatePaymentStatus(data: updatePaymentStatusDto) {
     try {
       const { orderId, paymentStatus } = data;
-      
+
 
       const salesRecord: any = await this.prisma.sales_record.findUnique({
         where: { orderId: orderId.trim() },
+        include: { products: true }
       });
-      console.log(typeof(orderId), "order",  salesRecord);
+      console.log(salesRecord);
 
       if (!salesRecord) {
         customHttpException('Order not found', 'NOT_FOUND');
       }
+      console.log(typeof (salesRecord.paymentStatus.paymentStatus), 'paymentStatus');
 
-      if (salesRecord.paymentStatus.paymentStatus) {
-        console.log(salesRecord.paymentStatus.paymentStatus, 'paymentStatus');
-        customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      }
+      // if (salesRecord.paymentStatus.paymentStatus) {
+      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      // }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
-        where: { orderId },
+        where: { orderId: orderId.trim() },
         data: {
           paymentStatus: {
             paymentStatus: paymentStatus,
@@ -530,127 +508,78 @@ export class SalesRecordService {
       });
 
 
+      for (const prod of salesRecord.products) {
+        const existingProduct: any = await this.prisma.products.findFirst({
+          where: { id: prod.productData.id },
+        });
+        if (prod.productData.selectedfilter && !prod.productData.selectedSize) {
+          const findFilter = existingProduct.filter[0]?.additionalInformation.find(
+            (item: any) => item.name.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()
+          );
+
+          if (findFilter) {
+            const remainingStock = findFilter.stock - prod.quantity;
+
+            const updatedAdditionalInformation = existingProduct.filter[0].additionalInformation.map((item: any) =>
+              item.name.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()
+                ? { ...item, stock: remainingStock }
+                : item
+            );
 
 
-      // // console.log(salesRecord, 'salesRecord');
-      // const salesRecordId = Number(salesRecord.id);
+            const updatedProduct: any = await this.prisma.products.update({
+              where: { id: existingProduct.id },
+              data: {
+                filter: {
+                  set: [
+                    {
+                      ...existingProduct.filter[0],
+                      additionalInformation: updatedAdditionalInformation
+                    },
+                  ],
+                },
+              },
+            });
+          } else {
+            console.log('Filter not found!');
+          }
+        }
+        else if (prod.productData.selectedSize && prod.productData.selectedfilter) {
+          const findSize = existingProduct.sizes.find((item: any) => item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase());
+          const remainingStock = findSize.stock - prod.quantity;
+          const updatedProduct: any = await this.prisma.products.update({
+            where: { id: existingProduct.id },
+            data: {
+              sizes: {
+                set: existingProduct.sizes.map((item: any) =>
+                  item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()
+                    ? { ...item, stock: remainingStock }
+                    : item
+                ),
+              }
+            }
+          });
+        } else {
+          const remainingStock = existingProduct.stock - prod.quantity;
+          const updatedProduct: any = await this.prisma.products.update({
+            where: { id: existingProduct.id },
+            data: {
+              stock: remainingStock
+            }
+          });
+        }
 
-      
-      // const salesRecordProduct: any = await this.prisma.sales_record_products.findFirst({
-      //   where: { salesRecordId },
-      // });
-      // // console.log(salesRecordProduct, 'salesRecordProduct');
 
+      }
 
-      // const existingProduct: any = await this.prisma.products.findFirst({
-      //   where: { id: salesRecordProduct.productData.id },
-      // });
-
-      // // console.log(existingProduct, 'existingProduct');
-
-      // const selectedSize = salesRecordProduct.productData.selectedSize?.name;
-      // const selectedFilter = salesRecordProduct.productData.selectedfilter?.name;
-
-      // const quantitySold = salesRecordProduct.quantity;
-
-      // if (existingProduct) {
-      //   let isUpdated = false;
-      //   const filterCategory = existingProduct.filter.find((item: any) => item.heading === 'Color');
-
-      //   console.log('debug 2:', filterCategory);
-      //   if (filterCategory && filterCategory.additionalInformation) {
-      //     const filterVariant = filterCategory.additionalInformation.find((item: any) => item.name === selectedFilter);
-
-      //     console.log('debug 1:', filterVariant);
-
-      //     if (filterVariant) {
-      //       const filterStock = filterVariant.stock;
-
-      //       if (filterStock >= quantitySold) {
-      //         const updatedFilterStock = filterStock - quantitySold;
-
-      //         await this.prisma.products.update({
-      //           where: { id: existingProduct.id },
-      //           data: {
-      //             filter: {
-      //               //@ts-expect-error
-      //               update: {
-      //                 where: { color: selectedFilter },
-      //                 data: { stock: updatedFilterStock },
-      //               },
-      //             },
-      //           },
-      //         });
-
-      //         console.log(`Stock for filter ${selectedFilter} updated to: ${updatedFilterStock}`);
-      //         isUpdated = true;
-      //       } else {
-      //         console.log(`Not enough stock for filter ${selectedFilter}. Deducting from total stock.`);
-      //       }
-      //     }
-      //   }
-
-      //   if (!isUpdated && selectedSize && existingProduct.sizes) {
-      //     const sizeVariant = existingProduct.sizes.find((item: any) => item.size === selectedSize);
-
-      //     if (sizeVariant) {
-      //       const sizeStock = sizeVariant.stock;
-
-      //       if (sizeStock >= quantitySold) {
-      //         const updatedSizeStock = sizeStock - quantitySold;
-
-      //         await this.prisma.products.update({
-      //           where: { id: existingProduct.id },
-      //           data: {
-      //             sizes: {
-
-      //               //@ts-expect-error
-      //               update: {
-      //                 where: { size: selectedSize },
-      //                 data: { stock: updatedSizeStock },
-      //               },
-      //             },
-      //           },
-      //         });
-
-      //         console.log(`Stock for size ${selectedSize} updated to: ${updatedSizeStock}`);
-      //         isUpdated = true;
-      //       } else {
-      //         console.log(`Not enough stock for size ${selectedSize}. Deducting from total stock.`);
-      //       }
-      //     }
-      //   }
-
-      //   if (!isUpdated) {
-      //     const updatedTotalStock = existingProduct.stock - quantitySold;
-
-      //     if (updatedTotalStock >= 0) {
-      //       await this.prisma.products.update({
-      //         where: { id: existingProduct.id },
-      //         data: {
-      //           stock: updatedTotalStock,
-      //         },
-      //       });
-
-      //       console.log(`Stock deducted from total stock. Updated total stock to: ${updatedTotalStock}`);
-      //     } else {
-      //       console.log('Not enough stock available to complete the order.');
-      //     }
-      //   }
-      // } else {
-      //   console.log(`Product with ID ${salesRecordProduct.productData.id} not found.`);
-      // }
-
-      const { user_email, address, phoneNumber, createdAt } = await this.prisma.sales_record.findFirst({ where: { orderId } });
-      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId } });
+      const { user_email, address, phoneNumber, createdAt, firstName, lastName } = salesRecord
+      const productData = await this.prisma.sales_record_products.findMany({ where: { orderId: orderId.trim() } });
+      console.log(productData, "product data")
       const purchaseDate = formatDate(createdAt);
-      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate);
+      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName);
       await this.sendOrderConfirmationEmail(
-        null, phoneNumber, address, productData, null, orderId, purchaseDate
+        null, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName
       );
-
-
-
 
       return { message: 'Payment status updated successfuly🎉', orderId };
     } catch (error: unknown) {
@@ -708,6 +637,8 @@ export class SalesRecordService {
     shipmentFee: number,
     orderId: string,
     purchaseDate: string,
+    firstName: string,
+    lastName: string
   ) {
 
     let TotalProductsPrice = 0;
@@ -717,15 +648,16 @@ export class SalesRecordService {
 
     try {
 
-      // const recipients = `mujtaba.shafique01@gmail.com`
       const recipients = email
         ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
-        from: `"The Team @ Avenue39" <${process.env.MAILER_MAIL}>`,
+        from: `"Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,
         subject: 'Order Confirmation - avenue39.com',
-        html: `<!DOCTYPE html>
+        html: `
+        
+        <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -747,6 +679,7 @@ export class SalesRecordService {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-top: 5px solid #AFA183;
             border-bottom: 5px solid #AFA183;
+            background-color: #fff;
         }
 
         .main-container {
@@ -870,6 +803,14 @@ export class SalesRecordService {
             margin: 0 10px;
             font-weight: bold;
         }
+        @media (max-width: 600px) { /* For mobile screens */
+        .categories {
+            padding: 15px;
+        }
+      .categories span {
+        font-size: 10px;
+      }
+}
 
         .social-icons {
             padding: 15px;
@@ -930,6 +871,7 @@ export class SalesRecordService {
             margin-bottom: 30px;
            
             width: 100%;
+            background-color:white;
             
         }
 
@@ -980,18 +922,18 @@ export class SalesRecordService {
 <body>
     <div class="container">
         <div class="main-container">
-            <div class="header" style="text-align:center;">
-                <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739340257/rztttx6wr9shaqkrgoqe.png"
+            <div class="header" style="text-align:center; background-color:white">
+                <img src="https://res.cloudinary.com/dz7nqwiev/image/upload/v1739884192/logo_3_kfsy2k.jpg"
                     alt="Brand Logo">
             </div>
             <h3 style="text-align:center; margin:0; padding:0">ORDER#${orderId}</h3>
             <p style="text-align:center;margin:0;padding:0">${purchaseDate}</p>
             <h1 style="text-align:center;">Order Confirmed</h1>
 
-            <div class="progress-container" style="text-align:center;">
-                <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739343204/Group_1000004286_1_f4espe.png" alt="Progress Status">
+            <div class="progress-container" style="text-align:center; background-color: white ;">
+                <img src="https://res.cloudinary.com/dz7nqwiev/image/upload/v1739884153/Frame_2_qij2br.jpg" alt="Progress Status">
             </div>
-            <p style="text-align:center;">Dear <b>Customer,</b></p>
+            <p style="text-align:center;">Dear <b>${firstName} ${lastName},</b></p>
             <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
                     href="https://avenue39.com/">www.avenue39.com</a></p>
 
@@ -1000,7 +942,7 @@ export class SalesRecordService {
                 dispatch.</p>
             <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
             <p style="text-align:center;">All The Best,</p>
-            <p style="text-align:center;">The Team at<strong>"Avenue39"</strong></p>
+            <p style="text-align:center;">The team at <strong>"Avenue39"</strong></p>
             <div class="purchase-details">
                <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
             <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
@@ -1039,16 +981,20 @@ export class SalesRecordService {
     <tr>
         <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
             <table style="width: 100%; border-collapse: collapse;">
+             <tr>
+                    <th style="padding: 8px; text-align: left;">Name:</th>
+                    <td style="padding: 8px; padding-left:0px">${firstName} ${lastName}</td>
+                </tr>
                ${email ? ` <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Email:</th>
+                    <th style="padding: 8px; text-align: left;">Email:</th>
                     <td style="padding: 8px; padding-left:0px">${email}</td>
                 </tr> ` : ''}
                 <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Phone:</th>
+                    <th style="padding: 8px; text-align: left;">Phone:</th>
                     <td style="padding: 8px; padding-left:0px">${phone}</td>
                 </tr>
                 <tr>
-                    <th style="padding: 8px; text-align: left;">Customer Address:</th>
+                    <th style="padding: 8px; text-align: left;">Address:</th>
                     <td style="padding: 8px; padding-left:0px">${address}</td>
                 </tr>
             </table>
@@ -1080,14 +1026,15 @@ export class SalesRecordService {
     </div>
 </body>
         <div class="categories">
-            <span>Dinning</span>
-            <span>Living</span>
-            <span>Bedroom</span>
-            <span>Chairs</span>
-            <span>Tables</span>
-            <span>Home Office</span>
-            <span>Lighting</span>
-            <span>Accessories</span>
+        <a href="https://www.avenue39.com/dining" target="_blank">Dinning</a>
+<a href="https://www.avenue39.com/living" target="_blank">Living</a>
+<a href="https://www.avenue39.com/bedroom" target="_blank">Bedroom</a>
+<a href="https://www.avenue39.com/chairs" target="_blank">Chairs</a>
+<a href="https://www.avenue39.com/tables" target="_blank">Tables</a>
+<a href="https://www.avenue39.com/office-furniture" target="_blank">Home Office</a>
+<a href="https://www.avenue39.com/lighting" target="_blank">Lighting</a>
+<a href="https://www.avenue39.com/accessories" target="_blank">Accessories</a>
+
         </div>
         <div class="social-icons">
             <a href="https://www.facebook.com/avenue39home"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
@@ -1096,7 +1043,9 @@ export class SalesRecordService {
     </div>
 </body>
 
-</html>`,
+</html>
+
+`,
       };
 
       await this.transporter.sendMail(mailOptions);

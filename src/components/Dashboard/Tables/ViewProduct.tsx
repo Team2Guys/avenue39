@@ -22,6 +22,10 @@ interface Product {
   createdAt: string;
 }
 
+
+
+
+
 interface CategoryProps {
   Categories: any;
   setCategory: any;

@@ -195,7 +195,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
                   </option>
                 {sizes.map((item: any, index: number) => (
                   <option className='flex' disabled key={index} value={index+1} >
-                 <span className='block'>variant: {item.name} </span>   <br />
+                 <span className='block'>Variant: {item.name} </span>   <br />
                    
                    <span>QTY: {item.stock} </span>
                   </option>

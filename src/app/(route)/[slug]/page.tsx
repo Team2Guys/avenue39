@@ -64,14 +64,23 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
       sortProducts= filterProds
     }else {
       sortProducts = AllProduct.filter((product:any)=>{
-        return product.subcategories.some((productSubcategory:any) => 
+       let hasSubCate=   product.subcategories.some((productSubcategory:any) => 
           findCategory.subcategories.some((findSubcategory:any) => 
             productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
           )
         );
+        let hasMainCategory:any ;
+        if(!hasSubCate){
+          hasMainCategory =  product.categories.some((category:ICategory)=>generateSlug(category.custom_url || category.name) == slug)
+        }
+
+
+
+        return hasSubCate ? hasSubCate : hasMainCategory
       }
     
     )
+
         .sort((a: any, b: any) => {
           if (!a.subcategories || a.subcategories.length === 0) return 1;
           if (!b.subcategories || b.subcategories.length === 0) return -1;

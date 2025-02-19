@@ -15,9 +15,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import SideBySideMagnifier from '../SideBySideMagnifier';
 import CustomThumbnailSlickSlider from './thumbnailSlider';
-import Zoom from "react-medium-image-zoom";
-import "react-medium-image-zoom/dist/styles.css";
 import Image from 'next/image';
+import ImageZoomDialog from '../MobileZoom';
 
 export interface IMAGE_INTERFACE {
   public_id?: string;
@@ -128,15 +127,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
                 {thumbs.map((thumb, index) => (
                   <SwiperSlide key={index}>
                     {isMobile ?
-                        <Zoom>
-                          <Image
-                            src={thumb.imageUrl}
-                            alt={altText || "Main Image"}
-                            style={{ width: "100%", height: "auto", cursor: "zoom-in" }}
-                            width={600}
-                            height={600}
-                          />
-                        </Zoom>
+                      <ImageZoomDialog imageUrl={thumb.imageUrl} />
                       : <SideBySideMagnifier
                         imageSrc={thumb.imageUrl}
                         largeImageSrc={thumb.imageUrl}

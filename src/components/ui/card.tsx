@@ -683,8 +683,7 @@ const Card: React.FC<CardProps> = ({
         </div>
 
       </div>
-    )
-      :
+    ) :
       (
         <div
           className="rounded-2xl text-center relative product-card mx-2 group flex gap-4 items-center flex-col sm:flex-row cursor-pointer w-full"

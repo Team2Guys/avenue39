@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -36,6 +36,8 @@ interface PaymentQueryParams {
 const ThankYouPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const searchParams = useSearchParams();
+  const hasFetched = useRef(false);
+
 
   const { data: products = [] } = useQuery<IProduct[], Error>({
     queryKey: ['products'],
@@ -112,8 +114,13 @@ const ThankYouPage = () => {
   };
 
   useEffect(() => {
-    dbFunctionHandler();
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      dbFunctionHandler();
+    }
   }, []);
+
+  
   return (
     <Fragment>
       {successFlag ? (

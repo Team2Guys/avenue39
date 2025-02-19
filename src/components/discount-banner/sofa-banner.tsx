@@ -129,7 +129,7 @@ const SofaBanner: React.FC = () => {
   };
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3 w-full max-w-[20000]">
+    <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3">
       <div
         className="sofa_slider1 bg-lightforeground rounded-2xl"
         onMouseEnter={handleMouseEnter}

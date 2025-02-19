@@ -74,53 +74,34 @@ const ProductDetail = ({
     min: 0,
     sec: 0,
   });
-  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(0);
   const [size, setSize] = useState<CartSize | null | undefined>(null);
   const [filter, setFilter] = useState<CartSize | null | undefined>(null);
   const [productPrice, setProductPrice] = useState(0);
   const [productDiscPrice, setProductDiscPrice] = useState(0);
   const [productImage, setProductImage] = useState<ProductImage[]>([]);
-  const [availableSizes, setAvailableSizes] = useState<any>([]);
   const [customImages, setCustomImages] = useState<any>([]);
-  const [isOutStock, setIsOutStock] = useState<boolean>(false)
-  const [totalStock, setTotalStock] = useState<number>(0)
+  const [isOutStock, setIsOutStock] = useState<boolean>(false);
+  const [totalStock, setTotalStock] = useState<number>(0);
+  const [availableFilters, setAvailableFilters] = useState<any[]>([]);
+  const [isParam, setIsParam] = useState<boolean>(false);
+
 
   const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
 
   const handleColorClick = (index: any, item: CartSize) => {
-    setActiveIndex(index);
-    setSelectedSize(0);
     setFilter(item)
-    console.log('firstcolor', index , item , productImage)
   };
 
+
   const handleSizeClick = (index: any, size: CartSize) => {
-    setSelectedSize(index);
-    console.log(size, 'size')
+    const filteredImages = product?.productImages.find((img) => img.size === size.name);
+    const findFilter = product?.filter?.[0].additionalInformation.find((item) => item.name === filteredImages?.color);
+    setFilter(findFilter);
+    setSelectedSize(index)
     setSize(size)
   };
 
-  useEffect(() => {
-    if (filterParam) {
-      const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
-      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === filterParam);
-      setActiveIndex(index)
-      const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
-      setFilter(firstColor);
-      if (firstColor) {
-        const sizesForColor = product?.sizes?.filter(size =>
-          product.productImages.some(img => img.color === firstColor.name && img.size === (size?.name || "")))
-        const sizeIndex = sizesForColor?.findIndex((item) => generateSlug(item.name) === sizeParam)
-        const selectedSize: any = sizeIndex !== -1 ? product?.sizes && product?.sizes[sizeIndex || 0] : product?.sizes?.[0];
-        if (sizeIndex) {
-          setSelectedSize(sizeIndex !== -1 ? sizeIndex : 0);
-        }
-        setSize(selectedSize);
-        console.log(firstColor, 'firstcolor', index, sizeIndex, selectedSize, additionalInfo, filterParam, sizeParam, availableSizes)
-      }
-    }
-  }, [filterParam, sizeParam])
 
   useEffect(() => {
     if (!product) return;
@@ -137,36 +118,95 @@ const ProductDetail = ({
     const customProductImage = [posterImage, ...(product?.productImages || [])];
     setCustomImages(customProductImage);
 
+    if (!isParam) {
+      if (filterParam && sizeParam) {
+        const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
+        const findFilter = additionalInfo.find((item) => generateSlug(item.name) === filterParam);
+        setFilter(findFilter);
+        const sizeIndex = product?.sizes?.findIndex((item) => generateSlug(item.name) === sizeParam)
+        const selectedSize: any = sizeIndex !== -1 ? product?.sizes && product?.sizes[sizeIndex || 0] : product?.sizes?.[0];
+        setSize(selectedSize);
+        const filteredImages = product?.productImages.filter((img) => img.size === selectedSize.name);
+        const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
+        const filters = uniqueColors.map((item) => {
+          return additionalInfo?.find((filterItem) => filterItem.name === item);
+        })
+        setAvailableFilters(filters);
+        const variationImages = filteredImages.filter((img) => img.color === filter?.name)
+        setProductImage(variationImages);
+        if (sizeIndex) {
+          setSelectedSize(sizeIndex !== -1 ? sizeIndex : 0);
+        }
 
-    const activeColor = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.name : null;
-
-    if (activeColor) {
-      const sizesForColor = product.sizes?.filter(size =>
-        product.productImages.some(img => img.color === activeColor && img.size === (size?.name || ""))
-      );
-
-      setAvailableSizes(sizesForColor);
-      const filteredImages = product.productImages.filter(
-        (img) => img.color === activeColor &&
-          (selectedSize === null || (sizesForColor && img.size === sizesForColor[selectedSize]?.name || img.size === ''))
-      );
-
-      setProductImage(filteredImages);
-
-      const filterPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.price || 0 : 0;
-      const sizePrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.price || 0 : 0;
-      const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
-      setProductPrice(Number(finalPrice));
-
-      const filterDiscPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.discountPrice || 0 : 0;
-      const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
-      const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
-      setProductDiscPrice(Number(finalDiscPrice));
+        console.log(findFilter, 'firstcolor', sizeIndex, selectedSize, additionalInfo, filterParam, sizeParam, filters)
+      } else if (filterParam && !sizeParam) {
+        const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
+        const index = additionalInfo.findIndex((item) => generateSlug(item.name) === filterParam);
+        // setSelectedSize(index)
+        const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
+        setFilter(firstColor);
+      }
     } else {
-      setAvailableSizes([]);
-      setProductImage([]);
+      if (filter === null) {
+        setFilter(product.filter?.[0].additionalInformation[0])
+      }
+      const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
+      console.log(additionalInfo, 'firstcolor', product?.sizes)
+      if (additionalInfo.length > 0 && (product?.sizes && product?.sizes?.length > 0)) {
+        const activeSize = selectedSize !== null ? product.sizes?.[selectedSize].name : null;
+        const filteredImages = product?.productImages.filter((img) => img.size === activeSize);
+        const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
+        const filters = uniqueColors.map((item) => {
+          return additionalInfo?.find((filterItem) => filterItem.name === item);
+        })
+        setAvailableFilters(filters);
+        const variationImages = filteredImages.filter((img) => img.color === filter?.name)
+        setProductImage(variationImages);
+
+
+        const filterPrice = filter !== null ? filter?.price || 0 : 0;
+        const sizePrice = selectedSize !== null ? product.sizes[selectedSize]?.price || 0 : 0;
+        const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
+        setProductPrice(Number(finalPrice));
+
+        const filterDiscPrice = filter !== null ? filter?.discountPrice || 0 : 0;
+        const sizeDiscPrice = selectedSize !== null ? product.sizes[selectedSize]?.discountPrice || 0 : 0;
+        const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
+        setProductDiscPrice(Number(finalDiscPrice));
+
+      } else if (additionalInfo.length > 0 && (product?.sizes && product?.sizes?.length === 0)) {
+        const uniqueColors = [...new Set(product?.productImages?.map((img) => img.color))];
+        const filters = uniqueColors.map((item) => {
+          return additionalInfo?.find((filterItem) => filterItem.name === item);
+        })
+        setAvailableFilters(filters);
+        const variationImages = product?.productImages.filter((img) => img.color === filter?.name)
+        setProductImage(variationImages);
+
+        const filterPrice = filter !== null ? filter?.price || 0 : 0;
+        setProductPrice(Number(filterPrice));
+
+        const filterDiscPrice = filter !== null ? filter?.discountPrice || 0 : 0;
+        setProductDiscPrice(Number(filterDiscPrice));
+      }
+
+      // const filterPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.price || 0 : 0;
+      // const sizePrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.price || 0 : 0;
+      // const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
+      // setProductPrice(Number(finalPrice));
+
+      // const filterDiscPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.discountPrice || 0 : 0;
+      // const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
+      // const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
+      // setProductDiscPrice(Number(finalDiscPrice));
+      // } 
+      else {
+        setAvailableFilters([]);
+        setProductImage([]);
+      }
     }
-  }, [activeIndex, selectedSize, product]);
+    setIsParam(true)
+  }, [size, product, filter]);
 
 
   function formatPrice(price: any) {
@@ -260,7 +300,7 @@ const ProductDetail = ({
 
   const onIncrement = () => {
     const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    console.log(variationQuantity, itemToAdd, totalStock, "totakStock", availableSizes)
+    console.log(variationQuantity, itemToAdd, totalStock, "totakStock")
     if (count < variationQuantity) {
       setCount((prevCount) => prevCount + 1);
     } else {
@@ -515,10 +555,38 @@ const ProductDetail = ({
         </p>
 
         <div>
+          {/* {product?.sizes && product?.sizes.length > 0 && (
+            <div className="py-1">
+              {availableSizes.length > 0 && (
+                <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
+              )}
+              <div className="flex space-x-4">
+                {availableSizes.map((size: { name: string, price: string }, index: number) => {
+                  const [sizeName, sizeType] = size?.name.split(' ');
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => handleSizeClick(index, size)}
+                      className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index ? 'border-black shadow-md' : 'hover:shadow-lg'}`}
+                    >
+                      <span className="block text-[#666666] text-[14px] uppercase font-sans">
+                        {sizeName}
+                      </span>
+                      {sizeType && (
+                        <span className="block text-[10px] uppercase font-sans">
+                          {sizeType}
+                        </span>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
           {product?.filter &&
             product?.filter.length > 0 &&
             product?.filter[0]?.additionalInformation && (
-              <div className="p-4">
+              <div className="py-2">
                 <h2 className="font-semibold text-[16px] font-sans Capitalize">
                   {product?.filter[0]?.heading}{' '}
                   <span className="capitalize">
@@ -552,15 +620,13 @@ const ProductDetail = ({
                   })}
                 </div>
               </div>
-            )}
+            )} */}
 
           {product?.sizes && product?.sizes.length > 0 && (
-            <div className="p-4">
-              {availableSizes.length > 0 && (
-                <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
-              )}
-              <div className="flex space-x-4">
-                {availableSizes.map((size: { name: string, price: string }, index: number) => {
+            <div className="py-1">
+              <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
+              <div className="flex space-x-4 mt-1">
+                {product?.sizes.map((size: { name: string, price: string }, index: number) => {
                   const [sizeName, sizeType] = size?.name.split(' ');
                   return (
                     <div
@@ -582,6 +648,45 @@ const ProductDetail = ({
               </div>
             </div>
           )}
+
+          {product?.filter &&
+            product?.filter.length > 0 &&
+            product?.filter[0]?.additionalInformation && (
+              <div className="py-2">
+                <h2 className="font-semibold text-[16px] font-sans Capitalize">
+                  {product?.filter[0]?.heading}{' '}
+                  <span className="capitalize">
+                    {
+                      filter?.name
+                    }
+                  </span>
+                </h2>
+                <div className="flex space-x-4 mt-2">
+                  {availableFilters.map((item, index: number) => {
+                    const image = product.productImages.find(
+                      (img) => img?.color === item?.name
+                    );
+                    if (!image) return null;
+
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => handleColorClick(index, item)}
+                        className={`cursor-pointer border rounded-lg p-1 flex items-center justify-center transition ${filter?.name === image.color ? 'border-black font-bold shadow-md' : 'hover:shadow-lg'}`}
+                      >
+                        <Image
+                          src={image.imageUrl}
+                          alt={image.altText || 'product image'}
+                          height={50}
+                          width={50}
+                          className="h-[50px] w-[50px] object-cover rounded"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
         </div>
 
         {product.sale_counter &&

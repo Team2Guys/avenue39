@@ -75,6 +75,7 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
                 <Card
                   card={card}
                   isLoading={false}
+                  cardLayout='grid'
                 />
               </div>
             ))}

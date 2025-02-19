@@ -48,6 +48,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             portSpace={portSpace}
             productImages={productImages}
             redirect={redirect}
+            cardLayout='grid'
           />
         ))
       ) : (
@@ -79,6 +80,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                 portSpace={portSpace}
                 productImages={productImages}
                 redirect={redirect}
+                cardLayout='grid'
               />
             </SwiperSlide>
           ))}

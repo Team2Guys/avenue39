@@ -126,13 +126,13 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
             </div>
           </div>
           <div
-            className={`w-72 xsm:w-80 z-[200] border absolute ${isMoblie ? 'bottom-[55px] -right-[70px] xs:-right-[135px] h-[300px] p-3' : 'top-[60px] h-[500px] p-5'} ${!isMoblie && (userDetails ? '-right-[140px] xl:-right-[135px]' : '-right-[30px]')} border-[#0000002e] rounded-md flex flex-col bg-white ${drawerState ? 'block' : 'hidden'}`}
+            className={`w-72 xsm:w-80 z-[200] border absolute ${isMoblie ? 'bottom-[55px] -right-[113px] xsm:-right-[125] xs:-right-[135px] h-[300px] p-3' : 'top-[60px] h-[500px] p-5'} ${!isMoblie && (userDetails ? '-right-[140px] xl:-right-[135px]' : '-right-[30px]')} border-[#0000002e] rounded-md flex flex-col bg-white ${drawerState ? 'block' : 'hidden'}`}
             onMouseEnter={handleEnterDrawer}
             onMouseLeave={handleLeaveDrawer}
           >
             {isMoblie && (
               <div
-                className={`absolute -bottom-[3px] right-[23%] xsm:right-[21%] xs:right-1/2 transform rotate-180 xs:translate-x-8`}
+                className={`absolute -bottom-[3px] right-[38%] xs:right-1/2 transform rotate-180 xs:translate-x-7`}
                 style={{ zIndex: 1005 }}
               >
                 <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">

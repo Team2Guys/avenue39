@@ -54,7 +54,7 @@ const sliderDataa_sofa_initial = [
         buttonPosition: 'top',
         ImagePosition: 'center',
       },
-      
+
       {
         backgroundImage: Moderno.src,
         mobileImage: Moblie_Moderno.src,
@@ -64,8 +64,8 @@ const sliderDataa_sofa_initial = [
         buttonPosition: 'top',
         ImagePosition: 'center',
       },
-      
-      
+
+
     ],
   },
   {
@@ -129,7 +129,7 @@ const SofaBanner: React.FC = () => {
   };
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3">
+    <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3 w-full max-w-[20000]">
       <div
         className="sofa_slider1 bg-lightforeground rounded-2xl"
         onMouseEnter={handleMouseEnter}
@@ -152,31 +152,32 @@ const SofaBanner: React.FC = () => {
         >
           {sofaData_slides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="flex flex-wrap items-center px-2 pb-4 xs:pb-0  sm:ps-20 md:ps-6 lg:ps-8 3xl:ps-[123px] h-full xs:h-[400px] sm:h-[500px] md:h-[600px]">
-                <div className="w-full xs:w-1/3 max-xs:text-center max-xs:pt-5">
+              <div className="flex flex-wrap items-center justify-center px-2 pb-4 xs:pb-0 sm:ps-20 md:ps-6 lg:ps-8 3xl:ps-[123px] min-h-[400px] sm:min-h-[500px] md:min-h-[600px] max-w-screen-2xl mx-auto">
+                <div className="w-full lg:w-1/3 text-center lg:text-left max-xs:pt-5">
                   <div>
                     <Link
                       href={slide.link}
-                      className="py-1 px-3 block w-fit bg-white text-[14px] md:text-2xl lg:text-sm xl:text-xl 2xl:text-3xl rounded-2xl text-black border border-gray-500 hover:bg-main font-Helveticalight 2xl:whitespace-nowrap mx-auto"
+                      className="py-1 px-3 block w-fit bg-white text-[14px] md:text-2xl lg:text-sm xl:text-xl 2xl:text-3xl rounded-2xl text-black border border-gray-500 hover:bg-main font-Helveticalight 2xl:whitespace-nowrap mx-auto lg:mx-0"
                     >
                       Shop Best Sellers
                     </Link>
-                    <h3 className="font-bold text-16 mt-3 text-center">
+                    <h3 className="font-bold text-lg mt-3 text-center lg:text-left">
                       {slide.title}
                     </h3>
-                    <p className="text-18 font-bold mt-1 text-black text-center">
+                    <p className="text-lg font-bold mt-1 text-black text-center lg:text-left">
                       {slide.product_price}
                     </p>
                   </div>
                 </div>
-                <div className="w-full xs:w-2/3 relative">
+
+                <div className="w-full lg:w-2/3 relative flex justify-center">
                   <Link href={slide.link}>
                     <Image
                       src={slide.image}
                       width={900}
                       height={500}
                       alt={slide.title}
-                      className="w-full h-full object-cover"
+                      className="max-w-[900px] w-full h-auto object-cover"
                     />
                   </Link>
                 </div>
@@ -229,7 +230,7 @@ const SofaBanner: React.FC = () => {
                           href={slide.link}
                           className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
                         >
-                          Shop <span className="text-red-600">{ item.id === 2 && index === 1 ? 'New Arrivals' : 'Sale'}</span>
+                          Shop <span className="text-red-600">{item.id === 2 && index === 1 ? 'New Arrivals' : 'Sale'}</span>
                         </Link>
                       )}
 

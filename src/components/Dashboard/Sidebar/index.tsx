@@ -379,7 +379,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 'text-white'
                               } `}
                             >
-                              View AbandonedOrder
+                              View Abandoned Orders
                             </Link>
                           </li>
                         </ul>

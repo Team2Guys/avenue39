@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Formik, FieldArray, FormikErrors, Form } from 'formik';
 
 import Imageupload from '@components/ImageUpload/Imageupload';
@@ -21,13 +21,8 @@ import revalidateTag from '@/components/ServerActons/ServerAction';
 import { ICategory } from '@/types/types';
 import Cookies from 'js-cookie';
 
-const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
-  EditInitialValues,
-  EditProductValue,
-  setselecteMenu,
-  setEditProduct,
-  categoriesList,
-}) => {
+const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProductValue,setselecteMenu, setEditProduct,categoriesList}) => {
+
   const [imagesUrl, setImagesUrl] = useState<any[]>(EditInitialValues ? EditInitialValues.productImages : [],);
   const [posterimageUrl, setposterimageUrl] = useState<any[] | undefined | null>(
     EditInitialValues
@@ -41,21 +36,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
       ]
       : [],
   );
-  const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(
-    EditInitialValues
-      ? [
-        {
-          imageUrl: EditInitialValues.hoverImageUrl,
-          public_id: EditInitialValues.hoverImagePublicId,
-          altText: EditInitialValues.hoverImageAltText,
-        },
-      ]
-      : [],
+  const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? [{imageUrl: EditInitialValues.hoverImageUrl,public_id: EditInitialValues.hoverImagePublicId,altText: EditInitialValues.hoverImageAltText}]: [],
   );
   const [loading, setloading] = useState<boolean>(false);
-  const [productInitialValue, setProductInitialValue] = useState<
-    any | null | undefined
-  >(EditProductValue);
+  const [productInitialValue, setProductInitialValue] = useState<any | null | undefined>(EditProductValue);
   const [imgError, setError] = useState<string | null | undefined>();
   const dragImage = useRef<number | null>(null);
   const draggedOverImage = useRef<number | null>(null);
@@ -70,7 +54,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
 
     setImagesUrl(imagesClone);
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     const CategoryHandler = async () => {
       try {
         if (!EditInitialValues) return;
@@ -83,7 +67,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
           __v,
           ...EditInitialProductValues
         } = EditInitialValues as any;
-        console.log(EditInitialProductValues, 'EditInitialProductValues');
+        console.log(EditInitialProductValues, 'dsfsdfds');
         console.log(
           posterImageUrl,
           imageUrl,
@@ -93,23 +77,25 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
           __v,
           'EditInitialValues',
         );
-        const categoryIds =
-          EditInitialValues.categories?.map((category: any) => category.id) ||
-          [];
+        const categoryIds = EditInitialValues.categories?.map((category: any) => category.id) || [];
         setSelectedCategoryIds(categoryIds);
 
-        const subcategoryIds =
-          EditInitialValues.subcategories?.map(
-            (subcategory: any) => subcategory.id,
-          ) || [];
+        const subcategoryIds = EditInitialValues.subcategories?.map((subcategory: any) => subcategory.id,) || [];
         setSelectedSubcategoryIds(subcategoryIds);
+
+        setImagesUrl(EditInitialValues ? EditInitialValues.productImages : [])
+
+      
+        sethoverImage(EditInitialValues ? [{imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId,altText: EditInitialValues.hoverImageAltText}]: [],)
+        setProductInitialValue(EditProductValue)
+      
       } catch (err) {
         console.log(err, 'err');
       }
     };
 
     CategoryHandler();
-  }, []);
+  }, [EditInitialValues]);
 
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
@@ -158,10 +144,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
           token: finalToken,
         },
       });
+
+
       revalidateTag('products');
-      Toaster(
-        'success',
-        updateFlag
+      Toaster('success',updateFlag
           ? 'Product has been sucessufully Updated !'
           : response.data.message,
       );
@@ -191,9 +177,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({
   };
 
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
-  const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<
-    number[]
-  >([]);
+  const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<number[]>([]);
   const [filteredSubcategories, setFilteredSubcategories] = useState<any>([]);
 
   useEffect(() => {

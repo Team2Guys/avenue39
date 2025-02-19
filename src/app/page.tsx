@@ -35,10 +35,10 @@ export default async function Home() {
   return (
     <>
       <Suspense >
-      <HeroVideo />
-      <ColorBanner Bannerclas="Bannerclas" />
-      <SofaBanner />
-      <NewArrival />
+        <HeroVideo />
+        <ColorBanner Bannerclas="Bannerclas" />
+        <SofaBanner />
+        <NewArrival />
       </Suspense>
       <AllCategory products={products} />
       {/* <Catalogue /> */}

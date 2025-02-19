@@ -16,6 +16,7 @@ import { NewslettersModule } from './newsletters/newsletters.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { LoggerMiddleware } from '../src/common/logger.middleware';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 
 @Module({
@@ -36,6 +37,7 @@ import { LoggerMiddleware } from '../src/common/logger.middleware';
     SketchfabModule,
     PaytabsModule,
     NewslettersModule,
+    FileUploadModule
   ],
   controllers: [AppController],
   providers: [AppService],

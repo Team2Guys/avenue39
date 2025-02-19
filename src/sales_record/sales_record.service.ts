@@ -484,12 +484,9 @@ export class SalesRecordService {
         where: { orderId: orderId.trim() },
         include: { products: true }
       });
-      console.log(salesRecord);
-
       if (!salesRecord) {
         customHttpException('Order not found', 'NOT_FOUND');
       }
-      console.log(typeof (salesRecord.paymentStatus.paymentStatus), 'paymentStatus');
 
       // if (salesRecord.paymentStatus.paymentStatus) {
       //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
@@ -574,13 +571,10 @@ export class SalesRecordService {
 
       const { user_email, address, phoneNumber, createdAt, firstName, lastName } = salesRecord
       const productData = await this.prisma.sales_record_products.findMany({ where: { orderId: orderId.trim() } });
-      console.log(productData, "product data")
       const purchaseDate = formatDate(createdAt);
-      await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName);
-      await this.sendOrderConfirmationEmail(
-        null, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName
-      );
-
+      // await this.sendOrderConfirmationEmail(user_email, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName);
+      await this.sendOrderConfirmationEmail(null, phoneNumber, address, productData, null, orderId, purchaseDate, firstName, lastName);
+      console.log("function Called")
       return { message: 'Payment status updated successfuly🎉', orderId };
     } catch (error: unknown) {
       console.log(error, 'error');
@@ -648,13 +642,12 @@ export class SalesRecordService {
 
     try {
 
-      const recipients = email
-        ? `${email}`
+      const recipients = email ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"Avenue39" <${process.env.MAILER_MAIL}>`,
         to: recipients,
-        subject: 'Order Confirmation - avenue39.com',
+        subject: `Order #${orderId} placed by ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}`,
         html: `
         
         <!DOCTYPE html>
@@ -937,12 +930,12 @@ export class SalesRecordService {
             <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
                     href="https://avenue39.com/">www.avenue39.com</a></p>
 
-            <a href="#" class="order-button">View Your Order</a>
+            <a href="https://avenue39.com/track-order/${orderId?.trim()}" target="_blank" class="order-button">View Your Order</a>
             <p style="text-align:center;">Your order has now been sent to the warehouse to prepare for packing and
                 dispatch.</p>
             <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
             <p style="text-align:center;">All The Best,</p>
-            <p style="text-align:center;">The team at <strong>"Avenue39"</strong></p>
+            <p style="text-align:center;"><strong>The Team avenue39</strong></strong></p>
             <div class="purchase-details">
                <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
             <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
@@ -968,7 +961,7 @@ export class SalesRecordService {
         </table>
       </td>
       <td style="padding: 10px; text-align: center; border: none;">QTY: ${productData.selectedSize ? productData.selectedSize.stock : productData.quantity}</td>
-      <td style="padding: 10px; text-align: center; font-weight: bold; border: none;">${productData.price}</td>
+      <td style="padding: 10px; text-align: center; font-weight: bold; border: none;">AED ${productData.price}</td>
     </tr>
   `).join('')}
 </tbody>
@@ -1004,15 +997,15 @@ export class SalesRecordService {
             <table style="width: 100%; border-collapse: collapse;">
                 <tr >
                     <td colspan="5" style="padding: 8px; ">Subtotal</td>
-                    <td style="padding: 8px;">${TotalProductsPrice}</td>
+                    <td style="padding: 8px;">AED ${TotalProductsPrice}</td>
                 </tr>
                 <tr style="border-bottom: 2px solid #ccc;">
                     <td colspan="5" style="padding: 8px; ">Shipment</td>
-                    <td style="padding: 8px;">${TotalProductsPrice > 1000 ? "Free" : 20}</td>
+                    <td style="padding: 8px;">${TotalProductsPrice > 1000 ? "Free" : "AED 20"}</td>
                 </tr>
                 <tr>
                     <td colspan="5" style="padding: 8px; font-weight: bold;">Total</td>
-                    <td style="padding: 8px; font-weight: bold;">${TotalProductsPrice > 250 ? TotalProductsPrice : 20 + TotalProductsPrice}</td>
+                    <td style="padding: 8px; font-weight: bold;">${TotalProductsPrice > 250 ? "AED " + TotalProductsPrice : 20 + "AED " + TotalProductsPrice}</td>
                 </tr>
             </table>
         </td>
@@ -1025,19 +1018,28 @@ export class SalesRecordService {
         <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/features_lbnmr6.png" alt="features" style="display: block; margin: auto; max-width: 100%; height: auto;">
     </div>
 </body>
-        <div class="categories">
-        <a href="https://www.avenue39.com/dining" target="_blank">Dinning</a>
-<a href="https://www.avenue39.com/living" target="_blank">Living</a>
-<a href="https://www.avenue39.com/bedroom" target="_blank">Bedroom</a>
-<a href="https://www.avenue39.com/chairs" target="_blank">Chairs</a>
-<a href="https://www.avenue39.com/tables" target="_blank">Tables</a>
-<a href="https://www.avenue39.com/office-furniture" target="_blank">Home Office</a>
-<a href="https://www.avenue39.com/lighting" target="_blank">Lighting</a>
-<a href="https://www.avenue39.com/accessories" target="_blank">Accessories</a>
 
-        </div>
+
+
+
+<table width="100%" cellspacing="0" cellpadding="5" border="0" align="center" style="white-space: nowrap;">
+    <tr>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/dining" target="_blank">Dinning</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/living" target="_blank">Living</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/bedroom" target="_blank">Bedroom</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/chairs" target="_blank">Chairs</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/tables" target="_blank">Tables</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/office-furniture" target="_blank">Home Office</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/lighting" target="_blank">Lighting</a></td>
+        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/accessories" target="_blank">Accessories</a></td>
+    </tr>
+</table>
+
         <div class="social-icons">
             <a href="https://www.facebook.com/avenue39home"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
+
+            <a href="https://instagram.com/avenue39home"> <img src=https://res.cloudinary.com/dz7nqwiev/image/upload/v1739943539/Frame_Instagram_icon_amlgtc.jpg></a>
+           
             <a href="https://www.pinterest.com/avenue39home/"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/pinterest-icon_dsvge7.png" alt="pinterest"></a>
         </div>
     </div>

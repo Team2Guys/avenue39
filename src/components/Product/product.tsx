@@ -11,7 +11,7 @@ import { Table } from 'antd';
 import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
 
-const Product = ({ params, reviews, similarProducts ,product, products, subslug, mainslug }: {
+const Product = ({ params, reviews, similarProducts, product, products, subslug, mainslug, filterParam, sizeParam }: {
   params: IProductDetail;
   reviews: IReview[];
   product: IProduct;
@@ -19,6 +19,8 @@ const Product = ({ params, reviews, similarProducts ,product, products, subslug,
   products?: IProduct[];
   subslug?: string;
   mainslug?: string;
+  filterParam?: string;
+  sizeParam?: string;
 
 }) => {
   const slug = params.name;
@@ -155,6 +157,8 @@ const Product = ({ params, reviews, similarProducts ,product, products, subslug,
               swiperGap=" justify-between gap-2 xs:gap-6 md:gap-3"
               detailsWidth="w-full md:w-1/2 lg:w-9/12 2xl:w-2/6"
               products={products}
+              filterParam={filterParam}
+              sizeParam={sizeParam}
             />
           )
         )}
@@ -165,7 +169,7 @@ const Product = ({ params, reviews, similarProducts ,product, products, subslug,
         </div>
       )}
       <Container className="w-full relative mt-10">
-        <FeatureSlider similarProducts={products?.slice(0,15) || []} title={true} isBestSeller={true} />
+        <FeatureSlider similarProducts={products?.slice(0, 15) || []} title={true} isBestSeller={true} />
       </Container>
       <div className="mt-10 pt-10 mb-10 border-t-2">
         <Container>

@@ -15,6 +15,7 @@ interface SlugPageProps {
     slug: string;
     subcat: string
   }>;
+  searchParams:  Promise<{ filter?: string; size?: string }>;
 }
 
 
@@ -45,7 +46,8 @@ export async function generateMetadata({ params }: SlugPageProps): Promise<Metad
   return metaObject;
 }
 
-const Subcat: React.FC<SlugPageProps> = async ({ params }) => {
+const Subcat: React.FC<SlugPageProps> = async ({ params , searchParams}) => {
+  const { filter, size } = await searchParams;
   const urls = await params
   const { slug, subcat } = urls
   const categorylist: any = [slug, subcat]
@@ -57,7 +59,7 @@ console.log(SubCategoriesFinder, "SubCategoriesFinder", categorylist)
       return notFound()
   }
 
-  return <SubCategoryProducts mainslug={slug} slug={categorylist} />
+  return <SubCategoryProducts mainslug={slug} slug={categorylist} filterParam={filter} sizeParam={size} />
 
 }
 

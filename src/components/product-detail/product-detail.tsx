@@ -33,7 +33,7 @@ import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
-import { calculateRatingsPercentage, renderStars } from '@/config';
+import { calculateRatingsPercentage, generateSlug, renderStars } from '@/config';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
@@ -48,6 +48,8 @@ const ProductDetail = ({
   swiperGap,
   detailsWidth,
   products,
+  filterParam,
+  sizeParam
 }: {
   params: IProduct;
   isZoom?: Boolean;
@@ -55,6 +57,8 @@ const ProductDetail = ({
   swiperGap?: String;
   detailsWidth?: String;
   products?: IProduct[];
+  filterParam?: string;
+  sizeParam?: string
 }) => {
   const truncateText = (text: any, limit: any) => {
     return text.length > limit ? text.slice(0, limit) + '...' : text;
@@ -83,10 +87,12 @@ const ProductDetail = ({
   const [totalStock, setTotalStock] = useState<number>(0)
 
   const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
+
   const handleColorClick = (index: any, item: CartSize) => {
     setActiveIndex(index);
     setSelectedSize(0);
     setFilter(item)
+    console.log('firstcolor', index , item , productImage)
   };
 
   const handleSizeClick = (index: any, size: CartSize) => {
@@ -95,7 +101,26 @@ const ProductDetail = ({
     setSize(size)
   };
 
-  console.log(product, 'productdata')
+  useEffect(() => {
+    if (filterParam) {
+      const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
+      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === filterParam);
+      setActiveIndex(index)
+      const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
+      setFilter(firstColor);
+      if (firstColor) {
+        const sizesForColor = product?.sizes?.filter(size =>
+          product.productImages.some(img => img.color === firstColor.name && img.size === (size?.name || "")))
+        const sizeIndex = sizesForColor?.findIndex((item) => generateSlug(item.name) === sizeParam)
+        const selectedSize: any = sizeIndex !== -1 ? product?.sizes && product?.sizes[sizeIndex || 0] : product?.sizes?.[0];
+        if (sizeIndex) {
+          setSelectedSize(sizeIndex !== -1 ? sizeIndex : 0);
+        }
+        setSize(selectedSize);
+        console.log(firstColor, 'firstcolor', index, sizeIndex, selectedSize, additionalInfo, filterParam, sizeParam, availableSizes)
+      }
+    }
+  }, [filterParam, sizeParam])
 
   useEffect(() => {
     if (!product) return;
@@ -123,7 +148,7 @@ const ProductDetail = ({
       setAvailableSizes(sizesForColor);
       const filteredImages = product.productImages.filter(
         (img) => img.color === activeColor &&
-          (selectedSize === null || (sizesForColor && img.size === sizesForColor[selectedSize]?.name))
+          (selectedSize === null || (sizesForColor && img.size === sizesForColor[selectedSize]?.name || img.size === ''))
       );
 
       setProductImage(filteredImages);
@@ -137,20 +162,18 @@ const ProductDetail = ({
       const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
       const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
-      if (!size) {
-        const defualtSize: any = product?.sizes?.find((prod) => prod?.name === (sizesForColor && sizesForColor[0]?.name));
-        setSize(defualtSize);
-      }
     } else {
       setAvailableSizes([]);
       setProductImage([]);
     }
   }, [activeIndex, selectedSize, product]);
 
+
   function formatPrice(price: any) {
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
+
   const stockhandler = () => {
 
     let sizesStock = product && product.sizes?.reduce((accum, value: any) => {
@@ -177,11 +200,6 @@ const ProductDetail = ({
 
       setIsOutStock(true)
     }
-    let firstcolor = (product && product?.filter) && product?.filter[0]?.additionalInformation[0]
-    const Size: any = (product && product?.sizes) && product?.sizes[0]
-    setFilter(firstcolor)
-    setSize(Size)
-
   }
   /* eslint-disable */
   useEffect(() => {

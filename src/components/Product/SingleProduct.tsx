@@ -8,7 +8,7 @@ import { IProduct } from '@/types/types';
 import Product from '@/components/Product/product';
 import { ProductDetailSkeleton } from '../product-detail/skelton';
 
-const SingleProduct = async ({ slug ,subslug,mainslug}: { slug: string[],mainslug:string ,subslug:string }) => {
+const SingleProduct = async ({ slug ,subslug,mainslug, sizeParam , filterParam}: { slug: string[],mainslug:string ,subslug:string , filterParam?: string , sizeParam?: string}) => {
   const categoryName = slug[0];
   const subcat = slug[1];
   const productName = slug[2];
@@ -45,6 +45,8 @@ const SingleProduct = async ({ slug ,subslug,mainslug}: { slug: string[],mainslu
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}
+        filterParam={filterParam}
+        sizeParam={sizeParam}
       />
     </Suspense>
   );

@@ -11,7 +11,7 @@ import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
-import { calculateRatingsPercentage, renderStars } from '@/config';
+import { calculateRatingsPercentage, generateSlug, renderStars, variationName } from '@/config';
 import { ChangeUrlHandler } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
 import 'swiper/css/pagination';
@@ -67,11 +67,11 @@ const Card: React.FC<CardProps> = ({
   const [isOutStock, setIsOutStock] = useState<boolean>(false)
   const [productPrice, setProductPrice] = useState<number>()
   const [productDiscountPrice, setProductDiscountPrice] = useState<number>()
+  const [displayName, setDisplayName] = useState<string>();
 
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
   };
-
 
   const itemToAdd: CartItem | any = {
     ...card,
@@ -98,6 +98,13 @@ const Card: React.FC<CardProps> = ({
     setCardStaticData(cardImage);
 
   }, [productImages]);
+
+  useEffect(() => {
+    if (card) {
+      const updatedDisplayName = variationName({ product: card });
+      setDisplayName(updatedDisplayName);
+    }
+  }, [card]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     console.log(itemToAdd, 'itemToAdd')
@@ -250,7 +257,17 @@ const Card: React.FC<CardProps> = ({
 
   /* eslint-enable */
 
+  const baseUrl = ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory);
 
+  let filterParams = '';
+  if (itemToAdd.selectedfilter) {
+    filterParams += `?filter=${generateSlug(itemToAdd.selectedfilter.name)}`;
+  }
+
+  if (itemToAdd.selectedSize?.name) {
+    filterParams += `${filterParams ? '&' : '?'}size=${generateSlug(itemToAdd.selectedSize.name)}`;
+  }
+  const finalUrl = `${baseUrl}${filterParams}`;
 
   return (
     <div
@@ -279,7 +296,7 @@ const Card: React.FC<CardProps> = ({
               {isLandscape ? (
                 <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px]">
                   <Link
-                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                    href={finalUrl}
                     className={`${cardImageHeight} flex justify-center items-center p-2`}
                   >
                     <Image
@@ -300,7 +317,7 @@ const Card: React.FC<CardProps> = ({
                 <div
                   className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] ${portSpace ? portSpace : 'px-2'}`}
                 >
-                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                  <Link href={finalUrl}
                     style={{
                       height: calculateHeight
                         ? calculateHeight
@@ -334,10 +351,10 @@ const Card: React.FC<CardProps> = ({
                 <h2 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                   <Link
                     className="cursor-pointer"
-                    href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                    href={finalUrl}
                   >
                     {' '}
-                    {card.displayName ? card.displayName : card.name}
+                    {displayName ? displayName : card.name}
                   </Link>
                 </h2>
                 <div>
@@ -502,7 +519,7 @@ const Card: React.FC<CardProps> = ({
               ) : (
                 <div className="relative">
 
-                  <Link href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+                  <Link href={finalUrl}>
                     <Image
                       src={isHoverImage ? card.hoverImageUrl : card.posterImageUrl}
                       alt={card.posterImageAltText || card.name}
@@ -526,8 +543,7 @@ const Card: React.FC<CardProps> = ({
             <div className="space-y-3">
               <h2 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                 <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
-                  {' '}
-                  {card.displayName ? card.displayName : card.name}
+                  {displayName ? displayName : card.name}
                 </Link>
               </h2>
               <div>

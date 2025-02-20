@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct, IReview, ProductImage } from '@/types/types';
+import { IProduct, IReview, ProductImage, Sizes } from '@/types/types';
 import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
-// import QRScanner from '../QR-reader/QR';
 import {
   Dialog,
   DialogContent,
@@ -33,7 +32,7 @@ import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
-import { calculateRatingsPercentage, generateSlug, renderStars } from '@/config';
+import { calculateRatingsPercentage, generateSlug, getProductStock, renderStars } from '@/config';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
@@ -49,7 +48,8 @@ const ProductDetail = ({
   detailsWidth,
   products,
   filterParam,
-  sizeParam
+  sizeParam,
+  uniqueSizes
 }: {
   params: IProduct;
   isZoom?: Boolean;
@@ -59,6 +59,7 @@ const ProductDetail = ({
   products?: IProduct[];
   filterParam?: string;
   sizeParam?: string
+  uniqueSizes?: any
 }) => {
   const truncateText = (text: any, limit: any) => {
     return text.length > limit ? text.slice(0, limit) + '...' : text;
@@ -74,6 +75,7 @@ const ProductDetail = ({
     min: 0,
     sec: 0,
   });
+  const [productSizes, setProductSizes] = useState<any[]>([]);
   const [selectedSize, setSelectedSize] = useState<number | null>(0);
   const [size, setSize] = useState<CartSize | null | undefined>(null);
   const [filter, setFilter] = useState<CartSize | null | undefined>(null);
@@ -84,13 +86,23 @@ const ProductDetail = ({
   const [isOutStock, setIsOutStock] = useState<boolean>(false);
   const [totalStock, setTotalStock] = useState<number>(0);
   const [availableFilters, setAvailableFilters] = useState<any[]>([]);
-  const [isParam, setIsParam] = useState<boolean>(false);
+  const [slugParams, setSlugParams] = useState<{ filter?: string, size?: string }>({ filter: filterParam, size: sizeParam });
 
+  useEffect(() => {
+    if (uniqueSizes) {
+      setProductSizes(uniqueSizes);
+    }
+  }, [uniqueSizes])
 
   const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
 
   const handleColorClick = (index: any, item: CartSize) => {
-    setFilter(item)
+    setFilter(item);
+    const filterName = generateSlug(item.name)
+    setSlugParams((prev) => ({
+      ...prev,
+      filter: filterName,
+    }));
   };
 
 
@@ -100,12 +112,17 @@ const ProductDetail = ({
     setFilter(findFilter);
     setSelectedSize(index)
     setSize(size)
+    const filterName = generateSlug(findFilter?.name || '')
+    const sizeName = generateSlug(size.name)
+    setSlugParams(() => ({
+      filter: filterName,
+      size: sizeName,
+    }));
+    console.log(sizeName, filterName, 'filterName')
   };
 
-
   useEffect(() => {
-    if (!product) return;
-
+    if (!product || !uniqueSizes) return;
     const posterImage = {
       imageUrl: product?.posterImageUrl || '',
       public_id: product?.posterImagePublicId,
@@ -118,43 +135,56 @@ const ProductDetail = ({
     const customProductImage = [posterImage, ...(product?.productImages || [])];
     setCustomImages(customProductImage);
 
-    if (!isParam) {
-      if (filterParam && sizeParam) {
-        const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
-        const findFilter = additionalInfo.find((item) => generateSlug(item.name) === filterParam);
-        setFilter(findFilter);
-        const sizeIndex = product?.sizes?.findIndex((item) => generateSlug(item.name) === sizeParam)
-        const selectedSize: any = sizeIndex !== -1 ? product?.sizes && product?.sizes[sizeIndex || 0] : product?.sizes?.[0];
-        setSize(selectedSize);
-        const filteredImages = product?.productImages.filter((img) => img.size === selectedSize.name);
-        const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
-        const filters = uniqueColors.map((item) => {
-          return additionalInfo?.find((filterItem) => filterItem.name === item);
-        })
-        setAvailableFilters(filters);
-        const variationImages = filteredImages.filter((img) => img.color === filter?.name)
-        setProductImage(variationImages);
-        if (sizeIndex) {
-          setSelectedSize(sizeIndex !== -1 ? sizeIndex : 0);
-        }
-
-        console.log(findFilter, 'firstcolor', sizeIndex, selectedSize, additionalInfo, filterParam, sizeParam, filters)
-      } else if (filterParam && !sizeParam) {
-        const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
-        const index = additionalInfo.findIndex((item) => generateSlug(item.name) === filterParam);
-        // setSelectedSize(index)
-        const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
-        setFilter(firstColor);
-      }
-    } else {
-      if (filter === null) {
-        setFilter(product.filter?.[0].additionalInformation[0])
-      }
+    if (slugParams.filter && slugParams.size) {
+      const sizeIndex = productSizes?.findIndex((item: Sizes) => generateSlug(item.name) === slugParams.size)
+      const selectedSize: any = sizeIndex !== -1 ? productSizes[sizeIndex] : productSizes[0];
+      setSize(selectedSize);
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
-      console.log(additionalInfo, 'firstcolor', product?.sizes)
-      if (additionalInfo.length > 0 && (product?.sizes && product?.sizes?.length > 0)) {
-        const activeSize = selectedSize !== null ? product.sizes?.[selectedSize].name : null;
-        const filteredImages = product?.productImages.filter((img) => img.size === activeSize);
+      const findFilter = additionalInfo.find((item) => generateSlug(item.name) === slugParams.filter);
+      setFilter(findFilter);
+      const filteredImages = product?.productImages.filter((img) => img.size === selectedSize?.name);
+      const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
+      const filters = uniqueColors.map((item) => {
+        return additionalInfo?.find((filterItem) => filterItem.name === item);
+      })
+      setAvailableFilters(filters);
+      const variationImages = filteredImages.filter((img) => img.color === findFilter?.name)
+      setProductImage(variationImages);
+      if (sizeIndex) {
+        setSelectedSize(sizeIndex !== -1 ? sizeIndex : 0);
+      }
+      const filterPrice = filter?.price || 0;
+      const sizePrice = size?.price || 0;
+      const finalPrice = Number(filterPrice) > 0 ? filterPrice : sizePrice;
+      setProductPrice(Number(finalPrice));
+
+
+      const filterDiscPrice = filter?.discountPrice || 0;
+      const sizeDiscPrice = size?.discountPrice || 0;
+      const finalDiscPrice = Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
+      setProductDiscPrice(Number(finalDiscPrice));
+    } else if (slugParams.filter && !slugParams.size) {
+      const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
+      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.filter);
+      setSelectedSize(index)
+      const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
+      setFilter(firstColor);
+
+      const filterPrice = filter?.price || 0;
+      setProductPrice(Number(filterPrice));
+      const filterDiscPrice = filter?.discountPrice || 0;
+      setProductDiscPrice(Number(filterDiscPrice));
+    }
+    else {
+      if (filter === null) {
+        setFilter(product?.filter ? product?.filter?.[0]?.additionalInformation[0] : null)
+      }
+      const additionalInfo = product?.filter ? product?.filter?.[0]?.additionalInformation : [];
+      if ((additionalInfo && additionalInfo.length > 0) && (productSizes.length > 0)) {
+        const activeSize = selectedSize !== null ? productSizes[selectedSize] : null;
+        setSize(activeSize);
+        setSelectedSize(selectedSize)
+        const filteredImages = product?.productImages.filter((img) => img.size === activeSize.name);
         const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
         const filters = uniqueColors.map((item) => {
           return additionalInfo?.find((filterItem) => filterItem.name === item);
@@ -164,17 +194,18 @@ const ProductDetail = ({
         setProductImage(variationImages);
 
 
-        const filterPrice = filter !== null ? filter?.price || 0 : 0;
-        const sizePrice = selectedSize !== null ? product.sizes[selectedSize]?.price || 0 : 0;
-        const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
+        const filterPrice = filter?.price || 0;
+        const sizePrice = size?.price || 0;
+        const finalPrice = Number(filterPrice) > 0 ? filterPrice : sizePrice;
         setProductPrice(Number(finalPrice));
 
-        const filterDiscPrice = filter !== null ? filter?.discountPrice || 0 : 0;
-        const sizeDiscPrice = selectedSize !== null ? product.sizes[selectedSize]?.discountPrice || 0 : 0;
-        const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
+
+        const filterDiscPrice = filter?.discountPrice || 0;
+        const sizeDiscPrice = size?.discountPrice || 0;
+        const finalDiscPrice = Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
         setProductDiscPrice(Number(finalDiscPrice));
 
-      } else if (additionalInfo.length > 0 && (product?.sizes && product?.sizes?.length === 0)) {
+      } else if ((additionalInfo && additionalInfo.length > 0) && (productSizes.length === 0)) {
         const uniqueColors = [...new Set(product?.productImages?.map((img) => img.color))];
         const filters = uniqueColors.map((item) => {
           return additionalInfo?.find((filterItem) => filterItem.name === item);
@@ -183,30 +214,17 @@ const ProductDetail = ({
         const variationImages = product?.productImages.filter((img) => img.color === filter?.name)
         setProductImage(variationImages);
 
-        const filterPrice = filter !== null ? filter?.price || 0 : 0;
+        const filterPrice = filter?.price || 0;
         setProductPrice(Number(filterPrice));
-
-        const filterDiscPrice = filter !== null ? filter?.discountPrice || 0 : 0;
+        const filterDiscPrice = filter?.discountPrice || 0;
         setProductDiscPrice(Number(filterDiscPrice));
       }
-
-      // const filterPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.price || 0 : 0;
-      // const sizePrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.price || 0 : 0;
-      // const finalPrice = Number(sizePrice) > 0 ? sizePrice : filterPrice;
-      // setProductPrice(Number(finalPrice));
-
-      // const filterDiscPrice = activeIndex !== null ? product.filter?.[0]?.additionalInformation?.[activeIndex]?.discountPrice || 0 : 0;
-      // const sizeDiscPrice = selectedSize !== null && sizesForColor ? sizesForColor[selectedSize]?.discountPrice || 0 : 0;
-      // const finalDiscPrice = Number(sizeDiscPrice) > 0 ? sizeDiscPrice : filterDiscPrice;
-      // setProductDiscPrice(Number(finalDiscPrice));
-      // } 
       else {
         setAvailableFilters([]);
         setProductImage([]);
       }
     }
-    setIsParam(true)
-  }, [size, product, filter]);
+  }, [product, size, filter, productSizes]);
 
 
   function formatPrice(price: any) {
@@ -214,37 +232,7 @@ const ProductDetail = ({
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
 
-  const stockhandler = () => {
-
-    let sizesStock = product && product.sizes?.reduce((accum, value: any) => {
-      if (value.stock) {
-        return accum += Number(value.stock)
-      }
-      return 0;
-    }, 0)
-    let colorsStock = product && product.filter?.reduce((parentAccume: number, parentvalue: any) => {
-      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-        if (value.stock) {
-          return accum + Number(value.stock);
-        }
-        return accum;
-      }, 0);
-      return parentAccume + countedStock;
-    }, 0);
-
-    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : product?.stock || 0;
-    setTotalStock(totalStock)
-
-    if (!(totalStock > 0)) {
-
-      setIsOutStock(true)
-    }
-  }
   /* eslint-disable */
-  useEffect(() => {
-    stockhandler()
-  }, [product])
 
   const Navigate = useRouter();
   useEffect(() => {
@@ -299,12 +287,10 @@ const ProductDetail = ({
   };
 
   const onIncrement = () => {
-    const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || product.stock;
-    console.log(variationQuantity, itemToAdd, totalStock, "totakStock")
-    if (count < variationQuantity) {
+    if (count < totalStock) {
       setCount((prevCount) => prevCount + 1);
     } else {
-      toast.error(`Only ${variationQuantity} items in stock!`);
+      toast.error(`Only ${totalStock} items in stock!`);
     }
   };
 
@@ -315,6 +301,15 @@ const ProductDetail = ({
     selectedSize: size,
     selectedfilter: filter,
   };
+
+
+  useEffect(() => {
+    if (!itemToAdd) return;
+    const findStock = getProductStock({ product: itemToAdd });
+    setIsOutStock(findStock > 0 ? false : true)
+    setTotalStock(findStock)
+  }, [size, filter]);
+
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
@@ -326,33 +321,10 @@ const ProductDetail = ({
       return
     }
 
-    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
-      if (value.stock) {
-        return accum += Number(value.stock)
-      }
-      return 0;
-    }, 0)
-    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
-      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-        if (value.stock) {
-          return accum + Number(value.stock);
-        }
-        return accum;
-      }, 0);
-      return parentAccume + countedStock;
-    }, 0);
-
-    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
-
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity = totalStock
     if (newQuantity > totalStock) {
-      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
-      return;
-    } else if (newQuantity > variationQuantity) {
-      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+      toast.error(`Only ${totalStock} items are in stock. You cannot add more than that.`);
       return;
     }
     dispatch(addItem(itemToAdd));
@@ -371,33 +343,11 @@ const ProductDetail = ({
       return
     }
 
-    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum, value: any) => {
-      if (value.stock) {
-        return accum += Number(value.stock)
-      }
-      return 0;
-    }, 0)
-    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
-      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-        if (value.stock) {
-          return accum + Number(value.stock);
-        }
-        return accum;
-      }, 0);
-      return parentAccume + countedStock;
-    }, 0);
-
-    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
 
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
-    const variationQuantity = totalStock
     if (newQuantity > totalStock) {
-      toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
-      return;
-    } else if (newQuantity > variationQuantity) {
-      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+      toast.error(`Only ${totalStock} items are in stock. You cannot add more than that.`);
       return;
     }
     dispatch(addItem(itemToAdd));
@@ -429,10 +379,7 @@ const ProductDetail = ({
       const addedQuantity = existingWishlistItem.quantity + count;
       console.log('Item already exists in wishlist:', variationQuantity, addedQuantity, size, itemToAdd.selectedSize, existingWishlistItem);
       if (addedQuantity > totalStock) {
-        toast.error(`Only ${product.stock} items are in stock. You cannot add more than that.`);
-        return;
-      } else if (addedQuantity > variationQuantity) {
-        toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
+        toast.error(`Only ${totalStock} items are in stock. You cannot add more than that.`);
         return;
       }
       existingWishlist = existingWishlist.map((item: any) =>
@@ -555,78 +502,11 @@ const ProductDetail = ({
         </p>
 
         <div>
-          {/* {product?.sizes && product?.sizes.length > 0 && (
-            <div className="py-1">
-              {availableSizes.length > 0 && (
-                <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
-              )}
-              <div className="flex space-x-4">
-                {availableSizes.map((size: { name: string, price: string }, index: number) => {
-                  const [sizeName, sizeType] = size?.name.split(' ');
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => handleSizeClick(index, size)}
-                      className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index ? 'border-black shadow-md' : 'hover:shadow-lg'}`}
-                    >
-                      <span className="block text-[#666666] text-[14px] uppercase font-sans">
-                        {sizeName}
-                      </span>
-                      {sizeType && (
-                        <span className="block text-[10px] uppercase font-sans">
-                          {sizeType}
-                        </span>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-          {product?.filter &&
-            product?.filter.length > 0 &&
-            product?.filter[0]?.additionalInformation && (
-              <div className="py-2">
-                <h2 className="font-semibold text-[16px] font-sans Capitalize">
-                  {product?.filter[0]?.heading}{' '}
-                  <span className="capitalize">
-                    {
-                      activeIndex !== null ? product?.filter[0]?.additionalInformation[activeIndex]?.name : ''
-                    }
-                  </span>
-                </h2>
-                <div className="flex space-x-4 mt-2">
-                  {product?.filter?.[0]?.additionalInformation.map((item, index) => {
-                    const image = product.productImages.find(
-                      (img) => img?.color === item?.name
-                    );
-                    if (!image) return null;
-
-                    return (
-                      <div
-                        key={index}
-                        onClick={() => handleColorClick(index, item)}
-                        className={`cursor-pointer border rounded-lg p-1 flex items-center justify-center transition ${activeIndex === index ? 'border-black font-bold shadow-md' : 'hover:shadow-lg'}`}
-                      >
-                        <Image
-                          src={image.imageUrl}
-                          alt={image.altText || 'product image'}
-                          height={50}
-                          width={50}
-                          className="h-[50px] w-[50px] object-cover rounded"
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )} */}
-
-          {product?.sizes && product?.sizes.length > 0 && (
+          {uniqueSizes && uniqueSizes.length > 0 && (
             <div className="py-1">
               <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
               <div className="flex space-x-4 mt-1">
-                {product?.sizes.map((size: { name: string, price: string }, index: number) => {
+                {uniqueSizes.map((size: { name: string, price: string }, index: number) => {
                   const [sizeName, sizeType] = size?.name.split(' ');
                   return (
                     <div

@@ -115,8 +115,9 @@ interface Filter {
     stock?: number;
   }[];
 }
-interface Sizes {
+export interface Sizes {
     name: string;
+    filterName?: string;
     price: string;
     discountPrice: string;
     stock?: string;

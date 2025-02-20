@@ -17,8 +17,8 @@ import {
 import Card from '@/components/ui/card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
-import { CartSize } from '@/redux/slices/cart/types';
 import { variationProducts } from '@/config';
+import { CartSize } from '@/redux/slices/cart/types';
 
 interface ProductPageProps {
   layout: string;
@@ -45,10 +45,15 @@ const ProductPage = ({
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
+  const [showProd, setshowProd] = useState<string>('All');
 
 
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
+  const handleshowResult = (showProd: string) => setshowProd(showProd);
+
+
+
   const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
   const description = SubcategoryName?.description || info?.description || "";
 
@@ -63,7 +68,7 @@ const ProductPage = ({
   const processedProducts = variationProducts({ products: productsToFilter });
 
 
-  const filteredCards = processedProducts
+  const filteredSortedCards  = processedProducts
     .filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
@@ -74,7 +79,6 @@ const ProductPage = ({
       return true;
     })
     .sort((a, b) => {
-      // Calculate stock
       const sizeStockA = a?.sizes?.find((size: CartSize) => size.name === a.sizeName);
       const filterStockA = a?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === a.colorName);
       let totalStockA = Number(sizeStockA?.stock) || Number(filterStockA?.stock) || a.stock || 0;
@@ -105,7 +109,13 @@ const ProductPage = ({
         default:
           return 0;
       }
-    });
+
+
+    })
+
+let Arraylenght =     !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards.length
+
+const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
   return (
     <>
       {
@@ -157,6 +167,26 @@ const ProductPage = ({
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+
+
+                <div className="block whitespace-nowrap text-12 sm:text-base">
+                {/* Showing {filteredCards.length > 0 ? filteredCards.length : 0} results */}
+                <Select onValueChange={handleshowResult}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Show All" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem disabled={!(filteredSortedCards.length >=10)? true : false} value="10">Show 10 products</SelectItem>
+                      <SelectItem disabled={!(filteredSortedCards.length >=20)? true : false} value="20">Show 20 products</SelectItem>
+                      <SelectItem disabled={!(filteredSortedCards.length >=30)? true : false} value="30">Show 30 products</SelectItem>
+                      <SelectItem disabled={!(filteredSortedCards.length >0)? true : false} value='All'>Show All</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+
+<div className='flex items-center gap-2'>
                 <MdWindow
                   className="cursor-pointer text-3xl"
                   onClick={() => Setlayout('grid')}
@@ -165,11 +195,11 @@ const ProductPage = ({
                   className="cursor-pointer text-2xl"
                   onClick={() => Setlayout('list')}
                 />
+
+</div>
               </div>
 
-              <p className="block whitespace-nowrap text-12 sm:text-base">
-                Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
-              </p>
+           
             </div>
             <SubCategoriesRow category={info} />
           </div>

@@ -66,7 +66,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
         className={`relative ps-2 sm:ps-8 pe-8 ${(category && category?.subcategories?.length === 2)
             ? 'w-full md:w-6/12 lg:4/12 xl:2/12'
             :category && category?.subcategories?.length=== 4
-              ? 'w-full sm:w-6/12'
+             ? 'w-full sm:w-full md:w-6/12 lg:w-6/12 xl:w-6/12'
               : 'w-full sm:w-8/12'
           }`}
       >

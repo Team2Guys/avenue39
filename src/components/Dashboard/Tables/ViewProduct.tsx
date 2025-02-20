@@ -7,7 +7,6 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios';
 import { FaRegEye } from 'react-icons/fa';
 import { LiaEdit } from 'react-icons/lia';
-import { product } from '@/types/interfaces';
 import revalidateTag from '@/components/ServerActons/ServerAction';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
@@ -48,6 +47,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e)
     setSearchTerm(e.target.value);
   };
 
@@ -62,45 +62,17 @@ const ViewProduct: React.FC<CategoryProps> = ({
   //   (loggedInUser.role == 'Admin' ? loggedInUser.canEditproduct : true);
   const canEditproduct = true;
 
-  const filteredProducts: Product[] =
-    Categories?.filter((product: any) => {
-      const searchtext = searchTerm.trim().toLowerCase();
+  const filteredProducts: Product[] = Categories?.filter((product: Product) => {
+    const searchText = searchTerm.trim().toLowerCase();
+    return product.name.toLowerCase().includes(searchText);
+  }).sort((a: Product, b: Product) => {
+    const searchText = searchTerm.trim().toLowerCase();
 
-      return (
-        product.name.toLowerCase().includes(searchtext) ||
-        product.description.toLowerCase().includes(searchtext) ||
-        product.price.toString().includes(searchtext) ||
-        product.discountPrice.toString().includes(searchtext) ||
-        (product.colors &&
-          product.colors.some((color: string) =>
-            color.toLowerCase().includes(searchtext),
-          )) ||
-        (product.spacification &&
-          product.spacification.some((spec: any) =>
-            Object.values(spec).some((value: any) =>
-              value.toString().toLowerCase().includes(searchtext),
-            ),
-          )) ||
-        product.additionalInformation.some((info: any) =>
-          Object.values(info).some((value: any) =>
-            value.toString().toLowerCase().includes(searchtext),
-          ),
-        ) ||
-        (product.categories &&
-          product.categories.some((category: any) =>
-            category.name.toLowerCase().includes(searchtext),
-          )) ||
-        (product.subcategories &&
-          product.subcategories.some((subcategory: any) =>
-            subcategory.name.toLowerCase().includes(searchtext),
-          ))
-      );
-    }).sort((a: product, b: product) => {
-      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA;
-    }) || [];
+    const aStartsWith = a.name.toLowerCase().startsWith(searchText) ? -1 : 1;
+    const bStartsWith = b.name.toLowerCase().startsWith(searchText) ? -1 : 1;
 
+    return aStartsWith - bStartsWith || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  }) || [];
   const confirmDelete = (key: any) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -181,30 +153,30 @@ const ViewProduct: React.FC<CategoryProps> = ({
           record.sizes && record.sizes.length > 0
             ? record.sizes
             : record.filter && record.filter.length > 0
-            ? record.filter[0]
-            : [];
-    
+              ? record.filter[0]
+              : [];
+
         console.log(sizes, "sizes");
-    
+
         return (
           <>
             {sizes.length > 0 ? (
               <select name="custom-select" id="stock">
-                <option  value="0">
-                Variations Stock
-                  </option>
+                <option value="0">
+                  Variations Stock
+                </option>
                 {sizes.map((item: any, index: number) => (
-                  <option className='flex' disabled key={index} value={index+1} >
-                 <span className='block'>Variant: {item.name} </span>   <br />
-                   
-                   <span>QTY: {item.stock} </span>
+                  <option className='flex' disabled key={index} value={index + 1} >
+                    <span className='block'>Variant: {item.name} </span>   <br />
+
+                    <span>QTY: {item.stock} </span>
                   </option>
                 ))}
               </select>
             ) : (
-         
-                <p>{record.stock}</p>
-         
+
+              <p>{record.stock}</p>
+
             )}
           </>
         );
@@ -274,9 +246,8 @@ const ViewProduct: React.FC<CategoryProps> = ({
       width: 150,
       render: (text: any, record: Product) => (
         <LiaEdit
-          className={`${canEditproduct ? 'cursor-pointer' : ''} ${
-            !canEditproduct ? 'cursor-not-allowed text-slate-200' : ''
-          }`}
+          className={`${canEditproduct ? 'cursor-pointer' : ''} ${!canEditproduct ? 'cursor-not-allowed text-slate-200' : ''
+            }`}
           size={20}
           onClick={() => {
             if (canEditproduct) {
@@ -293,9 +264,8 @@ const ViewProduct: React.FC<CategoryProps> = ({
       width: 150,
       render: (text: any, record: any) => (
         <RiDeleteBin6Line
-          className={`${canDeleteProduct ? 'text-red-600 cursor-pointer' : ''} ${
-            !canDeleteProduct ? 'cursor-not-allowed text-slate-200' : ''
-          }`}
+          className={`${canDeleteProduct ? 'text-red-600 cursor-pointer' : ''} ${!canDeleteProduct ? 'cursor-not-allowed text-slate-200' : ''
+            }`}
           size={20}
           onClick={() => {
             // if (canDeleteProduct) {
@@ -309,49 +279,46 @@ const ViewProduct: React.FC<CategoryProps> = ({
 
   return (
     <div>
-        <>
-          <div className="flex justify-between gap-2 mb-4 items-center flex-nowrap text-black dark:text-white">
-            <input
-              className="peer lg:p-3 p-2 block outline-none border rounded-md border-gray-200 dark:bg-boxdark dark:bg-transparent dark:border-white text-11 xs:text-sm dark:focus:border-primary focus:border-dark focus:ring-dark-500 disabled:opacity-50 disabled:pointer-events-none dark:text-black"
-              type="search"
-              placeholder="Search Product"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <div>
-              <p
-                className={`${
-                  canAddProduct &&
-                  'cursor-pointer rounded-md text-nowrap text-12 xs:text-base'
-                } p-2 ${
-                  canAddProduct && 'bg-primary text-white rounded-md border'
-                } flex justify-center dark:bg-main dark:border-0 ${
-                  !canAddProduct &&
-                  'cursor-not-allowed bg-gray-500 text-white rounded-md'
+      <>
+        <div className="flex justify-between gap-2 mb-4 items-center flex-nowrap text-black dark:text-white">
+          <input
+            className="peer lg:p-3 p-2 block outline-none border rounded-md border-gray-200 dark:bg-boxdark dark:bg-transparent dark:border-white text-11 xs:text-sm dark:focus:border-primary focus:border-dark focus:ring-dark-500 disabled:opacity-50 disabled:pointer-events-none dark:text-black"
+            type="search"
+            placeholder="Search Product"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <div>
+            <p
+              className={`${canAddProduct &&
+                'cursor-pointer rounded-md text-nowrap text-12 xs:text-base'
+                } p-2 ${canAddProduct && 'bg-primary text-white rounded-md border'
+                } flex justify-center dark:bg-main dark:border-0 ${!canAddProduct &&
+                'cursor-not-allowed bg-gray-500 text-white rounded-md'
                 }`}
-                onClick={() => {
-                  if (canAddProduct) {
-                    setselecteMenu('Add Products');
-                    setEditProduct(undefined);
-                  }
-                }}
-              >
-                Add Products
-              </p>
-            </div>
+              onClick={() => {
+                if (canAddProduct) {
+                  setselecteMenu('Add Products');
+                  setEditProduct(undefined);
+                }
+              }}
+            >
+              Add Products
+            </p>
           </div>
-          {filteredProducts && filteredProducts.length > 0 ? (
-            <Table
-              className="lg:overflow-hidden overflow-x-scroll !dark:border-strokedark !dark:bg-boxdark !bg-transparent"
-              dataSource={filteredProducts}
-              columns={columns}
-              rowKey="id"
-              pagination={false}
-            />
-          ) : (
-            <p className="text-primary dark:text-white">No products found</p>
-          )}
-        </>
+        </div>
+        {filteredProducts && filteredProducts.length > 0 ? (
+          <Table
+            className="lg:overflow-hidden overflow-x-scroll !dark:border-strokedark !dark:bg-boxdark !bg-transparent"
+            dataSource={filteredProducts}
+            columns={columns}
+            rowKey="id"
+            pagination={false}
+          />
+        ) : (
+          <p className="text-primary dark:text-white">No products found</p>
+        )}
+      </>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from './types';
 import { message } from 'antd';
 import { toast } from 'react-toastify';
+import { getProductStock } from '@/config';
 
 interface CartState {
   items: CartItem[];
@@ -34,12 +35,12 @@ const cartSlice = createSlice({
       const item = action.payload;
       const existingItem = state.items.find((i) => i.id === item.id && i.selectedSize?.name === item.selectedSize?.name &&
         i.selectedfilter?.name === item.selectedfilter?.name);
-
+        const totalStock = getProductStock({product: item});
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
-        if (newQuantity > (item.stock || 0)) {
+        if (newQuantity > totalStock) {
           message.error(
-            `Only ${item?.stock} items are in stock. You cannot add more.`
+            `Only ${totalStock} items are in stock. You cannot add more.`
           );
           return;
         }
@@ -63,28 +64,8 @@ const cartSlice = createSlice({
 
 
       } else {
-        let sizesStock = item && item.sizes?.reduce((accum, value: any) => {
-          if (value.stock) {
-            return accum += Number(value.stock)
-          }
-          return 0;
-        }, 0)
-        let colorsStock = item && item.filter?.reduce((parentAccume: number, parentvalue: any) => {
-          const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-            if (value.stock) {
-              return accum + Number(value.stock);
-            }
-            return accum;
-          }, 0);
-          return parentAccume + countedStock;
-        }, 0);
-
-        const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : item?.stock || 0;
-        console.log(totalStock, item.quantity, "cartItems")
-
-        if (item.quantity > (totalStock || 0)) {
-          toast.error(`Cannot add more than ${item.stock} items to the cart.`);
+        if (item.quantity > totalStock) {
+          toast.error(`Cannot add more than ${totalStock} items to the cart.`);
           return;
         }
         const price = getItemPrice(item);

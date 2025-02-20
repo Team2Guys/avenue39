@@ -16,6 +16,7 @@ import { State } from '@/redux/store';
 import { ChangeUrlHandler } from '@/config/fetch';
 import { toast } from 'react-toastify';
 import Counter from '@/components/counter';
+import { getProductStock } from '@/config';
 
 
 const WishlistPage = () => {
@@ -59,7 +60,7 @@ const WishlistPage = () => {
       return updatedWishlist;
     });
     window.dispatchEvent(new Event('WishlistChanged'));
-    const variationQuantity = item.selectedSize?.stock || item.selectedfilter?.stock || item.stock;
+    const variationQuantity = getProductStock({product: item});
     if (item.quantity > variationQuantity) {
       toast.error('Insufficient stock. Please reduce quantity.');
     }
@@ -93,47 +94,15 @@ const WishlistPage = () => {
       return
     }
 
-    let sizesStock =
-      itemToAdd?.sizes?.reduce((accum: number, value: any) => {
-        if (value.stock) {
-          return (accum += Number(value.stock));
-        }
-        return 0;
-      }, 0);
 
-    let colorsStock =
-      itemToAdd?.filter?.reduce((parentAccume: number, parentvalue: any) => {
-        const countedStock = parentvalue.additionalInformation.reduce(
-          (accum: number, value: any) => {
-            if (value.stock) {
-              return accum + Number(value.stock);
-            }
-            return accum;
-          },
-          0,
-        );
-        return parentAccume + countedStock;
-      }, 0);
-
-    const totalStock =
-      sizesStock && sizesStock > 0
-        ? sizesStock
-        : colorsStock && colorsStock > 0
-          ? colorsStock
-          : itemToAdd?.stock || 0;
+    const totalStock = getProductStock({product: itemToAdd});
 
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
-    const variationQuantity = totalStock;
 
     if (newQuantity > totalStock) {
       toast.error(
-        `Only ${product.stock} items are in stock. You cannot add more than that.`,
-      );
-      return;
-    } else if (newQuantity > variationQuantity) {
-      toast.error(
-        `Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`,
+        `Only ${totalStock} items are in stock. You cannot add more than that.`,
       );
       return;
     }
@@ -230,7 +199,7 @@ const WishlistPage = () => {
                     <div className="flex flex-wrap gap-4 items-center ">
                       <Counter
                         count={product.quantity}
-                        stock={product.selectedSize?.stock || product.selectedfilter?.stock || product.stock}
+                        stock={getProductStock({product: product})}
                         onIncrement={() => {
                           const updatedItem = { ...product, quantity: product.quantity + 1 };
                           updateProductQuantity(updatedItem);
@@ -255,7 +224,7 @@ const WishlistPage = () => {
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-2 2xl:col-span-2">
               <Counter
                 count={product.quantity}
-                stock={product.selectedSize?.stock || product.selectedfilter?.stock || product.stock}
+                stock={getProductStock({product: product})}
                 onIncrement={() => {
                   const updatedItem = { ...product, quantity: product.quantity + 1 };
                   updateProductQuantity(updatedItem);

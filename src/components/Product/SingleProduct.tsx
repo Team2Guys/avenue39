@@ -4,7 +4,7 @@ import {
 } from '@/config/fetch';
 import { generateSlug } from '@/config';
 import NotFound from '@/app/not-found';
-import { IProduct } from '@/types/types';
+import { IProduct, Sizes } from '@/types/types';
 import Product from '@/components/Product/product';
 import { ProductDetailSkeleton } from '../product-detail/skelton';
 
@@ -35,6 +35,12 @@ const SingleProduct = async ({ slug ,subslug,mainslug, sizeParam , filterParam}:
     return hasMatchingCategory && prod.id !== findProduct.id;
   });
 
+  const uniqueSizes = [
+    ...new Map(
+      findProduct?.sizes?.map((size: Sizes) => [size?.name, size])
+    ).values()
+  ];
+
   return (
     <Suspense fallback={<ProductDetailSkeleton />}>
       <Product
@@ -47,6 +53,7 @@ const SingleProduct = async ({ slug ,subslug,mainslug, sizeParam , filterParam}:
         product={findProduct}
         filterParam={filterParam}
         sizeParam={sizeParam}
+        uniqueSizes={uniqueSizes}
       />
     </Suspense>
   );

@@ -90,7 +90,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     }
   }, [loggedInUser]);
 
-  const products = variationProducts({ products: productsData || []});
+  const products = variationProducts({ products: productsData || [] });
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
@@ -103,16 +103,18 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   const filteredProducts = products?.filter((product: IProduct) => {
     const searchTerm = searchText.trim().toLowerCase();
+    return product.name.toLowerCase().includes(searchTerm);
+  }).sort((a: IProduct, b: IProduct) => {
+    const searchTerm = searchText.trim().toLowerCase();
 
-    return (
-      product.name.toLowerCase().includes(searchTerm) ||
-      product.description.toLowerCase().includes(searchTerm) ||
-      product.price.toString().includes(searchTerm) ||
-      product.discountPrice.toString().includes(searchTerm) ||
-      product.colorName?.toLowerCase().includes(searchTerm) ||
-      product.sizeName?.toLowerCase().includes(searchTerm)
-    );
-  });
+    const aStartsWith = a.name.toLowerCase().startsWith(searchTerm) ? -1 : 1;
+    const bStartsWith = b.name.toLowerCase().startsWith(searchTerm) ? -1 : 1;
+
+    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+
+    return aStartsWith - bStartsWith || dateB - dateA;
+  }) || [];
 
   useEffect(() => {
     if (drawerInputRef.current) {
@@ -125,7 +127,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
       }, 50);
     }
   }, []);
-  
+
 
   const logoutHhandler = () => {
     try {
@@ -162,16 +164,16 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   const productUrl = (product: CartItem) => {
     const baseUrl = ChangeUrlHandler(product);
-  
+
     let filterParams = '';
     if (product.colorName) {
       filterParams += `?filter=${generateSlug(product.colorName)}`;
     }
-  
+
     if (product.sizeName) {
       filterParams += `${filterParams ? '&' : '?'}size=${generateSlug(product.sizeName)}`;
     }
-   return `${baseUrl}${filterParams}`;
+    return `${baseUrl}${filterParams}`;
   }
 
   return (
@@ -396,19 +398,19 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                     {(product.discountPrice && product.discountPrice > 0) ?
 
                                       <p className="text-11 xs:text-[12px] text-primary-foreground font-bold line-through">
-                                      AED {product.price}
+                                        AED {product.price}
                                       </p> : ''
                                     }
 
                                   </div>
                                   {(product.colorName || product.sizeName) &&
-                                <div className='flex items-center justify-center gap-3 flex-wrap'>
-                                  <div className='flex items-center gap-1 text-13'>
-                                    <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
-                                    <span className='capitalize'>{product.colorName}</span>
-                                  </div>
-                                  <span className='text-13'>{product.sizeName}</span>
-                                </div>}
+                                    <div className='flex items-center justify-center gap-3 flex-wrap'>
+                                      <div className='flex items-center gap-1 text-13'>
+                                        <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                                        <span className='capitalize'>{product.colorName}</span>
+                                      </div>
+                                      <span className='text-13'>{product.sizeName}</span>
+                                    </div>}
                                   <div>
                                     <RenderStars card={product} />
                                   </div>

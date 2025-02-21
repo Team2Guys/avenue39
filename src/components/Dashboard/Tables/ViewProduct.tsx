@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios';
 import { FaRegEye } from 'react-icons/fa';
 import { LiaEdit } from 'react-icons/lia';
+import { product } from '@/types/interfaces';
 import revalidateTag from '@/components/ServerActons/ServerAction';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
@@ -47,7 +48,6 @@ const ViewProduct: React.FC<CategoryProps> = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
     setSearchTerm(e.target.value);
   };
 
@@ -62,17 +62,51 @@ const ViewProduct: React.FC<CategoryProps> = ({
   //   (loggedInUser.role == 'Admin' ? loggedInUser.canEditproduct : true);
   const canEditproduct = true;
 
-  const filteredProducts: Product[] = Categories?.filter((product: Product) => {
-    const searchText = searchTerm.trim().toLowerCase();
-    return product.name.toLowerCase().includes(searchText);
-  }).sort((a: Product, b: Product) => {
-    const searchText = searchTerm.trim().toLowerCase();
+  const filteredProducts: Product[] =
+    Categories?.filter((product: any) => {
+      const searchtext = searchTerm.trim().toLowerCase();
 
-    const aStartsWith = a.name.toLowerCase().startsWith(searchText) ? -1 : 1;
-    const bStartsWith = b.name.toLowerCase().startsWith(searchText) ? -1 : 1;
+      return (
+        product.name.toLowerCase().includes(searchtext) ||
+        product.description.toLowerCase().includes(searchtext) ||
+        product.price.toString().includes(searchtext) ||
+        product.discountPrice.toString().includes(searchtext) ||
+        (product.colors &&
+          product.colors.some((color: string) =>
+            color.toLowerCase().includes(searchtext),
+          )) ||
+        (product.spacification &&
+          product.spacification.some((spec: any) =>
+            Object.values(spec).some((value: any) =>
+              value.toString().toLowerCase().includes(searchtext),
+            ),
+          )) ||
+        product.additionalInformation.some((info: any) =>
+          Object.values(info).some((value: any) =>
+            value.toString().toLowerCase().includes(searchtext),
+          ),
+        ) ||
+        (product.categories &&
+          product.categories.some((category: any) =>
+            category.name.toLowerCase().includes(searchtext),
+          )) ||
+        (product.subcategories &&
+          product.subcategories.some((subcategory: any) =>
+            subcategory.name.toLowerCase().includes(searchtext),
+          ))
+      );
+    }).sort((a: product, b: product) => {
+      const searchText = searchTerm.trim().toLowerCase();
 
-    return aStartsWith - bStartsWith || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  }) || [];
+      const aStartsWith = a.name.toLowerCase().startsWith(searchText) ? -1 : 1;
+      const bStartsWith = b.name.toLowerCase().startsWith(searchText) ? -1 : 1;
+
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+
+      return aStartsWith - bStartsWith || dateB - dateA;
+    }) || [];
+
   const confirmDelete = (key: any) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -167,8 +201,8 @@ const ViewProduct: React.FC<CategoryProps> = ({
                 </option>
                 {sizes.map((item: any, index: number) => (
                   <option className='flex' disabled key={index} value={index + 1} >
-                    <span className='block'>Variant: {item.name} </span>   <br />
-
+                    <span className='block'>Variant: {item.name} </span>
+                    <span>{item.filterName} </span>
                     <span>QTY: {item.stock} </span>
                   </option>
                 ))}

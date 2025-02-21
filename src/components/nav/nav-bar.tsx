@@ -103,7 +103,15 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   const filteredProducts = products?.filter((product: IProduct) => {
     const searchTerm = searchText.trim().toLowerCase();
-    return product.name.toLowerCase().includes(searchTerm);
+
+    return (
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm) ||
+      product.price.toString().includes(searchTerm) ||
+      product.discountPrice.toString().includes(searchTerm) ||
+      product.colorName?.toLowerCase().includes(searchTerm) ||
+      product.sizeName?.toLowerCase().includes(searchTerm)
+    );
   }).sort((a: IProduct, b: IProduct) => {
     const searchTerm = searchText.trim().toLowerCase();
 

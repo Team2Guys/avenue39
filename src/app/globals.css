@@ -418,30 +418,6 @@ html {
 .cardBtn-addToCart:hover svg{
   fill: white;
 }
-<<<<<<< HEAD
-@media (max-width: 895px) {
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
-    transform: rotate(-90deg) !important;
-    left: auto !important;
-    right: 1% !important;
-    top: auto !important;
-    bottom: 40px !important;
-    padding-top: -7px !important;
-  }
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
-    position: absolute !important;
-    left: 1% !important;
-    top: auto !important;
-    bottom: 40px !important;
-    transform: rotate(-90deg) !important;
-  }
-  .card-slider-home .swiper-pagination {
-    bottom: 190px !important;
-  }
-}
-
-=======
->>>>>>> 29a82b090dbdbaf3483dfb249b18d44afb16254c
 .Bannerclas{
   padding-bottom: 15px !important;
   position: relative !important;

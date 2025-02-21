@@ -542,14 +542,14 @@ export class SalesRecordService {
           }
         }
         else if (prod.productData.selectedSize && prod.productData.selectedfilter) {
-          const findSize = existingProduct.sizes.find((item: any) => item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase());
+          const findSize = existingProduct.sizes.find((item: any) => (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()));
           const remainingStock = findSize.stock - prod.quantity;
           const updatedProduct: any = await this.prisma.products.update({
             where: { id: existingProduct.id },
             data: {
               sizes: {
                 set: existingProduct.sizes.map((item: any) =>
-                  item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()
+                  (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase())
                     ? { ...item, stock: remainingStock }
                     : item
                 ),

@@ -15,6 +15,7 @@ import WhatsIcon from '@/components/Icons/Whatsapp';
 import Head from 'next/head';
 import Script from 'next/script';
 import Image from 'next/image';
+import GoToTop from '@/components/GoToTop/go-to-top';
 
 export default function RootLayout({
   children,
@@ -99,11 +100,14 @@ export default function RootLayout({
         }}
       />
       <body>
+
         {/* <!-- Google Tag Manager (noscript) --> */}
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCNZZ8XP"
           height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+
         {/* <!-- End Google Tag Manager (noscript) → */}
      {/* NoScript Fallback */}
+     
      <noscript>
         <Image  height="1"  width="1"  style={{ display: "none" }}
           src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1" alt="Facebook Pixel" />
@@ -113,6 +117,7 @@ export default function RootLayout({
           <PathnameWrapper>
             {children}
             <WhatsIcon />
+            <GoToTop />
             <ToastContainer />
           </PathnameWrapper>
         </Providers>

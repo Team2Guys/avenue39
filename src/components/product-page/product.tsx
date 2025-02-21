@@ -15,9 +15,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Card from '@/components/ui/card';
-import LandscapeCard from '@/components/ui/landscape-card';
 import { ICategory, IProduct } from '@/types/types';
 import SubCategoriesRow from './subcategories-row';
+import { variationProducts } from '@/config';
 import { CartSize } from '@/redux/slices/cart/types';
 
 interface ProductPageProps {
@@ -45,10 +45,15 @@ const ProductPage = ({
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
-  
+  const [showProd, setshowProd] = useState<string>('All');
+
 
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
+  const handleshowResult = (showProd: string) => setshowProd(showProd);
+
+
+
   const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
   const description = SubcategoryName?.description || info?.description || "";
 
@@ -60,105 +65,57 @@ const ProductPage = ({
 
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
-  const processedProducts = productsToFilter.flatMap((prod) => {
-    if ((!prod.sizes || prod.sizes.length === 0) && (!prod.filter || prod.filter.length === 0)) {
-      return [prod]; 
-    }
+  const processedProducts = variationProducts({ products: productsToFilter });
+
+
+  const filteredSortedCards  = processedProducts
+    .filter((card) => {
+      if (pathname === '/products') {
+        return card.discountPrice > 0 && card.stock > 0;
+      }
+      if (pathname === '/sale') {
+        return card.discountPrice > 0;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      const sizeStockA = a?.sizes?.find((size: CartSize) => size.name === a.sizeName);
+      const filterStockA = a?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === a.colorName);
+      let totalStockA = Number(sizeStockA?.stock) || Number(filterStockA?.stock) || a.stock || 0;
   
-    if (!prod.productImages || prod.productImages.length === 0) {
-    return [];
-  }
-
-  const uniqueVariations = new Map();
-
-  prod.productImages
-    .filter((img) => img.index)
-    .forEach((img) => {
-      const sizeMatch = prod.sizes?.find(
-        (size) => size.name.toLowerCase() === img.size?.toLowerCase()
-      );
-      const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
-        (filterItem) => filterItem.name.toLowerCase() === img.color?.toLowerCase()
-      );
-      const hoverImageMatch = prod.productImages.find(
-        (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
-      );
-
-      const variationKey = img.index;
-
-      if (!uniqueVariations.has(variationKey)) {
-        uniqueVariations.set(variationKey, {
-          ...prod,
-          name: `${prod.name}`,
-          displayName: `${prod.name} - ${
-            img.size?.toLowerCase() === img.color?.toLowerCase()
-              ? img.size
-              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
-          }`,
-          sizeName:img.size ,
-          colorName:img.color,
-          price: sizeMatch
-            ? Number(sizeMatch.price)
-            : filterMatch
-            ? Number(filterMatch.price)
-            : prod.price, 
-          discountPrice: sizeMatch
-            ? Number(sizeMatch.discountPrice)
-            : filterMatch
-            ? Number(filterMatch.discountPrice || 0)
-            : prod.discountPrice,
-          posterImageUrl: img.imageUrl,
-          hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
-          stock: sizeMatch ? sizeMatch.stock : prod.stock,
-        });
-      }
-    });
-
-  return Array.from(uniqueVariations.values());
-});
+      const sizeStockB = b?.sizes?.find((size: CartSize) => size.name === b.sizeName);
+      const filterStockB = b?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === b.colorName);
+      let totalStockB = Number(sizeStockB?.stock) || Number(filterStockB?.stock) || b.stock || 0;
   
-
-const filteredCards = processedProducts
-  .filter((card) => {
-    if (pathname === '/products') {
-      return card.discountPrice > 0 && card.stock > 0;
-    }
-    if (pathname === '/sale') {
-      return card.discountPrice > 0;
-    }
-    return true;
-  })
-  .sort((a, b) => {
-    const sizeStockA = a?.sizes?.find((size: CartSize) => size.name === a.sizeName);
-    const filterStockA = a?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === a.colorName);
-    const totalStockA = Number(sizeStockA?.stock) || Number(filterStockA?.stock) || a.stock;
-
-    const sizeStockB = b?.sizes?.find((size: CartSize) => size.name === b.sizeName);
-    const filterStockB = b?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === b.colorName);
-    const totalStockB = Number(sizeStockB?.stock) || Number(filterStockB?.stock) || b.stock;
-
-    if (totalStockA === 0 && totalStockB > 0) return 1; 
-    if (totalStockA > 0 && totalStockB === 0) return -1; 
-
-    switch (sortOption) {
-      case 'name':
-        return a.name.trim().localeCompare(b.name.trim());
-      case 'max': {
-        const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-        const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
-        return priceB - priceA;
+      totalStockA = Math.max(0, totalStockA);
+      totalStockB = Math.max(0, totalStockB);
+  
+      if (totalStockA === 0 && totalStockB > 0) return 1;
+      if (totalStockA > 0 && totalStockB === 0) return -1;
+      
+      switch (sortOption) {
+        case 'name':
+          return a.name.trim().localeCompare(b.name.trim());
+        case 'max': {
+          const priceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+          const priceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+          return priceB - priceA;
+        }
+        case 'min': {
+          const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
+          const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
+          return minPriceA - minPriceB;
+        }
+        default:
+          return 0;
       }
-      case 'min': {
-        const minPriceA = a.discountPrice > 0 ? a.discountPrice : a.price;
-        const minPriceB = b.discountPrice > 0 ? b.discountPrice : b.price;
-        return minPriceA - minPriceB;
-      }
-      default:
-        return 0;
-    }
-  });
 
 
+    })
+
+let Arraylenght =     !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards.length
+
+const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
   return (
     <>
       {
@@ -188,9 +145,9 @@ const filteredCards = processedProducts
                 {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-              <p className={`text-center sm:text-base text-sm ${pathname === '/sale' && 'hidden'}`}>
-              {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
-              </p>
+                <p className={`text-center sm:text-base text-sm ${pathname === '/sale' && 'hidden'}`}>
+                  {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
+                </p>
               </Container>
             </div>
           )}
@@ -210,6 +167,26 @@ const filteredCards = processedProducts
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+
+
+                <div className="block whitespace-nowrap text-12 sm:text-base">
+                {/* Showing {filteredCards.length > 0 ? filteredCards.length : 0} results */}
+                <Select onValueChange={handleshowResult}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Show All" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem disabled={!(filteredSortedCards.length >=10)? true : false} value="10">Show 10 products</SelectItem>
+                      <SelectItem disabled={!(filteredSortedCards.length >=20)? true : false} value="20">Show 20 products</SelectItem>
+                      <SelectItem disabled={!(filteredSortedCards.length >=30)? true : false} value="30">Show 30 products</SelectItem>
+                      <SelectItem disabled={!(filteredSortedCards.length >0)? true : false} value='All'>Show All</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+
+<div className='flex items-center gap-2'>
                 <MdWindow
                   className="cursor-pointer text-3xl"
                   onClick={() => Setlayout('grid')}
@@ -218,37 +195,32 @@ const filteredCards = processedProducts
                   className="cursor-pointer text-2xl"
                   onClick={() => Setlayout('list')}
                 />
+
+</div>
               </div>
 
-              <p className="block whitespace-nowrap text-12 sm:text-base">
-                Showing {filteredCards.length > 0 ? filteredCards.length : 0} results
-              </p>
+           
             </div>
             <SubCategoriesRow category={info} />
           </div>
 
           <div
-            className={`grid gap-4 md:gap-8 mt-4 ${
-              layout === 'grid'
+            className={`grid gap-4 md:gap-8 mt-4 ${layout === 'grid'
                 ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5'
                 : 'grid-cols-1'
-            }`}
+              }`}
           >
             {filteredCards.length > 0 ? (
-              filteredCards.map((card,index) => (
+              filteredCards.map((card, index) => (
                 <div key={index} className="flex">
-                  {layout === 'grid' ? (
-                    <Card
-                      card={card}
-                      isLoading={false}
-                      SubcategoryName={SubcategoryName}
-                      mainCatgory={mainslug}
-                      cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
-
-                    />
-                  ) : (
-                    <LandscapeCard card={card} isLoading={false} />
-                  )}
+                  <Card
+                    card={card}
+                    isLoading={false}
+                    SubcategoryName={SubcategoryName}
+                    mainCatgory={mainslug}
+                    cardImageHeight="h-[300px] xsm:h-[220px] sm:h-[400px] md:h-[350px] xl:h-[220px] 2xl:h-[280px] w-full"
+                    cardLayout={layout}
+                  />
                 </div>
               ))
             ) : (

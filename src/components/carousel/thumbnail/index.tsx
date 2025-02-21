@@ -15,6 +15,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import SideBySideMagnifier from '../SideBySideMagnifier';
 import CustomThumbnailSlickSlider from './thumbnailSlider';
+import Image from 'next/image';
+import ImageZoomDialog from '../MobileZoom';
 
 export interface IMAGE_INTERFACE {
   public_id?: string;
@@ -43,11 +45,8 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const nextRef = useRef<HTMLDivElement>(null);
   const swiperImageRef = useRef<SwiperType | null>(null);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-  const [imageZome, setImageZome] = useState<number>(1.5);
-  /* eslint-disable */
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
-  /* eslint-enable */
-
+  // const [imageZome, setImageZome] = useState<number>(1.5);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const preloadImages = (images: string[]) => {
     return Promise.all(
@@ -69,12 +68,12 @@ const Thumbnail: React.FC<ThumbProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   useEffect(() => {
-    if(windowWidth < 895){
-      setImageZome(1)
-    }else {
-      setImageZome(1.5)
+    if (windowWidth < 895) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
     }
-  },[windowWidth])
+  }, [windowWidth])
   useEffect(() => {
     handleSlideChange(Number(activeIndex));
   }, [activeIndex]);
@@ -127,14 +126,17 @@ const Thumbnail: React.FC<ThumbProps> = ({
               >
                 {thumbs.map((thumb, index) => (
                   <SwiperSlide key={index}>
-                    <SideBySideMagnifier
-                      imageSrc={thumb.imageUrl}
-                      largeImageSrc={thumb.imageUrl}
-                      altText={altText || 'Main Image'}
-                      zoomScale={imageZome}
-                      inPlace={true}
-                      alignTop={true}
-                    />
+                    {isMobile ?
+                      <ImageZoomDialog imageUrl={thumb.imageUrl} />
+                      : <SideBySideMagnifier
+                        imageSrc={thumb.imageUrl}
+                        largeImageSrc={thumb.imageUrl}
+                        altText={altText || 'Main Image'}
+                        zoomScale={1.5}
+                        inPlace={true}
+                        alignTop={true}
+                      />}
+
                   </SwiperSlide>
                 ))}
               </Swiper>

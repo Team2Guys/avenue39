@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,12 +11,15 @@ import Container from '@/components/ui/Container';
 import thankyou from '@icons/thankyou.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import BestSellingSlider from '@/components/card-slider/best-selling';
 import { useSearchParams } from 'next/navigation';
 import Confetti from '@/components/confetti/confetti';
 import RedCross from '@assets/icons/remove.webp';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { IProduct } from '@/types/types';
+import { fetchProducts } from '@/config/fetch';
+import FeatureSlider from '@/components/card-slider/feature-slider';
 interface PaymentQueryParams {
   id: string | null;
   amount_cents: string | null;
@@ -33,6 +36,13 @@ interface PaymentQueryParams {
 const ThankYouPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const searchParams = useSearchParams();
+  const hasFetched = useRef(false);
+
+
+  const { data: products = [] } = useQuery<IProduct[], Error>({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -104,8 +114,13 @@ const ThankYouPage = () => {
   };
 
   useEffect(() => {
-    dbFunctionHandler();
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      dbFunctionHandler();
+    }
   }, []);
+
+  
   return (
     <Fragment>
       {successFlag ? (
@@ -151,7 +166,7 @@ const ThankYouPage = () => {
                   </Link>
                 </div>
                 <div className="mt-16 mb-4">
-                  <BestSellingSlider />
+                  <FeatureSlider similarProducts={products?.slice(0,15)} title={false} isBestSeller={true} />
                 </div>
               </div>
             </DialogContent>

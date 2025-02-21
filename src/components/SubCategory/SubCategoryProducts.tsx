@@ -2,12 +2,12 @@ import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
 import { generateSlug } from '@/config';
 import { fetchProducts, fetchSubCategories } from '@/config/fetch';
-import { IProduct } from '@/types/types';
+import { IProduct, Sizes } from '@/types/types';
 import React from 'react';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
 
-const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:string }) => {
+const SubCategoryProducts = async ({ slug,mainslug , filterParam ,sizeParam}: { slug: string[],mainslug:string , filterParam?: string , sizeParam?: string}) => {
   let subcategoryName = slug[1];
   let category = slug[0];
   let newCategory: string | undefined;
@@ -45,6 +45,13 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
         );
       return hasMatchingCategory && prod.id !== findProduct.id;
     });
+
+    const uniqueSizes = [
+        ...new Map(
+          findProduct?.sizes?.map((size: Sizes) => [size?.name, size])
+        ).values()
+      ];
+
     return (
       <Product
         params={findProduct}
@@ -52,7 +59,9 @@ const SubCategoryProducts = async ({ slug,mainslug }: { slug: string[],mainslug:
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}
-        
+        filterParam={filterParam}
+        sizeParam={sizeParam}
+        uniqueSizes={uniqueSizes}
       />
     );
   }

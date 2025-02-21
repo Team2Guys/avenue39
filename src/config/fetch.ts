@@ -5,8 +5,7 @@ import { generateSlug } from '.';
 
 export const fetchProducts = async () => {
   try {
-    const result = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
       {
         next: { tags: ['products'] },
       },
@@ -22,6 +21,32 @@ export const fetchProducts = async () => {
     console.log(error, 'error');
   }
 };
+
+
+
+export const DashboardfetchProducts = async () => {
+  try {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
+      {
+        cache: 'no-store',
+        next: { tags: ['products'] },
+      },
+    );
+    if (!result.ok) {
+
+      return [];
+    }
+    const response = await result.json();
+
+    return response;
+  } catch (error) {
+    console.log(error, 'error');
+  }
+};
+
+
+
+
 
 export const fetchCategories = async (): Promise<ICategory[] | any> => {
   try {

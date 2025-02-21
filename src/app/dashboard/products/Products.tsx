@@ -4,15 +4,12 @@ import Breadcrumb from '@components/Dashboard/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
 import ViewProduct from '@components/Dashboard/Tables/ViewProduct';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICategory, IProduct } from '@/types/types';
 import dynamic from 'next/dynamic';
 const FormElements = dynamic(() => import('@components/Dashboard/FormElements'))
 
-const Product = ({
-  cetagories,
-  productsData,
-}: {
+const Product = ({cetagories,productsData}: {
   cetagories: ICategory[];
   productsData: IProduct[];
 }) => {
@@ -20,7 +17,7 @@ const Product = ({
   const [products, setProducts] = useState<any[]>(productsData);
   const [selecteMenu, setselecteMenu] = useState<string>('Add All Products');
 
-  const EditInitialValues: any = {
+  let EditInitialValues: any = {
     name: editProduct?.name,
     description: editProduct?.description,
     price: editProduct?.price,
@@ -48,6 +45,21 @@ const Product = ({
     filter: (editProduct && editProduct?.filter) || [],
     custom_url: editProduct && editProduct?.custom_url
   };
+
+
+  useEffect(() => {
+
+    setProducts(productsData)
+
+  }, [productsData])
+  
+
+  
+
+
+
+
+  console.log(editProduct, "EditInitialProductValues")
 
   let productFlag: boolean = selecteMenu === 'Add All Products' ? true : false;
 

@@ -356,7 +356,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }}
                       >
                         <TbGardenCartOff size={20} className="text-white" />
-                        Abundant Order
+                        Abandoned Order
                         <MdOutlineKeyboardArrowDown
                           size={30}
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current text-white ${
@@ -379,7 +379,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 'text-white'
                               } `}
                             >
-                              View Abundant Order
+                              View Abandoned Orders
                             </Link>
                           </li>
                         </ul>

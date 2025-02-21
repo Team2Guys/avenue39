@@ -30,6 +30,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
     return matchedCategory?.short_description || '';
   };
 
+  
     return (
     <div className="pt-1">
       <CatProduct

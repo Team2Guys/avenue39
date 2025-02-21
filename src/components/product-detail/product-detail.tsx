@@ -111,9 +111,12 @@ const ProductDetail = ({
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
     const filterName = generateSlug(item.name);
-    setSlugParams((prev) => ({
-      ...prev,
+
+    const sizeName = !sizeParam ? generateSlug(size?.name || "") : sizeParam;
+
+    setSlugParams(() => ({
       filter: filterName,
+      size: sizeName,
     }));
   };
 
@@ -190,15 +193,15 @@ const ProductDetail = ({
         Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
     } else if (slugParams.filter && !slugParams.size) {
+      
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
-      const index = additionalInfo.findIndex(
-        (item) => generateSlug(item.name) === slugParams.filter,
-      );
-      setSelectedSize(index);
-      const firstColor =
-        index !== -1 ? additionalInfo[index] : additionalInfo[0];
+      setAvailableFilters(additionalInfo);
+      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.filter);
+      setSelectedSize(index)
+      const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
       setFilter(firstColor);
-
+      const variationImages = product.productImages.filter((img) => img.color === firstColor?.name)
+      setProductImage(variationImages);
       const filterPrice = filter?.price || 0;
       setProductPrice(Number(filterPrice));
       const filterDiscPrice = filter?.discountPrice || 0;

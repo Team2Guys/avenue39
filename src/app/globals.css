@@ -435,8 +435,6 @@ html {
   }
 }
 
-
-
 .Bannerclas{
   padding-bottom: 15px !important;
   position: relative !important;
@@ -460,4 +458,7 @@ html {
     width: 30px !important;
     height: 30px !important;
   }
+}
+.ant-image-preview-mask{
+  background-color: white !important;
 }

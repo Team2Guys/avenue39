@@ -3,20 +3,19 @@ import { ColorBannerData } from '@/data/products';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
 interface IPROPS {
-  Bannerclas?:any
-
+  Bannerclas?: any
 }
 
-const ColorBanner: React.FC<IPROPS> = ({Bannerclas}) => {
+const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
   const [isWide, setIsWide] = useState<number>(window.innerWidth);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-const isMobile = windowWidth < 770 ? true:false
+  const isMobile = windowWidth < 770 ? true : false
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -42,18 +41,15 @@ const isMobile = windowWidth < 770 ? true:false
     }
   }, [windowWidth]);
 
-console.log(windowWidth, "windowWidth")
+  console.log(windowWidth, "windowWidth")
+
 
   return (
     <section className={` py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? "main_container" : ''}`}>
       <Swiper
-        modules={[Autoplay, Pagination]}
+        modules={[Pagination]}
         spaceBetween={0}
         slidesPerView={1}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: true,
-        }}
         speed={1500}
         pagination={{
           clickable: true,

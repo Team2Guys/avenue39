@@ -66,9 +66,9 @@ const ProductDetail = ({
   sizeParam?: string;
   uniqueSizes?: any;
 }) => {
-  const truncateText = (text: any, limit: any) => {
-    return text.length > limit ? text.slice(0, limit) + '...' : text;
-  };
+  // const truncateText = (text: any, limit: any) => {
+  //   return text.length > limit ? text.slice(0, limit) + '...' : text;
+  // };
 
   const [count, setCount] = useState(1);
   const dispatch = useDispatch<Dispatch>();
@@ -579,7 +579,8 @@ const ProductDetail = ({
         )}
 
         <p className="text-lightdark text-14 tracking-wide leading-6 font-helvetica">
-          {truncateText(product?.description, 120)}
+          {/* {truncateText(product?.description, 120)} */}
+          {product?.description}
         </p>
 
         <div>

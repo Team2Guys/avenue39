@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Image from 'next/image';
-import { ICategory, IProduct } from '@/types/types';
+import { ICategory, IProduct, Sizes } from '@/types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
@@ -74,7 +74,7 @@ const Card: React.FC<CardProps> = ({
   const [productPrice, setProductPrice] = useState<number>()
   const [productDiscountPrice, setProductDiscountPrice] = useState<number>()
   const [displayName, setDisplayName] = useState<string>();
-
+  const [uniqueSizes, setUniqueSizes] = useState<any>([])
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
   };
@@ -88,7 +88,16 @@ const Card: React.FC<CardProps> = ({
       ?? ((isHomepage || slider) ? card?.filter?.[0]?.additionalInformation?.[0] : undefined),
   };
 
-
+  useEffect(() => {
+    if (card?.sizes && card?.sizes?.length > 0) {
+      const uniqueSizes = [
+        ...new Map(
+          card.sizes.map((size: Sizes) => [size.name, size])
+        ).values()
+      ];
+      setUniqueSizes(uniqueSizes);
+    }
+  }, [card])
   useEffect(() => {
     if (!itemToAdd) return;
     const findStock = getProductStock({ product: itemToAdd });
@@ -240,7 +249,7 @@ const Card: React.FC<CardProps> = ({
             >
               <SwiperSlide className="w-full">
                 {isLandscape ? (
-                  <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px]">
+                  <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main">
                     <Link
                       href={finalUrl}
                       className={`${cardImageHeight} flex justify-center items-center p-2`}
@@ -261,7 +270,7 @@ const Card: React.FC<CardProps> = ({
                   </div>
                 ) : (
                   <div
-                    className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] ${portSpace ? portSpace : 'px-2'}`}
+                    className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] border-2 border-transparent group-hover:border-main ${portSpace ? portSpace : 'px-2'}`}
                   >
                     <Link href={finalUrl}
                       style={{
@@ -418,6 +427,9 @@ const Card: React.FC<CardProps> = ({
                               gap="gap-10 md:gap-20"
                               swiperGap="gap-5"
                               detailsWidth="w-full md:w-1/2 lg:w-2/5"
+                              filterParam={generateSlug(itemToAdd.selectedfilter && itemToAdd.selectedfilter.name)}
+                              sizeParam={generateSlug(itemToAdd.selectedSize && itemToAdd.selectedSize.name)}
+                              uniqueSizes={uniqueSizes}
                             />
                           </div>
                         </DialogContent>
@@ -429,7 +441,7 @@ const Card: React.FC<CardProps> = ({
             </Swiper>
           ) : (
             <>
-              <div className="bg-[#E3E4E6] rounded-[35px]">
+              <div className="bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main">
                 {/* <span className='pb-10'>{card.subcategories?.map((item) => item.name)}</span> */}
                 {card.discountPrice > 0 && (
                   <p className="z-[1] absolute top-1 -left-9 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
@@ -610,6 +622,9 @@ const Card: React.FC<CardProps> = ({
                             gap="gap-10 md:gap-20"
                             swiperGap="gap-5"
                             detailsWidth="w-full md:w-1/2 lg:w-2/5"
+                            filterParam={generateSlug(itemToAdd.selectedfilter && itemToAdd.selectedfilter.name)}
+                            sizeParam={generateSlug(itemToAdd.selectedSize && itemToAdd.selectedSize.name)}
+                            uniqueSizes={uniqueSizes}
                           />
                         </div>
                       </DialogContent>
@@ -702,6 +717,9 @@ const Card: React.FC<CardProps> = ({
                       gap="gap-10 md:gap-20"
                       swiperGap="gap-5"
                       detailsWidth="w-full md:w-1/2 lg:w-2/5"
+                      filterParam={generateSlug(itemToAdd.selectedfilter && itemToAdd.selectedfilter.name)}
+                      sizeParam={generateSlug(itemToAdd.selectedSize && itemToAdd.selectedSize.name)}
+                      uniqueSizes={uniqueSizes}
                     />
                   </div>
                 </DialogContent>

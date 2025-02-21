@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.webp';
 import Marlin from '@assets/images/banners/Marlin.webp';
@@ -13,7 +13,7 @@ import Moblie_Magia from '@assets/images/banners/Magia_m.webp';
 import Moblie_Moderno from '@assets/images/banners/Moderno_m.webp';
 import Moblie_Bergen from '@assets/images/banners/Bergen_m.webp';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
@@ -48,9 +48,10 @@ const sliderDataa_sofa_initial = [
       {
         backgroundImage: Magia.src,
         mobileImage: Moblie_Magia.src,
-        pro_price: 'AED 6,250',
-        subtitle: 'Magia Office Desk',
-        link: '/office-furniture/desks/magia-office-desk',
+        // pro_price: 'AED 6,250',
+        subtitle: 'Explore our latest luxury pieces now',
+        subPara: '',
+        link: '/new-arrivals',
         buttonPosition: 'top',
         ImagePosition: 'center',
       },
@@ -58,9 +59,10 @@ const sliderDataa_sofa_initial = [
       {
         backgroundImage: Moderno.src,
         mobileImage: Moblie_Moderno.src,
-        pro_price: 'AED 799',
-        subtitle: 'Moderno Bedside Table',
-        link: '/bedroom/bedside-tables/moderno-bedside-table',
+        // pro_price: 'AED 799',
+        subtitle: 'Explore our latest luxury pieces now',
+        subPara: '',
+        link: '/new-arrivals',
         buttonPosition: 'top',
         ImagePosition: 'center',
       },
@@ -76,6 +78,7 @@ const sliderDataa_sofa_initial = [
         mobileImage: Moblie_Calda.src,
         pro_price: '',
         subtitle: 'Shop our exclusive sale now',
+        subPara: 'Up to 70% discount',
         link: '/sale',
         buttonPosition: 'bottom',
         ImagePosition: 'top',
@@ -84,8 +87,9 @@ const sliderDataa_sofa_initial = [
         backgroundImage: Bergen.src,
         mobileImage: Moblie_Bergen.src,
         pro_price: '',
-        subtitle: 'Explore our latest luxury pieces now',
-        link: '/new-arrivals',
+        subtitle: 'Shop our exclusive sale now',
+        subPara: 'Up to 70% discount',
+        link: '/sale',
         buttonPosition: 'bottom',
         ImagePosition: 'center',
       },
@@ -94,7 +98,6 @@ const sliderDataa_sofa_initial = [
 ];
 
 const SofaBanner: React.FC = () => {
-  const swiperRef = useRef<any>(null);
   const [sliderDataa_sofa, setSliderDataaSofa] = useState(sliderDataa_sofa_initial);
   const newWidth = window.innerWidth;
   useEffect(() => {
@@ -116,34 +119,16 @@ const SofaBanner: React.FC = () => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, [newWidth]);
-  const handleMouseEnter = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.autoplay.stop();
-    }
-  };
 
-  const handleMouseLeave = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.autoplay.start();
-    }
-  };
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3">
       <div
-        className="sofa_slider1 bg-lightforeground rounded-2xl"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+        className="sofa_slider1 bg-lightforeground rounded-2xl">
         <Swiper
-          ref={swiperRef}
-          modules={[Autoplay, Pagination]}
+          modules={[Pagination]}
           spaceBetween={20}
           slidesPerView={1}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: true,
-          }}
           speed={1500}
           pagination={{
             clickable: true,
@@ -189,63 +174,63 @@ const SofaBanner: React.FC = () => {
 
       <div className="sofa_slider2">
         {sliderDataa_sofa.map((item, index) => (
-          <Swiper
-            key={index}
-            className={`${index === 1 && 'mt-5'}`}
-            modules={[Autoplay, Pagination]}
-            spaceBetween={30}
-            slidesPerView={1}
-            autoplay={{
-              delay: index ? 2333 : 3000,
-              disableOnInteraction: true,
-            }}
-            dir={`${index === 1 && 'rtl'}`}
-            pagination={{ clickable: true }}
-            loop={true}
-            speed={1500}
-          >    {item.slides.map((slide, index) => (
-            <SwiperSlide key={index}>
-                <Link  href={slide.link}
-                  className="w-full rounded-2xl block h-44 xsm:h-[200px] xs:h-[290px]"
-                  style={{
-                    backgroundImage: `url(${slide.backgroundImage})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: newWidth < 700 ? 'center' : slide.ImagePosition,
-                  }}
-                >
-                  <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">
-                    <div className="text-center">
-                      {slide.buttonPosition === 'top' && (
-                        <Link
-                          href={slide.link}
-                          className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                        >
-                          Shop
-                        </Link>
-                      )}
-                      {slide.buttonPosition === 'bottom' && (
-                        <Link
-                          href={slide.link}
-                          className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                        >
-                          Shop <span className="text-red-600">{item.id === 2 && index === 1 ? 'New Arrivals' : 'Sale'}</span>
-                        </Link>
-                      )}
+          <div key={index}
+          >
+            <Swiper
+              className={`${index === 1 && 'mt-5'}`}
+              modules={[Pagination]}
+              spaceBetween={30}
+              slidesPerView={1}
+              dir={`${index === 1 && 'rtl'}`}
+              pagination={{ clickable: true }}
+              loop={true}
+              speed={1500}
+            >    {item.slides.map((slide, index) => (
+              <SwiperSlide key={index}>
+                <div className={`h-44 xsm:h-[200px] xs:h-[290px]`}>
+                  <Link href={slide.link}
+                    className="w-full h-full rounded-2xl block"
+                    style={{
+                      backgroundImage: `url(${slide.backgroundImage})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: newWidth < 700 ? 'center' : slide.ImagePosition,
+                    }}
+                  >
+                    <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">
+                      <div className="text-center">
+                        {slide.buttonPosition === 'top' && (
+                          <Link
+                            href={slide.link}
+                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                          >
+                            Shop <span className="text-red-600">New Arrivals</span>
+                          </Link>
+                        )}
+                        {slide.buttonPosition === 'bottom' && (
+                          <Link
+                            href={slide.link}
+                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                          >
+                            Shop <span className="text-red-600">Sale</span>
+                          </Link>
+                        )}
 
-                      <h3 className="font-bold text-16 mt-4 text-white">
-                        {slide.subtitle}
-                      </h3>
-                      <p className="text-18 font-bold text-white mt-2">
-                        {item.id === 1 && slide.pro_price}
-                      </p>
+                        <h3 className="font-bold text-16 mt-4 text-white">
+                          {slide.subtitle}
+                        </h3>
+                        <p className="text-14 font-bold text-white mt-2">
+                          {slide.subPara}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-            </SwiperSlide>
-          ))}
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
 
-          </Swiper>
+            </Swiper>
+          </div>
         ))}
       </div>
     </section>

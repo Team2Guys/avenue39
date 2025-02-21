@@ -205,9 +205,8 @@ const SofaBanner: React.FC = () => {
             speed={1500}
           >    {item.slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className={`h-44 xsm:h-[200px] xs:h-[290px]`}>
-                <Link href={slide.link}
-                  className="w-full h-full rounded-2xl block"
+                <Link  href={slide.link}
+                  className="w-full rounded-2xl block h-44 xsm:h-[200px] xs:h-[290px]"
                   style={{
                     backgroundImage: `url(${slide.backgroundImage})`,
                     backgroundSize: 'cover',
@@ -243,7 +242,6 @@ const SofaBanner: React.FC = () => {
                     </div>
                   </div>
                 </Link>
-              </div>
             </SwiperSlide>
           ))}
 

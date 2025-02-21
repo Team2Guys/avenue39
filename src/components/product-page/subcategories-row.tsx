@@ -8,10 +8,11 @@ import {
 } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { re_Calling_products, recallingTypes } from '@/data/Re_call_prod';
+import { usePathname } from 'next/navigation';
 
 const SubCategoriesRow = ({ category }: any) => {
 
-
+const path = usePathname()
 
 
 const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
@@ -111,7 +112,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
                 
                 }
                 key={category.categoryId}
-                className="w-full text-center whitespace-nowrap bg-[#afa183] rounded-lg py-2 px-2 text-white block"
+                className={`w-full text-center whitespace-nowrap rounded-lg py-2 px-2 border border-main block ${path === changeCategoryHandler((category?.custom_url ||category?.name) , ((subcat?.custom_url || subcat?.name) || category.title) ) ? 'bg-main text-white' : 'bg-transparent text-main'}`}
               >
                 <span>{subcat?.name || subcat.title}</span>
               </Link>

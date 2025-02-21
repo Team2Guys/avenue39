@@ -72,7 +72,7 @@ const CustomThumbnailSlickSlider = ({
       <Slider
         ref={slickRef}
         {...settings}
-        className="product-slider custom-Slick"
+        className={`product-slider custom-Slick ${!isZoom && 'isZoom'}`}
       >
         {thumbs.map((thumb, index) => (
           <div
@@ -80,7 +80,7 @@ const CustomThumbnailSlickSlider = ({
             className="column-swiper-slider swiper-slide xsm:mx-0 mx-2"
           >
             <Image
-              className={`rounded-lg shadow-md aspect-square ${isZoom ? 'size-24 xs:size-28 md:h-[120px] 2xl:h-[160px] md:w-[120px] 2xl:w-[160px]' : 'size-28 xs:h-[130px] w-[130px]'}`}
+              className={`rounded-lg shadow-md aspect-square ${isZoom ? 'size-24 xs:size-28 md:h-[120px] 2xl:h-[160px] md:w-[120px] 2xl:w-[160px]' : 'size-20 xs:size-24 sm:h-[100px] sm:w-[130px]'}`}
               src={thumb.imageUrl || '/default-image.jpg'}
               width={150}
               height={150}

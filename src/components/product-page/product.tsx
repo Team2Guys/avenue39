@@ -45,7 +45,7 @@ const ProductPage = ({
 }: ProductPageProps) => {
 
   const [sortOption, setSortOption] = useState<string>('default');
-  const [showProd, setshowProd] = useState<string>('10');
+  const [showProd, setshowProd] = useState<string>('All');
 
 
   const pathname = usePathname();
@@ -173,7 +173,7 @@ const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
                 {/* Showing {filteredCards.length > 0 ? filteredCards.length : 0} results */}
                 <Select onValueChange={handleshowResult}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Showing 10" />
+                    <SelectValue placeholder="Show All" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>

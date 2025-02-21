@@ -2,7 +2,7 @@ import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
 import { generateSlug } from '@/config';
 import { fetchProducts, fetchSubCategories } from '@/config/fetch';
-import { IProduct } from '@/types/types';
+import { IProduct, Sizes } from '@/types/types';
 import React from 'react';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
@@ -45,6 +45,13 @@ const SubCategoryProducts = async ({ slug,mainslug , filterParam ,sizeParam}: { 
         );
       return hasMatchingCategory && prod.id !== findProduct.id;
     });
+
+    const uniqueSizes = [
+        ...new Map(
+          findProduct?.sizes?.map((size: Sizes) => [size?.name, size])
+        ).values()
+      ];
+
     return (
       <Product
         params={findProduct}
@@ -54,6 +61,7 @@ const SubCategoryProducts = async ({ slug,mainslug , filterParam ,sizeParam}: { 
         product={findProduct}
         filterParam={filterParam}
         sizeParam={sizeParam}
+        uniqueSizes={uniqueSizes}
       />
     );
   }

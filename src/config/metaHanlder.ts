@@ -59,8 +59,9 @@ export const productsFindHandler = async (
     notFound()
   }
 
-  let fullurl = `${url}${findProduct?.name}`;
+  let fullurl = `${url}${slug[0]}/${slug[1]}/${generateSlug(findProduct?.name)}`;
 
+  console.log(fullurl, "urls")
   let images = findProduct.posterImageUrl || 'images';
   let alttext = findProduct.posterImageAltText || 'Alternative Text';
   let NewImage = [

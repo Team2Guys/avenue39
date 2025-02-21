@@ -15,13 +15,13 @@ import {
   AddproductsinitialValues,
   AddProductvalidationSchema,
 } from '@/data/data';
-import { Checkbox } from 'antd';
+import { Checkbox, Select } from 'antd';
 import showToast from '@components/Toaster/Toaster';
 import revalidateTag from '@/components/ServerActons/ServerAction';
 import { ICategory } from '@/types/types';
 import Cookies from 'js-cookie';
 
-const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProductValue,setselecteMenu, setEditProduct,categoriesList}) => {
+const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditProductValue, setselecteMenu, setEditProduct, categoriesList }) => {
 
   const [imagesUrl, setImagesUrl] = useState<any[]>(EditInitialValues ? EditInitialValues.productImages : [],);
   const [posterimageUrl, setposterimageUrl] = useState<any[] | undefined | null>(
@@ -36,7 +36,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
       ]
       : [],
   );
-  const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? [{imageUrl: EditInitialValues.hoverImageUrl,public_id: EditInitialValues.hoverImagePublicId,altText: EditInitialValues.hoverImageAltText}]: [],
+  const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],
   );
   const [loading, setloading] = useState<boolean>(false);
   const [productInitialValue, setProductInitialValue] = useState<any | null | undefined>(EditProductValue);
@@ -85,10 +85,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
 
         setImagesUrl(EditInitialValues ? EditInitialValues.productImages : [])
 
-      
-        sethoverImage(EditInitialValues ? [{imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId,altText: EditInitialValues.hoverImageAltText}]: [],)
+
+        sethoverImage(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],)
         setProductInitialValue(EditProductValue)
-      
+
       } catch (err) {
         console.log(err, 'err');
       }
@@ -104,7 +104,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
   const onSubmit = async (values: any, { resetForm }: any) => {
     values.categories = selectedCategoryIds;
     values.subcategories = selectedSubcategoryIds;
-
+    console.log(values, 'values')
     try {
       setError(null);
       let posterImageUrl = posterimageUrl && posterimageUrl[0];
@@ -147,9 +147,9 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
 
 
       revalidateTag('products');
-      Toaster('success',updateFlag
-          ? 'Product has been sucessufully Updated !'
-          : response.data.message,
+      Toaster('success', updateFlag
+        ? 'Product has been sucessufully Updated !'
+        : response.data.message,
       );
       setProductInitialValue(AddproductsinitialValues);
       resetForm();
@@ -236,7 +236,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
       return updatedImagesUrl;
     });
   };
-
   const handleImageSize = (
     index: number,
     newImageIndex: number | string,
@@ -1144,6 +1143,35 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
                                       placeholder="Size Name (1 seater, 2 seater, etc)"
                                       className={`w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary `}
                                     />
+                                    <Select
+                                    className={`w-full ml-1 rounded-lg border-[1.5px] border-stroke bg-transparent px-2 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary custom-color-selector h-[50px]`}
+                                      onChange={(value) => {
+                                        const updatedSizes = [...formik.values.sizes];
+                                        if (updatedSizes[modelIndex]) {
+                                          updatedSizes[modelIndex] = {
+                                            ...updatedSizes[modelIndex],
+                                            filterName: value,
+                                          };
+                                        } else {
+                                          updatedSizes[modelIndex] = { filterName: value };
+                                        }
+
+                                        formik.setFieldValue("sizes", updatedSizes);
+                                      }}
+                                      defaultValue={formik.values.sizes[modelIndex].filterName || 'Select Option'}
+                                    >
+                                      <Select.Option value="">
+                                        Select Option
+                                      </Select.Option>
+
+                                      {formik.values.filter?.[0].additionalInformation?.map((info: any, index: number) => (
+                                        <Select.Option value={info.name} key={index}>
+                                          {info.name}
+                                        </Select.Option>
+                                      ))}
+                                    </Select>
+
+
                                     <input
                                       type="text"
                                       name={`sizes[${modelIndex}].price`}
@@ -1164,7 +1192,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
                                       placeholder="Disc Price"
                                       className={`ml-1 w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary `}
                                     />
-
                                     <input
                                       type="text"
                                       name={`sizes[${modelIndex}].stock`}
@@ -1276,12 +1303,12 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                         {imagesUrl.map((item: any, index) => {
                           return (
-                            <div key={index} 
-                            draggable
-                            onDragStart={() => (dragImage.current = index)}
-                            onDragEnter={() => (draggedOverImage.current = index)}
-                            onDragEnd={handleSort}
-                            onDragOver={(e) => e.preventDefault()}
+                            <div key={index}
+                              draggable
+                              onDragStart={() => (dragImage.current = index)}
+                              onDragEnter={() => (draggedOverImage.current = index)}
+                              onDragEnd={handleSort}
+                              onDragOver={(e) => e.preventDefault()}
                             >
                               <div className="relative group rounded-lg overflow-hidden shadow-md bg-white transform transition-transform duration-300 hover:scale-105">
                                 <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white rounded-full" draggable>
@@ -1359,7 +1386,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({EditInitialValues,EditProd
                                     item.public_id,
                                     String(e.target.value),
                                     setImagesUrl,
-                                    
+
                                   )
                                 }
                               />

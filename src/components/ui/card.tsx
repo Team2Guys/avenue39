@@ -11,7 +11,7 @@ import { CartItem } from '@cartSlice/types';
 import { openDrawer } from '@/redux/slices/drawer';
 import ProductDetail from '../product-detail/product-detail';
 import { cn } from '@/lib/utils';
-import { calculateRatingsPercentage, generateSlug, renderStars, variationName } from '@/config';
+import { calculateRatingsPercentage, generateSlug, getProductStock, renderStars, variationName } from '@/config';
 import { ChangeUrlHandler } from '@/config/fetch';
 import CardSkeleton from '../cardSkelton';
 import 'swiper/css/pagination';
@@ -70,6 +70,7 @@ const Card: React.FC<CardProps> = ({
   const [averageRating, setaverageRating] = useState<any>()
   const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
   const [isOutStock, setIsOutStock] = useState<boolean>(false)
+  const [totalStock, setTotalStock] = useState<number>(0);
   const [productPrice, setProductPrice] = useState<number>()
   const [productDiscountPrice, setProductDiscountPrice] = useState<number>()
   const [displayName, setDisplayName] = useState<string>();
@@ -86,6 +87,14 @@ const Card: React.FC<CardProps> = ({
     selectedfilter: card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)
       ?? ((isHomepage || slider) ? card?.filter?.[0]?.additionalInformation?.[0] : undefined),
   };
+
+
+  useEffect(() => {
+    if (!itemToAdd) return;
+    const findStock = getProductStock({ product: itemToAdd });
+    setIsOutStock(findStock > 0 ? false : true)
+    setTotalStock(findStock)
+  }, [itemToAdd]);
 
   useEffect(() => {
     const price =
@@ -122,33 +131,11 @@ const Card: React.FC<CardProps> = ({
       dispatch(openDrawer());
       return
     }
-    let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum: any, value: any) => {
-      if (value.stock) {
-        return accum += Number(value.stock)
-      }
-      return 0;
-    }, 0)
-    let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
-      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-        if (value.stock) {
-          return accum + Number(value.stock);
-        }
-        return accum;
-      }, 0);
-      return parentAccume + countedStock;
-    }, 0);
-
-    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
 
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + 1;
-    const variationQuantity = totalStock
     if (newQuantity > totalStock) {
       toast.error(`Only ${card?.stock} items are in stock. You cannot add more than that.`);
-      return;
-    } else if (newQuantity > variationQuantity) {
-      toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
       return;
     }
     dispatch(addItem(itemToAdd));
@@ -175,31 +162,8 @@ const Card: React.FC<CardProps> = ({
       console.log('Added to wishlist:', itemToAdd);
       toast.success('Product added to Wishlist successfully!');
     } else {
-      const variationQuantity = existingWishlistItem.selectedSize?.stock || existingWishlistItem.selectedfilter?.stock || existingWishlistItem.stock;
       const addedQuantity = existingWishlistItem.quantity + 1;
-      let sizesStock = itemToAdd && itemToAdd.sizes?.reduce((accum: any, value: any) => {
-        if (value.stock) {
-          return accum += Number(value.stock)
-        }
-        return 0;
-      }, 0)
-      let colorsStock = itemToAdd && itemToAdd.filter?.reduce((parentAccume: number, parentvalue: any) => {
-        const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-          if (value.stock) {
-            return accum + Number(value.stock);
-          }
-          return accum;
-        }, 0);
-        return parentAccume + countedStock;
-      }, 0);
-
-      const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : itemToAdd?.stock || 0;
-      console.log('Item already exists in wishlist:', variationQuantity, addedQuantity, 1, existingWishlistItem, card?.sizeName);
-      if (addedQuantity > variationQuantity) {
-        toast.error(`Only ${variationQuantity} items are in stock for selected variation. You cannot add more than that in Cart.`);
-        return;
-      } else if (addedQuantity > totalStock) {
+      if (addedQuantity > totalStock) {
         toast.error(`Only ${existingWishlistItem.stock} items are in stock. You cannot add more than that.`);
         return;
       }
@@ -225,30 +189,6 @@ const Card: React.FC<CardProps> = ({
     if (card?.reviews) {
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
       setaverageRating(averageRating)
-    }
-
-    let sizesStock = card.sizes?.reduce((accum, value: any) => {
-      if (value.stock) {
-        return accum += Number(value.stock)
-      }
-      return 0;
-    }, 0)
-    let colorsStock = card.filter?.reduce((parentAccume: number, parentvalue: any) => {
-      const countedStock = parentvalue.additionalInformation.reduce((accum: number, value: any) => {
-
-        if (value.stock) {
-          return accum + Number(value.stock);
-        }
-        return accum;
-      }, 0);
-      return parentAccume + countedStock;
-    }, 0);
-
-    const totalStock = sizesStock && sizesStock > 0 ? sizesStock : colorsStock && colorsStock > 0 ? colorsStock : card.stock;
-
-    if (!(totalStock > 0)) {
-
-      setIsOutStock(true)
     }
   }
 

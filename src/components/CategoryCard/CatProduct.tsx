@@ -77,7 +77,7 @@ const CatProduct = ({
               className={`col-span-12 md:col-span-6 xl:col-span-5 ${reverse ? 'order-2' : 'order-1'}`}
             >
               {products.length < 5 && (
-                <ProductSkeleton imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[834.46px]" />
+                <ProductSkeleton imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[860px]" />
               )}
               <ProductGrid
                 products={products.slice(5, 7)}
@@ -87,7 +87,7 @@ const CatProduct = ({
                 isLandscape={false}
                 portSpace={portSpace}
                 redirect={redirect}
-                imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[834.46px]"
+                imageHeight="h-[300px] xs:h-[580px] lg:h-[600px] xl:h-[860px]"
               />
             </div>
             <div

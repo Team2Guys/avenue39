@@ -2,7 +2,7 @@
 import React from 'react';
 import { IProduct } from '@/types/types';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import Card from '../ui/card';
 
 
@@ -29,7 +29,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   portSpace,
   isLandscape,
   redirect,
-  sliderNumber
+  // sliderNumber
 }) => {
   return (
     <>
@@ -59,11 +59,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           }}
           slidesPerView={1}
           loop={true}
-          modules={[Autoplay ,Pagination]}
-          autoplay={{
-            delay: sliderNumber === 1 ? 2700 : 2050,
-            disableOnInteraction: false,
-          }}
+          modules={[Pagination]}
           speed={1500}
         >
           {products.map((product) => (

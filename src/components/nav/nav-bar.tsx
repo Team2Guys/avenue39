@@ -204,7 +204,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 value={searchText}
                 onChange={handleInputChange}
                 onClick={() => setIsProductListOpen(true)}
-                className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-12 z-[199] border-[#afa183] border-opacity-30 font-extralight"
+                className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-12 z-[199] border-black border-opacity-30 font-extralight"
                 placeholder="Search Here..."
               />
               <button
@@ -212,7 +212,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 className="absolute inset-y-0 left-0 flex items-center z-20 pl-4 cursor-pointer"
               >
                 <IoSearchOutline
-                  className="cursor-pointer font-extralight text-[#A6A6A6]"
+                  className="cursor-pointer font-extralight text-black"
                   size={18}
                 />
               </button>

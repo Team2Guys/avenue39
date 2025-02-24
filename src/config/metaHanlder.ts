@@ -6,13 +6,13 @@ import { notFound } from 'next/navigation'
 export const Meta_handler = async (categoryName: string, url: string) => {
   const categories = await fetchCategories();
 
-  const findCategory =categories && categories?.find((item: any) => generateSlug(item.custom_url || item.name) === categoryName);
+  const findCategory = categories && categories?.find((item: any) => generateSlug(item.custom_url || item.name) === categoryName);
   if (!findCategory) {
     notFound()
   }
-  let fullurl = `${url}${findCategory?.custom_url||  findCategory.name}`;
+  let fullurl = `${url}${findCategory?.custom_url || generateSlug(findCategory.name)}`;
 
-  let images = findCategory.hoverImageUrl || 'images';
+  let images = findCategory.posterImageUrl || 'images';
   let alttext = findCategory.Images_Alt_Text || 'Alternative Text';
   let NewImage = [
     {
@@ -21,6 +21,7 @@ export const Meta_handler = async (categoryName: string, url: string) => {
     },
   ];
 
+  console.log()
   let title = findCategory?.meta_title || 'Avenue39';
   let description =
     findCategory?.meta_description || 'Welcome to blindsandcurtains';
@@ -35,6 +36,14 @@ export const Meta_handler = async (categoryName: string, url: string) => {
       url: fullurl,
       images: NewImage,
     },
+    twitter: {
+      card: title,
+      description: description,
+      url: fullurl,
+      images: NewImage,
+
+    },
+
     alternates: {
       canonical: canonical || fullurl,
     },
@@ -59,7 +68,7 @@ export const productsFindHandler = async (
     notFound()
   }
 
-  let fullurl = `${url}${slug[0]}/${slug[1]}/${generateSlug(findProduct?.name)}`;
+  let fullurl = `${url}${slug[0]}/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
 
   console.log(fullurl, "urls")
   let images = findProduct.posterImageUrl || 'images';
@@ -75,14 +84,23 @@ export const productsFindHandler = async (
   let description = findProduct?.Meta_Description || 'Welcome to Avenue39';
   let canonical = findProduct?.Canonical_Tag;
   return {
+    metadataBase: new URL(url),
     title: title,
     description: description,
     openGraph: {
-      title: title,
+      title: fullurl,
       description: description,
       url: fullurl,
       images: NewImage,
     },
+    twitter: {
+      card: title,
+      description: description,
+      url: fullurl,
+      images: NewImage,
+
+    },
+
     alternates: {
       canonical: canonical || fullurl,
     },
@@ -94,7 +112,7 @@ export const subCategory = async (slug: string[], url: string) => {
   let category = slug[0];
   const subCategories = await fetchSubCategories();
   const SubCategoriesFinder = re_Calling_products.find((value) =>
-      generateSlug(value.mainCategory).trim().toLocaleLowerCase() ===category && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
+    generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
   );
 
   if (SubCategoriesFinder) {
@@ -106,7 +124,7 @@ export const subCategory = async (slug: string[], url: string) => {
   const findSubCategory: any = subCategories?.find((item: any) => {
     const isNameMatch = generateSlug(item.custom_url || item.name) === subcategoryName;
     const belongsToCategory = item.categories.some((value: any) =>
-        generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === category,
+      generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === category,
     );
     return isNameMatch && belongsToCategory;
   });
@@ -116,7 +134,7 @@ export const subCategory = async (slug: string[], url: string) => {
   }
   let fullurl = url;
 
-  let images = findSubCategory.hoverImageUrl || 'images';
+  let images = findSubCategory.posterImageUrl || 'images';
   let alttext = findSubCategory.Images_Alt_Text || 'Alternative Text';
   let NewImage = [
     {
@@ -131,6 +149,7 @@ export const subCategory = async (slug: string[], url: string) => {
   let canonical = findSubCategory?.canonical_tag;
 
   return {
+
     title: title,
     description: description,
     openGraph: {
@@ -139,6 +158,14 @@ export const subCategory = async (slug: string[], url: string) => {
       url: fullurl,
       images: NewImage,
     },
+    twitter: {
+      card: title,
+      description: description,
+      url: fullurl,
+      images: NewImage,
+
+    },
+
     alternates: {
       canonical: canonical || fullurl,
     },

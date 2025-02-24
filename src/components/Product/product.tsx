@@ -37,7 +37,7 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
                 <p className="text-black text-17 font-normal leading-7">
                   {item.name}
                 </p>
-                <p className="text-slate-400 text-17 font-normal leading-7">
+                <p className="text-black text-17 font-normal leading-7">
                   {item.detail}
                 </p>
               </div>
@@ -77,12 +77,12 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
       label: 'Description',
       content: (
         <div className=" flex flex-col md:flex-row gap-6 md:gap-10 border shadow-sm rounded-2xl   font-helvetica mt-2 ">
-          <p className="text-slate-400 text-14 md:text-17 font-normal leading-7 w-full p-2">
-            <Skeleton className="text-slate-400 text-17 font-normal leading-7 font-helvetica" />
+          <p className=" text-14 md:text-17 font-normal leading-7 w-full p-2">
+            <Skeleton className=" text-17 font-normal leading-7 font-helvetica" />
             {product?.description ? (
-              <span className="font-helvetica">{product.description}</span>
+              <span className="font-helvetica text-black">{product.description}</span>
             ) : (
-              <Skeleton className="text-slate-400 text-17 font-normal leading-7" />
+              <Skeleton className=" text-17 font-normal leading-7" />
             )}
           </p>
           {product?.spacification && product?.spacification.length > 0 && (
@@ -90,7 +90,7 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
               <h5 className="px-0 md:ps-12 font-bold text-15 uppercase">
                 specification
               </h5>
-              <ul className="list-disc text-slate-400 text-14 px-4 md:ps-16 mt-4 font-Helveticalight">
+              <ul className="list-disc  text-14 px-4 md:ps-16 mt-4 font-Helveticalight">
                 {product?.spacification?.map(({ specsDetails }, index) => (
                   <li key={index}>{specsDetails}</li>
                 ))}
@@ -169,15 +169,15 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
           <DetailTabs tabs={filteredTabs} />
         </div>
       )}
-      <Container className="w-full relative mt-10">
-        <FeatureSlider similarProducts={products?.slice(0, 15) || []} title={true} isBestSeller={true} />
-      </Container>
-      <div className="mt-10 pt-10 mb-10 border-t-2">
+      <Services />
+      <div className="pt-10 ">
         <Container>
           <FeatureSlider similarProducts={similarProducts} title={true} />
         </Container>
       </div>
-      <Services />
+      <Container className="w-full relative mt-10 pt-10  border-t-2 mb-10">
+        <FeatureSlider similarProducts={products?.slice(0, 15) || []} title={true} isBestSeller={true} />
+      </Container>
     </div>
   );
 };

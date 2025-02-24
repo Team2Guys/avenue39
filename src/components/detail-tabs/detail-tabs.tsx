@@ -23,8 +23,8 @@ const DetailTabs: FC<DetailTabsProps> = ({ tabs }) => {
               key={index}
               className={`focus:outline-none whitespace-nowrap text-16 xs:text-lg font-helvetica ${
                 activeTab === index
-                  ? 'text-slate-400 rounded-t-md relative font-medium'
-                  : 'text-slate-400'
+                  ? 'text-black rounded-t-md relative font-medium'
+                  : 'text-black'
               }`}
               onClick={() => setActiveTab(index)}
             >

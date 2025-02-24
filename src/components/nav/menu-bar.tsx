@@ -15,9 +15,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const [hoveringMenu, setHoveringMenu] = useState<boolean>(false);
   const [isActiveMenu, setisActiveMenu] = useState<string | null>(null);
-  const userDetails = useSelector(
-    (state: State) => state.usrSlice.loggedInUser,
-  );
+  const userDetails = useSelector((state: State) => state.usrSlice.loggedInUser,);
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();

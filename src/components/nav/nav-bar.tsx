@@ -106,7 +106,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
     return (
       product.name.toLowerCase().includes(searchTerm) ||
-      product.description.toLowerCase().includes(searchTerm) ||
+      // product.description.toLowerCase().includes(searchTerm) ||
       product.price.toString().includes(searchTerm) ||
       product.discountPrice.toString().includes(searchTerm) ||
       product.colorName?.toLowerCase().includes(searchTerm) ||

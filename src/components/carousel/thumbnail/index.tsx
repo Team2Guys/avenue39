@@ -31,6 +31,7 @@ interface ThumbProps {
   swiperGap?: String;
   isLoading: boolean;
   activeIndex?: Number;
+  altText?: string;
 }
 
 const Thumbnail: React.FC<ThumbProps> = ({
@@ -45,9 +46,10 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const nextRef = useRef<HTMLDivElement>(null);
   const swiperImageRef = useRef<SwiperType | null>(null);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-  // const [imageZome, setImageZome] = useState<number>(1.5);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const preloadImages = (images: string[]) => {
     return Promise.all(
       images.map((src) => {
@@ -60,6 +62,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
       }),
     );
   };
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -67,15 +70,19 @@ const Thumbnail: React.FC<ThumbProps> = ({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
   useEffect(() => {
     if (windowWidth < 895) {
-      setIsMobile(true)
+      setIsMobile(true);
     } else {
-      setIsMobile(false)
+      setIsMobile(false);
     }
-  }, [windowWidth])
+  }, [windowWidth]);
+
   useEffect(() => {
-    handleSlideChange(Number(activeIndex));
+    const index = activeIndex !== undefined ? Number(activeIndex) : 0;
+    setCurrentSlide(index);
+    handleSlideChange(index);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -105,42 +112,63 @@ const Thumbnail: React.FC<ThumbProps> = ({
             isZoom={isZoom}
             onSlideChange={handleSlideChange}
           />
-          <div
-            className={`w-full md:w-9/12 2xl:w-4/5 md:flex-grow relative border-2 border-gray-100 shadow rounded-lg md:!max-h-[640px]`}
-          >
-            {isLoading ? (
-              <Skeleton className="h-[90px] w-full" />
-            ) : (
-              <Swiper
-                loop={false}
-                spaceBetween={10}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="h-full swiper-container product-img"
-                navigation={{
-                  prevEl: prevRef.current,
-                  nextEl: nextRef.current,
-                }}
-                onSwiper={(swiper) => {
-                  swiperImageRef.current = swiper;
-                }}
-              >
-                {thumbs.map((thumb, index) => (
-                  <SwiperSlide key={index}>
-                    {isMobile ?
-                      <ImageZoomDialog imageUrl={thumb.imageUrl} allImage={thumbs} />
-                      : <SideBySideMagnifier
-                        imageSrc={thumb.imageUrl}
-                        largeImageSrc={thumb.imageUrl}
-                        altText={altText || 'Main Image'}
-                        zoomScale={1.5}
-                        inPlace={true}
-                        alignTop={true}
-                      />}
+          <div className='flex flex-col w-full md:w-9/12 2xl:w-4/5'>
 
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            )}
+
+            <div
+              className={`w-full md:w-9/12 2xl:w-4/5 md:flex-grow relative border-2 border-gray-100 shadow rounded-lg md:!max-h-[640px]`}
+            >
+              {isLoading ? (
+                <Skeleton className="h-[90px] w-full" />
+              ) : (
+                <>
+                  <Swiper
+                    loop={false}
+                    spaceBetween={10}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="h-full swiper-container product-img"
+                    navigation={{
+                      prevEl: prevRef.current,
+                      nextEl: nextRef.current,
+                    }}
+                    onSwiper={(swiper) => {
+                      swiperImageRef.current = swiper;
+                    }}
+                    onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
+                  >
+                    {thumbs.map((thumb, index) => (
+                      <SwiperSlide key={index}>
+                        {isMobile ? (
+                          <ImageZoomDialog imageUrl={thumb.imageUrl} allImage={thumbs} />
+                        ) : (
+                          <SideBySideMagnifier
+                            imageSrc={thumb.imageUrl}
+                            largeImageSrc={thumb.imageUrl}
+                            altText={altText || 'Main Image'}
+                            zoomScale={1.5}
+                            inPlace={true}
+                            alignTop={true}
+                          />
+                        )}
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+
+                </>
+              )}
+            </div>
+            <div className="flex mt-4 w-full md:w-9/12 2xl:w-4/5 justify-center">
+              {thumbs.map((_, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleSlideChange(index)}
+                  className={`w-2 h-2 rounded-full mx-1 cursor-pointer ${currentSlide === index
+                    ? 'bg-gray-800'
+                    : 'bg-gray-300'
+                    }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

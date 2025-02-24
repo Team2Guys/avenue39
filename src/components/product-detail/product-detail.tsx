@@ -193,7 +193,7 @@ const ProductDetail = ({
         Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
     } else if (slugParams.filter && !slugParams.size) {
-      
+
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       setAvailableFilters(additionalInfo);
       const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.filter);

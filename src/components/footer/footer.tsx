@@ -3,7 +3,6 @@ import Container from '../ui/Container';
 import Image from 'next/image';
 import logo from '@icons/logo.png';
 import { Button } from '../ui/button';
-import SocialLink from '../social-link';
 import Link from 'next/link';
 import axios from 'axios';
 import showToast from '../Toaster/Toaster';
@@ -11,6 +10,8 @@ import { menuData } from '@/data/menu';
 import { generateSlug } from '@/config';
 import { MdOutlineEmail, MdOutlinePhone, MdOutlineWhatsapp } from 'react-icons/md';
 import { WhatsAppInfo } from '@/data/data';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import SocialLink from '../social-link';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -95,7 +96,7 @@ const Footer: React.FC = () => {
           <h5 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Rooms
           </h5>
-          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 capitalize text-[#686868]">
+          <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15 mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
                 ['dining', 'living', 'bedroom', 'homeOffice'].includes(menu),
@@ -108,7 +109,7 @@ const Footer: React.FC = () => {
                         ? '/sale'
                         : `/${generateSlug(menu === 'homeOffice' ? 'office-furniture' : menu || '')}`
                     }
-                    className="hover:underline capitalize"
+                    className="hover:underline  hover:font-semibold  capitalize"
                   >
                     {menu === 'SALE' ? (
                       <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-helvetica text-13 lg:text-15 capitalize">
@@ -139,7 +140,7 @@ const Footer: React.FC = () => {
                         ? '/products'
                         : `/${generateSlug(menu || '')}`
                     }
-                    className="hover:underline capitalize"
+                    className="hover:underline  hover:font-semibold  capitalize"
                   >
                     {menu === 'SALE' ? (
                       <p className="text leading-8 text-red-500 dark:text-red-500 tracking-wide font-helvetica text-13 lg:text-15 capitalize">
@@ -159,22 +160,22 @@ const Footer: React.FC = () => {
           </h5>
           <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 text-[#686868]">
             <li>
-              <Link href="/terms-and-conditions" className="hover:underline">
+              <Link href="/terms-and-conditions" className="hover:underline  hover:font-semibold">
                 Terms & Conditions
               </Link>
             </li>
             <li>
-              <Link href="/shipping-policy" className="hover:underline">
+              <Link href="/shipping-policy" className="hover:underline  hover:font-semibold">
                 Shipping Policy
               </Link>
             </li>
             <li>
-              <Link href="/privacy-policy" className="hover:underline">
+              <Link href="/privacy-policy" className="hover:underline  hover:font-semibold">
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link href="/return-policy" className="hover:underline">
+              <Link href="/return-policy" className="hover:underline  hover:font-semibold">
                 Return Policy
               </Link>
             </li>
@@ -187,17 +188,17 @@ const Footer: React.FC = () => {
           </h5>
           <ul className="leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15 mt-6 capitalize text-[#686868]">
             <li>
-              <Link href="/profile" target="_self" className="hover:underline">
+              <Link href="/profile" target="_self" className="hover:underline  hover:font-semibold ">
                 My Account
               </Link>
             </li>
             <li>
-              <Link href="/about-us" target="_self" className="hover:underline">
+              <Link href="/about-us" target="_self" className="hover:underline  hover:font-semibold ">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/contact-us" target="_self" className="hover:underline">
+              <Link href="/contact-us" target="_self" className="hover:underline  hover:font-semibold ">
                 Contact Us
               </Link>
             </li>
@@ -205,7 +206,7 @@ const Footer: React.FC = () => {
               <Link
                 href="/order-history"
                 target="_self"
-                className="hover:underline"
+                className="hover:underline hover:font-semibold "
               >
                 Order History
               </Link>
@@ -221,7 +222,7 @@ const Footer: React.FC = () => {
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
               <div className=" w-full rounded-sm">
                 <div className="flex items-center gap-2 py-2 ">
-                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2">
+                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex items-center gap-2  hover:font-semibold ">
                     <MdOutlinePhone size={23} />
                     {WhatsAppInfo.number}
                   </p>
@@ -229,13 +230,13 @@ const Footer: React.FC = () => {
               </div>
             </Link>
           </div>
-
+          
           <div className="xs:w-full max-w-56  text-[#686868]">
             <Link href={`https://wa.me/${WhatsAppInfo.number.replaceAll(' ', '')}`} target="_blank" rel="noreferrer">
               <div className=" w-full  rounded-sm">
                 <div className="flex items-center gap-2 py-2">
                   <MdOutlineWhatsapp size={23} />
-                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex justify-between items-center gap-2">
+                  <p className="text-left text-13 lg:text-15 font-extralight leading-normal flex justify-between items-center gap-2  hover:font-semibold ">
 
 
                     {WhatsAppInfo.number}
@@ -248,7 +249,7 @@ const Footer: React.FC = () => {
           <div className="mt-2  text-[#686868]">
             <div className="xs:w-full max-w-56 rounded-sm ">
               <Link
-                className='flex gap-2 items-center'
+                className='flex gap-2 items-center hover:font-semibold'
                 href="mailto:cs@avenue39.com"
                 rel="noreferrer"
                 target="_blank"
@@ -259,17 +260,31 @@ const Footer: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="pt-5 text-black text-center w-fit mx-auto">
-            <SocialLink socialSize="md:text-[25px]" iconColor={'text-black'} />
+          <div className="mt-2 xs:w-full flex max-w-56  text-[#686868]">
+            <div className="xs:w-full max-w-56 rounded-sm ">
+              <Link
+                className='flex gap-2  text-14 hover:font-semibold'
+                href="https://maps.app.goo.gl/v5g7KWR9C3RQL8vh7"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <FaMapMarkerAlt size={22} />
+                23 22nd St - Al Quoz <br/> Industrial Area 4 <br/> - Dubai
+              </Link>
+            </div>
           </div>
+
           </div>
         </div>
       </Container>
       <div className="bg-main mb-7 md:mb-0 mt-10 py-3 px-4">
-        <Container className="flex flex-wrap justify-center sm:justify-between items-center gap-x-8 gap-y-4 pb-10 md:pb-0 ">
+        <Container className="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between items-center gap-x-8 gap-y-4 pb-10 md:pb-0 ">
           <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticaligh">
             Copyright © 2025 avenue39 All rights reserved.
           </p>
+          <div className=" text-black text-center w-fit mx-auto">
+            <SocialLink socialSize="md:text-[25px]" iconColor={'text-white'} />
+          </div>
         </Container>
       </div>
     </section>

@@ -90,7 +90,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     }
   }, [loggedInUser]);
 
-  const products = variationProducts({ products: productsData || []});
+  const products = variationProducts({ products: productsData || [] });
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
@@ -112,7 +112,17 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
       product.colorName?.toLowerCase().includes(searchTerm) ||
       product.sizeName?.toLowerCase().includes(searchTerm)
     );
-  });
+  }).sort((a: IProduct, b: IProduct) => {
+    const searchTerm = searchText.trim().toLowerCase();
+
+    const aStartsWith = a.name.toLowerCase().startsWith(searchTerm) ? -1 : 1;
+    const bStartsWith = b.name.toLowerCase().startsWith(searchTerm) ? -1 : 1;
+
+    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+
+    return aStartsWith - bStartsWith || dateB - dateA;
+  }) || [];
 
   useEffect(() => {
     if (drawerInputRef.current) {
@@ -125,7 +135,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
       }, 50);
     }
   }, []);
-  
+
 
   const logoutHhandler = () => {
     try {
@@ -162,16 +172,16 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   const productUrl = (product: CartItem) => {
     const baseUrl = ChangeUrlHandler(product);
-  
+
     let filterParams = '';
     if (product.colorName) {
       filterParams += `?filter=${generateSlug(product.colorName)}`;
     }
-  
+
     if (product.sizeName) {
       filterParams += `${filterParams ? '&' : '?'}size=${generateSlug(product.sizeName)}`;
     }
-   return `${baseUrl}${filterParams}`;
+    return `${baseUrl}${filterParams}`;
   }
 
   return (
@@ -192,7 +202,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             </Link>
           </div>
         </div>
-        <div className="w-full hidden sm:block max-w-[45%] lg:max-w-[58%] xl:max-w-[43%] 2xl:max-w-[40%] 2xl:mr-[40px]">
+        <div className="w-full hidden sm:block max-w-[45%] lg:max-w-[58%] xl:max-w-[43%] 2xl:max-w-[40%] xl:mr-[100px] 2xl:mr-[40px]">
           <div className="bg-whtie">
             <form
               className="relative w-full sm:block hidden bg-white z-[1099]"
@@ -204,7 +214,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 value={searchText}
                 onChange={handleInputChange}
                 onClick={() => setIsProductListOpen(true)}
-                className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-12 z-[199] border-[#afa183] border-opacity-30 font-extralight"
+                className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-12 z-[199] border-black border-opacity-30 font-extralight"
                 placeholder="Search Here..."
               />
               <button
@@ -212,7 +222,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 className="absolute inset-y-0 left-0 flex items-center z-20 pl-4 cursor-pointer"
               >
                 <IoSearchOutline
-                  className="cursor-pointer font-extralight text-[#A6A6A6]"
+                  className="cursor-pointer font-extralight text-black"
                   size={18}
                 />
               </button>
@@ -396,19 +406,19 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                     {(product.discountPrice && product.discountPrice > 0) ?
 
                                       <p className="text-11 xs:text-[12px] text-primary-foreground font-bold line-through">
-                                      AED {product.price}
+                                        AED {product.price}
                                       </p> : ''
                                     }
 
                                   </div>
                                   {(product.colorName || product.sizeName) &&
-                                <div className='flex items-center justify-center gap-3 flex-wrap'>
-                                  <div className='flex items-center gap-1 text-13'>
-                                    <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
-                                    <span className='capitalize'>{product.colorName}</span>
-                                  </div>
-                                  <span className='text-13'>{product.sizeName}</span>
-                                </div>}
+                                    <div className='flex items-center justify-center gap-3 flex-wrap'>
+                                      <div className='flex items-center gap-1 text-13'>
+                                        <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                                        <span className='capitalize'>{product.colorName}</span>
+                                      </div>
+                                      <span className='text-13'>{product.sizeName}</span>
+                                    </div>}
                                   <div>
                                     <RenderStars card={product} />
                                   </div>

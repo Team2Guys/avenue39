@@ -127,7 +127,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
                 {thumbs.map((thumb, index) => (
                   <SwiperSlide key={index}>
                     {isMobile ?
-                      <ImageZoomDialog imageUrl={thumb.imageUrl} />
+                      <ImageZoomDialog imageUrl={thumb.imageUrl} allImage={thumbs} />
                       : <SideBySideMagnifier
                         imageSrc={thumb.imageUrl}
                         largeImageSrc={thumb.imageUrl}

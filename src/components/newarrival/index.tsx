@@ -4,7 +4,7 @@ import Container from '../ui/Container';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { SaleBannerData } from '@/data/data';
@@ -13,14 +13,10 @@ const NewArrival = () => {
   return (
     <section className="bg-lightbackground mt-6 mb-8 rounded-2xl">
       <Swiper
-        modules={[Autoplay, Pagination]}
+        modules={[Pagination]}
         pagination={{ clickable: true }}
         spaceBetween={30}
         slidesPerView={1}
-        autoplay={{
-          delay: 3500,
-          disableOnInteraction: false,
-        }}
         speed={1500}
         loop={false}
 

@@ -11,6 +11,7 @@ import {
   Navigation,
   Thumbs,
   Swiper as SwiperType,
+  Pagination,
 } from 'swiper/modules';
 import { Skeleton } from '@/components/ui/skeleton';
 import SideBySideMagnifier from '../SideBySideMagnifier';
@@ -95,10 +96,9 @@ const Thumbnail: React.FC<ThumbProps> = ({
   }
 
   return (
-    <div>
-      <div className="relative w-full">
+      <div className="relative w-full pt-8">
         <div
-          className={`w-full flex flex-col-reverse md:flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-5 overflow-hidden relative ${swiperGap}`}
+          className={`w-full flex flex-col-reverse md:flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-5 ${swiperGap}`}
         >
           <CustomThumbnailSlickSlider
             thumbs={thumbs}
@@ -106,26 +106,33 @@ const Thumbnail: React.FC<ThumbProps> = ({
             onSlideChange={handleSlideChange}
           />
           <div
-            className={`w-full md:w-9/12 2xl:w-4/5 md:flex-grow relative border-2 border-gray-100 shadow rounded-lg md:!max-h-[640px]`}
+            className={`w-full md:w-9/12 2xl:w-4/5 md:flex-grow relative`}
           >
             {isLoading ? (
               <Skeleton className="h-[90px] w-full" />
             ) : (
+              <>
               <Swiper
                 loop={false}
                 spaceBetween={10}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="h-full swiper-container product-img"
+                modules={[FreeMode, Navigation, Thumbs, Pagination]}
+                className="h-full swiper-container product-img mb-8 md:mb-0"
                 navigation={{
                   prevEl: prevRef.current,
                   nextEl: nextRef.current,
+                }}
+                pagination={{
+                  el: '.custom-swiper-pagination', 
+                  type: 'bullets',  
+                  clickable: true,  
+                  dynamicBullets: true, 
                 }}
                 onSwiper={(swiper) => {
                   swiperImageRef.current = swiper;
                 }}
               >
                 {thumbs.map((thumb, index) => (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide key={index} className='border-2 border-gray-100 shadow rounded-lg md:max-h-[640px]'>
                     {isMobile ?
                       <ImageZoomDialog imageUrl={thumb.imageUrl} allImage={thumbs} />
                       : <SideBySideMagnifier
@@ -140,11 +147,12 @@ const Thumbnail: React.FC<ThumbProps> = ({
                   </SwiperSlide>
                 ))}
               </Swiper>
+              <div className="custom-swiper-pagination"></div>
+              </>
             )}
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

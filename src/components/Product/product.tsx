@@ -140,7 +140,7 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
         subCategorName={subslug}
         productName={product?.name}
       />
-      <Container>
+      <Container className='overflow-hidden'>
         {!product ? (
           <NoProduct
             cardHeight="2xl:h-[488px]"

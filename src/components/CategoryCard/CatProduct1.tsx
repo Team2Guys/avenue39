@@ -11,6 +11,7 @@ interface ICatProduct {
   products: IProduct[];
   redirect: string;
   CategoryDescription?: string;
+  accessoriesSlider?: boolean
 }
 
 const CatProduct1 = ({
@@ -19,6 +20,7 @@ const CatProduct1 = ({
   products,
   redirect,
   CategoryDescription,
+  accessoriesSlider
 }: ICatProduct) => {
   const productImages = homeProducts.find((item) => item.name === redirect);
   return (
@@ -80,7 +82,7 @@ const CatProduct1 = ({
             </div>
           </div>
           <div
-            className={`grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8`}
+            className={`grid ${accessoriesSlider && products.length > 0 ? 'grid-cols-1' : 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8'}`}
           >
             {products.length < 1 &&
               Array(5)
@@ -92,11 +94,13 @@ const CatProduct1 = ({
                   />
                 ))}
             <ProductGrid
-              products={products.slice(0, 5)}
+              products={accessoriesSlider ? products : products.slice(0, 5)}
               productImages={productImages?.products || []}
               isHomepage={true}
               redirect={redirect}
               imageHeight="h-[270px] xl:h-[290px]"
+              accessoriesSlider={accessoriesSlider}
+              slider={redirect === 'accessories' ? true : false}
             />
           </div>
         </div>

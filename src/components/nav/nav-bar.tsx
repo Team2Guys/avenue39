@@ -202,7 +202,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             </Link>
           </div>
         </div>
-        <div className="w-full hidden sm:block max-w-[45%] lg:max-w-[58%] xl:max-w-[43%] 2xl:max-w-[40%] 2xl:mr-[40px]">
+        <div className="w-full hidden sm:block max-w-[45%] lg:max-w-[58%] xl:max-w-[43%] 2xl:max-w-[40%] xl:mr-[100px] 2xl:mr-[40px]">
           <div className="bg-whtie">
             <form
               className="relative w-full sm:block hidden bg-white z-[1099]"

@@ -32,7 +32,12 @@ import { CartItem, CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
-import { calculateRatingsPercentage, generateSlug, getProductStock, renderStars } from '@/config';
+import {
+  calculateRatingsPercentage,
+  generateSlug,
+  getProductStock,
+  renderStars,
+} from '@/config';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
@@ -49,7 +54,7 @@ const ProductDetail = ({
   products,
   filterParam,
   sizeParam,
-  uniqueSizes
+  uniqueSizes,
 }: {
   params: IProduct;
   isZoom?: Boolean;
@@ -58,8 +63,8 @@ const ProductDetail = ({
   detailsWidth?: String;
   products?: IProduct[];
   filterParam?: string;
-  sizeParam?: string
-  uniqueSizes?: any
+  sizeParam?: string;
+  uniqueSizes?: any;
 }) => {
   // const truncateText = (text: any, limit: any) => {
   //   return text.length > limit ? text.slice(0, limit) + '...' : text;
@@ -86,15 +91,22 @@ const ProductDetail = ({
   const [isOutStock, setIsOutStock] = useState<boolean>(false);
   const [totalStock, setTotalStock] = useState<number>(0);
   const [availableFilters, setAvailableFilters] = useState<any[]>([]);
-  const [slugParams, setSlugParams] = useState<{ filter?: string, size?: string }>({ filter: filterParam, size: sizeParam });
+  const [slugParams, setSlugParams] = useState<{
+    filter?: string;
+    size?: string;
+  }>({ filter: filterParam, size: sizeParam });
 
   useEffect(() => {
     if (uniqueSizes) {
       setProductSizes(uniqueSizes);
     }
-  }, [uniqueSizes])
+  }, [uniqueSizes]);
 
-  const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
+  const product = params
+    ? params
+    : products?.find(
+        (product) => (product.custom_url || product?.name) === slug,
+      );
 
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
@@ -108,20 +120,23 @@ const ProductDetail = ({
     }));
   };
 
-
   const handleSizeClick = (index: any, size: CartSize) => {
-    const filteredImages = product?.productImages.find((img) => img.size === size.name);
-    const findFilter = product?.filter?.[0].additionalInformation.find((item) => item.name === filteredImages?.color);
+    const filteredImages = product?.productImages.find(
+      (img) => img.size === size.name,
+    );
+    const findFilter = product?.filter?.[0].additionalInformation.find(
+      (item) => item.name === filteredImages?.color,
+    );
     setFilter(findFilter);
-    setSelectedSize(index)
-    setSize(size)
-    const filterName = generateSlug(findFilter?.name || '')
-    const sizeName = generateSlug(size.name)
+    setSelectedSize(index);
+    setSize(size);
+    const filterName = generateSlug(findFilter?.name || '');
+    const sizeName = generateSlug(size.name);
     setSlugParams(() => ({
       filter: filterName,
       size: sizeName,
     }));
-    console.log(sizeName, filterName, 'filterName')
+    console.log(sizeName, filterName, 'filterName');
   };
 
   useEffect(() => {
@@ -139,19 +154,30 @@ const ProductDetail = ({
     setCustomImages(customProductImage);
 
     if (slugParams.filter && slugParams.size) {
-      const sizeIndex = productSizes?.findIndex((item: Sizes) => generateSlug(item.name) === slugParams.size)
-      const selectedSize: any = sizeIndex !== -1 ? productSizes[sizeIndex] : productSizes[0];
+      const sizeIndex = productSizes?.findIndex(
+        (item: Sizes) => generateSlug(item.name) === slugParams.size,
+      );
+      const selectedSize: any =
+        sizeIndex !== -1 ? productSizes[sizeIndex] : productSizes[0];
       setSize(selectedSize);
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
-      const findFilter = additionalInfo.find((item) => generateSlug(item.name) === slugParams.filter);
+      const findFilter = additionalInfo.find(
+        (item) => generateSlug(item.name) === slugParams.filter,
+      );
       setFilter(findFilter);
-      const filteredImages = product?.productImages.filter((img) => img.size === selectedSize?.name);
-      const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
+      const filteredImages = product?.productImages.filter(
+        (img) => img.size === selectedSize?.name,
+      );
+      const uniqueColors = [
+        ...new Set(filteredImages?.map((img) => img.color)),
+      ];
       const filters = uniqueColors.map((item) => {
         return additionalInfo?.find((filterItem) => filterItem.name === item);
-      })
+      });
       setAvailableFilters(filters);
-      const variationImages = filteredImages.filter((img) => img.color === findFilter?.name)
+      const variationImages = filteredImages.filter(
+        (img) => img.color === findFilter?.name,
+      );
       setProductImage(variationImages);
       if (sizeIndex) {
         setSelectedSize(sizeIndex !== -1 ? sizeIndex : 0);
@@ -161,10 +187,10 @@ const ProductDetail = ({
       const finalPrice = Number(filterPrice) > 0 ? filterPrice : sizePrice;
       setProductPrice(Number(finalPrice));
 
-
       const filterDiscPrice = filter?.discountPrice || 0;
       const sizeDiscPrice = size?.discountPrice || 0;
-      const finalDiscPrice = Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
+      const finalDiscPrice =
+        Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
     } else if (slugParams.filter && !slugParams.size) {
       
@@ -180,58 +206,78 @@ const ProductDetail = ({
       setProductPrice(Number(filterPrice));
       const filterDiscPrice = filter?.discountPrice || 0;
       setProductDiscPrice(Number(filterDiscPrice));
-    }
-    else {
+    } else {
       if (filter === null) {
-        setFilter(product?.filter ? product?.filter?.[0]?.additionalInformation[0] : null)
+        setFilter(
+          product?.filter
+            ? product?.filter?.[0]?.additionalInformation[0]
+            : null,
+        );
       }
-      const additionalInfo = product?.filter ? product?.filter?.[0]?.additionalInformation : [];
-      if ((additionalInfo && additionalInfo.length > 0) && (productSizes.length > 0)) {
-        const activeSize = selectedSize !== null ? productSizes[selectedSize] : null;
+      const additionalInfo = product?.filter
+        ? product?.filter?.[0]?.additionalInformation
+        : [];
+      if (
+        additionalInfo &&
+        additionalInfo.length > 0 &&
+        productSizes.length > 0
+      ) {
+        const activeSize =
+          selectedSize !== null ? productSizes[selectedSize] : null;
         setSize(activeSize);
-        setSelectedSize(selectedSize)
-        const filteredImages = product?.productImages.filter((img) => img.size === activeSize.name);
-        const uniqueColors = [...new Set(filteredImages?.map((img) => img.color))];
+        setSelectedSize(selectedSize);
+        const filteredImages = product?.productImages.filter(
+          (img) => img.size === activeSize.name,
+        );
+        const uniqueColors = [
+          ...new Set(filteredImages?.map((img) => img.color)),
+        ];
         const filters = uniqueColors.map((item) => {
           return additionalInfo?.find((filterItem) => filterItem.name === item);
-        })
+        });
         setAvailableFilters(filters);
-        const variationImages = filteredImages.filter((img) => img.color === filter?.name)
+        const variationImages = filteredImages.filter(
+          (img) => img.color === filter?.name,
+        );
         setProductImage(variationImages);
-
 
         const filterPrice = filter?.price || 0;
         const sizePrice = size?.price || 0;
         const finalPrice = Number(filterPrice) > 0 ? filterPrice : sizePrice;
         setProductPrice(Number(finalPrice));
 
-
         const filterDiscPrice = filter?.discountPrice || 0;
         const sizeDiscPrice = size?.discountPrice || 0;
-        const finalDiscPrice = Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
+        const finalDiscPrice =
+          Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
         setProductDiscPrice(Number(finalDiscPrice));
-
-      } else if ((additionalInfo && additionalInfo.length > 0) && (productSizes.length === 0)) {
-        const uniqueColors = [...new Set(product?.productImages?.map((img) => img.color))];
+      } else if (
+        additionalInfo &&
+        additionalInfo.length > 0 &&
+        productSizes.length === 0
+      ) {
+        const uniqueColors = [
+          ...new Set(product?.productImages?.map((img) => img.color)),
+        ];
         const filters = uniqueColors.map((item) => {
           return additionalInfo?.find((filterItem) => filterItem.name === item);
-        })
+        });
         setAvailableFilters(filters);
-        const variationImages = product?.productImages.filter((img) => img.color === filter?.name)
+        const variationImages = product?.productImages.filter(
+          (img) => img.color === filter?.name,
+        );
         setProductImage(variationImages);
 
         const filterPrice = filter?.price || 0;
         setProductPrice(Number(filterPrice));
         const filterDiscPrice = filter?.discountPrice || 0;
         setProductDiscPrice(Number(filterDiscPrice));
-      }
-      else {
+      } else {
         setAvailableFilters([]);
         setProductImage([]);
       }
     }
   }, [product, size, filter, productSizes]);
-
 
   function formatPrice(price: any) {
     if (!price) return 0;
@@ -300,7 +346,6 @@ const ProductDetail = ({
     }
   };
 
-
   const itemToAdd: CartItem = {
     ...product,
     quantity: count,
@@ -308,52 +353,61 @@ const ProductDetail = ({
     selectedfilter: filter,
   };
 
-
   useEffect(() => {
     if (!itemToAdd) return;
     const findStock = getProductStock({ product: itemToAdd });
-    setIsOutStock(findStock > 0 ? false : true)
-    setTotalStock(findStock)
+    setIsOutStock(findStock > 0 ? false : true);
+    setTotalStock(findStock);
   }, [size, filter]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
-    console.log(existingCartItem, "cartItems",)
+    const existingCartItem = cartItems.find(
+      (item: any) =>
+        item.id === product?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
+    );
+    console.log(existingCartItem, 'cartItems');
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
-      return
+      return;
     }
 
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
     if (newQuantity > totalStock) {
-      toast.error(`Only ${totalStock} items are in stock. You cannot add more than that.`);
+      toast.error(
+        `Only ${totalStock} items are in stock. You cannot add more than that.`,
+      );
       return;
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
   };
 
-
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find((item: any) => item.id === product?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-      item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
-    console.log(existingCartItem, "cartItems")
+    const existingCartItem = cartItems.find(
+      (item: any) =>
+        item.id === product?.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
+    );
+    console.log(existingCartItem, 'cartItems');
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
-      return
+      return;
     }
-
 
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + count;
     if (newQuantity > totalStock) {
-      toast.error(`Only ${totalStock} items are in stock. You cannot add more than that.`);
+      toast.error(
+        `Only ${totalStock} items are in stock. You cannot add more than that.`,
+      );
       return;
     }
     dispatch(addItem(itemToAdd));
@@ -368,10 +422,11 @@ const ProductDetail = ({
       existingWishlist = [];
     }
 
-    const existingWishlistItem = existingWishlist.find((item: any) =>
-      item.id === itemToAdd.id &&
-      item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-      item.selectedfilter?.name === itemToAdd.selectedfilter?.name
+    const existingWishlistItem = existingWishlist.find(
+      (item: any) =>
+        item.id === itemToAdd.id &&
+        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+        item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
     );
 
     if (!existingWishlistItem) {
@@ -381,19 +436,31 @@ const ProductDetail = ({
       window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
-      const variationQuantity = itemToAdd.selectedSize?.stock || itemToAdd.selectedfilter?.stock || itemToAdd.stock;
+      const variationQuantity =
+        itemToAdd.selectedSize?.stock ||
+        itemToAdd.selectedfilter?.stock ||
+        itemToAdd.stock;
       const addedQuantity = existingWishlistItem.quantity + count;
-      console.log('Item already exists in wishlist:', variationQuantity, addedQuantity, size, itemToAdd.selectedSize, existingWishlistItem);
+      console.log(
+        'Item already exists in wishlist:',
+        variationQuantity,
+        addedQuantity,
+        size,
+        itemToAdd.selectedSize,
+        existingWishlistItem,
+      );
       if (addedQuantity > totalStock) {
-        toast.error(`Only ${totalStock} items are in stock. You cannot add more than that.`);
+        toast.error(
+          `Only ${totalStock} items are in stock. You cannot add more than that.`,
+        );
         return;
       }
       existingWishlist = existingWishlist.map((item: any) =>
         item.id === existingWishlistItem.id &&
-          item.selectedSize?.name === existingWishlistItem.selectedSize?.name &&
-          item.selectedfilter?.name === existingWishlistItem.selectedfilter?.name
+        item.selectedSize?.name === existingWishlistItem.selectedSize?.name &&
+        item.selectedfilter?.name === existingWishlistItem.selectedfilter?.name
           ? { ...item, quantity: item.quantity + (count || 1) }
-          : item
+          : item,
       );
 
       localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
@@ -402,8 +469,17 @@ const ProductDetail = ({
       toast.success('Product quantity updated in Wishlist.');
     }
   };
-  return (
 
+  const paymentLabels = ['Today', 'In 1 month', 'In 2 months', 'In 3 months'];
+
+  const installmentAmount =
+    productPrice > 0 || productDiscPrice > 0
+      ? productDiscPrice > 0
+        ? productDiscPrice / 4
+        : productPrice / 4
+      : (product?.discountPrice ? product?.discountPrice : product?.price) / 4;
+
+  return (
     <div
       className={`flex flex-col md:flex-row w-full justify-between font-helvetica overflow-hidden ${gap} my-6 relative`}
     >
@@ -416,12 +492,12 @@ const ProductDetail = ({
           activeIndex={0}
         />
       </div>
-      <div className='hidden 2xl:block 2xl:w-[1%]'></div>
+      <div className="hidden 2xl:block 2xl:w-[1%]"></div>
       <div className={`${detailsWidth} flex flex-col gap-2 pt-2 2xl:w-[39%]`}>
         <div className="flex gap-2">
           {!isOutStock ? (
             <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-helvetica">
-              IN STOCK { }
+              IN STOCK {}
             </div>
           ) : (
             <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
@@ -436,17 +512,17 @@ const ProductDetail = ({
               )}
               % OFF
             </div>
-          ) :
-            (
-              product.discountPrice > 0 && (
-                <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
-                  {Math.round(
-                    ((product.price - product.discountPrice) / product.price) * 100,
-                  )}
-                  % OFF
-                </div>
-              )
-            )}
+          ) : (
+            product.discountPrice > 0 && (
+              <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
+                {Math.round(
+                  ((product.price - product.discountPrice) / product.price) *
+                    100,
+                )}
+                % OFF
+              </div>
+            )
+          )}
           {product.createdAt &&
             (() => {
               const productDate = new Date(product.createdAt);
@@ -460,7 +536,9 @@ const ProductDetail = ({
               ) : null;
             })()}
         </div>
-        <h1 className='font-helvetica text-bold text-[26px] text-primary'>{product?.name}</h1>
+        <h1 className="font-helvetica text-bold text-[26px] text-primary">
+          {product?.name}
+        </h1>
         {averageRating > 1 && (
           <>
             <div className="flex gap-2 items-center font-helvetica">
@@ -474,19 +552,16 @@ const ProductDetail = ({
           </>
         )}
 
-
-
-        {(product?.discountPrice > 0 || productDiscPrice > 0) ? (
+        {product?.discountPrice > 0 || productDiscPrice > 0 ? (
           <ProductPrice className="flex items-center gap-2">
             AED{' '}
             {productDiscPrice > 0
-              ? (productDiscPrice > 1000
+              ? productDiscPrice > 1000
                 ? productDiscPrice.toLocaleString()
-                : formatPrice(productDiscPrice))
-              : (product?.discountPrice > 1000
+                : formatPrice(productDiscPrice)
+              : product?.discountPrice > 1000
                 ? product?.discountPrice.toLocaleString()
-                : product?.discountPrice)}
-
+                : product?.discountPrice}
             <NormalText className="font-normal text-base text-slate-400 line-through">
               AED{' '}
               {productPrice > 0
@@ -511,27 +586,31 @@ const ProductDetail = ({
         <div>
           {uniqueSizes && uniqueSizes.length > 0 && (
             <div className="py-1">
-              <h2 className="font-semibold text-[16px] font-sans capitalize">Size:</h2>
+              <h2 className="font-semibold text-[16px] font-sans capitalize">
+                Size:
+              </h2>
               <div className="flex space-x-4 mt-1">
-                {uniqueSizes.map((size: { name: string, price: string }, index: number) => {
-                  const [sizeName, sizeType] = size?.name.split(' ');
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => handleSizeClick(index, size)}
-                      className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index ? 'border-black shadow-md' : 'hover:shadow-lg'}`}
-                    >
-                      <span className="block text-[#666666] text-[14px] uppercase font-sans">
-                        {sizeName}
-                      </span>
-                      {sizeType && (
-                        <span className="block text-[10px] uppercase font-sans">
-                          {sizeType}
+                {uniqueSizes.map(
+                  (size: { name: string; price: string }, index: number) => {
+                    const [sizeName, sizeType] = size?.name.split(' ');
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => handleSizeClick(index, size)}
+                        className={`cursor-pointer border rounded-lg bg-[#F5F5F5] p-4 flex flex-col items-center justify-center h-[60px] w-[60px] transition ${selectedSize === index ? 'border-black shadow-md' : 'hover:shadow-lg'}`}
+                      >
+                        <span className="block text-[#666666] text-[14px] uppercase font-sans">
+                          {sizeName}
                         </span>
-                      )}
-                    </div>
-                  )
-                })}
+                        {sizeType && (
+                          <span className="block text-[10px] uppercase font-sans">
+                            {sizeType}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  },
+                )}
               </div>
             </div>
           )}
@@ -542,16 +621,12 @@ const ProductDetail = ({
               <div className="py-2">
                 <h2 className="font-semibold text-[16px] font-sans Capitalize">
                   {product?.filter[0]?.heading}{' '}
-                  <span className="capitalize">
-                    {
-                      filter?.name
-                    }
-                  </span>
+                  <span className="capitalize">{filter?.name}</span>
                 </h2>
                 <div className="flex space-x-4 mt-2">
                   {availableFilters.map((item, index: number) => {
                     const image = product.productImages.find(
-                      (img) => img?.color === item?.name
+                      (img) => img?.color === item?.name,
                     );
                     if (!image) return null;
 
@@ -579,7 +654,9 @@ const ProductDetail = ({
         {product.sale_counter &&
           Object.values(timeLeft).some((value) => value > 0) && (
             <>
-              <NormalText className="font-helvetica">Hurry Up! Sale ends in:</NormalText>
+              <NormalText className="font-helvetica">
+                Hurry Up! Sale ends in:
+              </NormalText>
               <div className="flex gap-2 mb-3 mt-2">
                 {Object.entries(timeLeft).map(([label, value], index) => (
                   <div
@@ -593,7 +670,7 @@ const ProductDetail = ({
               </div>
             </>
           )}
-        {(
+        {
           <>
             <div className="flex items-center gap-4 justify-between mb-2">
               <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
@@ -613,36 +690,37 @@ const ProductDetail = ({
                 </button>
               </div>
             </div>
-            {isOutStock ? null :
+            {isOutStock ? null : (
               <Button
                 className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
                 onClick={(e: any) => handleBuyNow(e)}
               >
                 <CiShoppingCart size={20} /> BUY IT NOW
               </Button>
-            }
+            )}
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
               <Button
                 variant={'main'}
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) => isOutStock ? () => { } : handleAddToCard(e)}
+                onClick={(e: any) =>
+                  isOutStock ? () => {} : handleAddToCard(e)
+                }
                 disable={isOutStock}
-
               >
-                {isOutStock ? "Out of Stock" : "Add to cart"}
+                {isOutStock ? 'Out of Stock' : 'Add to cart'}
               </Button>
               <Button
-                variant='outline'
+                variant="outline"
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: React.MouseEvent<HTMLElement>) => handleAddToWishlist(e)}
+                onClick={(e: React.MouseEvent<HTMLElement>) =>
+                  handleAddToWishlist(e)
+                }
               >
                 Add to Wishlist
               </Button>
-
             </div>
-
           </>
-        )}
+        }
 
         <div className="flex items-center justify-center relative mb-2">
           <span className="absolute left-0 w-1/6 border-t border-gray-300"></span>
@@ -658,12 +736,16 @@ const ProductDetail = ({
               tabby
             </span>
             <p className="text-12 font-helvetica">
-              Pay 4 interest-free payments of AED{' '} { }
-              {productPrice > 0 || productDiscPrice > 0 ? productDiscPrice > 0 ? productDiscPrice / 4 : productPrice / 4 : (
-                (product?.discountPrice
-                  ? product?.discountPrice
-                  : product?.price) / 4
-              ).toFixed(1)}{' '}
+              Pay 4 interest-free payments of AED {}
+              {productPrice > 0 || productDiscPrice > 0
+                ? productDiscPrice > 0
+                  ? productDiscPrice / 4
+                  : productPrice / 4
+                : (
+                    (product?.discountPrice
+                      ? product?.discountPrice
+                      : product?.price) / 4
+                  ).toFixed(1)}{' '}
               <Dialog>
                 <DialogTrigger asChild>
                   <span className="text-red-600 underline cursor-pointer">
@@ -700,7 +782,10 @@ const ProductDetail = ({
                       </h3>
                       <ul className="font-medium text-base xs:text-lg md:text-xl mt-8 md:leading-relaxed">
                         {tabbyhowitwork.map((item) => (
-                          <li className="flex items-center gap-2 font-helvetica" key={item.id}>
+                          <li
+                            className="flex items-center gap-2 font-helvetica"
+                            key={item.id}
+                          >
                             <span className="rounded-full bg-lightbackground min-w-10 h-10 flex items-center justify-center">
                               {item.id}
                             </span>
@@ -723,6 +808,18 @@ const ProductDetail = ({
                 </DialogContent>
               </Dialog>
             </p>
+
+            <div className="flex flex-wrap justify-evenly gap-2 mt-2">
+              {paymentLabels.map((label, index) => (
+                <div
+                  key={index}
+                  className="text-black font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
+                >
+                  <p className="text-12">AED {installmentAmount}</p>
+                  <p className="text-10">{label}</p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="relative w-1/2 border-4 border-[#D47C84] p-4 rounded-lg shadow">
             <span className="font-helvetica absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
@@ -730,11 +827,15 @@ const ProductDetail = ({
             </span>
             <p className="text-12 font-helvetica">
               Pay 4 interest-free payments of AED{' '}
-              {productPrice > 0 || productDiscPrice > 0 ? productDiscPrice > 0 ? productDiscPrice / 4 : productPrice / 4 : (
-                (product?.discountPrice
-                  ? product?.discountPrice
-                  : product?.price) / 4
-              ).toFixed(1)}{' '}
+              {productPrice > 0 || productDiscPrice > 0
+                ? productDiscPrice > 0
+                  ? productDiscPrice / 4
+                  : productPrice / 4
+                : (
+                    (product?.discountPrice
+                      ? product?.discountPrice
+                      : product?.price) / 4
+                  ).toFixed(1)}{' '}
               <Dialog>
                 <DialogTrigger asChild>
                   <span className="text-red-600 underline cursor-pointer">
@@ -811,6 +912,17 @@ const ProductDetail = ({
                 </DialogContent>
               </Dialog>
             </p>
+            <div className="flex flex-wrap justify-evenly gap-2 mt-2">
+              {paymentLabels.map((label, index) => (
+                <div
+                  key={index}
+                  className="text-black font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
+                >
+                  <p className="text-12">AED {installmentAmount}</p>
+                  <p className="text-10">{label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="flex justify-center space-x-4">

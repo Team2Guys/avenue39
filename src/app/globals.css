@@ -479,3 +479,6 @@ html {
     height: 30px !important;
   }
 }
+.ant-image-preview-mask{
+  background-color: white !important;
+}

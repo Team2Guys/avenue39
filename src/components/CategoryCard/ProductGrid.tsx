@@ -16,7 +16,7 @@ interface ProductGridProps {
   portSpace?: string;
   productImages: any[];
   redirect?: string;
-  sliderNumber?: number
+  // sliderNumber?: number
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({
@@ -60,6 +60,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           slidesPerView={1}
           loop={true}
           modules={[Pagination]}
+          // autoplay={{
+          //   delay: sliderNumber === 1 ? 2700 : 2050,
+          //   disableOnInteraction: false,
+          // }}
           speed={1500}
         >
           {products.map((product) => (

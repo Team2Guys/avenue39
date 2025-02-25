@@ -44,10 +44,6 @@ export const DashboardfetchProducts = async () => {
   }
 };
 
-
-
-
-
 export const fetchCategories = async (): Promise<ICategory[] | any> => {
   try {
     const result = await fetch(

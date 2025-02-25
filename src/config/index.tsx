@@ -162,14 +162,18 @@ export const variationName = ({ product }: { product: IProduct }) => {
   if (product.sizeName && product.colorName && product.sizeName.includes(product.colorName)) {
     return product.displayName = `${product.name} -  ${product.sizeName}`;
   }
-  else if(product.colorName && !product.sizeName){
-  return product.displayName = `${product.name} -  (${product.colorName})`;
-} else {
-  return product.displayName;
-}
+  else if (product.colorName && !product.sizeName) {
+    return product.displayName = `${product.name} -  (${product.colorName})`;
+  } else {
+    return product.displayName;
+  }
 }
 
 export const getProductStock = ({ product }: { product: CartItem }) => {
+  if (!product.selectedSize && product.selectedfilter) {
+    console.log(product, "productHeader")
+  }
+
   if (product.selectedSize && product.selectedfilter) {
     const findSize = product.sizes?.find(
       (prod) => (prod.name === product.selectedSize?.name) && (prod.filterName ? prod.filterName === product.selectedfilter?.name : true)
@@ -179,8 +183,37 @@ export const getProductStock = ({ product }: { product: CartItem }) => {
     const findFilter = product.filter?.[0]?.additionalInformation?.find(
       (prod) => prod.name === product.selectedfilter?.name
     );
-    return Number(findFilter?.stock); 
+    return Number(findFilter?.stock);
   } else {
-    return Number(product.stock); 
+    return Number(product.stock);
   }
+};
+
+
+
+export const getAllStock = (product : CartItem | any ) => {
+  console.log(product, "getAllStock")
+  if (!product) return '';
+  let totalStock: number = 0;
+
+  if (product.sizes && product.sizes.length > 0) {
+    const sizesStock = product.sizes.find((value:any) => value.name?.trim() === product.sizeName?.trim());
+    if (sizesStock) {
+      totalStock = Number(sizesStock.stock);
+
+    }
+
+  } else if (product.filter && product.filter.length > 0) {
+    let filterStock = product.filter[0].additionalInformation.find((value:any) => value.name?.trim() === product.colorName?.trim());
+    if (filterStock) {
+      totalStock = Number(filterStock.stock);
+    }
+  } else {
+    totalStock = Number(product.stock);
+  }
+
+console.log(totalStock, "getAllStock")
+
+
+  return totalStock;
 };

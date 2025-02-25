@@ -41,7 +41,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { generateSlug, variationProducts } from '@/config';
+import { generateSlug, getAllStock, variationProducts } from '@/config';
 import MenuLink from '../menu-link';
 import { variationProductImage } from '@/redux/slices/cart';
 import { CartItem } from '@/redux/slices/cart/types';
@@ -238,57 +238,66 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                       />
                     </div>
                     {filteredProducts.length > 0 ? (
-                      filteredProducts.map((product, index) => (
-                        <Link key={index} href={
-                          productUrl(product)}
-                          onClick={() => setIsProductListOpen(false)}
-                        >
-                          <div
-                            className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
+                      filteredProducts.map((product, index) => {
+                        console.log(product, "productHeader")
+                        return (
+
+                          <Link key={index} href={
+                            productUrl(product)}
+                            onClick={() => setIsProductListOpen(false)}
                           >
-                            <Image
-                              width={100}
-                              height={100}
-                              src={variationProductImage(product) || product.posterImageUrl}
-                              alt={product.name}
-                              className="size-20 md:size-24"
-                            />
-                            <div className="pt-1 flex flex-col gap-2 w-full md:w-fit">
-                              <p className="text-17 md:text-21 font-normal capitalize">
-                                {product.name}
-                              </p>
-                              <div className="flex items-center gap-1 xs:gap-4">
-                                {product.discountPrice > 0 ? (
-                                  <>
+                            <div
+                              className="flex border p-2 my-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 cursor-pointer border-[#afa183] border-opacity-30"
+                            >
+                              <Image
+                                width={100}
+                                height={100}
+                                src={variationProductImage(product) || product.posterImageUrl}
+                                alt={product.name}
+                                className="size-20 md:size-24"
+                              />
+                              <div className="pt-1 flex flex-col gap-2 w-full">
+                                <p className="text-17 md:text-21 font-normal capitalize">
+                                  {product.name}
+                                </p>
+                                <div className="flex items-center gap-1 xs:gap-4">
+                                  {product.discountPrice > 0 ? (
+                                    <>
+                                      <p className="text-15 font-semibold">
+                                        AED <span>{product.discountPrice}</span>
+                                      </p>
+                                      <p className="text-[12px] text-primary-foreground font-bold line-through">
+                                        AED <span>{product.price}</span>
+                                      </p>
+                                    </>
+                                  ) : (
                                     <p className="text-15 font-semibold">
-                                      AED <span>{product.discountPrice}</span>
-                                    </p>
-                                    <p className="text-[12px] text-primary-foreground font-bold line-through">
                                       AED <span>{product.price}</span>
                                     </p>
-                                  </>
-                                ) : (
-                                  <p className="text-15 font-semibold">
-                                    AED <span>{product.price}</span>
-                                  </p>
-                                )}
+                                  )}
+                                </div>
+                                {(product.colorName || product.sizeName) &&
+                                  <div className='flex flex-wrap items-center justify-between gap-3 w-full pr-5'>
+                                    <div className='flex items-center gap-1 text-13'>
+                                      <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                                      <span className='capitalize'>{product.colorName}</span>
+                                    </div>
+
+                                    <span className='text-13'>{product.sizeName}</span>
+
+                                    <span className={`text-13 ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                                  </div>}
+                                {!(product.colorName || product.sizeName) && <span className={`text-13   ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                                }
+                                <RenderStars card={product} />
                               </div>
-                              {(product.colorName || product.sizeName) &&
-                                <div className='flex flex-wrap items-center justify-between gap-3 w-full md:w-56'>
-                                  <div className='flex items-center gap-1 text-13'>
-                                    <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
-                                    <span className='capitalize'>{product.colorName}</span>
-                                  </div>
-                                  <span className='text-13'>{product.sizeName}</span>
-                                </div>}
-                              <RenderStars card={product} />
                             </div>
-                          </div>
 
-                        </Link>
+                          </Link>
+                        )
 
 
-                      ))
+                      })
                     ) : (
                       <div>No product is found</div>
                     )}
@@ -379,8 +388,8 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                   {!isLoading && !error && filteredProducts.length > 0 && (
                     <div className=" p-2 max-h-[600px] overflow-y-auto custom-scrollbar">
                       <div className="flex flex-wrap justify-center gap-2 -m-2">
-                        {filteredProducts.map((product: CartItem) => {
-                          console.log(typeof (product.discountPrice), "discount price")
+                        {filteredProducts.map((product: any) => {
+
                           return (
                             <DrawerTrigger asChild key={product.id}>
                               <div
@@ -418,7 +427,14 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                         <span className='capitalize'>{product.colorName}</span>
                                       </div>
                                       <span className='text-13'>{product.sizeName}</span>
+                                      {<span className={`text-13  ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                                      }
                                     </div>}
+
+
+
+                                  {!(product.colorName || product.sizeName) && <span className={`text-13 text-center ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                                  }
                                   <div>
                                     <RenderStars card={product} />
                                   </div>

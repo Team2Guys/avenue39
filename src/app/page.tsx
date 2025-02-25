@@ -47,7 +47,7 @@ export default async function Home() {
       {/* <Catalogue /> */}
       {testimonialcards && testimonialcards.length > 50 && (
         <Testimonial testimonialitems={testimonialcards} />
-      )}
+        )}
     </>
   );
 }

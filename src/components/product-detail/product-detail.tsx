@@ -729,8 +729,8 @@ const ProductDetail = ({
           <span className="absolute right-0 w-1/6 border-t border-gray-300"></span>
         </div>
 
-        <div className="flex gap-2 mb-4">
-          <div className="relative w-1/2 border-4 border-[#00FFBC] p-4 rounded-lg shadow">
+        <div className="flex gap-2 mb-2">
+          <div className="relative w-1/2 border-4 border-[#00FFBC] p-2 py-4 rounded-lg shadow">
             <span className="font-helvetica absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
               tabby
             </span>
@@ -808,19 +808,19 @@ const ProductDetail = ({
               </Dialog>
             </p>
 
-            <div className="flex flex-wrap justify-evenly gap-2 mt-2">
+            <div className="flex flex-wrap lg:flex-nowrap justify-evenly gap-2 lg:gap-1 xl:gap-2 mt-2">
               {paymentLabels.map((label, index) => (
                 <div
                   key={index}
-                  className="text-black font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
+                  className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
                 >
-                  <p className="text-12">AED {installmentAmount}</p>
-                  <p className="text-10">{label}</p>
+                  <p className="text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
+                  <p className="text-[7px] xltext-[8px] 2xl:text-10">{label}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative w-1/2 border-4 border-[#D47C84] p-4 rounded-lg shadow">
+          <div className="relative w-1/2 border-4 border-[#D47C84] p-2 py-4 rounded-lg shadow">
             <span className="font-helvetica absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
               tamara
             </span>
@@ -911,14 +911,14 @@ const ProductDetail = ({
                 </DialogContent>
               </Dialog>
             </p>
-            <div className="flex flex-wrap justify-evenly gap-2 mt-2">
+            <div className="flex flex-wrap lg:flex-nowrap justify-evenly gap-2 lg:gap-1 xl:gap-2 mt-2">
               {paymentLabels.map((label, index) => (
                 <div
                   key={index}
-                  className="text-black font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
+                  className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
                 >
-                  <p className="text-12">AED {installmentAmount}</p>
-                  <p className="text-10">{label}</p>
+                  <p className="text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
+                  <p className="text-[7px] xltext-[8px] 2xl:text-10">{label}</p>
                 </div>
               ))}
             </div>

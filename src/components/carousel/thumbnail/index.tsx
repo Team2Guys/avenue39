@@ -111,11 +111,11 @@ const Thumbnail: React.FC<ThumbProps> = ({
             isZoom={isZoom}
             onSlideChange={handleSlideChange}
           />
-          <div className='flex flex-col w-full md:w-9/12 2xl:w-4/5'>
+          <div className='flex flex-col w-full md:w-10/12 2xl:w-4/5'>
 
 
             <div
-              className={`w-full md:w-9/12 2xl:w-4/5 md:flex-grow relative border-2 border-gray-100 shadow rounded-lg md:!max-h-[640px]`}
+              className={`w-full md:w-12/12 2xl:w-5/5 md:flex-grow relative border-2 border-gray-100 shadow rounded-lg md:!max-h-[640px]`}
             >
               {isLoading ? (
                 <Skeleton className="h-[90px] w-full" />
@@ -125,7 +125,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
                     loop={false}
                     spaceBetween={10}
                     modules={[FreeMode, Navigation, Thumbs]}
-                    className="h-full swiper-container product-img"
+                    className="h-full swiper-container product-img w-full"
                     navigation={{
                       prevEl: prevRef.current,
                       nextEl: nextRef.current,
@@ -156,12 +156,12 @@ const Thumbnail: React.FC<ThumbProps> = ({
                 </>
               )}
             </div>
-            <div className="flex mt-4 w-full md:w-9/12 2xl:w-4/5 justify-center">
+            <div className="flex mt-3 w-full justify-center">
               {thumbs.map((_, index) => (
                 <div
                   key={index}
                   onClick={() => handleSlideChange(index)}
-                  className={`w-2 h-2 rounded-full mx-1 cursor-pointer ${currentSlide === index
+                  className={`w-2 2xl:w-3 h-2 2xl:h-3 rounded-full mx-1 cursor-pointer ${currentSlide === index
                     ? 'bg-gray-800'
                     : 'bg-gray-300'
                     }`}

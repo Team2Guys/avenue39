@@ -624,10 +624,9 @@ const ProductDetail = ({
                 <div className="flex space-x-4 mt-2">
                   {availableFilters.map((item, index: number) => {
                     const image = product.productImages.find(
-                      (img) => img?.color === item?.name,
+                      (img) => img?.color === item?.name && img.size === size?.name,
                     );
                     if (!image) return null;
-
                     return (
                       <div
                         key={index}

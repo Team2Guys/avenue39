@@ -112,7 +112,7 @@ const ProductDetail = ({
     setFilter(item);
     const filterName = generateSlug(item.name);
 
-    const sizeName = !sizeParam ? generateSlug(size?.name || "") : sizeParam;
+    const sizeName = !slugParams.size ? generateSlug(size?.name || "") : slugParams.size;
 
     setSlugParams(() => ({
       filter: filterName,
@@ -136,7 +136,6 @@ const ProductDetail = ({
       filter: filterName,
       size: sizeName,
     }));
-    console.log(sizeName, filterName, 'filterName');
   };
 
   useEffect(() => {

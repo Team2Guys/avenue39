@@ -71,12 +71,12 @@ const SideBySideMagnifier: React.FC<SideBySideMagnifierProps> = ({
           width={800}
           height={800}
           alt={altText || ''}
-          className="w-full h-full object-fill"
+          className="w-full h-full object-fill bg-white"
         />
       </div>
       {isHovered && (
         <div
-          className={`absolute pointer-events-none ${
+          className={`absolute pointer-events-none bg-white ${
             displayInPlace ? 'in-place' : 'side-by-side'
           }`}
           style={{

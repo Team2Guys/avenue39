@@ -59,7 +59,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
               ? '/accessories'
               : routinghandler((menudata.custom_url || menudata.name), (item.custom_url || item.name))
           }
-          className={`flex gap-1 items-center`}
+          className={`flex gap-1 items-center link-underline w-fit`}
           key={index}
           onClick={onLinkClick}
         >

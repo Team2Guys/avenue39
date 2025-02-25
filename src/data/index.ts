@@ -345,7 +345,7 @@ export const ReturnPolicy = [
   {
     title: 'Return Eligibility',
     description: [
-      "We have two options when it comes to returns. At the time of delivery, we can assemble the furniture for you and give you 30 minutes to decide if you are happy to keep your purchase. If you are, then great, we’ll consider that as accepted and leave you to enjoy your shiny new piece of furniture. If you decide you don’t wish to keep your purchase, no problem at all; our team will disassemble and re-pack your furniture, and a refund will be issued right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)",
+      "We have two options when it comes to returns. At the time of delivery, we can assemble the furniture for you and give you 20 minutes to decide if you are happy to keep your purchase. If you are, then great, we’ll consider that as accepted and leave you to enjoy your shiny new piece of furniture. If you decide you don’t wish to keep your purchase, no problem at all; our team will disassemble and re-pack your furniture, and a refund will be issued right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)",
       "If you aren’t available or don't have the time to view, we can deliver your furniture without assembly and let you take your time deciding. If within 7 days you wish to return your purchase, you can contact the team at [[EMAIL_LINK]] and receive a return number. Once your item is received back and confirmed to be in its brand-new condition, we will process your refund right away. (The time taken for monies to reach your account varies from bank to bank but is usually within 7 days)",
     ],
   },

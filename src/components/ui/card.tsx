@@ -28,6 +28,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { BsCartX } from 'react-icons/bs';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;
@@ -254,7 +255,7 @@ const Card: React.FC<CardProps> = ({
                   <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main">
                     <Link
                       href={finalUrl}
-                      className={`${cardImageHeight} flex justify-center items-center p-2`}
+                      className={`${cardImageHeight} flex justify-center items-center py-2`}
                     >
                       <Image
                         src={
@@ -528,7 +529,8 @@ const Card: React.FC<CardProps> = ({
                     {renderStars({ star: averageRating })}
                   </div>
                 )}
-                {isModel ? null : isOutStock ? <button className='text-red-500 font-bold uppercase w-full bg-main border cursor-default rounded-full h-8'>Out of Stock</button> : (
+                {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
+                  <BsCartX size={18} /> Out of Stock</button> : (
                   <div
                     className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto' : 'w-full mb-4'}`}
                     onClick={(e) => handleEventProbation(e)}

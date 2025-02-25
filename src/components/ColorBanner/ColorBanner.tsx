@@ -8,6 +8,7 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+import ContainerFluid from '../ui/ContainerFluid';
 interface IPROPS {
   Bannerclas?: any
 }
@@ -25,7 +26,10 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
   }, []);
 
   useEffect(() => {
-    if (windowWidth > 1720) {
+    if (windowWidth > 2000) {
+      setIsWide(270);
+    }
+    else if (windowWidth > 1720) {
       const newWidth = 1720 - windowWidth * 0.7;
       setIsWide(newWidth - 60);
     } else {
@@ -41,11 +45,11 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     }
   }, [windowWidth]);
 
-  console.log(windowWidth, "windowWidth")
+  console.log(windowWidth, "windowWidth",isWide)
 
 
   return (
-    <section className={` py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? "main_container" : ''}`}>
+    <ContainerFluid className={`mx-auto py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? "main_container" : ''}`}>
       <Swiper
         modules={[Pagination]}
         spaceBetween={0}
@@ -98,7 +102,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </section>
+    </ContainerFluid>
   );
 };
 

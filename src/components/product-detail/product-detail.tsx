@@ -55,6 +55,7 @@ const ProductDetail = ({
   filterParam,
   sizeParam,
   uniqueSizes,
+  onclickDesc
 }: {
   params: IProduct;
   isZoom?: Boolean;
@@ -65,6 +66,7 @@ const ProductDetail = ({
   filterParam?: string;
   sizeParam?: string;
   uniqueSizes?: any;
+  onclickDesc?: any
 }) => {
   const truncateText = (text: any, limit: any) => {
     return text.length > limit ? text.slice(0, limit) + '...' : text;
@@ -578,7 +580,7 @@ const ProductDetail = ({
         )}
 
         <p className="text-lightdark text-14 tracking-wide leading-6 font-helvetica">
-          {isZoom ? truncateText(product?.description, 120) : product?.description}
+          {isZoom ? <>{truncateText(product?.description, 120)}<span className='underline font-medium cursor-pointer text-nowrap' onClick={onclickDesc}>View More</span></> : product?.description}
         </p>
 
         <div>

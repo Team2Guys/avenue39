@@ -8,10 +8,11 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { SaleBannerData } from '@/data/data';
+import ContainerFluid from '../ui/ContainerFluid';
 
 const NewArrival = () => {
   return (
-    <section className="bg-lightbackground mt-6 mb-8 rounded-2xl">
+    <ContainerFluid className="bg-lightbackground mt-6 mb-8 rounded-2xl">
       <Swiper
         modules={[Pagination]}
         pagination={{ clickable: true }}
@@ -58,7 +59,7 @@ const NewArrival = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </section>
+    </ContainerFluid>
   );
 };
 

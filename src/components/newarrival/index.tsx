@@ -29,7 +29,6 @@ const NewArrival = () => {
                 <div className="text-center md:text-start sm:space-y-3">
                   <Link
                     href={item.link}
-                    target="_blank"
                     className="border border-[#707070] text-[#707070] font-thin font-Helveticalight px-2 py-1 rounded-2xl hover:bg-main hover:text-white transition text-base sm:text-2xl lg:text-3xl bg-white"
                   >
                     {item.title}

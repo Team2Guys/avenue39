@@ -937,6 +937,8 @@ const ProductDetail = ({
             </div>
           ))}
         </div>
+        <p className='font-helvetica mt-2 mb-0'>*Try before you buy- 20 minutes to decide after assembly, or get a full refund.</p>
+        <p className='font-helvetica'>*Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
       </div>
     </div>
   );

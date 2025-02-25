@@ -111,7 +111,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
             isZoom={isZoom}
             onSlideChange={handleSlideChange}
           />
-          <div className='flex flex-col w-full md:w-10/12 2xl:w-5/5'>
+          <div className='flex flex-col w-full md:w-10/12 2xl:w-4/5'>
 
 
             <div

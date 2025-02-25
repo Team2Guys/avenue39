@@ -14,9 +14,7 @@ const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: {
   let newsubCat: string | undefined;
 
   const [AllProduct, subCategories, categories] = await Promise.all([fetchProducts(), fetchSubCategories(), fetchCategories()]);
-
-  // const subCategories = await fetchSubCategories();
-  // const AllProduct = await fetchProducts();
+  
   const findCategory = categories.find((cat: ICategory) => generateSlug(cat.custom_url || cat.name) === category);
   const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
   );
@@ -31,14 +29,15 @@ const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: {
     const belongsToCategory = item.categories.some((value: any) => generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === (newCategory ? newCategory : category));
     return isNameMatch && belongsToCategory;
   });
+
+  
   if (!findSubCategory) {
-    let products = await fetchProducts();
-    const findProduct = products.find((item: IProduct) => generateSlug(item.custom_url || item.name) === subcategoryName);
+    const findProduct = AllProduct.find((item: IProduct) => generateSlug(item.custom_url || item.name) === subcategoryName);
     if (!findProduct) {
       return <NotFound />;
     }
 
-    const similarProducts: IProduct[] = products.filter((prod: IProduct) => {
+    const similarProducts: IProduct[] = AllProduct.filter((prod: IProduct) => {
       const hasMatchingCategory =
         prod?.categories &&
         prod?.categories.some(
@@ -57,7 +56,7 @@ const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: {
     return (
       <Product
         params={findProduct}
-        products={products}
+        products={AllProduct}
         similarProducts={similarProducts}
         reviews={[]}
         product={findProduct}

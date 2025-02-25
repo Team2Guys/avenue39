@@ -71,7 +71,7 @@ const SideBySideMagnifier: React.FC<SideBySideMagnifierProps> = ({
           width={800}
           height={800}
           alt={altText || ''}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-fill"
         />
       </div>
       {isHovered && (

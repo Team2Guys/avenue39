@@ -132,20 +132,20 @@ const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
             <div className="flex flex-col items-center">
               {newArrivals.map((item, index) => (
                 <div key={index} className="text-center">
-                  <h1 className="text-[45px] font-helvetica font-bold">{item.title}</h1>
+                  <h1 className="text-[45px] font-Helveticalight font-bold">{item.title}</h1>
                   <Container>
-                    <p>{item.description}</p>
+                    <p className='font-Helveticalight text-base'>{item.description}</p>
                   </Container>
                 </div>
               ))}
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <h1 className="text-[45px] font-helvetica font-bold">
+              <h1 className="text-[45px] font-Helveticalight font-bold">
                 {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-                <p className={`text-center sm:text-base text-sm ${pathname === '/sale' && 'hidden'}`}>
+                <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`}>
                   {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
                 </p>
               </Container>

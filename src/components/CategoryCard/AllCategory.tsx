@@ -25,6 +25,24 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
     });
   };
 
+  const filterAccessories = (products: IProduct[], titles: string[]) => {
+    const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
+    const matchingProducts = products.filter((prod) =>
+        titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
+    );
+    const nonMatchingProducts = products.filter((prod) =>
+        !titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
+    );
+    const sortedMatchingProducts = matchingProducts.sort((a, b) => {
+        const aIndex = titleIndexMap.get(a.name);
+        const bIndex = titleIndexMap.get(b.name);
+        return aIndex !== undefined && bIndex !== undefined ? aIndex - bIndex : 0;
+    });
+    return [...sortedMatchingProducts, ...nonMatchingProducts];
+};
+
+
+
   const getCategoryDescription = (categoryName: string) => {
     const matchedCategory = products.flatMap((product) => product.categories || []).find((category) =>generateSlug(category.name) === generateSlug(categoryName));
     return matchedCategory?.short_description || '';
@@ -57,11 +75,12 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         redirect="bedroom"
       />
       <CatProduct1
-        products={filterByCategoryAndTitle(products, Accessories)}
+        products={filterAccessories(products, Accessories)}
         CategoryDescription={getCategoryDescription('Accessories')}
         CategoryName="Complement your design with accessories"
         reverse
         redirect="accessories"
+        accessoriesSlider={true}
       />
     </div>
   );

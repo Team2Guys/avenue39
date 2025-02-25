@@ -46,6 +46,7 @@ interface CardProps {
   SubcategoryName?: ICategory;
   mainCatgory?: string;
   cardLayout?: string;
+  accessoriesSlider?: boolean
 }
 
 const Card: React.FC<CardProps> = ({
@@ -62,7 +63,8 @@ const Card: React.FC<CardProps> = ({
   productImages,
   SubcategoryName,
   mainCatgory,
-  cardLayout
+  cardLayout,
+  accessoriesSlider
 }) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
@@ -335,11 +337,11 @@ const Card: React.FC<CardProps> = ({
                   )}
                   {isModel ? null : isOutStock ? "Out of stock" : (
                     <div
-                      className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto' : 'w-full'}`}
+                      className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? accessoriesSlider ? 'pb-2 w-fit mx-auto' : 'w-fit mx-auto' : 'w-full'}`}
                       onClick={(e) => handleEventProbation(e)}
                     >
                       <button
-                        className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                        className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                         onClick={(e) => handleAddToCard(e)}
                       >
                         <svg
@@ -362,7 +364,7 @@ const Card: React.FC<CardProps> = ({
                       <Dialog>
                         <DialogTrigger className="w-full">
                           <button
-                            className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                            className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -643,7 +645,7 @@ const Card: React.FC<CardProps> = ({
         <div
           className="rounded-2xl text-center relative product-card mx-2 group flex gap-4 items-center flex-col sm:flex-row cursor-pointer w-full"
         >
-          <div className="relative w-fit mx-auto sm:w-5/12 md:w-4/12 lg:w-5/12 overflow-hidden rounded-xl">
+          <div className="relative w-fit mx-auto sm:w-5/12 md:w-4/12 overflow-hidden rounded-xl">
             <div
               onClick={(e) => handleAddToWishlist(e)
               }
@@ -657,7 +659,7 @@ const Card: React.FC<CardProps> = ({
                 alt={card.posterImageAltText || card.name}
                 width={320}
                 height={200}
-                className="object-cover rounded-xl mx-auto w-full h-[250px] sm:h-[300px] xl:h-[400px]"
+                className="object-conatin rounded-xl mx-auto w-full h-[250px] sm:h-[300px] xl:h-[400px]"
               />
             </Link>
             {card.discountPrice > 0 && (
@@ -667,7 +669,7 @@ const Card: React.FC<CardProps> = ({
               </span>
             )}
           </div>
-          <div className="w-full sm:w-7/12 md:w-8/12 lg:w-7/12 text-center sm:text-start px-4 sm:px-0">
+          <div className="w-full sm:w-7/12 md:w-8/12 text-center sm:text-start px-4 sm:px-0">
 
             <h3 className="text-lg font-semibold mt-2"><Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
               {displayName ? displayName : card.name}

@@ -350,53 +350,16 @@ html {
   img {
   border: 2px solid #afa183;
 }
-.slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
-  position: absolute !important;
-  left: 7% !important;
-  top: 93% !important;
-  bottom: 0 !important;
-  box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
-  width: 40px !important;
-  height: 40px !important;
-  background-color: white !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  cursor: pointer !important;
-  padding-bottom: 4px !important;
-  z-index: 30 !important;
-  border: 1px solid rgb(240, 238, 238) !important;
-  transform:none !important;
-}
-.slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
-  position: absolute !important;
-  left: 7% !important;
-  top: 1% !important;
-  box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
-  width: 40px !important;
-  height: 40px !important;
-  background-color: white !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  cursor: pointer !important;
-  padding-top: 7px !important;
-  z-index: 30 !important;
-  border: 1px solid rgb(240, 238, 238) !important;
-  transform:none !important;
-}
+
 .slick-next:before, .slick-prev:before {
   content: none !important;
 }
 
-.slick-slider.product-slider.custom-Slick.isZoom .slick-arrow.slick-next , 
-.slick-slider.product-slider.custom-Slick.isZoom .slick-arrow.slick-prev {
-  left: 6% !important;
+.custom-swiper-pagination {
+  position: absolute;
+  bottom: -20px !important; 
 }
+
 .slick-best-seller .slick-arrow.slick-next , .slick-best-seller .slick-arrow.slick-prev {
   display: none !important;
 }
@@ -410,6 +373,10 @@ html {
 
 .card-slider-home .swiper-pagination {
   bottom: 150px !important;
+}
+
+.accessories-Slider.card-slider-home .swiper-pagination {
+  bottom: 2px !important;
 }
 
 .cardBtn-quick-view:hover svg{
@@ -434,49 +401,38 @@ html {
 .Bannerclas .swiper-pagination{
   bottom: -6px !important;
 }
-@media (max-width: 1300px) {
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next{
-    top: calc(93% - 10px) !important;
-  }
-}
-@media (max-width: 1024px) {
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next{
-    top: calc(90% - 10px) !important;
-  }
-}
+
 @media (max-width: 895px) {
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev {
-    position: absolute !important;
-    left: 1% !important;
-    top: auto !important;
-    bottom: 35px !important;
-    transform: rotate(-90deg) !important;
+  .product-slider-wrapper .custom-slick-prev-arrow {
+    top: 50% !important;
+    transform: translateY(-50%);
+    left: 0 !important;
   }
-  .slick-slider.product-slider.custom-Slick.isZoom .slick-arrow.slick-prev {
-    position: absolute !important;
-    left: 0% !important;
-    top: auto !important;
-    bottom: 35px !important;
-    transform: rotate(-90deg) !important;
+  .product-slider-wrapper .custom-slick-prev-arrow svg {
+    transform: rotate(-90deg);
+  }
+  .product-slider-wrapper .custom-slick-next-arrow {
+    top: 50% !important;
+    transform: translateY(-50%);
+    left: auto !important;
+    right: 0 !important;
+  }
+  .product-slider-wrapper .custom-slick-next-arrow svg {
+    transform: rotate(-90deg);
   }
   .card-slider-home .swiper-pagination {
     bottom: 190px !important;
   }
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next ,
-  .slick-slider.product-slider.custom-Slick.isZoom .slick-arrow.slick-next{
-    right: 1% !important;
-    top: auto !important;
-    bottom: 35px !important;
-    left: auto !important;
-    transform: rotate(-90deg) !important;
+  .custom-swiper-pagination {
+    bottom: 5px !important; 
   }
 }
-
 @media (max-width: 480px) {
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-prev,
-  .slick-slider.product-slider.custom-Slick .slick-arrow.slick-next {
-    width: 30px !important;
-    height: 30px !important;
+  .product-slider-wrapper .custom-slick-prev-arrow {
+    left: -5px !important
+  }
+  .product-slider-wrapper .custom-slick-next-arrow {
+    right: -5px !important
   }
 }
 .ant-image-preview-mask{

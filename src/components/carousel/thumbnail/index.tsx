@@ -102,10 +102,9 @@ const Thumbnail: React.FC<ThumbProps> = ({
   }
 
   return (
-    <div>
-      <div className="relative w-full">
+      <div className="relative w-full pt-8">
         <div
-          className={`w-full flex flex-col-reverse md:flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-5 overflow-hidden relative ${swiperGap}`}
+          className={`w-full flex flex-col-reverse md:flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-5 ${swiperGap}`}
         >
           <CustomThumbnailSlickSlider
             thumbs={thumbs}
@@ -172,7 +171,6 @@ const Thumbnail: React.FC<ThumbProps> = ({
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

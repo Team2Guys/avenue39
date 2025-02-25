@@ -22,7 +22,7 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
 
   const settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
@@ -53,18 +53,18 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
   };
 
   return (
-    <div className="slider-container slick-best-seller">
+    <div className="slider-container slick-best-seller relative">
       {similarProducts?.length ? (
         <>
-          <div className={`text-end mb-3 px-4 flex ${title ? 'justify-between' : 'justify-end'}`}>
+          <div className={`text-end mb-3 px-4 flex  ${title ? 'justify-between' : 'justify-end'}`}>
             {title && (
               <p className="lg:text-3xl text-2xl text-left font-semibold">{isBestSeller ? 'Best Sellers' : 'Similar Products'}</p>
             )}
             <div>
-              <button className="button" onClick={() => sliderRef.current?.slickPrev()}>
+              <button className="button absolute -left-4 top-1/2 -translate-y-[50%] z-10" onClick={() => sliderRef.current?.slickPrev()}>
                 <IoIosArrowBack size={30} />
               </button>
-              <button className="button" onClick={() => sliderRef.current?.slickNext()}>
+              <button className="button absolute -right-4 top-1/2 -translate-y-[50%] z-10" onClick={() => sliderRef.current?.slickNext()}>
                 <IoIosArrowForward size={30} />
               </button>
             </div>

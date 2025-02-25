@@ -7,8 +7,8 @@ import Card from '../ui/card';
 
 
 interface ProductGridProps {
-  products: IProduct[]; 
-  imageHeight: string; 
+  products: IProduct[];
+  imageHeight: string;
   slider?: boolean;
   isHomepage?: boolean;
   isLandscape?: boolean;
@@ -16,6 +16,7 @@ interface ProductGridProps {
   portSpace?: string;
   productImages: any[];
   redirect?: string;
+  accessoriesSlider?: boolean;
   // sliderNumber?: number
 }
 
@@ -29,8 +30,30 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   portSpace,
   isLandscape,
   redirect,
+  accessoriesSlider
   // sliderNumber
 }) => {
+
+  const breakpoints = accessoriesSlider
+    ? {
+      280: {
+        slidesPerView: 1,
+      },
+      480: {
+        slidesPerView: 2,
+      },
+      640: {
+        slidesPerView: 3,
+      },
+      980: {
+        slidesPerView: 4,
+      },
+      1280: {
+        slidesPerView: 5,
+      },
+    }
+    : undefined;
+
   return (
     <>
       {!slider ? (
@@ -53,11 +76,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         ))
       ) : (
         <Swiper
-          className="mySwiper card-slider-home w-full"
+          className={`mySwiper card-slider-home w-full ${accessoriesSlider && 'accessories-Slider mb-2'}`}
           pagination={{
+            dynamicBullets: true,
             clickable: true,
           }}
-          slidesPerView={1}
+          slidesPerView={accessoriesSlider ? 5 : 1}
           loop={true}
           modules={[Pagination]}
           // autoplay={{
@@ -65,14 +89,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           //   disableOnInteraction: false,
           // }}
           speed={1500}
+          breakpoints={breakpoints}
         >
           {products.map((product) => (
-            <SwiperSlide className="w-full" key={product.id}>
+            <SwiperSlide className={`w-full ${accessoriesSlider && 'sm:px-4'}`} key={product.id}>
               <Card
                 card={product}
                 category={true}
                 isLoading={false}
                 slider={slider}
+                accessoriesSlider={accessoriesSlider}
                 cardImageHeight={imageHeight}
                 isHomepage={isHomepage}
                 isLandscape={isLandscape}
@@ -84,7 +110,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               />
             </SwiperSlide>
           ))}
-        </Swiper>
+        </Swiper >
       )}
     </>
   );

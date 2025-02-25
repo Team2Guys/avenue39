@@ -83,7 +83,7 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
   }, [processedProducts, width]);
 
   return (
-    <div className="slider-container slick-best-seller relative mx-2 xs:mx-0">
+    <div className={`slider-container slick-best-seller relative ${!isLenght && 'isLenght'} mx-2 xs:mx-0`}>
       {similarProducts?.length ? (
         <>
           <div className={`text-end mb-3 px-4 flex  ${title ? 'justify-between' : 'justify-end'}`}>

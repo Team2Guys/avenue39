@@ -133,6 +133,20 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
     additional_columns_handler();
   }, [product]);
 
+  const getElementTopPosition = (elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      return rect.top + window.scrollY;
+    }
+    return null;
+  };
+
+  const onScrollToDesc = () => {
+    const topPosition = getElementTopPosition('product-desc') || undefined;
+    window.scrollTo({ top: topPosition, behavior: 'smooth'});
+  };
+
   return (
     <div>
       <TopHero breadcrumbs={cartpageBreadcrumbs}
@@ -160,12 +174,13 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
               filterParam={filterParam}
               sizeParam={sizeParam}
               uniqueSizes={uniqueSizes}
+              onclickDesc={onScrollToDesc}
             />
           )
         )}
       </Container>
       {product && (
-        <div className="">
+        <div id='product-desc'>
           <DetailTabs tabs={filteredTabs} />
         </div>
       )}

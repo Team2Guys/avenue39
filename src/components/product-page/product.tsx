@@ -145,9 +145,8 @@ const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
                 {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-                <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`}>
+                <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: description}}>
                   {/* {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description} */}
-                  {description}
                 </p>
               </Container>
             </div>

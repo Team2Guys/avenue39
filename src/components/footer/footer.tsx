@@ -1,65 +1,66 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Container from '../ui/Container';
-import Image from 'next/image';
-import logo from '@icons/logo.png';
-import { Button } from '../ui/button';
+// import Image from 'next/image';
+// import logo from '@icons/logo.png';
+// import { Button } from '../ui/button';
 import Link from 'next/link';
-import axios from 'axios';
-import showToast from '../Toaster/Toaster';
+// import axios from 'axios';
+// import showToast from '../Toaster/Toaster';
 import { menuData } from '@/data/menu';
 import { generateSlug } from '@/config';
 import { MdOutlineEmail, MdOutlinePhone, MdOutlineWhatsapp } from 'react-icons/md';
-import { WhatsAppInfo } from '@/data/data';
+import { footerItems, WhatsAppInfo } from '@/data/data';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import SocialLink from '../social-link';
+import Image from 'next/image';
 
 const Footer: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+  // const [email, setEmail] = useState<string>('');
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.target.value);
+  // };
 
-  const handleNewsLetter = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const handleNewsLetter = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    if (!email) {
-      showToast('warn', 'Please enter a valid email address');
-      return;
-    }
+  //   if (!email) {
+  //     showToast('warn', 'Please enter a valid email address');
+  //     return;
+  //   }
 
-    setIsLoading(true);
+  //   setIsLoading(true);
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsletters/add-email`,
-        {
-          email,
-        },
-      );
-      console.log(response);
-      if (response.status === 201) {
-        showToast('success', response.data.message);
-        setEmail('');
-      }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        showToast(
-          'error',
-          error.response?.data?.message ||
-          'Failed to subscribe. Please try again.',
-        );
-      } else {
-        showToast('error', 'An error occurred. Please try again.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //   try {
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsletters/add-email`,
+  //       {
+  //         email,
+  //       },
+  //     );
+  //     console.log(response);
+  //     if (response.status === 201) {
+  //       showToast('success', response.data.message);
+  //       setEmail('');
+  //     }
+  //   } catch (error: any) {
+  //     if (axios.isAxiosError(error)) {
+  //       showToast(
+  //         'error',
+  //         error.response?.data?.message ||
+  //         'Failed to subscribe. Please try again.',
+  //       );
+  //     } else {
+  //       showToast('error', 'An error occurred. Please try again.');
+  //     }
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
-    <section className="pt-16 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-helvetica">
-      <div className="container w-full sm:w-1/2 flex flex-col items-center mx-auto md:mb-[110px]">
+    <section className="pt-10 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-helvetica">
+      {/* <div className="container w-full sm:w-1/2 flex flex-col items-center mx-auto md:mb-[110px]">
         <Image src={logo} alt="logo" className="w-40" />
 
         <div className=" text-center">
@@ -89,9 +90,29 @@ const Footer: React.FC = () => {
             </form>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <Container className="flex flex-wrap justify-between gap-10 ">
+        <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
+        {footerItems.map((item, index) => (
+        <div key={index} className="relative w-full h-[240px] rounded-3xl group">
+          <div className={`${item.bgClass} bg-cover bg-no-repeat h-full w-full rounded-3xl`}>
+            <p className="group-hover:opacity-0 absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-white font-semibold text-20 xl:text-[26px] w-full">
+              {item.text}
+            </p>
+          </div>
+          <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center text-black text-14 lg:text-16 xl:text-xl opacity-0 group-hover:opacity-100 transition duration-300 rounded-3xl text-center space-y-2 px-2">
+            {item.showImage && item.imageSrc && (
+              <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
+            )}
+            {item.overlayText.map((line, index) => (
+              <p className=' leading-4 lg:leading-6' key={index}>{line}</p>
+            ))}
+            {/* <p className="text-14">*(some exclusions apply)</p> */}
+              </div>
+            </div>
+          ))}
+    </Container>
+      <Container className="flex flex-wrap justify-between gap-10 pt-10 ">
         <div className=" px-2">
           <h5 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Rooms

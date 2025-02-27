@@ -19,8 +19,10 @@ const config = {
       },
     },
     extend: {
-      backgroundColor: {
-        // login: 'url("src/assets/images/login.png")',
+      backgroundImage: {
+        footerbuy: 'url("/assets/images/footer/buy.png")',
+        footerdeliver: 'url("/assets/images/footer/deliver.png")',
+        footershowroom: 'url("/assets/images/footer/showroom.png")',
       },
       fontSize: {
         9: '9px',

@@ -41,7 +41,8 @@ import {
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
-
+import Icontime from '../../../public/assets/icons/Group2038.svg';
+import Icondelivery from '../../../public/assets/icons/Group2037.svg';
 import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
 
@@ -960,8 +961,14 @@ const ProductDetail = ({
             </div>
           ))}
         </div>
-        <p className='font-helvetica mt-2 mb-0'>*Try before you buy- 20 minutes to decide after assembly, or get a full refund.</p>
-        <p className='font-helvetica'>*Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
+        <div className='flex gap-2 items-center'>
+          <Image src={Icontime} alt='time icon' width={40} height={40} />
+          <p className='font-helvetica mt-2 mb-0'>Try before you buy- 20 minutes to decide after assembly, or get a full refund.</p>
+        </div>
+        <div className='flex gap-2 items-center'>
+          <Image src={Icondelivery} alt='time icon' width={40} height={40} />
+          <p className='font-helvetica'>Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
+        </div>
       </div>
     </div>
   );

@@ -58,9 +58,13 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Parisio Dining Chair',
         posterImageUrl: '/images/HomeProducts/Dining/Parisio.webp',
       },
+      // {
+      //   name: 'Savio Dining Chair',
+      //   posterImageUrl: '/images/HomeProducts/Dining/Savio.webp',
+      // },
       {
-        name: 'Savio Dining Chair',
-        posterImageUrl: '/images/HomeProducts/Dining/Savio.webp',
+        name: 'Asana Dining Chair',
+        posterImageUrl: '/images/HomeProducts/Dining/Asana.webp',
       },
       {
         name: 'Flavia Dining Chair',

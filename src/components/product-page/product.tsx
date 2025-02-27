@@ -58,6 +58,7 @@ const ProductPage = ({
   const description = SubcategoryName?.description || info?.description || "";
 
   useEffect(() => {
+    console.log(isMobile)
     const handleResize = () => setIsMobile(window.innerWidth < 640);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -66,7 +67,6 @@ const ProductPage = ({
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
   const processedProducts = variationProducts({ products: productsToFilter });
-
 
   const filteredSortedCards  = processedProducts
     .filter((card) => {
@@ -146,7 +146,8 @@ const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
               </h1>
               <Container>
                 <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`}>
-                  {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
+                  {/* {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description} */}
+                  {description}
                 </p>
               </Container>
             </div>

@@ -172,6 +172,7 @@ const Card: React.FC<CardProps> = ({
       existingWishlist.push(itemToAdd);
       localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
       console.log('Added to wishlist:', itemToAdd);
+      window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
       const addedQuantity = existingWishlistItem.quantity + 1;
@@ -192,11 +193,12 @@ const Card: React.FC<CardProps> = ({
       toast.success('Product quantity updated in Wishlist.');
     }
   };
+  window.addEventListener('WishlistChanged', () => console.log('WishlistChanged event received'));
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
-  const imgIndex = card.productImages.slice(-1)[0];
+  // const imgIndex = card.productImages[0];
   const stockhandler = () => {
     if (card?.reviews) {
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
@@ -467,7 +469,7 @@ const Card: React.FC<CardProps> = ({
                       }}
                     >
                       <Image
-                        src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
+                        src={cardStaticData?.posterImageUrl || card.posterImageUrl}
                         alt={card.posterImageAltText || card.name}
                         width={600}
                         height={600}

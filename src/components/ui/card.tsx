@@ -196,7 +196,7 @@ const Card: React.FC<CardProps> = ({
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
-  const imgIndex = card.productImages.slice(-1)[0];
+  // const imgIndex = card.productImages[0];
   const stockhandler = () => {
     if (card?.reviews) {
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
@@ -467,7 +467,7 @@ const Card: React.FC<CardProps> = ({
                       }}
                     >
                       <Image
-                        src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
+                        src={cardStaticData?.posterImageUrl || card.posterImageUrl}
                         alt={card.posterImageAltText || card.name}
                         width={600}
                         height={600}

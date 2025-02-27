@@ -15,6 +15,9 @@ import SocialLink from '../social-link';
 import Image from 'next/image';
 
 const Footer: React.FC = () => {
+
+  //Newsletter APi  
+
   // const [email, setEmail] = useState<string>('');
   // const [isLoading, setIsLoading] = useState<boolean>(false);
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +63,9 @@ const Footer: React.FC = () => {
 
   return (
     <section className="pt-10 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-helvetica">
+
+      {/* Newsletter Section start */}
+
       {/* <div className="container w-full sm:w-1/2 flex flex-col items-center mx-auto md:mb-[110px]">
         <Image src={logo} alt="logo" className="w-40" />
 
@@ -91,6 +97,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div> */}
+      {/* Newsletter Section end */}
 
         <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
         {footerItems.map((item, index) => (

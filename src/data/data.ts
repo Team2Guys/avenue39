@@ -43,7 +43,7 @@ export const TShippingPolicybredcrumbs = [
 ];
 
 import * as Yup from 'yup';
-import { Product, Category, SubCategory } from '@/types/interfaces';
+import { Product, Category, SubCategory, FooterItem } from '@/types/interfaces';
 import { IProductAdd } from '@/types/types';
 
 export const validateForm = (formData: {
@@ -523,3 +523,25 @@ export const newArrivals = [
 export const WhatsAppInfo: any = {
   number: '+971 50 597 4495',
 };
+
+export const footerItems: FooterItem[] = [
+  {
+    bgClass: "bg-footerbuy",
+    text: "Try Before You Buy",
+    overlayText: ["We assemble your furniture on delivery, and you have 20 minutes to decide—if not satisfied, we'll repack and process a refund."],
+    showImage: false,
+  },
+  {
+    bgClass: "bg-footerdeliver",
+    text: "Fastest Furniture Delivery in UAE",
+    overlayText: ["Get your order delivered in just 24 hours within Dubai and 48 hours across all Emirates."],
+    showImage: true,
+    imageSrc: "/assets/images/footer/delivery.png",
+  },
+  {
+    bgClass: "bg-footershowroom",
+    text: "Visit Our Showroom",
+    overlayText: ["Experience our collection in person at our sister company, Two Guys Home Furnishing in Al Quoz—see, touch, and feel the quality firsthand."],
+    showImage: false,
+  },
+];

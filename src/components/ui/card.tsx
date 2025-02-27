@@ -172,6 +172,7 @@ const Card: React.FC<CardProps> = ({
       existingWishlist.push(itemToAdd);
       localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
       console.log('Added to wishlist:', itemToAdd);
+      window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
       const addedQuantity = existingWishlistItem.quantity + 1;
@@ -192,6 +193,7 @@ const Card: React.FC<CardProps> = ({
       toast.success('Product quantity updated in Wishlist.');
     }
   };
+  window.addEventListener('WishlistChanged', () => console.log('WishlistChanged event received'));
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;

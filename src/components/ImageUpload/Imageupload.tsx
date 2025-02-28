@@ -30,9 +30,7 @@ const UploadFile = ({
     const files = Array.from(e.dataTransfer.files) as File[];
 
     try {
-      const response = await uploadPhotosToBackend(
-        fileFlage ? [files[0]] : files,
-      );
+      const response = await uploadPhotosToBackend(fileFlage ? [files[0]] : files,);
       setImagesUrl && setImagesUrl((prev) => [...prev, ...response]);
       setposterimageUrl && setposterimageUrl(response);
       sethoverImage && sethoverImage(response);

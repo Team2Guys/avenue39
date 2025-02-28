@@ -5,7 +5,7 @@ import { Formik, FieldArray, FormikErrors, Form } from 'formik';
 import Imageupload from '@components/ImageUpload/Imageupload';
 import { RxCross2 } from 'react-icons/rx';
 import Image from 'next/image';
-import { ImageRemoveHandler } from '@/utils/helperFunctions';
+import { ImageRemoveHandler, uploadPhotosToBackend } from '@/utils/helperFunctions';
 import Toaster from '@components/Toaster/Toaster';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
@@ -319,30 +319,51 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   };
   
 
-  const handleCropModalOk = () => {
-    if (croppedImage) {
-      // Determine which image is being cropped (product image, poster image, or hover image)
-      if (imageSrc) {
+  const handleCropModalOk = async () => {
+    if (croppedImage && imageSrc) {
+      try {
+        const file = base64ToFile(croppedImage, `cropped_${Date.now()}.jpg`);
+        const response = await uploadPhotosToBackend([file]);
+        const newImage = { imageUrl: response[0].imageUrl, public_id: response[0].public_id };
         setImagesUrl((prevImages) =>
           prevImages.map((img) =>
-            img.imageUrl === imageSrc ? { ...img, imageUrl: croppedImage } : img
+            img.imageUrl === imageSrc ? { ...img, ...newImage } : img
           )
         );
         setposterimageUrl((prevImages) =>
           prevImages?.map((img) =>
-            img.imageUrl === imageSrc ? { ...img, imageUrl: croppedImage } : img
+            img.imageUrl === imageSrc ? { ...img, ...newImage } : img
           )
         );
         sethoverImage((prevImages) =>
           prevImages?.map((img) =>
-            img.imageUrl === imageSrc ? { ...img, imageUrl: croppedImage } : img
+            img.imageUrl === imageSrc ? { ...img, ...newImage } : img
           )
         );
+        setIsCropModalVisible(false);
+        setCroppedImage(null);
+      } catch (error) {
+        console.error('Error uploading cropped image:', error);
+        showToast('error', 'Failed to upload cropped image');
       }
-      setIsCropModalVisible(false);
-      setCroppedImage(null);
     }
   };
+  
+  const base64ToFile = (base64: string, filename: string): File => {
+    const arr = base64.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : '';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+  
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+  
+    return new File([u8arr], filename, { type: mime });
+  };
+  
 
   const handleCropModalCancel = () => {
     setIsCropModalVisible(false);

@@ -3,7 +3,7 @@ import React, { SetStateAction, useEffect, useState, useRef } from 'react';
 import Imageupload from '@components/ImageUpload/Imageupload';
 import { RxCross2 } from 'react-icons/rx';
 import Image from 'next/image';
-import { ImageRemoveHandler } from '@/utils/helperFunctions';
+import { ImageRemoveHandler, uploadPhotosToBackend } from '@/utils/helperFunctions';
 import axios from 'axios';
 import { Formik, Form } from 'formik';
 import { SubCategory } from '@/types/interfaces';
@@ -193,12 +193,34 @@ const FormLayout = ({
     setCroppedImage(base64Image);
   };
 
-  const handleCropModalOk = () => {
+  const handleCropModalOk = async () => {
     if (croppedImage) {
-      setposterimageUrl([{ imageUrl: croppedImage, public_id: '' }]);
-      setIsCropModalVisible(false);
-      setCroppedImage(null);
+      try {
+        const file = base64ToFile(croppedImage, `cropped_${Date.now()}.jpg`);
+        const response = await uploadPhotosToBackend([file]);
+        setposterimageUrl([{ imageUrl: response[0].imageUrl, public_id: response[0].public_id }]);
+        setIsCropModalVisible(false);
+        setCroppedImage(null);
+      } catch (error) {
+        console.error('Error uploading cropped image:', error);
+        showToast('error', 'Failed to upload cropped image');
+      }
     }
+  };
+  
+  const base64ToFile = (base64: string, filename: string): File => {
+    const arr = base64.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : '';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+  
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+  
+    return new File([u8arr], filename, { type: mime });
   };
 
   const handleCropModalCancel = () => {

@@ -242,3 +242,11 @@ export interface IProductsImage {
   name: string;
   posterImageUrl: string;
 }
+
+export interface FooterItem {
+  bgClass: string;
+  text: string;
+  overlayText: string[];
+  showImage: boolean;
+  imageSrc?: string;
+}

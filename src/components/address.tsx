@@ -3,6 +3,7 @@ import SocialLink from './social-link';
 import Link from 'next/link';
 import Image from 'next/image';
 import location from '../../public/assets/images/location.png';
+import { MdOutlineEmail, MdOutlinePhone, MdOutlineWhatsapp } from 'react-icons/md';
 
 const Address = () => {
   return (
@@ -31,32 +32,32 @@ const Address = () => {
       </div>
       <div className="mt-5">
         <p className="text-[33px] font-base">Contact Info</p>
-        <ul>
+        <ul className='space-y-1'>
           <li>
             <Link
               href="mailto:cs@avenue39.com"
               target="_blank"
-              className="text-[19px] text-[#666666] font-medium"
+              className="text-[19px] text-[#666666] font-medium flex items-center gap-2"
             >
-              Email :<span>cs@avenue39.com</span>
+             <MdOutlineEmail size={22} /> <span>cs@avenue39.com</span>
             </Link>
           </li>
           <li>
             <Link
               href="https://wa.me/+971505974495"
               target="_blank"
-              className="text-[19px] text-[#666666] font-medium"
+              className="text-[19px] text-[#666666] font-medium flex items-center gap-2"
             >
-              WhatsApp :<span>+971 50 597 4495</span>
+              <MdOutlineWhatsapp size={23} /><span>+971 50 597 4495</span>
             </Link>
           </li>
           <li>
             <Link
               href="tel:+971 50 597 4495"
               target="_blank"
-              className="text-[19px] text-[#666666] font-medium"
+              className="text-[19px] text-[#666666] font-medium flex items-center gap-2"
             >
-              Phone :<span>+971 50 597 4495</span>
+              <MdOutlinePhone size={23} /><span>+971 50 597 4495</span>
             </Link>
           </li>
         </ul>

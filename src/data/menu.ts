@@ -17,11 +17,6 @@ export const menuData: MenuData = {
     {
       categoryId: 3,
       link: '/products',
-      title: 'Side Cabinets',
-    },
-    {
-      categoryId: 3,
-      link: '/products',
       title: 'TV Stands',
     },
     {
@@ -31,6 +26,11 @@ export const menuData: MenuData = {
     },
   ],
   living: [
+    {
+      categoryId: 4,
+      link: '/products',
+      title: 'Side Cabinets',
+    },
     {
       categoryId: 4,
       link: '/products',

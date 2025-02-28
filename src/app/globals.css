@@ -363,6 +363,10 @@ html {
 .slick-best-seller .slick-arrow.slick-next , .slick-best-seller .slick-arrow.slick-prev {
   display: none !important;
 }
+
+.slider-container.slick-best-seller.isLenght .slick-slider .slick-track {
+  margin: 0;
+}
 .detail {
   font-family: var(--font-helvetica) !important;
 }
@@ -401,7 +405,6 @@ html {
 .Bannerclas .swiper-pagination{
   bottom: -6px !important;
 }
-
 @media (max-width: 895px) {
   .product-slider-wrapper .custom-slick-prev-arrow {
     top: 50% !important;

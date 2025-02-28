@@ -17,13 +17,13 @@ const WishlistCount = () => {
     const handleWishlistChange = () => {
       calculateWishlistCount();
     };
-
     window.addEventListener('WishlistChanged', handleWishlistChange);
 
     return () => {
       window.removeEventListener('WishlistChanged', handleWishlistChange);
     };
-  }, []);
+  }, [wishlistCount]);
+
 
   return (
     <div

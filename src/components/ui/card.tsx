@@ -28,6 +28,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { BsCartX } from 'react-icons/bs';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;
@@ -171,6 +172,7 @@ const Card: React.FC<CardProps> = ({
       existingWishlist.push(itemToAdd);
       localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
       console.log('Added to wishlist:', itemToAdd);
+      window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
       const addedQuantity = existingWishlistItem.quantity + 1;
@@ -191,11 +193,12 @@ const Card: React.FC<CardProps> = ({
       toast.success('Product quantity updated in Wishlist.');
     }
   };
+  window.addEventListener('WishlistChanged', () => console.log('WishlistChanged event received'));
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
-  const imgIndex = card.productImages.slice(-1)[0];
+  // const imgIndex = card.productImages[0];
   const stockhandler = () => {
     if (card?.reviews) {
       const { averageRating } = calculateRatingsPercentage(card?.reviews);
@@ -254,7 +257,7 @@ const Card: React.FC<CardProps> = ({
                   <div className="overflow-hidden bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main">
                     <Link
                       href={finalUrl}
-                      className={`${cardImageHeight} flex justify-center items-center p-2`}
+                      className={`${cardImageHeight} flex justify-center items-center py-2`}
                     >
                       <Image
                         src={
@@ -466,7 +469,7 @@ const Card: React.FC<CardProps> = ({
                       }}
                     >
                       <Image
-                        src={cardStaticData?.posterImageUrl || imgIndex.imageUrl}
+                        src={cardStaticData?.posterImageUrl || card.posterImageUrl}
                         alt={card.posterImageAltText || card.name}
                         width={600}
                         height={600}
@@ -528,7 +531,8 @@ const Card: React.FC<CardProps> = ({
                     {renderStars({ star: averageRating })}
                   </div>
                 )}
-                {isModel ? null : isOutStock ? <button className='text-red-500 font-bold uppercase w-full bg-main border cursor-default rounded-full h-8'>Out of Stock</button> : (
+                {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
+                  <BsCartX size={18} /> Out of Stock</button> : (
                   <div
                     className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto' : 'w-full mb-4'}`}
                     onClick={(e) => handleEventProbation(e)}

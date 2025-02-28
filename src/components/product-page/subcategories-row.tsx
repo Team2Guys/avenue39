@@ -1,6 +1,6 @@
 import { generateSlug } from '@/config';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigation } from 'swiper/modules';
 import {
   MdOutlineKeyboardArrowLeft,
@@ -9,9 +9,11 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { re_Calling_products, recallingTypes } from '@/data/Re_call_prod';
 import { usePathname } from 'next/navigation';
+import { ICategory } from '@/types/types';
+import { menuData } from '@/data/menu';
 
 const SubCategoriesRow = ({ category }: any) => {
-
+  const [subCategory, setSubCategory] = useState<ICategory[] | undefined>([]);
 const path = usePathname()
 
 
@@ -28,43 +30,73 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
 
 }
 
+useEffect(() => {
+  if (!category) return;
 
-  const sorted = category?.subcategories.sort((a: any, b: any) => {
-    const subCatA = a.custom_url || a.name;
-    const subCatB = b.custom_url || b.name;
-    const redirectUrlA = re_Calling_products.find((item: recallingTypes) => {
-      return (
-        item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
-        item.subCategory.trim().toLowerCase() === subCatA.trim().toLowerCase()
-      );
-    });
+  const categoryName =
+    category.name.toLowerCase() === 'lighting'
+      ? 'Lighting'
+      : category.name.toLowerCase() === 'home office'
+      ? 'homeOffice'
+      : category.name.toLowerCase();
 
-    const redirectUrlB = re_Calling_products.find((item: recallingTypes) => {
-      return (
-        item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
-        item.subCategory.trim().toLowerCase() === subCatB.trim().toLowerCase()
-      );
-    });
+  // Get menu items from menuData instead of category
+  const menuItems = menuData[categoryName] ?? [];
 
-    const aContainsRedirect = !!redirectUrlA; // Check if redirectUrlA is found
-    const bContainsRedirect = !!redirectUrlB; // Check if redirectUrlB is found
+  const sortedSubcategories = category.subcategories?.sort((a: any, b: any) => {
+    const indexA = menuItems.findIndex(
+      (item) => item.title.toLowerCase() === a.name.toLowerCase()
+    );
+    const indexB = menuItems.findIndex(
+      (item) => item.title.toLowerCase() === b.name.toLowerCase()
+    );
 
-    if (aContainsRedirect && !bContainsRedirect) {
-      return 1; // Move 'a' to the last
+    if (indexA === -1 && indexB === -1) {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     }
-    if (!aContainsRedirect && bContainsRedirect) {
-      return -1; // Move 'b' to the last
-    }
-    return 0; // Keep the original order if both or neither match
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    return indexA - indexB;
   });
 
+  setSubCategory(sortedSubcategories);
+}, [category]);
 
-  console.log(sorted, "sorted", category)
+
+  // const sorted = category?.subcategories.sort((a: any, b: any) => {
+  //   const subCatA = a.custom_url || a.name;
+  //   const subCatB = b.custom_url || b.name;
+  //   const redirectUrlA = re_Calling_products.find((item: recallingTypes) => {
+  //     return (
+  //       item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
+  //       item.subCategory.trim().toLowerCase() === subCatA.trim().toLowerCase()
+  //     );
+  //   });
+
+  //   const redirectUrlB = re_Calling_products.find((item: recallingTypes) => {
+  //     return (
+  //       item.mainCategory.trim().toLowerCase() === (category.custom_url || category.name).trim().toLowerCase() &&
+  //       item.subCategory.trim().toLowerCase() === subCatB.trim().toLowerCase()
+  //     );
+  //   });
+
+  //   const aContainsRedirect = !!redirectUrlA; // Check if redirectUrlA is found
+  //   const bContainsRedirect = !!redirectUrlB; // Check if redirectUrlB is found
+
+  //   if (aContainsRedirect && !bContainsRedirect) {
+  //     return 1; // Move 'a' to the last
+  //   }
+  //   if (!aContainsRedirect && bContainsRedirect) {
+  //     return -1; // Move 'b' to the last
+  //   }
+  //   return 0; // Keep the original order if both or neither match
+  // });
+
 
   return (
     category && category?.subcategories?.length > 0 && (
       <div
-        className={`relative ps-2 sm:ps-8 pe-8 ${(category && category?.subcategories?.length === 2)
+        className={`relative px-2 sm:ps-8 sm:pe-8 ${(category && category?.subcategories?.length === 2)
             ? 'w-full md:w-6/12 lg:4/12 xl:2/12'
             :category && category?.subcategories?.length=== 4
              ? 'w-full sm:w-full md:w-6/12 lg:w-6/12 xl:w-6/12'
@@ -102,7 +134,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
             },
           }}
         >
-          {(sorted)?.map((subcat: any, index: any) => (
+          {(subCategory)?.map((subcat: any, index: any) => (
             <SwiperSlide key={index}>
               <Link
         
@@ -112,7 +144,7 @@ const changeCategoryHandler = (categoryName:string, subCatgory:string)=>{
                 
                 }
                 key={category.categoryId}
-                className={`w-full text-center whitespace-nowrap rounded-lg py-2 px-2 border border-main block ${path === changeCategoryHandler((category?.custom_url ||category?.name) , ((subcat?.custom_url || subcat?.name) || category.title) ) ? 'bg-main text-white' : 'bg-transparent text-main'}`}
+                className={`w-full text-center whitespace-nowrap rounded-lg py-2 px-2 border  block ${path === changeCategoryHandler((category?.custom_url ||category?.name) , ((subcat?.custom_url || subcat?.name) || category.title) ) ? 'bg-primary text-white border-primary' : 'bg-transparent hover:bg-main hover:text-white text-main border-main'}`}
               >
                 <span>{subcat?.name || subcat.title}</span>
               </Link>

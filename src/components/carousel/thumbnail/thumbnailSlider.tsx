@@ -29,7 +29,7 @@ const CustomThumbnailSlickSlider = ({
       {
         breakpoint: 895,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
           centerMode: true,
           vertical: false,
           infinite: thumbs.length > 1,

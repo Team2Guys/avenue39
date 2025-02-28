@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.webp';
-import Marlin from '@assets/images/banners/Marlin.webp';
+import Marlin from '@assets/images/banners/Marlin-chair.png';
 import rafael from '@assets/images/banners/rafael.webp';
 import Calda from '@assets/images/banners/Calda.webp';
 import Magia from '@assets/images/banners/Magia.webp';
@@ -17,6 +17,7 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+import ContainerFluid from '../ui/ContainerFluid';
 const sofaData_slides = [
   {
     id: 1,
@@ -50,7 +51,7 @@ const sliderDataa_sofa_initial = [
         mobileImage: Moblie_Magia.src,
         // pro_price: 'AED 6,250',
         subtitle: 'Explore our latest luxury pieces now',
-        subPara: '',
+        subPara: 'Starting from AED 70',
         link: '/new-arrivals',
         buttonPosition: 'top',
         ImagePosition: 'center',
@@ -61,7 +62,7 @@ const sliderDataa_sofa_initial = [
         mobileImage: Moblie_Moderno.src,
         // pro_price: 'AED 799',
         subtitle: 'Explore our latest luxury pieces now',
-        subPara: '',
+        subPara: 'Starting from AED 70',
         link: '/new-arrivals',
         buttonPosition: 'top',
         ImagePosition: 'center',
@@ -122,7 +123,7 @@ const SofaBanner: React.FC = () => {
 
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 relative px-2 md:px-0 mt-3">
+    <ContainerFluid className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-3 px-2 md:px-0 mt-3">
       <div
         className="sofa_slider1 bg-lightforeground rounded-2xl">
         <Swiper
@@ -137,7 +138,7 @@ const SofaBanner: React.FC = () => {
         >
           {sofaData_slides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="flex flex-wrap items-center justify-center px-2 pb-4 xs:pb-0 sm:ps-20 md:ps-6 lg:ps-8 3xl:ps-[123px] min-h-[400px] sm:min-h-[500px] md:min-h-[600px] max-w-screen-2xl mx-auto">
+              <div className="flex flex-wrap items-center justify-center px-2 pb-4 xs:pb-0 sm:ps-20 md:ps-6 lg:ps-8 3xl:ps-[17%] min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
                 <div className="w-full lg:w-1/3 text-center lg:text-left max-xs:pt-5">
                   <div>
                     <Link
@@ -155,14 +156,14 @@ const SofaBanner: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="w-full lg:w-2/3 relative flex justify-center">
+                <div className="w-full lg:w-2/3 relative flex justify-center xl:h-[500px]">
                   <Link href={slide.link}>
                     <Image
                       src={slide.image}
                       width={900}
                       height={500}
                       alt={slide.title}
-                      className="max-w-[900px] w-full h-auto object-cover"
+                      className="max-w-[900px] w-full h-full object-cover"
                     />
                   </Link>
                 </div>
@@ -187,7 +188,7 @@ const SofaBanner: React.FC = () => {
               speed={1500}
             >    {item.slides.map((slide, index) => (
               <SwiperSlide key={index}>
-                <div className={`h-44 xsm:h-[200px] xs:h-[290px]`}>
+                <div className={`h-44 xsm:h-[200px] xs:h-[290px] sofa-slider`}>
                   <Link href={slide.link}
                     className="w-full h-full rounded-2xl block"
                     style={{
@@ -233,7 +234,7 @@ const SofaBanner: React.FC = () => {
           </div>
         ))}
       </div>
-    </section>
+    </ContainerFluid>
   );
 };
 

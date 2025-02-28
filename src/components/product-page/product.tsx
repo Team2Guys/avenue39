@@ -46,7 +46,7 @@ const ProductPage = ({
 
   const [sortOption, setSortOption] = useState<string>('default');
   const [showProd, setshowProd] = useState<string>('All');
-
+  const [desc, setDesc] = useState<any>();
 
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
@@ -55,9 +55,12 @@ const ProductPage = ({
 
 
   const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
-  const description = SubcategoryName?.description || info?.description || "";
-
   useEffect(() => {
+    const description = SubcategoryName?.description || info?.description || "";
+    setDesc(description);
+  }, [info, SubcategoryName]);
+  useEffect(() => {
+    console.log(isMobile)
     const handleResize = () => setIsMobile(window.innerWidth < 640);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -67,8 +70,7 @@ const ProductPage = ({
 
   const processedProducts = variationProducts({ products: productsToFilter });
 
-
-  const filteredSortedCards  = processedProducts
+  const filteredSortedCards = processedProducts
     .filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
@@ -82,17 +84,17 @@ const ProductPage = ({
       const sizeStockA = a?.sizes?.find((size: CartSize) => size.name === a.sizeName);
       const filterStockA = a?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === a.colorName);
       let totalStockA = Number(sizeStockA?.stock) || Number(filterStockA?.stock) || a.stock || 0;
-  
+
       const sizeStockB = b?.sizes?.find((size: CartSize) => size.name === b.sizeName);
       const filterStockB = b?.filter?.[0]?.additionalInformation?.find((size: CartSize) => size.name === b.colorName);
       let totalStockB = Number(sizeStockB?.stock) || Number(filterStockB?.stock) || b.stock || 0;
-  
+
       totalStockA = Math.max(0, totalStockA);
       totalStockB = Math.max(0, totalStockB);
-  
+
       if (totalStockA === 0 && totalStockB > 0) return 1;
       if (totalStockA > 0 && totalStockB === 0) return -1;
-      
+
       switch (sortOption) {
         case 'name':
           return a.name.trim().localeCompare(b.name.trim());
@@ -113,9 +115,9 @@ const ProductPage = ({
 
     })
 
-let Arraylenght =     !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards.length
+  let Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards.length
 
-const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
+  const filteredCards = [...filteredSortedCards].slice(0, Arraylenght);
   return (
     <>
       {
@@ -145,9 +147,8 @@ const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
                 {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
               </h1>
               <Container>
-                <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`}>
-                  {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description}
-                </p>
+                <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: desc }}></p>
+                  {/* {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description} */}
               </Container>
             </div>
           )}
@@ -170,44 +171,44 @@ const filteredCards = [...filteredSortedCards].slice(0,Arraylenght );
 
 
                 <div className="block whitespace-nowrap text-12 sm:text-base">
-                {/* Showing {filteredCards.length > 0 ? filteredCards.length : 0} results */}
-                <Select onValueChange={handleshowResult}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Show All" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem disabled={!(filteredSortedCards.length >=10)? true : false} value="10">Show 10 products</SelectItem>
-                      <SelectItem disabled={!(filteredSortedCards.length >=20)? true : false} value="20">Show 20 products</SelectItem>
-                      <SelectItem disabled={!(filteredSortedCards.length >=30)? true : false} value="30">Show 30 products</SelectItem>
-                      <SelectItem disabled={!(filteredSortedCards.length >0)? true : false} value='All'>Show All</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                  {/* Showing {filteredCards.length > 0 ? filteredCards.length : 0} results */}
+                  <Select onValueChange={handleshowResult}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Show All" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem disabled={!(filteredSortedCards.length >= 10) ? true : false} value="10">Show 10 products</SelectItem>
+                        <SelectItem disabled={!(filteredSortedCards.length >= 20) ? true : false} value="20">Show 20 products</SelectItem>
+                        <SelectItem disabled={!(filteredSortedCards.length >= 30) ? true : false} value="30">Show 30 products</SelectItem>
+                        <SelectItem disabled={!(filteredSortedCards.length > 0) ? true : false} value='All'>Show All</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className='flex items-center gap-2'>
+                  <MdWindow
+                    className="cursor-pointer text-3xl"
+                    onClick={() => Setlayout('grid')}
+                  />
+                  <ImList
+                    className="cursor-pointer text-2xl"
+                    onClick={() => Setlayout('list')}
+                  />
+
+                </div>
               </div>
 
-<div className='flex items-center gap-2'>
-                <MdWindow
-                  className="cursor-pointer text-3xl"
-                  onClick={() => Setlayout('grid')}
-                />
-                <ImList
-                  className="cursor-pointer text-2xl"
-                  onClick={() => Setlayout('list')}
-                />
 
-</div>
-              </div>
-
-           
             </div>
             <SubCategoriesRow category={info} />
           </div>
 
           <div
             className={`grid gap-4 md:gap-8 mt-4 ${layout === 'grid'
-                ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5'
-                : 'grid-cols-1'
+              ? 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5'
+              : 'grid-cols-1'
               }`}
           >
             {filteredCards.length > 0 ? (

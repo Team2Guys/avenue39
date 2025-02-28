@@ -134,7 +134,7 @@ const ProductPage = ({
             <div className="flex flex-col items-center">
               {newArrivals.map((item, index) => (
                 <div key={index} className="text-center">
-                  <h1 className="text-[45px] font-Helveticalight font-bold">{item.title}</h1>
+                  <h1 className="text-[45px] font-Helveticalight font-bold capitalize">{item.title.toLowerCase()}</h1>
                   <Container>
                     <p className='font-Helveticalight text-base'>{item.description}</p>
                   </Container>
@@ -143,8 +143,8 @@ const ProductPage = ({
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <h1 className="text-[45px] font-Helveticalight font-bold">
-                {SubcategoryName?.name ? SubcategoryName?.name : info?.name}
+              <h1 className="text-[45px] font-Helveticalight font-bold capitalize">
+                {SubcategoryName?.name ? SubcategoryName?.name.toLowerCase() : info?.name.toLowerCase()}
               </h1>
               <Container>
                 <p className={`text-center font-Helveticalight text-base ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: desc }}></p>

@@ -308,7 +308,7 @@ const Card: React.FC<CardProps> = ({
                   </p>
                 )}
                 <div className="space-y-3">
-                  <h2 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
+                  <p className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                     <Link
                       className="cursor-pointer"
                       href={finalUrl}
@@ -316,7 +316,7 @@ const Card: React.FC<CardProps> = ({
                       {' '}
                       {displayName ? displayName : card.name}
                     </Link>
-                  </h2>
+                  </p>
                   <div>
                     {card.discountPrice > 0 ? (
                       <div className="flex gap-2 justify-center">
@@ -504,11 +504,11 @@ const Card: React.FC<CardProps> = ({
                 )}
               </div>
               <div className="space-y-3">
-                <h2 className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
+                <p className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
                   <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
                     {displayName ? displayName : card.name}
                   </Link>
-                </h2>
+                </p>
                 <div>
                   {productDiscountPrice && productDiscountPrice > 0 ? (
                     <div className="flex gap-2 justify-center">

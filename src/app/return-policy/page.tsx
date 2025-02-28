@@ -30,7 +30,7 @@ const ReturnPolicyPage: React.FC = () => {
       <h1 className='text-center text-[36px] font-medium mt-5'>Return Policy</h1>
       <div className="max-w-5xl mx-auto p-4">
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold mb-2">Return Policy</h2>
+          {/* <h2 className="text-xl font-semibold mb-2">Return Policy</h2> */}
           <p className="text-base w-full text-start">
             Avenue39 is a brand that people can trust, as we keep their
             experience with our products beyond their expectations. However, we

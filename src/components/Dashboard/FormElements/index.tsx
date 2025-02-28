@@ -331,37 +331,35 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         // Use the base URL from your environment variables
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
         const uploadedImageUrl = response[0].imageUrl;
-        // If the uploaded image URL isn't already a full URL, append the base URL
+        // Append the base URL if needed
         const newImageUrl = uploadedImageUrl.startsWith('http')
           ? uploadedImageUrl
           : `${baseUrl}${uploadedImageUrl}`;
   
         const newImage = { imageUrl: newImageUrl, public_id: response[0].public_id };
   
-        // Update the product images array
-        setImagesUrl((prevImages) =>
-          prevImages.map((img) =>
-            img.imageUrl === imageSrc ? { ...img, ...newImage } : img
-          )
-        );
-  
-        // Update the poster image array
-        setposterimageUrl((prevImages) =>
-          prevImages?.map((img) =>
-            img.imageUrl === imageSrc ? { ...img, ...newImage } : img
-          )
-        );
-  
-        // Update the hover image array
-        sethoverImage((prevImages) =>
-          prevImages?.map((img) =>
-            img.imageUrl === imageSrc ? { ...img, ...newImage } : img
-          )
-        );
-  
-        // Close the crop modal and reset the cropped image state
+        // First close the modal and reset croppedImage
         setIsCropModalVisible(false);
         setCroppedImage(null);
+  
+        // Use a timeout to update states after the modal has closed
+        setTimeout(() => {
+          setposterimageUrl((prevImages) =>
+            prevImages?.map((img) =>
+              img.imageUrl === imageSrc ? { ...img, ...newImage } : img
+            )
+          );
+          setImagesUrl((prevImages) =>
+            prevImages.map((img) =>
+              img.imageUrl === imageSrc ? { ...img, ...newImage } : img
+            )
+          );
+          sethoverImage((prevImages) =>
+            prevImages?.map((img) =>
+              img.imageUrl === imageSrc ? { ...img, ...newImage } : img
+            )
+          );
+        }, 0);
       } catch (error) {
         console.error('Error uploading cropped image:', error);
         showToast('error', 'Failed to upload cropped image');
@@ -384,6 +382,9 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   
     return new File([u8arr], filename, { type: mime });
   };
+  
+  
+
   
   
 
@@ -1498,6 +1499,9 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                                   alt={`productImage-${index}`}
                                 />
                               </div>
+                              
+                              {isCropModalVisible && imageSrc && (
+
                               <Modal
                                 title="Crop Image"
                                 open={isCropModalVisible}
@@ -1519,7 +1523,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                                   </ReactCrop>
                                 )}
                               </Modal>
-
+                                    )}
                               <input
                                 type="text"
                                 placeholder="Add Image Color"

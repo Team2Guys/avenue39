@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
-import { CartItem, CartSize } from '@/redux/slices/cart/types';
+import { CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
@@ -83,7 +83,6 @@ const ProductDetail = ({
     min: 0,
     sec: 0,
   });
-  const [productSizes, setProductSizes] = useState<any[]>([]);
   const [selectedSize, setSelectedSize] = useState<number | null>(0);
   const [size, setSize] = useState<CartSize | null | undefined>(null);
   const [filter, setFilter] = useState<CartSize | null | undefined>(null);
@@ -100,11 +99,6 @@ const ProductDetail = ({
     size?: string;
   }>({ filter: filterParam, size: sizeParam });
 
-  useEffect(() => {
-    if (uniqueSizes) {
-      setProductSizes(uniqueSizes);
-    }
-  }, [uniqueSizes]);
 
   const product = params
     ? params
@@ -157,11 +151,11 @@ const ProductDetail = ({
     setCustomImages(customProductImage);
 
     if (slugParams.filter && slugParams.size) {
-      const sizeIndex = productSizes?.findIndex(
+      const sizeIndex = uniqueSizes?.findIndex(
         (item: Sizes) => generateSlug(item.name) === slugParams.size,
       );
       const selectedSize: any =
-        sizeIndex !== -1 ? productSizes[sizeIndex] : productSizes[0];
+        sizeIndex !== -1 ? uniqueSizes[sizeIndex] : uniqueSizes[0];
       setSize(selectedSize);
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       const findFilter = additionalInfo.find(
@@ -223,10 +217,10 @@ const ProductDetail = ({
       if (
         additionalInfo &&
         additionalInfo.length > 0 &&
-        productSizes.length > 0
+        uniqueSizes.length > 0
       ) {
         const activeSize =
-          selectedSize !== null ? productSizes[selectedSize] : null;
+          selectedSize !== null ? uniqueSizes[selectedSize] : null;
         setSize(activeSize);
         setSelectedSize(selectedSize);
         const filteredImages = product?.productImages.filter(
@@ -257,7 +251,7 @@ const ProductDetail = ({
       } else if (
         additionalInfo &&
         additionalInfo.length > 0 &&
-        productSizes.length === 0
+        uniqueSizes.length === 0
       ) {
         const uniqueColors = [
           ...new Set(product?.productImages?.map((img) => img.color)),
@@ -280,14 +274,13 @@ const ProductDetail = ({
         setProductImage([]);
       }
     }
-  }, [product, size, filter, productSizes]);
+  }, [product, size, filter, uniqueSizes]);
 
   function formatPrice(price: any) {
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
 
-  /* eslint-disable */
 
   const Navigate = useRouter();
   useEffect(() => {
@@ -332,6 +325,19 @@ const ProductDetail = ({
 
   const { averageRating, productReviews } =
     calculateRatingsPercentage(filteredReviews);
+  const itemToAdd: any = {
+    ...product,
+    quantity: count,
+    selectedSize: size,
+    selectedfilter: filter,
+  };
+
+  useEffect(() => {
+    if (!itemToAdd) return;
+    const findStock = getProductStock({ product: itemToAdd });
+    setIsOutStock(findStock > 0 ? false : true);
+    setTotalStock(findStock);
+  }, [size, filter]);
 
   if (!product) {
     return <ProductDetailSkeleton />;
@@ -349,19 +355,7 @@ const ProductDetail = ({
     }
   };
 
-  const itemToAdd: CartItem = {
-    ...product,
-    quantity: count,
-    selectedSize: size,
-    selectedfilter: filter,
-  };
 
-  useEffect(() => {
-    if (!itemToAdd) return;
-    const findStock = getProductStock({ product: itemToAdd });
-    setIsOutStock(findStock > 0 ? false : true);
-    setTotalStock(findStock);
-  }, [size, filter]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -616,7 +610,7 @@ const ProductDetail = ({
               <div className="flex space-x-4 mt-1">
                 {uniqueSizes.map(
                   (size: { name: string; price: string }, index: number) => {
-                    const [sizeName, sizeType] = size?.name.split(' ');
+                    const [sizeName, sizeType] = size.name.split(' ');
                     return (
                       <div
                         key={index}

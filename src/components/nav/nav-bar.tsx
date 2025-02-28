@@ -102,8 +102,12 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
   };
 
   const filteredProducts = products?.filter((product: IProduct) => {
+    
     const searchTerm = searchText.trim().toLowerCase();
-
+    if(searchTerm === ''){
+    const stock = getAllStock(product)
+    return Number(stock) > 0 ? true : false;
+  }
     return (
       product.name.toLowerCase().includes(searchTerm) ||
       // product.description.toLowerCase().includes(searchTerm) ||

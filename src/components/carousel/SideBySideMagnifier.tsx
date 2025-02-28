@@ -72,6 +72,7 @@ const SideBySideMagnifier: React.FC<SideBySideMagnifierProps> = ({
           height={800}
           alt={altText || ''}
           className="w-full h-full object-fill bg-white"
+          priority={false}
         />
       </div>
       {isHovered && (

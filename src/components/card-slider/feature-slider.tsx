@@ -22,6 +22,7 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
   const [processedProducts, setPocessedProducts] = useState<CartItem[]>([])
   const [width, setWidth] = useState(window.innerWidth)
   const variationProduct = variationProducts({ products: similarProducts });
+
   useEffect(() => {
     if(variationProduct){
       const filterproducts = variationProduct.filter((prod) => {
@@ -30,7 +31,7 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
       }) 
       setPocessedProducts(filterproducts);
     }
-  },[variationProduct])
+  },[])
   const settings = {
     dots: false,
     infinite: isLenght,

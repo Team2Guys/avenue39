@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
-import { CartItem, CartSize } from '@/redux/slices/cart/types';
+import { CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '@/config/fetch';
@@ -41,7 +41,8 @@ import {
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
 import { State } from '@/redux/store';
-
+import Icontime from '../../../public/assets/icons/Group2038.svg';
+import Icondelivery from '../../../public/assets/icons/Group2037.svg';
 import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
 
@@ -82,7 +83,6 @@ const ProductDetail = ({
     min: 0,
     sec: 0,
   });
-  const [productSizes, setProductSizes] = useState<any[]>([]);
   const [selectedSize, setSelectedSize] = useState<number | null>(0);
   const [size, setSize] = useState<CartSize | null | undefined>(null);
   const [filter, setFilter] = useState<CartSize | null | undefined>(null);
@@ -93,22 +93,18 @@ const ProductDetail = ({
   const [isOutStock, setIsOutStock] = useState<boolean>(false);
   const [totalStock, setTotalStock] = useState<number>(0);
   const [availableFilters, setAvailableFilters] = useState<any[]>([]);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [slugParams, setSlugParams] = useState<{
     filter?: string;
     size?: string;
   }>({ filter: filterParam, size: sizeParam });
 
-  useEffect(() => {
-    if (uniqueSizes) {
-      setProductSizes(uniqueSizes);
-    }
-  }, [uniqueSizes]);
 
   const product = params
     ? params
     : products?.find(
-        (product) => (product.custom_url || product?.name) === slug,
-      );
+      (product) => (product.custom_url || product?.name) === slug,
+    );
 
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
@@ -155,11 +151,11 @@ const ProductDetail = ({
     setCustomImages(customProductImage);
 
     if (slugParams.filter && slugParams.size) {
-      const sizeIndex = productSizes?.findIndex(
+      const sizeIndex = uniqueSizes?.findIndex(
         (item: Sizes) => generateSlug(item.name) === slugParams.size,
       );
       const selectedSize: any =
-        sizeIndex !== -1 ? productSizes[sizeIndex] : productSizes[0];
+        sizeIndex !== -1 ? uniqueSizes[sizeIndex] : uniqueSizes[0];
       setSize(selectedSize);
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       const findFilter = additionalInfo.find(
@@ -221,10 +217,10 @@ const ProductDetail = ({
       if (
         additionalInfo &&
         additionalInfo.length > 0 &&
-        productSizes.length > 0
+        uniqueSizes.length > 0
       ) {
         const activeSize =
-          selectedSize !== null ? productSizes[selectedSize] : null;
+          selectedSize !== null ? uniqueSizes[selectedSize] : null;
         setSize(activeSize);
         setSelectedSize(selectedSize);
         const filteredImages = product?.productImages.filter(
@@ -255,7 +251,7 @@ const ProductDetail = ({
       } else if (
         additionalInfo &&
         additionalInfo.length > 0 &&
-        productSizes.length === 0
+        uniqueSizes.length === 0
       ) {
         const uniqueColors = [
           ...new Set(product?.productImages?.map((img) => img.color)),
@@ -278,14 +274,13 @@ const ProductDetail = ({
         setProductImage([]);
       }
     }
-  }, [product, size, filter, productSizes]);
+  }, [product, size, filter, uniqueSizes]);
 
   function formatPrice(price: any) {
     if (!price) return 0;
     return price > 1000 ? price.toLocaleString('en-US') : price;
   }
 
-  /* eslint-disable */
 
   const Navigate = useRouter();
   useEffect(() => {
@@ -330,6 +325,19 @@ const ProductDetail = ({
 
   const { averageRating, productReviews } =
     calculateRatingsPercentage(filteredReviews);
+  const itemToAdd: any = {
+    ...product,
+    quantity: count,
+    selectedSize: size,
+    selectedfilter: filter,
+  };
+
+  useEffect(() => {
+    if (!itemToAdd) return;
+    const findStock = getProductStock({ product: itemToAdd });
+    setIsOutStock(findStock > 0 ? false : true);
+    setTotalStock(findStock);
+  }, [size, filter]);
 
   if (!product) {
     return <ProductDetailSkeleton />;
@@ -347,19 +355,7 @@ const ProductDetail = ({
     }
   };
 
-  const itemToAdd: CartItem = {
-    ...product,
-    quantity: count,
-    selectedSize: size,
-    selectedfilter: filter,
-  };
 
-  useEffect(() => {
-    if (!itemToAdd) return;
-    const findStock = getProductStock({ product: itemToAdd });
-    setIsOutStock(findStock > 0 ? false : true);
-    setTotalStock(findStock);
-  }, [size, filter]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -400,6 +396,7 @@ const ProductDetail = ({
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
+      Navigate.push('/checkout');
       return;
     }
 
@@ -458,8 +455,8 @@ const ProductDetail = ({
       }
       existingWishlist = existingWishlist.map((item: any) =>
         item.id === existingWishlistItem.id &&
-        item.selectedSize?.name === existingWishlistItem.selectedSize?.name &&
-        item.selectedfilter?.name === existingWishlistItem.selectedfilter?.name
+          item.selectedSize?.name === existingWishlistItem.selectedSize?.name &&
+          item.selectedfilter?.name === existingWishlistItem.selectedfilter?.name
           ? { ...item, quantity: item.quantity + (count || 1) }
           : item,
       );
@@ -498,7 +495,7 @@ const ProductDetail = ({
         <div className="flex gap-2">
           {!isOutStock ? (
             <div className="bg-[#56B400] p-2 rounded-sm text-white text-xs font-helvetica">
-              IN STOCK {}
+              IN STOCK { }
             </div>
           ) : (
             <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
@@ -518,7 +515,7 @@ const ProductDetail = ({
               <div className="bg-[#EE1C25] p-2 rounded-sm text-white text-xs font-helvetica">
                 {Math.round(
                   ((product.price - product.discountPrice) / product.price) *
-                    100,
+                  100,
                 )}
                 % OFF
               </div>
@@ -555,6 +552,12 @@ const ProductDetail = ({
 
         {product?.discountPrice > 0 || productDiscPrice > 0 ? (
           <ProductPrice className="flex items-center gap-2">
+            <NormalText className="font-normal text-base text-slate-400 line-through">
+              AED{' '}
+              {productPrice > 0
+                ? formatPrice(productPrice)
+                : `${formatPrice(product?.price)}`}
+            </NormalText>
             AED{' '}
             {productDiscPrice > 0
               ? productDiscPrice > 1000
@@ -563,12 +566,6 @@ const ProductDetail = ({
               : product?.discountPrice > 1000
                 ? product?.discountPrice.toLocaleString()
                 : product?.discountPrice}
-            <NormalText className="font-normal text-base text-slate-400 line-through">
-              AED{' '}
-              {productPrice > 0
-                ? formatPrice(productPrice)
-                : `${formatPrice(product?.price)}`}
-            </NormalText>
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">
@@ -580,7 +577,28 @@ const ProductDetail = ({
         )}
 
         <p className="text-lightdark text-14 tracking-wide leading-6 font-helvetica">
-          {isZoom ? <>{truncateText(product?.description, 120)}<span className='underline font-medium cursor-pointer text-nowrap' onClick={onclickDesc}>View More</span></> : product?.description}
+          {isZoom ? <>{truncateText(product?.description, 120)}<span className='underline font-medium cursor-pointer text-nowrap' onClick={onclickDesc}>View More</span></> :
+            <>{isExpanded ? (
+              <>
+                {product.description}
+                <span
+                  className="underline font-medium cursor-pointer text-nowrap"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  View Less
+                </span>
+              </>
+            ) : (
+              <>
+                {truncateText(product.description, 120)}
+                <span
+                  className="underline font-medium cursor-pointer text-nowrap"
+                  onClick={() => setIsExpanded(true)}
+                >
+                  View More
+                </span>
+              </>
+            )}</>}
         </p>
 
         <div>
@@ -592,7 +610,7 @@ const ProductDetail = ({
               <div className="flex space-x-4 mt-1">
                 {uniqueSizes.map(
                   (size: { name: string; price: string }, index: number) => {
-                    const [sizeName, sizeType] = size?.name.split(' ');
+                    const [sizeName, sizeType] = size.name.split(' ');
                     return (
                       <div
                         key={index}
@@ -702,7 +720,7 @@ const ProductDetail = ({
                 variant={'main'}
                 className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
                 onClick={(e: any) =>
-                  isOutStock ? () => {} : handleAddToCard(e)
+                  isOutStock ? () => { } : handleAddToCard(e)
                 }
                 disable={isOutStock}
               >
@@ -735,16 +753,16 @@ const ProductDetail = ({
               tabby
             </span>
             <p className="text-12 font-helvetica">
-              Pay 4 interest-free payments of AED {}
+              Pay 4 interest-free payments of AED { }
               {productPrice > 0 || productDiscPrice > 0
                 ? productDiscPrice > 0
                   ? productDiscPrice / 4
                   : productPrice / 4
                 : (
-                    (product?.discountPrice
-                      ? product?.discountPrice
-                      : product?.price) / 4
-                  ).toFixed(1)}{' '}
+                  (product?.discountPrice
+                    ? product?.discountPrice
+                    : product?.price) / 4
+                ).toFixed(1)}{' '}
               <Dialog>
                 <DialogTrigger asChild>
                   <span className="text-red-600 underline cursor-pointer">
@@ -831,10 +849,10 @@ const ProductDetail = ({
                   ? productDiscPrice / 4
                   : productPrice / 4
                 : (
-                    (product?.discountPrice
-                      ? product?.discountPrice
-                      : product?.price) / 4
-                  ).toFixed(1)}{' '}
+                  (product?.discountPrice
+                    ? product?.discountPrice
+                    : product?.price) / 4
+                ).toFixed(1)}{' '}
               <Dialog>
                 <DialogTrigger asChild>
                   <span className="text-red-600 underline cursor-pointer">
@@ -937,8 +955,14 @@ const ProductDetail = ({
             </div>
           ))}
         </div>
-        <p className='font-helvetica mt-2 mb-0'>*Try before you buy- 20 minutes to decide after assembly, or get a full refund.</p>
-        <p className='font-helvetica'>*Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
+        <div className='flex gap-2 items-center'>
+          <Image src={Icontime} alt='time icon' width={40} height={40} />
+          <p className='font-helvetica mt-2 mb-0'>Try before you buy- 20 minutes to decide after assembly, or get a full refund.</p>
+        </div>
+        <div className='flex gap-2 items-center'>
+          <Image src={Icondelivery} alt='time icon' width={40} height={40} />
+          <p className='font-helvetica'>Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,8 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { IProduct } from '@/types/types';
 import CardSkaleton from '../Skaleton/productscard';
 import Card from '../ui/card';
-import { variationProducts } from '@/config';
+import { getAllStock, variationProducts } from '@/config';
+import { CartItem } from '@/redux/slices/cart/types';
 
 interface FeatureProps {
   similarProducts: IProduct[];
@@ -18,8 +19,19 @@ interface FeatureProps {
 const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestSeller }) => {
   const sliderRef = useRef<Slider>(null);
   const [isLenght, setIsLenght] = useState<boolean>(false)
+  const [processedProducts, setPocessedProducts] = useState<CartItem[]>([])
   const [width, setWidth] = useState(window.innerWidth)
-  const processedProducts = variationProducts({ products: similarProducts });
+  const variationProduct = variationProducts({ products: similarProducts });
+
+  useEffect(() => {
+    if(variationProduct){
+      const filterproducts = variationProduct.filter((prod) => {
+        const stock = getAllStock(prod)
+        return Number(stock) > 0 ? true : false;
+      }) 
+      setPocessedProducts(filterproducts);
+    }
+  },[])
   const settings = {
     dots: false,
     infinite: isLenght,

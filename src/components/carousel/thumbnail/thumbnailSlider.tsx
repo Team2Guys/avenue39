@@ -20,7 +20,7 @@ const CustomThumbnailSlickSlider = ({
     centerMode: true,
     centerPadding: '0',
     slidesToShow: 1,
-    speed: 500,
+    speed: 200,
     focusOnSelect: true,
     vertical: true,
     verticalSwiping: true,
@@ -29,7 +29,7 @@ const CustomThumbnailSlickSlider = ({
       {
         breakpoint: 895,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
           centerMode: true,
           vertical: false,
           infinite: thumbs.length > 1,
@@ -55,7 +55,7 @@ const CustomThumbnailSlickSlider = ({
     <div className="w-full md:w-3/12 lg:w-1/5 relative product-slider-wrapper">
       <div
         id="prevArrow" onClick={() => slickRef.current?.slickPrev()}
-        className="slick-prev-arrow custom-slick-prev-arrow !flex !justify-center !items-center cursor-pointer absolute -top-7 left-1/2 -translate-x-[50%]"
+        className="slick-prev-arrow custom-slick-prev-arrow !flex !justify-center !items-center cursor-pointer absolute -top-8 left-1/2 -translate-x-[50%]"
       >
         <IoIosArrowUp className="text-black text-21 xs:text-[30px]" />
       </div>
@@ -85,6 +85,7 @@ const CustomThumbnailSlickSlider = ({
                 console.log(thumb);
               }}
               alt={thumb.altText || 'Thumbnail'}
+              priority={false}
             />
           </div>
         ))}

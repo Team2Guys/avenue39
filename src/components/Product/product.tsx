@@ -6,10 +6,10 @@ import Services from '@/components/services/services';
 import { IProduct, IProductDetail, IReview } from '@/types/types';
 import ProductDetail from '@/components/product-detail/product-detail';
 import TopHero from '@/components/top-hero';
-import FeatureSlider from '@/components/card-slider/feature-slider';
 import { Table } from 'antd';
 import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
+import FeatureSlider from '../card-slider/feature-slider';
 
 const Product = ({ params, reviews, similarProducts, product, products, subslug, mainslug, filterParam, sizeParam , uniqueSizes }: {
   params: IProductDetail;

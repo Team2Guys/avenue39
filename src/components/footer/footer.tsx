@@ -289,7 +289,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div className="mt-2 xs:w-full flex max-w-56  text-[#686868]">
-            <div className="xs:w-full max-w-56 rounded-sm ">
+            <div className="xs:w-full max-w-56 rounded-sm py-2">
               <Link
                 className='flex gap-2  text-14 hover:font-semibold'
                 href="https://maps.app.goo.gl/v5g7KWR9C3RQL8vh7"

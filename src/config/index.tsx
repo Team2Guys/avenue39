@@ -110,53 +110,44 @@ export const variationProducts = ({ products }: { products: IProduct[] }) => {
     }
 
     const uniqueVariations = new Map();
-
-    prod.productImages
-      .filter((img) => img.index)
-      .forEach((img) => {
-        const sizeMatch = prod.sizes?.find(
-          (size) => size.name?.toLowerCase() === img.size?.toLowerCase()
-        );
-        const filterMatch = prod.filter?.[0]?.additionalInformation?.find(
-          (filterItem) => filterItem.name?.toLowerCase() === img.color?.toLowerCase()
+    if (prod.sizes?.length) {
+      prod.sizes.forEach((size) => {
+        const variationKey = `${size.name}-${size.filterName || "default"}`;
+        
+        const matchingImage = prod.productImages.find(
+          (img) =>
+            img.size?.toLowerCase() === size.name?.toLowerCase() &&
+            img.color?.toLowerCase() === size.filterName?.toLowerCase()
         );
 
         const hoverImageMatch = prod.productImages.find(
-          (hoverImg) => hoverImg.index === img.index && hoverImg.imageUrl !== img.imageUrl
+          (hoverImg) =>
+            hoverImg.size?.toLowerCase() === size.name?.toLowerCase() &&
+            hoverImg.color?.toLowerCase() === size.filterName?.toLowerCase() &&
+            hoverImg.imageUrl !== matchingImage?.imageUrl
         );
-
-        const variationKey = img.index;
 
         if (!uniqueVariations.has(variationKey)) {
           uniqueVariations.set(variationKey, {
             ...prod,
             name: prod.name,
-            displayName: `${prod.name} - ${img.size?.toLowerCase() === img.color?.toLowerCase()
-              ? img.size
-              : `${img.size ? img.size : ''} ${img.color ? `(${img.color})` : ''}`
-              }`,
-            sizeName: img.size,
-            colorName: img.color,
-            price: sizeMatch
-              ? Number(sizeMatch.price)
-              : filterMatch
-                ? Number(filterMatch.price)
-                : Number(prod.price),
-            discountPrice: sizeMatch
-              ? Number(sizeMatch.discountPrice)
-              : filterMatch
-                ? Number(filterMatch.discountPrice || 0)
-                : Number(prod.discountPrice),
-            posterImageUrl: img.imageUrl,
+            displayName: `${prod.name} - ${size.name}${size.filterName ? ` (${size.filterName})` : ''}`,
+            sizeName: size.name,
+            colorName: size.filterName,
+            price: Number(size.price),
+            discountPrice: Number(size.discountPrice),
+            posterImageUrl: matchingImage?.imageUrl || prod.posterImageUrl,
             hoverImageUrl: hoverImageMatch ? hoverImageMatch.imageUrl : prod.hoverImageUrl,
-            stock: sizeMatch?.stock ?? prod.stock,
+            stock: size.stock ?? prod.stock,
           });
         }
       });
+    }
 
     return Array.from(uniqueVariations.values());
-  })
+  });
 };
+
 
 export const variationName = ({ product }: { product: IProduct }) => {
   if (product.sizeName && product.colorName && product.sizeName.includes(product.colorName)) {

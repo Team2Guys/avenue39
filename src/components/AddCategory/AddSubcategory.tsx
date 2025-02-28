@@ -1,5 +1,5 @@
 'use client';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState, useRef } from 'react';
 import Imageupload from '@components/ImageUpload/Imageupload';
 import { RxCross2 } from 'react-icons/rx';
 import Image from 'next/image';
@@ -18,6 +18,31 @@ import { Checkbox } from '../ui/checkbox';
 import showToast from '@components/Toaster/Toaster';
 import revalidateTag from '../ServerActons/ServerAction';
 import Cookies from 'js-cookie';
+import { FaCropSimple } from 'react-icons/fa6';
+import { Modal } from 'antd';
+import ReactCrop, { Crop, centerCrop, makeAspectCrop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+
+// Helper function to center the crop with a specific aspect ratio
+function centerAspectCrop(
+  mediaWidth: number,
+  mediaHeight: number,
+  aspect: number,
+) {
+  return centerCrop(
+    makeAspectCrop(
+      {
+        unit: '%',
+        width: 90,
+      },
+      aspect,
+      mediaWidth,
+      mediaHeight,
+    ),
+    mediaWidth,
+    mediaHeight,
+  );
+}
 
 interface editCategoryNameType {
   name: string;
@@ -27,7 +52,7 @@ interface editCategoryNameType {
   meta_description?: string;
   canonical_tag?: string;
   images_alt_text?: string;
-  custom_url?:string
+  custom_url?: string;
 }
 
 interface editCategoryProps {
@@ -48,14 +73,15 @@ const FormLayout = ({
       ? {
           name: editCategory.name,
           description: editCategory.description || '',
-          categoriesId:editCategory.categories.map((category: any) => category.id) || [],
+          categoriesId: editCategory.categories.map((category: any) => category.id) || [],
           meta_title: editCategory.meta_title || '',
           meta_description: editCategory.meta_description || '',
           canonical_tag: editCategory.canonical_tag || '',
           images_alt_text: editCategory.images_alt_text || '',
-          custom_url: editCategory.custom_url || ""
+          custom_url: editCategory.custom_url || '',
         }
       : null;
+
   const [posterimageUrl, setposterimageUrl] = useState<any | null | undefined>(
     editCategory
       ? [
@@ -66,14 +92,20 @@ const FormLayout = ({
         ]
       : null,
   );
-  const [loading, setloading] = useState<boolean>(false);
 
+  const [loading, setloading] = useState<boolean>(false);
   const [editCategoryName, setEditCategoryName] = useState<editCategoryNameType | null | undefined>(CategoryName);
+  const [isCropModalVisible, setIsCropModalVisible] = useState<boolean>(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Crop>();
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
   let finalToken = token ? token : superAdminToken;
+
   const onSubmit = async (values: SubCategory, { resetForm }: any) => {
-    console.log('dubuge 1');
     if (values.categoriesId.length === 0) {
       return showToast('warn', 'Select parent category!!');
     }
@@ -85,8 +117,6 @@ const FormLayout = ({
         return showToast('warn', 'Select parent category!!');
       }
       let newValue = { ...values, posterImageUrl };
-      console.log(newValue);
-      console.log('dubuge 2');
       let updateFlag = editCategoryName ? true : false;
       let addProductUrl = updateFlag
         ? `/api/subcategories/update-subcategory`
@@ -95,8 +125,6 @@ const FormLayout = ({
         updateFlag ? addProductUrl : '/api/subcategories/add-subcategory'
       }`;
 
-      console.log('dubuge 3');
-      console.log(newValue);
       const response = await axios.post(
         url,
         updateFlag ? { ...newValue, id: editCategory.id } : newValue,
@@ -106,32 +134,83 @@ const FormLayout = ({
           },
         },
       );
-      console.log(response, 'response');
+      console.log(response,"response")
       revalidateTag('subcategories');
       setloading(false);
       showToast(
         'success',
         updateFlag
-          ? 'Sub Category has been sucessufully updated!'
-          : 'Sub Category has been sucessufully Created!',
+          ? 'Sub Category has been successfully updated!'
+          : 'Sub Category has been successfully Created!',
       );
       updateFlag ? seteditCategory(null) : null;
       setposterimageUrl(null);
       resetForm();
-      setMenuType('Sub Categories')
+      setMenuType('Sub Categories');
     } catch (err) {
       console.log('error occurred', err);
       setloading(false);
     }
   };
 
-useEffect(() => {
-  
-  setEditCategoryName(CategoryName)
-  
-}, [editCategory])
+  const handleCropClick = (imageUrl: string) => {
+    setImageSrc(imageUrl);
+    setIsCropModalVisible(true);
+  };
 
+  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { width, height } = e.currentTarget;
+    const newCrop = centerAspectCrop(width, height, 16 / 9);
+    setCrop(newCrop);
+  };
 
+  const onCropComplete = (crop: Crop) => {
+    const image = imgRef.current;
+    if (!image || !crop.width || !crop.height) return;
+
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      ctx.drawImage(
+        image,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height,
+      );
+    }
+
+    const base64Image = canvas.toDataURL('image/jpeg');
+    setCroppedImage(base64Image);
+  };
+
+  const handleCropModalOk = () => {
+    if (croppedImage) {
+      setposterimageUrl([{ imageUrl: croppedImage, public_id: '' }]);
+      setIsCropModalVisible(false);
+      setCroppedImage(null);
+    }
+  };
+
+  const handleCropModalCancel = () => {
+    setIsCropModalVisible(false);
+    setCroppedImage(null);
+  };
+  useEffect(() => {
+    setEditCategoryName(CategoryName);
+  }, [editCategory]);
+  const handleRemoveImage = (public_id: string) => {
+    ImageRemoveHandler(public_id, setposterimageUrl);
+  };
   return (
     <>
       <p
@@ -173,20 +252,23 @@ useEffect(() => {
                                   <RxCross2
                                     className="cursor-pointer text-red-500 dark:text-red-700"
                                     size={17}
-                                    onClick={() => {
-                                      ImageRemoveHandler(
-                                        item.public_id,
-                                        setposterimageUrl,
-                                      );
-                                    }}
+                                    onClick={() => handleRemoveImage(item.public_id)}
+                                  />
+                                </div>
+                                <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
+                                  <FaCropSimple
+                                    className="text-white"
+                                    size={12}
+                                    onClick={() => handleCropClick(item.imageUrl)}
                                   />
                                 </div>
                                 <Image
                                   key={index}
-                                  className="object-cover w-full h-full dark:bg-black dark:shadow-lg"
+                                  className="object-cover w-[200px] h-[120px] dark:bg-black dark:shadow-lg"
                                   width={300}
                                   height={200}
-                                  loading='lazy'
+                                  
+                                  loading="lazy"
                                   src={item.imageUrl}
                                   alt={`productImage-${index}`}
                                 />
@@ -198,7 +280,33 @@ useEffect(() => {
                         <Imageupload setposterimageUrl={setposterimageUrl} />
                       )}
                     </div>
-
+           
+              <Modal
+                title="Crop Image"
+                visible={isCropModalVisible}
+                onOk={handleCropModalOk}
+                onCancel={handleCropModalCancel}
+                width={500}
+                height={400}
+              >
+                {imageSrc && (
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(newCrop) => setCrop(newCrop)}
+                    onComplete={onCropComplete}
+                  >
+                    <Image
+                    width={500}
+                    height={300}
+                      ref={imgRef}
+                      src={imageSrc}
+                      alt="Crop me"
+                      style={{ maxWidth: '100%' }}
+                      onLoad={onImageLoad}
+                    />
+                  </ReactCrop>
+                )}
+              </Modal>
                     <div className="flex flex-col gap-5.5 p-6.5">
                       <div>
                         <label className="mb-3 block py-4 px-2 text-sm font-medium text-black dark:text-white">

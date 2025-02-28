@@ -322,24 +322,44 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   const handleCropModalOk = async () => {
     if (croppedImage && imageSrc) {
       try {
+        // Convert the cropped image (base64) to a File
         const file = base64ToFile(croppedImage, `cropped_${Date.now()}.jpg`);
+  
+        // Upload the cropped image to your backend or Cloudinary
         const response = await uploadPhotosToBackend([file]);
-        const newImage = { imageUrl: response[0].imageUrl, public_id: response[0].public_id };
+  
+        // Use the base URL from your environment variables
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+        const uploadedImageUrl = response[0].imageUrl;
+        // If the uploaded image URL isn't already a full URL, append the base URL
+        const newImageUrl = uploadedImageUrl.startsWith('http')
+          ? uploadedImageUrl
+          : `${baseUrl}${uploadedImageUrl}`;
+  
+        const newImage = { imageUrl: newImageUrl, public_id: response[0].public_id };
+  
+        // Update the product images array
         setImagesUrl((prevImages) =>
           prevImages.map((img) =>
             img.imageUrl === imageSrc ? { ...img, ...newImage } : img
           )
         );
+  
+        // Update the poster image array
         setposterimageUrl((prevImages) =>
           prevImages?.map((img) =>
             img.imageUrl === imageSrc ? { ...img, ...newImage } : img
           )
         );
+  
+        // Update the hover image array
         sethoverImage((prevImages) =>
           prevImages?.map((img) =>
             img.imageUrl === imageSrc ? { ...img, ...newImage } : img
           )
         );
+  
+        // Close the crop modal and reset the cropped image state
         setIsCropModalVisible(false);
         setCroppedImage(null);
       } catch (error) {
@@ -349,6 +369,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     }
   };
   
+  // Helper function to convert a base64 string to a File object
   const base64ToFile = (base64: string, filename: string): File => {
     const arr = base64.split(',');
     const mimeMatch = arr[0].match(/:(.*?);/);
@@ -363,6 +384,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   
     return new File([u8arr], filename, { type: mime });
   };
+  
   
 
   const handleCropModalCancel = () => {

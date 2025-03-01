@@ -15,4 +15,5 @@ export interface CartSize {
   price: string,
   discountPrice?: string,
   stock?: number
+  filterName?: string;
 }

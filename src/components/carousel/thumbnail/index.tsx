@@ -40,7 +40,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
   swiperGap,
   isLoading,
   altText,
-  activeIndex,
+  // activeIndex,
 }) => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
@@ -49,6 +49,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeSlickSlide, setActiveSlickSlide] = useState(0);
 
   const preloadImages = (images: string[]) => {
     return Promise.all(
@@ -80,10 +81,10 @@ const Thumbnail: React.FC<ThumbProps> = ({
   }, [windowWidth]);
 
   useEffect(() => {
-    const index = activeIndex !== undefined ? Number(activeIndex) : 0;
+    const index = activeSlickSlide !== undefined ? Number(activeSlickSlide) : 0;
     setCurrentSlide(index);
     handleSlideChange(index);
-  }, [activeIndex]);
+  }, [activeSlickSlide]);
 
   useEffect(() => {
     preloadImages(thumbs.map((thumb) => thumb.imageUrl || '')).then(() => {
@@ -94,6 +95,7 @@ const Thumbnail: React.FC<ThumbProps> = ({
   const handleSlideChange = (index: number) => {
     if (swiperImageRef.current) {
       swiperImageRef.current.slideTo(index);
+      setActiveSlickSlide(index)
     }
   };
 
@@ -104,12 +106,14 @@ const Thumbnail: React.FC<ThumbProps> = ({
   return (
       <div className="relative w-full pt-8">
         <div
-          className={`w-full flex flex-col-reverse md:flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-5 ${swiperGap}`}
+          className={`w-full flex flex-col-reverse md:flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-5 md:max-h-[640px] ${swiperGap}`}
         >
           <CustomThumbnailSlickSlider
             thumbs={thumbs}
             isZoom={isZoom}
             onSlideChange={handleSlideChange}
+            activeSlickSlide={activeSlickSlide}
+            setActiveSlickSlide={setActiveSlickSlide}
           />
           <div className='flex flex-col w-full md:w-10/12 2xl:w-4/5'>
 

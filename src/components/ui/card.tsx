@@ -74,8 +74,6 @@ const Card: React.FC<CardProps> = ({
   const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
   const [isOutStock, setIsOutStock] = useState<boolean>(false)
   const [totalStock, setTotalStock] = useState<number>(0);
-  const [productPrice, setProductPrice] = useState<number>()
-  const [productDiscountPrice, setProductDiscountPrice] = useState<number>()
   const [displayName, setDisplayName] = useState<string>();
   const [uniqueSizes, setUniqueSizes] = useState<any>([])
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
@@ -107,15 +105,6 @@ const Card: React.FC<CardProps> = ({
     setIsOutStock(findStock > 0 ? false : true)
     setTotalStock(findStock)
   }, [itemToAdd]);
-
-  useEffect(() => {
-    const price =
-      card?.price;
-    setProductPrice(Number(price))
-    const discountPrice =
-      card?.discountPrice;
-    setProductDiscountPrice(Number(discountPrice))
-  }, []);
 
   useEffect(() => {
     const cardImage = productImages?.find(
@@ -510,18 +499,18 @@ const Card: React.FC<CardProps> = ({
                   </Link>
                 </p>
                 <div>
-                  {productDiscountPrice && productDiscountPrice > 0 ? (
+                  {card.discountPrice ? (
                     <div className="flex gap-2 justify-center">
                       <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                        AED {productPrice}
+                        AED {card.price}
                       </p>
                       <p className="text-sm md:text-18 font-bold text-[#FF0000]">
-                        AED {productDiscountPrice}
+                        AED {card.discountPrice}
                       </p>
                     </div>
                   ) : (
                     <p className="text-sm md:text-18 font-bold">
-                      AED {productPrice}
+                      AED {card.price}
                     </p>
                   )}
                   <p>{ }</p>

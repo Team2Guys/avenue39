@@ -4,9 +4,21 @@ import { LabelInput } from './ui/label-input';
 const Coupan = ({ label, handleCoupon }: any) => {
   const [coupon, setCoupon] = useState('');
 
-  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCoupon(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCoupon(coupon);
+    }
+  };
+
+  const handleCouponApply = (e: React.MouseEvent) => {
+    e.stopPropagation(); 
+    console.log("Coupon applied:", coupon);
+    handleCoupon(coupon);
   };
 
   return (
@@ -20,10 +32,11 @@ const Coupan = ({ label, handleCoupon }: any) => {
         placeholder="Enter your coupon code"
         value={coupon}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
       />
       <button
         type="button"
-        onClick={() => handleCoupon(coupon)}
+        onClick={handleCouponApply}
         disabled={coupon === ''}
         className={`h-[55px] px-2 w-48 bg-black text-white hover:text-black hover:bg-white text-sm rounded-md border-2 border-black ${coupon === '' && 'opacity-40'}`}
       >

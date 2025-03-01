@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { BsCartX } from 'react-icons/bs';
+import { cardProductTags } from '@/data/products';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;
@@ -75,6 +76,7 @@ const Card: React.FC<CardProps> = ({
   const [isOutStock, setIsOutStock] = useState<boolean>(false)
   const [totalStock, setTotalStock] = useState<number>(0);
   const [displayName, setDisplayName] = useState<string>();
+  const [displayTag, setDisplayTag] = useState<any | undefined>();
   const [uniqueSizes, setUniqueSizes] = useState<any>([])
   const handleEventProbation = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -98,6 +100,11 @@ const Card: React.FC<CardProps> = ({
       ];
       setUniqueSizes(uniqueSizes);
     }
+  }, [card])
+
+  useEffect(() => {
+    const findTag = cardProductTags.find((item) => item.name === card?.name);
+    setDisplayTag(findTag);
   }, [card])
   useEffect(() => {
     if (!itemToAdd) return;
@@ -267,11 +274,16 @@ const Card: React.FC<CardProps> = ({
                     className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] border-2 border-transparent group-hover:border-main ${portSpace ? portSpace : 'px-2'}`}
                   >
                     <Link href={finalUrl}
+                    className='flex flex-col gap-2 sm:gap-10 md:gap-0 xl:gap-10 justify-center'
                       style={{
                         height: calculateHeight
                           ? calculateHeight
                           : 'calc(100% - 20px)',
                       }}>
+                      {displayTag && <div className='flex flex-col gap-0 items-center sm:leading-tight'>
+                        <div className='bg-black text-white rounded-lg px-4 xs:px-6 py-2 font-Helveticalight text-12 xsm:text-13 xs:text-18 font-semibold tracking-widest capitalize'>{displayTag.tagPara}</div>
+                        <p className='font-jadyn text-[30px] sm:text-[90px] md:text-[60px] xl:text-[101px]'>{displayTag.displayName}</p>
+                      </div>}
                       <Image
                         src={
                           cardStaticData?.posterImageUrl || card.posterImageUrl
@@ -280,7 +292,7 @@ const Card: React.FC<CardProps> = ({
                         width={600}
                         height={600}
                         className={cn(
-                          'object-contain rounded-[35px] w-full h-full',
+                          'object-contain rounded-[35px] w-full h-[150px] sm:h-[300px] lg:h-[350px] xl:h-[400px]',
                           className,
                         )}
                       />

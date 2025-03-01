@@ -63,7 +63,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryName="Shop Your Living"
         reverse
         landHeight={'calc(100% - 80px)'}
-        portSpace="px-8"
+        portSpace="px-4 sm:px-8"
         sofaHeight={'calc(100% - 60px)'}
         sideTableHeight={'calc(100% - 20px)'}
         redirect="living"

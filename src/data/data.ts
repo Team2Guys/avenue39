@@ -31,15 +31,15 @@ export const Tersmandcondition = [
 ];
 export const PrivacyPolicybredcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Privacy-Policy' },
+  { label: 'Privacy Policy' },
 ];
 export const TReturnPolicybredcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Return - Policy' },
+  { label: 'Return  Policy' },
 ];
 export const TShippingPolicybredcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Shipping-Policy' },
+  { label: 'Shipping Policy' },
 ];
 
 import * as Yup from 'yup';

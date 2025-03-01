@@ -102,7 +102,7 @@ const CustomThumbnailSlickSlider = ({
             onClick={() => setActiveSlickSlide(index)}
           >
             <Image
-              className={`rounded-lg shadow-md aspect-square ${(activeSlickSlide === index) && 'custom-box-shadow'} ${isZoom ? 'size-20 xs:size-24 md:size-[120px]' : 'size-20 xs:size-24 sm:size-[120px]'}`}
+              className={`rounded-lg shadow-md aspect-square ${(activeSlickSlide === index) && 'border border-main custom-box-shadow'} ${isZoom ? 'size-20 xs:size-24 md:size-[120px]' : 'size-20 xs:size-24 sm:size-[120px]'}`}
               src={thumb.imageUrl || '/default-image.jpg'}
               width={150}
               height={150}

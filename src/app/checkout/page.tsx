@@ -25,6 +25,7 @@ import showToast from '@/components/Toaster/Toaster';
 import { RiSecurePaymentFill } from 'react-icons/ri';
 import { IoBagOutline } from 'react-icons/io5';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(50);
@@ -76,6 +77,11 @@ const Checkout = () => {
     { title: 'Umm Al Quwain', fee: 100 },
     { title: 'Fujairah', fee: 100 },
   ];
+
+  const handleCoupon = (coupan: string) => {
+    console.log(coupan)
+    toast.error('coupon is not available.')
+  }
 
   useEffect(() => {
     if (selectedState) {
@@ -347,7 +353,7 @@ const Checkout = () => {
 
                 <div>
                   <h2 className="text-[33px] mb-10">Promotional Code</h2>
-                  <Coupan label="Have a coupon?" />
+                  <Coupan label="Have a coupon?" handleCoupon={handleCoupon} />
                   <div className="mt-10 space-y-6">
                     <div className="bg-[#EEEEEE] px-4 py-4 space-y-3">
                       <p className="text-center text-2xl font-extrabold">

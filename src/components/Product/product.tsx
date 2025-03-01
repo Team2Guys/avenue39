@@ -144,7 +144,7 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
 
   const onScrollToDesc = () => {
     const topPosition = getElementTopPosition('product-desc') || undefined;
-    window.scrollTo({ top: topPosition, behavior: 'smooth'});
+    window.scrollTo({ top: (topPosition && topPosition - 85), behavior: 'smooth'});
   };
 
   return (

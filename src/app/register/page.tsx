@@ -19,6 +19,7 @@ const Register = () => {
         <div
           className={`${activeTab === 'login' ? 'max-w-screen-sm' : 'max-w-screen-md'} w-full mx-auto px-2 py-5 xs:p-5 sm:p-10 shadow-[0px_3px_6px_#00000029] rounded-md h-fit mb-5 login-form-wrapper`}
         >
+          <h1 className='text-center text-3xl font-semibold mb-4'>Welcome to Avenue39</h1>
           <LoginForm onTabChange={handleTabChange} activeTab={activeTab} />
         </div>
       </div>

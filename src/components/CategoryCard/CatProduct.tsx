@@ -36,9 +36,9 @@ const CatProduct = ({
           href={`/${redirect}`}
           className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-xl border bg-white xs:left-20 xs:transform-none hover:font-bold hover:bg-[#AFA183] hover:text-white"
         >
-          <p className="px-2 md:text-3xl font-Helveticalight capitalize text-center">
+          <h2 className="px-2 md:text-3xl font-Helveticalight capitalize text-center">
             {CategoryName}
-          </p>
+          </h2>
         </Link>
         <div className=" max-w-screen-xl mx-auto mt-10 text-center font-Helveticalight px-2 sm:px-4 lg:px-0">
           {CategoryDescription ? (

@@ -147,9 +147,9 @@ const SofaBanner: React.FC = () => {
                     >
                       Shop Best Sellers
                     </Link>
-                    <h3 className="font-bold text-lg mt-3 text-center lg:text-left">
+                    <p className="font-bold text-lg mt-3 text-center lg:text-left">
                       {slide.title}
-                    </h3>
+                    </p>
                     <p className="text-lg font-bold mt-1 text-black text-center lg:text-left">
                       {slide.product_price}
                     </p>
@@ -201,20 +201,24 @@ const SofaBanner: React.FC = () => {
                     <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">
                       <div className="text-center">
                         {slide.buttonPosition === 'top' && (
-                          <Link
-                            href={slide.link}
-                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                          >
-                            Shop <span className="text-red-600">New Arrivals</span>
-                          </Link>
+                          <h3>
+                            <Link
+                              href={slide.link}
+                              className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                            >
+                              Shop <span className="text-red-600">New Arrivals</span>
+                            </Link>
+                          </h3>
                         )}
                         {slide.buttonPosition === 'bottom' && (
-                          <Link
-                            href={slide.link}
-                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                          >
-                            Shop <span className="text-red-600">Sale</span>
-                          </Link>
+                          <h3>
+                            <Link
+                              href={slide.link}
+                              className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                            >
+                              Shop <span className="text-red-600">Sale</span>
+                            </Link>
+                          </h3>
                         )}
 
                         <h3 className="font-bold text-16 mt-4 text-white">

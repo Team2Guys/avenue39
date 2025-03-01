@@ -1,9 +1,9 @@
 'use client';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import Imageupload from '@components/ImageUpload/Imageupload';
 import { RxCross2 } from 'react-icons/rx';
 import Image from 'next/image';
-import { ImageRemoveHandler } from '@/utils/helperFunctions';
+import { ImageRemoveHandler, uploadPhotosToBackend } from '@/utils/helperFunctions';
 import Toaster from '@components/Toaster/Toaster';
 import axios from 'axios';
 import { Formik, Form } from 'formik';
@@ -13,7 +13,32 @@ import { categoryInitialValues, categoryValidationSchema } from '@/data/data';
 import Loader from '@components/Loader/Loader';
 import revalidateTag from '../ServerActons/ServerAction';
 import Cookies from 'js-cookie';
+import { FaCropSimple } from 'react-icons/fa6';
+import { Modal } from 'antd';
+import ReactCrop, { Crop, centerCrop, makeAspectCrop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+import showToast from '@components/Toaster/Toaster';
 
+// Helper function to center the crop with a specific aspect ratio
+function centerAspectCrop(
+  mediaWidth: number,
+  mediaHeight: number,
+  aspect: number,
+) {
+  return centerCrop(
+    makeAspectCrop(
+      {
+        unit: '%',
+        width: 90,
+      },
+      aspect,
+      mediaWidth,
+      mediaHeight,
+    ),
+    mediaWidth,
+    mediaHeight,
+  );
+}
 interface editCategoryProps {
   seteditCategory: any;
   editCategory: any;
@@ -51,6 +76,11 @@ const FormLayout = ({
 
   const [loading, setloading] = useState<boolean>(false);
   const [editCategoryName, setEditCategoryName] = useState<Category | null | undefined>(CategoryName);
+  const [isCropModalVisible, setIsCropModalVisible] = useState<boolean>(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Crop>();
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
@@ -94,6 +124,81 @@ const FormLayout = ({
       console.log('error occurred', err);
       setloading(false);
     }
+  };
+
+  const handleCropClick = (imageUrl: string) => {
+    setImageSrc(imageUrl);
+    setIsCropModalVisible(true);
+  };
+
+  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { width, height } = e.currentTarget;
+    const newCrop = centerAspectCrop(width, height, 16 / 9);
+    setCrop(newCrop);
+  };
+
+  const onCropComplete = (crop: Crop) => {
+    const image = imgRef.current;
+    if (!image || !crop.width || !crop.height) return;
+
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      ctx.drawImage(
+        image,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height,
+      );
+    }
+
+    const base64Image = canvas.toDataURL('image/jpeg');
+    setCroppedImage(base64Image);
+  };
+
+  const handleCropModalOk = async () => {
+    if (croppedImage) {
+      try {
+        const file = base64ToFile(croppedImage, `cropped_${Date.now()}.jpg`);
+        const response = await uploadPhotosToBackend([file]);
+        setposterimageUrl([{ imageUrl: response[0].imageUrl, public_id: response[0].public_id }]);
+        setIsCropModalVisible(false);
+        setCroppedImage(null);
+      } catch (error) {
+        console.error('Error uploading cropped image:', error);
+        showToast('error', 'Failed to upload cropped image');
+      }
+    }
+  };
+  
+  const base64ToFile = (base64: string, filename: string): File => {
+    const arr = base64.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : '';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+  
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+  
+    return new File([u8arr], filename, { type: mime });
+  };
+
+  const handleCropModalCancel = () => {
+    setIsCropModalVisible(false);
+    setCroppedImage(null);
   };
 
   useEffect(() => {
@@ -152,6 +257,13 @@ const FormLayout = ({
                                     }}
                                   />
                                 </div>
+                                 <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
+                                <FaCropSimple
+                                  className="text-white"
+                                  size={12}
+                                  onClick={() => handleCropClick(item.imageUrl)}
+                                />
+                              </div>
                                 <Image
                                   key={index}
                                   className="object-cover w-full h-full dark:bg-black dark:shadow-lg"
@@ -169,7 +281,32 @@ const FormLayout = ({
                         <Imageupload setposterimageUrl={setposterimageUrl} />
                       )}
                     </div>
-
+                    <Modal
+                title="Crop Image"
+                visible={isCropModalVisible}
+                onOk={handleCropModalOk}
+                onCancel={handleCropModalCancel}
+                width={500}
+                height={400}
+              >
+                {imageSrc && (
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(newCrop) => setCrop(newCrop)}
+                    onComplete={onCropComplete}
+                  >
+                    <Image
+                    width={500}
+                    height={300}
+                      ref={imgRef}
+                      src={imageSrc}
+                      alt="Crop me"
+                      style={{ maxWidth: '100%' }}
+                      onLoad={onImageLoad}
+                    />
+                  </ReactCrop>
+                )}
+              </Modal>
                     <div className="flex flex-col">
                      
 

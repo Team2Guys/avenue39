@@ -43,12 +43,17 @@ export const ImageRemoveHandler = async (
   setterFunction: any,
 ) => {
   try {
-    const response = await axios.delete(
-      `${process.env.NEXT_PUBLIC_PRODUCT_IMAGE}/api/file-upload/DelImage/${imagePublicId}`,
-    );
-    console.log('Image removed successfully:', response.data);
+    // Only call the API if public_id is not empty (i.e., it's not a cropped image without a public_id)
+    if (imagePublicId) {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_PRODUCT_IMAGE}/api/file-upload/DelImage/${imagePublicId}`,
+      );
+      console.log('Image removed successfully:', response.data);
+    }
+
+    // Remove the image from the state regardless of whether it has a public_id
     setterFunction((prev: any) =>
-      prev.filter((item: any) => item.public_id != imagePublicId),
+      prev.filter((item: any) => item.public_id !== imagePublicId),
     );
   } catch (error) {
     console.error('Failed to remove image:', error);

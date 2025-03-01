@@ -183,7 +183,7 @@ export const getProductStock = ({ product }: { product: CartItem }) => {
 
 
 export const getAllStock = (product : CartItem | any ) => {
-  console.log(product, "getAllStock")
+  // console.log(product, "getAllStock")
   if (!product) return '';
   let totalStock: number = 0;
 
@@ -203,7 +203,7 @@ export const getAllStock = (product : CartItem | any ) => {
     totalStock = Number(product.stock);
   }
 
-console.log(totalStock, "getAllStock")
+// console.log(totalStock, "getAllStock")
 
 
   return totalStock;

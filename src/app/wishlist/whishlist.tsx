@@ -83,7 +83,7 @@ const WishlistPage = () => {
         item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
     );
 
-    console.log(existingCartItem, 'cartItems');
+    // console.log(existingCartItem, 'cartItems');
 
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));

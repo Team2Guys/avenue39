@@ -529,7 +529,9 @@ export const footerItems: FooterItem[] = [
     bgClass: "bg-footerbuy",
     text: "Try Before You Buy",
     overlayText: ["We assemble your furniture on delivery, and you have 20 minutes to decide—if not satisfied, we'll repack and process a refund."],
-    showImage: false,
+    showImage: true,
+    imageSrc: "/assets/images/footer/buybefore.svg",
+
   },
   {
     bgClass: "bg-footerdeliver",
@@ -542,6 +544,7 @@ export const footerItems: FooterItem[] = [
     bgClass: "bg-footershowroom",
     text: "Visit Our Showroom",
     overlayText: ["Experience our collection in person at our sister company, Two Guys Home Furnishing in Al Quoz—see, touch, and feel the quality firsthand."],
-    showImage: false,
+    showImage: true,
+    imageSrc: "/assets/images/footer/showroomicon.svg",
   },
 ];

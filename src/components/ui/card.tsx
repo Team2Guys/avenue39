@@ -506,7 +506,7 @@ const Card: React.FC<CardProps> = ({
               </div>
               <div className="space-y-3">
                 <p className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
-                  <Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+                  <Link className="cursor-pointer" href={finalUrl}>
                     {displayName ? displayName : card.name}
                   </Link>
                 </p>
@@ -676,7 +676,7 @@ const Card: React.FC<CardProps> = ({
           </div>
           <div className="w-full sm:w-7/12 md:w-8/12 text-center sm:text-start px-4 sm:px-0">
 
-            <h3 className="text-lg font-semibold mt-2"><Link className="cursor-pointer" href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}>
+            <h3 className="text-lg font-semibold mt-2"><Link className="cursor-pointer" href={finalUrl}>
               {displayName ? displayName : card.name}
             </Link></h3>
             <p className="mt-2 font-normal text-sm max-h-10 text-ellipsis line-clamp-2">

@@ -515,7 +515,7 @@ export const newArrivals = [
   {
     title: 'NEW ARRIVALS',
     description:
-      "Here you'll find the newest in modern furniture. From dining chairs to coffee tables, and sofas to home accessories - there is a piece of contemporary furniture for every space in the home for you to discover. So whether you're giving your whole house a modern overhaul or you want to freshen up a space with a new piece of modern furniture, there is a great design waiting here for you. With many of our designs available in a plethora of colours, sizes or upholstery options, we are confident that you will be able to find the perfect piece for your interior. We provide next-day delivery on most items within Dubai, along with free assembly for all purchases. At the time of delivery, you get 30 minutes to decide if it's right for you. If not, we'll unassemble and repack. After delivery, you'll have up to 7 days to evaluate your purchase and contact us.",
+      "Discover the latest in modern furniture, from <a href='/dining/chairs' target='_blank' style='text-decoration: underline'>dining chairs</a> to coffee tables, sofas, and home accessories. Whether you're revamping your home or adding a fresh touch, find the perfect design in various colors and sizes. Enjoy next-day delivery in Dubai, free assembly, and a 7-day evaluation period for a hassle-free shopping experience.",
   },
 ];
 

@@ -143,7 +143,7 @@ const ProductPage = ({
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <h1 className="text-[35px] xs:text-[45px] font-Helveticalight font-bold capitalize tracking-widest">
+              <h1 className={`text-[35px] xs:text-[45px] font-Helveticalight font-bold capitalize ${info?.name.toLowerCase() === 'living' ? 'tracking-widest' :'tracking-[1px]'}`}>
                 {SubcategoryName?.name ? SubcategoryName?.name.toLowerCase() : info?.name.toLowerCase()}
               </h1>
               <Container>

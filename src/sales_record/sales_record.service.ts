@@ -488,9 +488,9 @@ export class SalesRecordService {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      if (salesRecord.paymentStatus.paymentStatus) {
-        customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      }
+      // if (salesRecord.paymentStatus.paymentStatus) {
+      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      // }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId: orderId.trim() },
@@ -524,19 +524,19 @@ export class SalesRecordService {
             );
 
 
-            const updatedProduct: any = await this.prisma.products.update({
-              where: { id: existingProduct.id },
-              data: {
-                filter: {
-                  set: [
-                    {
-                      ...existingProduct.filter[0],
-                      additionalInformation: updatedAdditionalInformation
-                    },
-                  ],
-                },
-              },
-            });
+            // const updatedProduct: any = await this.prisma.products.update({
+            //   where: { id: existingProduct.id },
+            //   data: {
+            //     filter: {
+            //       set: [
+            //         {
+            //           ...existingProduct.filter[0],
+            //           additionalInformation: updatedAdditionalInformation
+            //         },
+            //       ],
+            //     },
+            //   },
+            // });
           } else {
             console.log('Filter not found!');
           }
@@ -544,26 +544,26 @@ export class SalesRecordService {
         else if (prod.productData.selectedSize && prod.productData.selectedfilter) {
           const findSize = existingProduct.sizes.find((item: any) => (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()));
           const remainingStock = findSize.stock - prod.quantity;
-          const updatedProduct: any = await this.prisma.products.update({
-            where: { id: existingProduct.id },
-            data: {
-              sizes: {
-                set: existingProduct.sizes.map((item: any) =>
-                  (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase())
-                    ? { ...item, stock: remainingStock }
-                    : item
-                ),
-              }
-            }
-          });
+          // const updatedProduct: any = await this.prisma.products.update({
+          //   where: { id: existingProduct.id },
+          //   data: {
+          //     sizes: {
+          //       set: existingProduct.sizes.map((item: any) =>
+          //         (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase())
+          //           ? { ...item, stock: remainingStock }
+          //           : item
+          //       ),
+          //     }
+          //   }
+          // });
         } else {
           const remainingStock = existingProduct.stock - prod.quantity;
-          const updatedProduct: any = await this.prisma.products.update({
-            where: { id: existingProduct.id },
-            data: {
-              stock: remainingStock
-            }
-          });
+          // const updatedProduct: any = await this.prisma.products.update({
+          //   where: { id: existingProduct.id },
+          //   data: {
+          //     stock: remainingStock
+          //   }
+          // });
         }
 
 
@@ -641,11 +641,12 @@ export class SalesRecordService {
     })
 
     try {
-      const recipients = email ? `${email}`
-        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      // const recipients = email ? `${email}`
+      //   : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"Avenue39" <${process.env.MAILER_MAIL}>`,
-        to: recipients,
+        // to: recipients,
+        to: 'wajidfareed103@gmail.com',
         subject: `Order #${orderId} placed by ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}`,
         html: `
 <!DOCTYPE html>
@@ -951,25 +952,25 @@ export class SalesRecordService {
 
 
                <tbody>
-                  ${productDetails.map((product, index) => `
-                  <tr key="${index}">
+               ${productDetails.map(({ productData }) => `
+                  <tr>
                      <td style="padding: 10px 2px;" class="product-title-wrapper">
                         <div style="display:flex; gap:5px; align-items:center; justify-content:center;">
-                           <img src="${product.imageUrl}" alt="${product.name}" style="height:70px; width:70px;"
+                           <img src="${productData.imageUrl}" alt="${productData.name}" style="height:70px; width:70px;"
                               class="product-img">
                            <div>
                               <p class="table-font"
                                  style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">
-                                 ${product.name}</p>
-                                 ${product.selectedfilter ? `<p class="table-font"
-                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">${product.existingProduct.filter[0].heading}: ${product.selectedfilter.name}</p>` : ''}
-                                 ${product.selectedSize ? `<p class="table-font"
-                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">${product.selectedSize.name}</p>` : ''}
+                                 ${productData.name}</p>
+                                 ${productData.selectedfilter ? `<p class="table-font"
+                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">${productData.existingProduct.filter[0].heading}: ${productData.selectedfilter.name}</p>` : ''}
+                                 ${productData.selectedSize ? `<p class="table-font"
+                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">${productData.selectedSize.name}</p>` : ''}
                            </div>
                         </div>
                      </td>
-                     <td class="table-font" style="text-align:center; padding: 10px 2px;">${product.quantity}</td>
-                     <td class="table-font" style="text-align:center; padding: 10px 2px;">AED ${product.discountPrice ? product.discountPrice : product.price}</td>
+                     <td class="table-font" style="text-align:center; padding: 10px 2px;">${productData.quantity}</td>
+                     <td class="table-font" style="text-align:center; padding: 10px 2px;">AED ${productData.discountPrice ? productData.discountPrice : productData.price}</td>
                   </tr>
                   `).join('')}
 
@@ -986,14 +987,14 @@ export class SalesRecordService {
             <body style="font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0;">
                <table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
                   <tr>
-                     <td style="width: 70%; vertical-align: top; padding: 10px  10px 10px 0px ; border-right: 2px solid #ccc;"
+                     <td style="width: 65%; vertical-align: top; padding: 10px  10px 10px 0px ; border-right: 2px solid #ccc;"
                         class="user-info-wrapper">
                         <table>
                            <tr>
                               <th style="padding: 5px 5px 0px 5px;" class="table-font">Name:</th>
                            </tr>
                            <tr>
-                              <td style="padding: 0px 5px 5px 5px; width: 100%;" class="table-font">${name}</td>
+                              <td style="padding: 0px 5px 5px 5px; width: 100%;" class="table-font">${firstName} ${lastName}</td>
                            </tr>
                            <tr>
                               <th style="padding: 5px 5px 0px 5px;" class="table-font">Email:</th>
@@ -1017,20 +1018,20 @@ export class SalesRecordService {
                         </table>
                      </td>
 
-                     <td style="width: 30%;  padding: 10px 5px;" class="total-wrapper">
+                     <td style="width: 35%;  padding: 10px 5px;" class="total-wrapper">
                         <table style="border-collapse: collapse;">
                            <tr>
                               <td colspan="5" style="padding: 8px;" class="table-font">Subtotal</td>
-                              <td style="padding: 8px;" class="table-font">${TotalProductsPrice}</td>
+                              <td style="padding: 8px 2px; text-align: end;" class="table-font">${TotalProductsPrice}</td>
                            </tr>
                            <tr style="border-bottom: 2px solid #ccc;">
                               <td colspan="5" style="padding: 8px;" class="table-font">Shipment</td>
-                              <td style="padding: 8px;" class="table-font">${TotalProductsPrice > 1000 ? "Free" : "AED 20"}
+                              <td style="padding: 8px 2px; text-align: end;" class="table-font ">${TotalProductsPrice > 1000 ? "Free" : "AED 20"}
                               </td>
                            </tr>
                            <tr>
                               <td colspan="5" style="padding: 8px; font-weight: bold; " class="table-font">Total</td>
-                              <td style="padding: 8px; font-weight: bold;" class="table-font">${TotalProductsPrice > 250 ? "AED " + TotalProductsPrice : 20 + "AED " + TotalProductsPrice}</td>
+                              <td style="padding: 8px 2px; font-weight: bold; text-align: end;" class="table-font">${TotalProductsPrice > 250 ? "AED " + TotalProductsPrice : 20 + "AED " + TotalProductsPrice}</td>
                            </tr>
                         </table>
                      </td>

@@ -936,7 +936,7 @@ export class SalesRecordService {
          <p style="text-align:center;" class="order-para">Our team will be in touch soon to arrange the delivery with
             you.</p>
          <p style="text-align:center;" class="order-para">All The Best,</p>
-         <p style="text-align:center;" class="order-para">The Team<strong> @"Avenue39"</strong></p>
+         <p style="text-align:center;" class="order-para">The Team Avenue39</p>
          <div class="purchase-details">
             <h3>Purchase Details</h3>
             <table class="purchase-table">

@@ -462,7 +462,7 @@ const Card: React.FC<CardProps> = ({
                     className={` ${cardImageHeight} flex justify-center items-center`}
                   >
                     <Link
-                      href={ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory)}
+                      href={finalUrl}
                       style={{
                         height: calculateHeight
                           ? calculateHeight

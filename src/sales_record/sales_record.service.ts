@@ -488,9 +488,9 @@ export class SalesRecordService {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      // if (salesRecord.paymentStatus.paymentStatus) {
-      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      // }
+      if (salesRecord.paymentStatus.paymentStatus) {
+        customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId: orderId.trim() },
@@ -524,19 +524,19 @@ export class SalesRecordService {
             );
 
 
-            // const updatedProduct: any = await this.prisma.products.update({
-            //   where: { id: existingProduct.id },
-            //   data: {
-            //     filter: {
-            //       set: [
-            //         {
-            //           ...existingProduct.filter[0],
-            //           additionalInformation: updatedAdditionalInformation
-            //         },
-            //       ],
-            //     },
-            //   },
-            // });
+            const updatedProduct: any = await this.prisma.products.update({
+              where: { id: existingProduct.id },
+              data: {
+                filter: {
+                  set: [
+                    {
+                      ...existingProduct.filter[0],
+                      additionalInformation: updatedAdditionalInformation
+                    },
+                  ],
+                },
+              },
+            });
           } else {
             console.log('Filter not found!');
           }
@@ -544,26 +544,26 @@ export class SalesRecordService {
         else if (prod.productData.selectedSize && prod.productData.selectedfilter) {
           const findSize = existingProduct.sizes.find((item: any) => (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase()));
           const remainingStock = findSize.stock - prod.quantity;
-          // const updatedProduct: any = await this.prisma.products.update({
-          //   where: { id: existingProduct.id },
-          //   data: {
-          //     sizes: {
-          //       set: existingProduct.sizes.map((item: any) =>
-          //         (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase())
-          //           ? { ...item, stock: remainingStock }
-          //           : item
-          //       ),
-          //     }
-          //   }
-          // });
+          const updatedProduct: any = await this.prisma.products.update({
+            where: { id: existingProduct.id },
+            data: {
+              sizes: {
+                set: existingProduct.sizes.map((item: any) =>
+                  (item.name.trim().toLowerCase() === prod.productData.selectedSize.name.trim().toLowerCase()) && (item.filterName.trim().toLowerCase() === prod.productData.selectedfilter.name.trim().toLowerCase())
+                    ? { ...item, stock: remainingStock }
+                    : item
+                ),
+              }
+            }
+          });
         } else {
           const remainingStock = existingProduct.stock - prod.quantity;
-          // const updatedProduct: any = await this.prisma.products.update({
-          //   where: { id: existingProduct.id },
-          //   data: {
-          //     stock: remainingStock
-          //   }
-          // });
+          const updatedProduct: any = await this.prisma.products.update({
+            where: { id: existingProduct.id },
+            data: {
+              stock: remainingStock
+            }
+          });
         }
 
 
@@ -641,12 +641,11 @@ export class SalesRecordService {
     })
 
     try {
-      // const recipients = email ? `${email}`
-      //   : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
+      const recipients = email ? `${email}`
+        : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
         from: `"Avenue39" <${process.env.MAILER_MAIL}>`,
-        // to: recipients,
-        to: 'wajidfareed103@gmail.com',
+        to: recipients,
         subject: `Order #${orderId} placed by ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}`,
         html: `
 <!DOCTYPE html>

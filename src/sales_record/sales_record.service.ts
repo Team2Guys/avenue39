@@ -488,9 +488,9 @@ export class SalesRecordService {
         customHttpException('Order not found', 'NOT_FOUND');
       }
 
-      // if (salesRecord.paymentStatus.paymentStatus) {
-      //   customHttpException('Payment status already updated!', 'BAD_REQUEST');
-      // }
+      if (salesRecord.paymentStatus.paymentStatus) {
+        customHttpException('Payment status already updated!', 'BAD_REQUEST');
+      }
 
       const updatedSalesRecord = await this.prisma.sales_record.update({
         where: { orderId: orderId.trim() },
@@ -641,7 +641,6 @@ export class SalesRecordService {
     })
 
     try {
-
       const recipients = email ? `${email}`
         : `${process.env.RECEIVER_MAIL1}, ${process.env.RECEIVER_MAIL2}`;
       const mailOptions = {
@@ -649,400 +648,424 @@ export class SalesRecordService {
         to: recipients,
         subject: `Order #${orderId} placed by ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}`,
         html: `
-        
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 20px auto;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-top: 5px solid #AFA183;
-            border-bottom: 5px solid #AFA183;
-            background-color: #fff;
-        }
-
-        .main-container {
-        font-size:14px;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .header img {
-            max-width: 250px;
-        }
-
-        .status {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .status div {
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin: 0 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 120px;
-            font-weight: bold;
-        }
-
-        .confirmed {
-            background-color: #000000;
-            color: #fff;
-        }
-
-        .shipping,
-        .received {
-            background-color: #ddd;
-            color: #333;
-        }
-
-        .order-button {
-            display: block;
-            width: 200px;
-            text-align: center;
-            background-color: #AFA183;
-            color: white;
-            padding: 10px;
-            margin: 20px auto;
-            text-decoration: none;
-            border-radius: 1px;
-        }
-
-        .purchase-details {
-            background-color: #F6F6F6;
-            padding: 15px;
-            margin-top: 20px;
-           
-        }
-
-        .purchase-table {
-            width: 100%;
-            border-collapse: collapse;
-             text-align: center;
-        }
-
-        .purchase-table th,
-        .purchase-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .footer {
-            background-color: #AFA183;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            margin-top: 20px;
-        }
-
-        .social-icons {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .social-icons a {
-            margin: 0 10px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .features {
-            background-color: #ff6600;
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .feature {
-            text-align: center;
-        }
-
-        .feature img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .categories {
-            padding: 15px;
-            border-top: 2px solid #ccc;
-        }
-
-        .categories span {
-            margin: 0 10px;
-            font-weight: bold;
-        }
-        @media (max-width: 600px) { /* For mobile screens */
-        .categories {
-            padding: 15px;
-        }
-      .categories span {
-        font-size: 10px;
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Order Confirmation</title>
+   <style>
+      body {
+         font-family: Arial, sans-serif;
+         margin: 0;
+         padding: 0;
+         background-color: #f4f4f4;
       }
-}
 
-        .social-icons {
-            padding: 15px;
-        }
+      .container {
+         max-width: 500px;
+         margin: 20px auto;
+         background-color: #fff;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         border-top: 5px solid #AFA183A1;
+         border-bottom: 5px solid #AFA183A1;
+      }
 
-        .social-icons a {
-            margin: 0 10px;
-            text-decoration: none;
-            font-size: 20px;
-            color: black;
-        }
+      .main-container {
+         padding: 20px;
+         background-color: rgb(255, 255, 255) !important;
+      }
 
-        .features {
-            background-color: #ff6600;
-            color: white;
-            width: 100%;
-            align-items: center;
-            padding:30px;
-        }
+      .header {
+         text-align: center;
+         padding: 20px 0;
+      }
 
-        .feature {
-            text-align: center;
-        }
+      .header img {
+         max-width: 250px;
+      }
 
-        .feature img {
-            width: 30px;
-            height: auto;
-        }
+      .order-button {
+         display: block;
+         width: 200px;
+         text-align: center;
+         background-color: #000;
+         color: white !important;
+         padding: 10px;
+         margin: 20px auto;
+         text-decoration: none;
+         border-radius: 1px;
+      }
 
-        .categories {
-            margin-top: 10px;
-            padding: 15px;
-            border-top: 2px solid #ccc;
-            border-bottom: 2px solid #ccc;
-        }
+      .table-font {
+         font-size: 13px;
+         color: black;
+      }
 
-        .categories span {
-            margin: 0 10px;
-            font-size: 14px;
-            font-weight: 100;
-        }
+      .order-para {
+         color: black;
+      }
 
-        .social-icons {
-            padding: 15px;
-        }
+      .purchase-details {
+         background-color: #F6F6F6;
+         padding: 15px;
+         margin-top: 20px;
+      }
 
-        .social-icons a {
-            margin: 0 10px;
-            text-decoration: none;
-            font-size: 20px;
-            color: black;
-        }
+      .purchase-table {
+         width: 100%;
+         border-collapse: collapse;
+         text-align: center;
+      }
 
-        .progress-container {
-            align-items: center;
-            justify-content: center;
-            margin-top: 50px;
-            margin-bottom: 30px;
-           
-            width: 100%;
-            background-color:white;
-            
-        }
+      .purchase-table th,
+      .purchase-table td {
+         padding: 10px;
+         text-align: left;
+         border-bottom: 1px solid #ddd;
+      }
 
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
+      .footer {
+         background-color: #AFA183A1;
+         color: white;
+         text-align: center;
+         padding: 15px 0;
+         margin-top: 20px;
+      }
 
-        .step:not(:last-child)::after {
-            content: "";
-            position: absolute;
-            width: 80px;
-            height: 2px;
-            background-color: black;
-            top: 25px;
-            left: 100%;
-            transform: translateX(-40%);
-        }
+      .social-icons {
+         text-align: center;
+         margin-top: 10px;
+      }
 
-        .icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            border: 2px solid black;
-            font-size: 24px;
-        }
+      .social-icons a {
+         margin: 0 10px;
+         text-decoration: none;
+         font-size: 18px;
+         color: #333;
+      }
 
-        .completed .icon {
-            background-color: #000000;
-            color: white;
-            border: none;
-        }
+      .social-icons {
+         padding: 15px;
+      }
 
-        .step p {
-            margin-top: 8px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-    </style>
+      .social-icons a {
+         margin: 0 10px;
+         text-decoration: none;
+         font-size: 20px;
+         color: black;
+      }
+
+      .categories {
+         margin-top: 5px;
+         padding: 15px 0px;
+         border-top: 2px solid #ccc;
+         border-bottom: 2px solid #ccc;
+         text-align: center;
+      }
+
+      .categories a {
+         font-size: 11px;
+         font-weight: 100;
+         margin-top: 5px;
+         text-decoration: none;
+         color: rgb(255, 255, 255);
+         padding: 10px 15px;
+         background-color: #AFA183A1;
+         display: inline-block;
+      }
+
+      .social-icons {
+         padding: 15px;
+      }
+
+      .social-icons a {
+         margin: 0 10px;
+         text-decoration: none;
+         font-size: 20px;
+         color: black;
+      }
+
+      .progress-container {
+         align-items: center;
+         justify-content: center;
+         margin-top: 50px;
+         margin-bottom: 50px;
+         width: 100%;
+      }
+
+      .step {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         position: relative;
+      }
+
+      .step:not(:last-child)::after {
+         content: "";
+         position: absolute;
+         width: 80px;
+         height: 2px;
+         background-color: black;
+         top: 25px;
+         left: 100%;
+         transform: translateX(-40%);
+      }
+
+      .icon {
+         width: 50px;
+         height: 50px;
+         border-radius: 50%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: white;
+         border: 2px solid black;
+         font-size: 24px;
+      }
+
+      .completed .icon {
+         background-color: #AFA183A1;
+         color: white;
+         border: none;
+      }
+
+      .step p {
+         margin-top: 8px;
+         font-size: 14px;
+         font-weight: bold;
+      }
+
+      @media (max-width: 450px) {
+         .main-container {
+            padding: 20px 5px;
+         }
+
+         .purchase-details {
+            padding: 15px 5px;
+         }
+
+         .table-font.user-info {
+            padding: 0px !important;
+         }
+
+         .user-info-wrapper {
+            padding-right: 5px !important;
+         }
+
+         .total-wrapper {
+            padding-right: 5px !important;
+            padding-left: 5px !important;
+         }
+      }
+
+      @media (max-width: 400px) {
+         .table-font {
+            font-size: 11px;
+         }
+
+         .purchase-details {
+            padding: 15px 5px;
+         }
+      }
+
+      @media (max-width: 350px) {
+         .main-container {
+            padding: 20px 5px;
+         }
+
+         .purchase-details {
+            padding: 15px 5px;
+         }
+
+         .table-font {
+            font-size: 10px;
+         }
+
+         .product-title-wrapper {
+            width: 170px !important;
+         }
+
+         .product-title-wrapper .table-font {
+            margin-left: 0px !important;
+         }
+
+         .purchase-details h3 {
+            font-size: 16px !important;
+         }
+
+         .order-para {
+            font-size: 14px !important;
+         }
+
+         .product-title-wrapper .product-img {
+            width: 60px !important;
+            height: 60px !important;
+         }
+
+         .categories a {
+            padding: 10px;
+         }
+      }
+   </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="main-container">
-            <div class="header" style="text-align:center; background-color:white">
-                <img src="https://res.cloudinary.com/dz7nqwiev/image/upload/v1739884192/logo_3_kfsy2k.jpg"
-                    alt="Brand Logo">
-            </div>
-            <h3 style="text-align:center; margin:0; padding:0">ORDER#${orderId}</h3>
-            <p style="text-align:center;margin:0;padding:0">${purchaseDate}</p>
-            <h1 style="text-align:center;">Order Confirmed</h1>
+   <div class="container">
+      <div class="main-container">
+         <div class="header" style="text-align:center;">
+            <img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1740983855/logo_3_uxp1wy.jpg"
+               alt="Brand Logo">
+         </div>
+         <h3 style="text-align:center; margin:0; padding:0; color: black;">ORDER#${orderId}</h3>
+         <p style="text-align:center;margin:0;padding:0; color: black;">${purchaseDate}</p>
+         <h1 style="text-align:center; color: black;">Order Confirmed</h1>
 
-            <div class="progress-container" style="text-align:center; background-color: white ;">
-                <img src="https://res.cloudinary.com/dz7nqwiev/image/upload/v1739884153/Frame_2_qij2br.jpg" alt="Progress Status">
-            </div>
-            <p style="text-align:center;">Dear <b>${firstName} ${lastName},</b></p>
-            <p style="text-align:center;font-size:14px">Thank you very much for the order <br> you placed with <a
-                    href="https://avenue39.com/">www.avenue39.com</a></p>
-
-            <a href="https://avenue39.com/track-order/${orderId?.trim()}" target="_blank" class="order-button">View Your Order</a>
-            <p style="text-align:center;">Your order has now been sent to the warehouse to prepare for packing and
-                dispatch.</p>
-            <p style="text-align:center;">Our team will be in touch soon to arrange the delivery with you.</p>
-            <p style="text-align:center;">All The Best,</p>
-            <p style="text-align:center;"><strong>The Team avenue39</strong></strong></p>
-            <div class="purchase-details">
-               <h2 style="border-bottom: 2px solid #ccc; padding-bottom:15px"}>Purchase Details</h2>
-            <table class="purchase-table" style="width: 100%; border-collapse: collapse;">
-    <thead>
-      
-    </thead>
-   <tbody>
-  ${productDetails.map(({ productData }) => `
-    <tr style="border: none;">
-      <td style="padding: 10px; border: none;">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
-          <tr style="border: none;">
-            <td align="center" valign="middle" style="padding: 10px; border: none;">
-              <img src="${productData.posterImageUrl}" alt="${productData.name}" 
-                   style="height: 100px; width: 100px; border-radius: 5px; display: block;">
-            </td>
-            <td valign="middle" style="border: none;">
-              <p style="margin: 0; font-weight: bold;">${productData.name}</p>
-              ${productData.selectedfilter ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Filter: ${productData.selectedfilter.name}</p>` : ''}
-              ${productData.selectedSize ? `<p style="margin: 0; font-size: 14px; color: gray;">Selected Size: ${productData.selectedSize.name}</p>` : ''}
-            </td>
-          </tr>
-        </table>
-      </td>
-      <td style="padding: 10px; text-align: center; border: none;">QTY: ${productData.selectedSize ? productData.selectedSize.stock : productData.quantity}</td>
-      <td style="padding: 10px; text-align: center; font-weight: bold; border: none;">AED ${productData.price}</td>
-    </tr>
-  `).join('')}
-</tbody>
-
-</table>
+         <div class="progress-container" style="text-align:center;">
+            <img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1740979625/Frame_1321315819_luuvts.jpg"
+               alt="Progress Status" style="width: 100%;">
+         </div>
+         <p style="text-align:center;" class="order-para">Dear <b>Customer,</b></p>
+         <p style="text-align:center;" class="order-para">Thank you very much for the order <br> you placed with <a
+               href="https://avenue39.ae/">www.avenue39.com</a></p>
+         <a href="#" class="order-button">View Your Order</a>
+         <p style="text-align:center;" class="order-para">Your order has now been sent to the warehouse to prepare for
+            packing and
+            dispatch.</p>
+         <p style="text-align:center;" class="order-para">Our team will be in touch soon to arrange the delivery with
+            you.</p>
+         <p style="text-align:center;" class="order-para">All The Best,</p>
+         <p style="text-align:center;" class="order-para">The Team<strong> @"Avenue39"</strong></p>
+         <div class="purchase-details">
+            <h3>Purchase Details</h3>
+            <table class="purchase-table">
+               <thead>
+                  <tr>
+                     <th style="padding: 10px 2px; width: 65%" class="table-font">Product</th>
+                     <th style="padding: 10px 2px;  width: 20%; text-align: center;" class="table-font">Quantity
+                     </th>
+                     <th style="padding: 10px 2px;  width: 15%; text-align: center;" class="table-font">Price</th>
+                  </tr>
+               </thead>
 
 
-                                <body style="font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0;">
-<table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
-    <tr>
-        <td style="width: 60%; vertical-align: top; padding: 10px; border-right: 2px solid #ccc;">
-            <table style="width: 100%; border-collapse: collapse;">
-             <tr>
-                    <th style="padding: 8px; text-align: left;">Name:</th>
-                    <td style="padding: 8px; padding-left:0px">${firstName} ${lastName}</td>
-                </tr>
-               ${email ? ` <tr>
-                    <th style="padding: 8px; text-align: left;">Email:</th>
-                    <td style="padding: 8px; padding-left:0px">${email}</td>
-                </tr> ` : ''}
-                <tr>
-                    <th style="padding: 8px; text-align: left;">Phone:</th>
-                    <td style="padding: 8px; padding-left:0px">${phone}</td>
-                </tr>
-                <tr>
-                    <th style="padding: 8px; text-align: left;">Address:</th>
-                    <td style="padding: 8px; padding-left:0px">${address}</td>
-                </tr>
+               <tbody>
+                  ${productDetails.map((product, index) => `
+                  <tr key="${index}">
+                     <td style="padding: 10px 2px;" class="product-title-wrapper">
+                        <div style="display:flex; gap:5px; align-items:center; justify-content:center;">
+                           <img src="${product.imageUrl}" alt="${product.name}" style="height:70px; width:70px;"
+                              class="product-img">
+                           <div>
+                              <p class="table-font"
+                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">
+                                 ${product.name}</p>
+                                 ${product.selectedfilter ? `<p class="table-font"
+                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">${product.existingProduct.filter[0].heading}: ${product.selectedfilter.name}</p>` : ''}
+                                 ${product.selectedSize ? `<p class="table-font"
+                                 style="margin-left: 5px; margin-bottom: 0px; margin-top: 0px; color: black; font-weight: 600;">${product.selectedSize.name}</p>` : ''}
+                           </div>
+                        </div>
+                     </td>
+                     <td class="table-font" style="text-align:center; padding: 10px 2px;">${product.quantity}</td>
+                     <td class="table-font" style="text-align:center; padding: 10px 2px;">AED ${product.discountPrice ? product.discountPrice : product.price}</td>
+                  </tr>
+                  `).join('')}
+
+
+
+
+
+
+               </tbody>
+
+
             </table>
-        </td>
 
-        <td style="width: 40%;  padding: 10px;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr >
-                    <td colspan="5" style="padding: 8px; ">Subtotal</td>
-                    <td style="padding: 8px;">AED ${TotalProductsPrice}</td>
-                </tr>
-                <tr style="border-bottom: 2px solid #ccc;">
-                    <td colspan="5" style="padding: 8px; ">Shipment</td>
-                    <td style="padding: 8px;">${TotalProductsPrice > 1000 ? "Free" : "AED 20"}</td>
-                </tr>
-                <tr>
-                    <td colspan="5" style="padding: 8px; font-weight: bold;">Total</td>
-                    <td style="padding: 8px; font-weight: bold;">${TotalProductsPrice > 250 ? "AED " + TotalProductsPrice : 20 + "AED " + TotalProductsPrice}</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+            <body style="font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0;">
+               <table style="width: 100%; border-collapse: collapse; text-align: left; margin: auto;">
+                  <tr>
+                     <td style="width: 70%; vertical-align: top; padding: 10px  10px 10px 0px ; border-right: 2px solid #ccc;"
+                        class="user-info-wrapper">
+                        <table>
+                           <tr>
+                              <th style="padding: 5px 5px 0px 5px;" class="table-font">Name:</th>
+                           </tr>
+                           <tr>
+                              <td style="padding: 0px 5px 5px 5px; width: 100%;" class="table-font">${name}</td>
+                           </tr>
+                           <tr>
+                              <th style="padding: 5px 5px 0px 5px;" class="table-font">Email:</th>
+                           </tr>
+                           <tr>
+                              <td style="padding: 0px 5px 5px 5px; width: 100%;" class="table-font">${email}</td>
+                           </tr>
+                           <tr>
+                              <th style="padding: 5px 5px 0px 5px;" class="table-font">Phone:</th>
+                           </tr>
+                           <tr>
+                              <td style="padding: 0px 5px 5px 5px; width: 100%;" class="table-font">${phone}</td>
+                           </tr>
+                           <tr>
+                              <th style="padding: 5px 5px 0px 5px;" class="table-font">Address:</th>
+                           </tr>
+                           <tr>
+                              <td style="padding: 0px 5px 5px 5px; width: 100%;" class="table-font">${address}
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
 
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; background-color: #AFA183; padding: 14px;">
-        <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/features_lbnmr6.png" alt="features" style="display: block; margin: auto; max-width: 100%; height: auto;">
-    </div>
+                     <td style="width: 30%;  padding: 10px 5px;" class="total-wrapper">
+                        <table style="border-collapse: collapse;">
+                           <tr>
+                              <td colspan="5" style="padding: 8px;" class="table-font">Subtotal</td>
+                              <td style="padding: 8px;" class="table-font">${TotalProductsPrice}</td>
+                           </tr>
+                           <tr style="border-bottom: 2px solid #ccc;">
+                              <td colspan="5" style="padding: 8px;" class="table-font">Shipment</td>
+                              <td style="padding: 8px;" class="table-font">${TotalProductsPrice > 1000 ? "Free" : "AED 20"}
+                              </td>
+                           </tr>
+                           <tr>
+                              <td colspan="5" style="padding: 8px; font-weight: bold; " class="table-font">Total</td>
+                              <td style="padding: 8px; font-weight: bold;" class="table-font">${TotalProductsPrice > 250 ? "AED " + TotalProductsPrice : 20 + "AED " + TotalProductsPrice}</td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+               </table>
+               </td>
+               </tr>
+               </table>
+         </div>
+
+         <div style="text-align: center; margin-top: 20px; background-color: #AFA183A1; padding: 14px;">
+            <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/features_lbnmr6.png" alt="features"
+               style="display: block; margin: auto; max-width: 100%; height: auto;">
+         </div>
 </body>
-
-
-
-
-<table width="100%" cellspacing="0" cellpadding="5" border="0" align="center" style="white-space: nowrap;">
-    <tr>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/dining" target="_blank">Dinning</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/living" target="_blank">Living</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/bedroom" target="_blank">Bedroom</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/chairs" target="_blank">Chairs</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/tables" target="_blank">Tables</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/office-furniture" target="_blank">Home Office</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/lighting" target="_blank">Lighting</a></td>
-        <td align="center"><a style="text-decoration:none" href="https://www.avenue39.com/accessories" target="_blank">Accessories</a></td>
-    </tr>
-</table>
-
-        <div class="social-icons">
-            <a href="https://www.facebook.com/avenue39home"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
-
-            <a href="https://instagram.com/avenue39home"> <img src=https://res.cloudinary.com/dz7nqwiev/image/upload/v1739943539/Frame_Instagram_icon_amlgtc.jpg></a>
-           
-            <a href="https://www.pinterest.com/avenue39home/"> <img src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/pinterest-icon_dsvge7.png" alt="pinterest"></a>
-        </div>
-    </div>
+<div class="categories">
+   <a target="_blank" href="https://avenue39.com/dining">Dining</a>
+   <a target="_blank" href="https://avenue39.com/living">Living</a>
+   <a target="_blank" href="https://avenue39.com/bedroom">Bedroom</a>
+   <a target="_blank" href="https://avenue39.com/chairs">Chairs</a>
+   <a target="_blank" href="https://avenue39.com/tables">Tables</a>
+   <a target="_blank" href="https://avenue39.com/office-furniture">Home Office</a>
+   <a target="_blank" href="https://avenue39.com/lighting">Lighting</a>
+   <a target="_blank" href="https://avenue39.com/accessories">Accessories</a>
+</div>
+<div class="social-icons">
+   <a href="https://www.instagram.com/avenue39home/" target="_blank"> <img
+      src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1740979445/Frame_Instagram_icon_bmkfrg.jpg"></a>
+   <a href="https://www.facebook.com/avenue39home" target="_blank"> <img
+         src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185482/facebook-icon_tdqcrw.png"></a>
+   <a href="https://www.pinterest.com/avenue39home/" target="_blank"> <img
+         src="https://res.cloudinary.com/dgwsc8f0g/image/upload/v1739185483/pinterest-icon_dsvge7.png"
+         alt="pinterest"></a>
+</div>
+</div>
 </body>
 
 </html>

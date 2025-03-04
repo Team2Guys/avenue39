@@ -267,7 +267,7 @@ export function LoginForm({ onTabChange, activeTab }: TabsProps) {
                 <span>By creating your account you agree to our</span>
               </label>
               <Link
-                href="/terms-condition"
+                href="/terms-and-conditions"
                 className="text-black cursor-pointer"
               >
                 Terms and Conditions

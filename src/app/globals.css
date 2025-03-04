@@ -504,3 +504,8 @@ html {
 .ant-image-preview-mask {
   background-color: white !important;
 }
+
+
+.Dialog_parent{
+  border: 1px solid blue !important;
+}

@@ -291,8 +291,8 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
                                     <span className={`text-13 ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
                                   </div>}
-                                {!(product.colorName || product.sizeName) && <span className={`text-13   ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
-                                }
+    {!(product.colorName || product.sizeName) && <span className={`text-13 text-end   ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                  }
                                 <RenderStars card={product} />
                               </div>
                             </div>

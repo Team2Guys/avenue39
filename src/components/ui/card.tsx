@@ -125,6 +125,7 @@ const Card: React.FC<CardProps> = ({
     if (card) {
       const updatedDisplayName = variationName({ product: card });
       setDisplayName(updatedDisplayName);
+      console.log(card,'updatedDisplayName')
     }
   }, [card]);
 

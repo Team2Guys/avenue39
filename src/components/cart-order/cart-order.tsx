@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 import { cities } from '@/data';
 import { City } from '@/types/types';
 import { SubTotal } from '@/config';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { selectTotalPrice } from '@/redux/slices/cart';
@@ -13,7 +12,6 @@ import { BsTruck } from 'react-icons/bs';
 
 const CartOrder: React.FC = () => {
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
-  const Navigate = useRouter();
   const totalPrice = useSelector((state: State) =>
     selectTotalPrice(state.cart),
   );
@@ -96,7 +94,7 @@ const CartOrder: React.FC = () => {
         <Link
           href={'/checkout'}
           className="text-18 bg-black hover:bg-white border-2 rounded-2xl border-black hover:text-black text-white w-full mt-2 h-[60px] flex justify-center items-center "
-          onClick={() => Navigate.push('/checkout')}
+          onClick={() => localStorage.removeItem('buyNowProduct')}
         >
           Proceed to Checkout
         </Link>

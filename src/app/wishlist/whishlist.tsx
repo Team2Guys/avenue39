@@ -28,7 +28,7 @@ const WishlistPage = () => {
     const storedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlist(storedWishlist);
   }, []);
-  console.log(wishlist, 'wishlist')
+  // console.log(wishlist, 'wishlist')
 
   const handleDeleteItem = (product: any) => {
     const updatedWishlist = wishlist.filter((item) =>

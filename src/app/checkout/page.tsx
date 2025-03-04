@@ -7,7 +7,7 @@ import Coupan from '@/components/coupan-code';
 import CartItems from '@/components/cart/items';
 import { useSelector } from 'react-redux';
 import { State } from '@/redux/store';
-import { selectTotalPrice } from '@/redux/slices/cart';
+import { getItemPrice, selectTotalPrice, variationProductImage } from '@/redux/slices/cart';
 import { useFormik } from 'formik';
 import {
   Select,
@@ -26,16 +26,35 @@ import { RiSecurePaymentFill } from 'react-icons/ri';
 import { IoBagOutline } from 'react-icons/io5';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { CartItem } from '@/redux/slices/cart/types';
+import Image from 'next/image';
+import { ChangeUrlHandler } from '@/config/fetch';
+import { ProductPrice } from '@/styles/typo';
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(50);
-  const totalPrice = useSelector((state: State) =>
-    selectTotalPrice(state.cart),
-  );
+  const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
+  const [ totalPrice , setTotalPrice ] = useState(0)
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [loading, setloading] = useState<boolean>(false);
   const [paymentkey, setPaymentKey] = useState('');
   const cartItems = useSelector((state: State) => state.cart.items);
+  const [product, setProduct] = useState<CartItem>()
+  const storedProduct = localStorage.getItem('buyNowProduct');
+
+  useEffect(() => {
+    if (storedProduct) {
+      const parsedProduct = JSON.parse(storedProduct);
+      const price = getItemPrice(parsedProduct);
+        setTotalPrice(price);
+        setProduct(parsedProduct);
+    }
+  }, [storedProduct]);
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem('buyNowProduct');
+    };
+  }, []);
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -124,27 +143,49 @@ const Checkout = () => {
     const cartItems_refactor = await Promise.all(cartItems.map((item) => {
       // Create a shallow copy of the item
       const { sizes, filter, ...updatedItem } = item;
-    
+
       console.log(sizes, filter)
 
       // Check for selectedSize and selectedfilter
       if (updatedItem.selectedSize) {
-        const { price, discountPrice, ...updatedSize  } = updatedItem.selectedSize;
+        const { price, discountPrice, ...updatedSize } = updatedItem.selectedSize;
         updatedItem.selectedSize = updatedSize as any; // Keep only the properties you want
         console.log(price, discountPrice)
       }
-    
+
       if (updatedItem.selectedfilter) {
         const { price, discountPrice, ...updatedFilter } = updatedItem.selectedfilter;
         updatedItem.selectedfilter = updatedFilter as any; // Keep only the properties you want
         console.log(price, discountPrice)
       }
-    
+
       return updatedItem; // Return the updated item
     }));
+    const product_refactor = async (product: CartItem) => {
+      const { sizes, filter, ...updatedProduct } = product;
+    
+      console.log(sizes, filter);
+    
+      if (updatedProduct.selectedSize) {
+        const { price, discountPrice, ...updatedSize } = updatedProduct.selectedSize;
+        updatedProduct.selectedSize = updatedSize as any; 
+        console.log(price, discountPrice);
+      }
+    
+      if (updatedProduct.selectedfilter) {
+        const { price, discountPrice, ...updatedFilter } = updatedProduct.selectedfilter;
+        updatedProduct.selectedfilter = updatedFilter as any; 
+        console.log(price, discountPrice);
+      }
+    
+      return updatedProduct;
+    };
+    
+    const updatedProduct = product && await product_refactor(product);
+    
     try {
-      let totalPayment = totalPrice + shippingfee;
-
+      let totalPayment = product ? totalPrice : cartPrice + shippingfee;
+      console.log(updatedProduct ? updatedProduct : cartItems_refactor)
       setloading(true);
 
       try {
@@ -153,7 +194,7 @@ const Checkout = () => {
           {
             ...values,
             amount: totalPayment,
-            orderedProductDetails: cartItems_refactor,
+            orderedProductDetails: updatedProduct ? updatedProduct : cartItems_refactor,
             shippment_Fee: shippingfee,
             phone_number: Number(values.phone_number),
           },
@@ -202,7 +243,7 @@ const Checkout = () => {
           </div>
         ) : (
           <Container>
-            {totalPrice !== 0 ? (
+            {product || cartItems ? (
               <form
                 onSubmit={formik.handleSubmit}
                 className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-5 xl:gap-10 mb-10 px-2"
@@ -360,19 +401,125 @@ const Checkout = () => {
                         Your Order
                       </p>
                       <div className="mt-5 max-h-48 px-1 overflow-y-scroll custom-scrollbar">
-                        <CartItems isCartPage={true} isCheckoutPage={true} />
+                        {product ?
+                          <div
+                            className="shadow rounded-md w-full p-2 mt-3 flex flex-wrap md:flex-nowrap justify-between items-center bg-white ">
+                            <div className="flex items-center gap-4 w-full">
+                              <Link href={ChangeUrlHandler(product as any)}>
+                                <div className="w-24 h-24">
+                                  <Image
+                                    width={50}
+                                    height={50}
+                                    src={variationProductImage(product)}
+                                    alt={product.posterImageAltText || product.name}
+                                    className="rounded-md object-cover w-full h-full"
+                                  />
+                                </div>
+                              </Link>
+                              <div className="w-full">
+                                <div className='flex flex-col gap-1'>
+                                  <Link href={ChangeUrlHandler(product as any)}>
+                                    <span className="text-16 xl:text-18">{product.name}</span>
+                                  </Link>
+                                  {(product.selectedfilter || product.selectedSize) &&
+                                    <>
+                                      <div className='flex items-center gap-1 text-13'>
+                                        <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
+                                        <span className='capitalize'>{product.selectedfilter?.name}</span>
+                                      </div>
+                                      <span className='text-13'>{product.selectedSize?.name}</span>
+                                    </>
+                                  }
+                                </div>
+                                <div className="flex flex-wrap md:flex-nowrap lg:hidden justify-between items-center gap-2 md:gap-3">
+                                  {(product.selectedfilter || product.selectedSize) ?
+                                    <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
+                                      <span>
+                                        AED{' '}
+                                        {(
+                                          (Number(product.selectedSize?.price) || (Number(product.selectedfilter?.price) === 0) && product.discountPrice ? product.discountPrice : product.price) * product.quantity
+                                        ).toLocaleString()}
+                                      </span>
+                                    </ProductPrice> :
+                                    (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
+                                      <>
+                                        <p className="text-16 xs:text-18 font-bold text-nowrap">
+                                          AED <span>{product?.discountPrice * product.quantity}</span>
+                                        </p>
+                                        <p className="text-14 font-normal text-nowrap line-through text-[#A5A5A5] w-16">
+                                          AED <span>{product?.price * product.quantity}</span>
+                                        </p>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <p className="text-16 xs:text-18 font-bold text-nowrap">
+                                          AED <span>{product?.price * product.quantity}</span>
+                                        </p>
+                                        <p className="text-[18px] font-bold w-16"></p>
+                                      </>
+                                    )}
+                                </div>
+                              </div>
+                              
+                              <div className="hidden lg:flex items-center justify-between gap-2 xl:gap-6 w-full">
+                                  <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
+                                    {(product.selectedfilter || product.selectedSize) ?
+                                      <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                        <span>
+                                          AED{' '}
+                                          {(
+                                            (Number(product.selectedSize?.price) || (Number(product.selectedfilter?.price) === 0) && product.discountPrice ? product.discountPrice : product.price) * product.quantity
+                                          ).toLocaleString()}
+                                        </span>
+                                      </ProductPrice>
+                                      : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
+                                        <>
+                                          <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
+                                            AED{' '}
+                                            <span>
+                                              {(product?.price * product.quantity).toLocaleString()}
+                                            </span>
+                                          </p>
+                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
+                                            AED{' '}
+                                            <span>
+                                              {(
+                                                product?.discountPrice * product.quantity
+                                              ).toLocaleString()}
+                                            </span>
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                            AED{' '}
+                                            <span>
+                                              {(product?.price * product.quantity).toLocaleString()}
+                                            </span>
+                                          </p>
+                                        </>
+                                      )}
+                                    <div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                          : <CartItems isCartPage={true} isCheckoutPage={true} />}
+
+
                       </div>
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-sm">
                         <p>Subtotal</p>
                         <p>
-                          AED <span>{totalPrice.toLocaleString()}</span>
+                          AED <span>{product ? totalPrice.toLocaleString() : cartPrice.toLocaleString()}</span>
                         </p>
                       </div>
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-sm">
                         <p>Shipping fee</p>
                         <p>
                           <span>
-                            {totalPrice > 1000 || shippingfee === 0
+                            {(product ? totalPrice : cartPrice) > 1000 || shippingfee === 0
                               ? 'Free'
                               : `AED ${shippingfee}`}
                           </span>
@@ -384,9 +531,9 @@ const Checkout = () => {
                           {' '}
                           AED{' '}
                           <span>
-                            {(totalPrice > 1000
-                              ? totalPrice
-                              : totalPrice + shippingfee
+                            {((product ? totalPrice : cartPrice) > 1000
+                              ? product ? totalPrice : cartPrice
+                              : (product ? totalPrice : cartPrice) + shippingfee
                             ).toLocaleString()}
                           </span>
                         </p>

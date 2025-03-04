@@ -7,7 +7,7 @@ import { getProductStock } from '@/config';
 interface CartState {
   items: CartItem[];
 }
-const getItemPrice = (item: CartItem) => {
+export const getItemPrice = (item: CartItem) => {
   let price;
   if (item.selectedSize) {
     price = Number(item.selectedSize.discountPrice)

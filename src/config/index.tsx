@@ -113,7 +113,7 @@ export const variationProducts = ({ products }: { products: IProduct[] }) => {
     if (prod.sizes?.length && prod.filter?.[0].additionalInformation.length) {
       prod.sizes.forEach((size) => {
         const variationKey = `${size.name}-${size.filterName || "default"}`;
-        
+
         const matchingImage = prod.productImages.find(
           (img) =>
             img.size?.toLowerCase() === size.name?.toLowerCase() &&
@@ -145,7 +145,7 @@ export const variationProducts = ({ products }: { products: IProduct[] }) => {
     } else if (prod.filter?.[0].additionalInformation.length) {
       prod.filter?.[0].additionalInformation.forEach((size) => {
         const variationKey = `${size.name}`;
-        
+
         const matchingImage = prod.productImages.find(
           (img) =>
             img.color?.toLowerCase() === size.name?.toLowerCase());
@@ -183,7 +183,16 @@ export const variationName = ({ product }: { product: IProduct }) => {
     return product.displayName = `${product.name} -  ${product.sizeName}`;
   }
   else if (product.colorName && !product.sizeName) {
-    return product.displayName = `${product.name} -  (${product.colorName})`;
+    const firstLetter = product.filter?.[0]?.heading?.charAt(0).toUpperCase();
+
+    if (firstLetter &&
+      (product.filter?.[0]?.heading.toLowerCase() === 'height' ||
+        product.filter?.[0]?.heading.toLowerCase() === 'width' ||
+        product.filter?.[0]?.heading.toLowerCase() === 'diameter') &&
+      !product.colorName.includes(firstLetter)) {
+      return product.displayName = `${product.name} - ${firstLetter}:${product.colorName}`;
+    }
+    return product.displayName = `${product.name} -  ${product.colorName}`;
   } else {
     return product.displayName;
   }
@@ -211,20 +220,20 @@ export const getProductStock = ({ product }: { product: CartItem }) => {
 
 
 
-export const getAllStock = (product : CartItem | any ) => {
+export const getAllStock = (product: CartItem | any) => {
   // console.log(product, "getAllStock")
   if (!product) return '';
   let totalStock: number = 0;
 
   if (product.sizes && product.sizes.length > 0) {
-    const sizesStock = product.sizes.find((value:any) => value.name?.trim() === product.sizeName?.trim());
+    const sizesStock = product.sizes.find((value: any) => value.name?.trim() === product.sizeName?.trim());
     if (sizesStock) {
       totalStock = Number(sizesStock.stock);
 
     }
 
   } else if (product.filter && product.filter.length > 0) {
-    let filterStock = product.filter[0].additionalInformation.find((value:any) => value.name?.trim() === product.colorName?.trim());
+    let filterStock = product.filter[0].additionalInformation.find((value: any) => value.name?.trim() === product.colorName?.trim());
     if (filterStock) {
       totalStock = Number(filterStock.stock);
     }
@@ -232,7 +241,7 @@ export const getAllStock = (product : CartItem | any ) => {
     totalStock = Number(product.stock);
   }
 
-// console.log(totalStock, "getAllStock")
+  // console.log(totalStock, "getAllStock")
 
 
   return totalStock;

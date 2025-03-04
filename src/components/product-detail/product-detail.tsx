@@ -98,20 +98,23 @@ const ProductDetail = ({
     filter?: string;
     size?: string;
   }>({ filter: filterParam, size: sizeParam });
-
-
+  const Navigate = useRouter();
   const product = params
     ? params
     : products?.find(
       (product) => (product.custom_url || product?.name) === slug,
     );
+    console.log(product,'product availableFilters', availableFilters ,size)
 
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
     const filterName = generateSlug(item.name);
 
     const sizeName = !slugParams.size ? generateSlug(size?.name || "") : slugParams.size;
-
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('filter', filterName);
+    sizeName && currentUrl.searchParams.set('size', sizeName);
+    Navigate.push(currentUrl.pathname + currentUrl.search);
     setSlugParams(() => ({
       filter: filterName,
       size: sizeName,
@@ -130,6 +133,10 @@ const ProductDetail = ({
     setSize(size);
     const filterName = generateSlug(findFilter?.name || '');
     const sizeName = generateSlug(size.name);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('filter', filterName);
+    currentUrl.searchParams.set('size', sizeName);
+    Navigate.push(currentUrl.pathname + currentUrl.search);
     setSlugParams(() => ({
       filter: filterName,
       size: sizeName,
@@ -146,8 +153,16 @@ const ProductDetail = ({
       size: '',
       color: '',
     };
+    const hoverImage = {
+      imageUrl: product?.hoverImageUrl || '',
+      public_id: product?.hoverImagePublicId,
+      altText: product?.name || 'Default Name',
+      imageIndex: 0,
+      size: '',
+      color: '',
+    };
 
-    const customProductImage = [posterImage, ...(product?.productImages || [])];
+    const customProductImage = [posterImage, hoverImage, ...(product?.productImages || [])];
     setCustomImages(customProductImage);
 
     if (slugParams.filter && slugParams.size) {
@@ -282,7 +297,7 @@ const ProductDetail = ({
   }
 
 
-  const Navigate = useRouter();
+
   useEffect(() => {
     if (product) {
       const targetDate = product.sale_counter
@@ -384,33 +399,47 @@ const ProductDetail = ({
     dispatch(openDrawer());
   };
 
+  // const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
+  //   e.stopPropagation();
+  //   const existingCartItem = cartItems.find(
+  //     (item: any) =>
+  //       item.id === product?.id &&
+  //       item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+  //       item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
+  //   );
+  //   console.log(existingCartItem, 'cartItems');
+  //   if (!existingCartItem) {
+  //     dispatch(addItem(itemToAdd));
+  //     dispatch(openDrawer());
+  //     Navigate.push('/checkout');
+  //     return;
+  //   }
+
+  //   const currentQuantity = existingCartItem?.quantity || 0;
+  //   const newQuantity = currentQuantity + count;
+  //   if (newQuantity > totalStock) {
+  //     toast.error(
+  //       `Only ${totalStock} items are in stock. You cannot add more than that.`,
+  //     );
+  //     return;
+  //   }
+  //   dispatch(addItem(itemToAdd));
+  //   Navigate.push('/checkout');
+  // };
+
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find(
-      (item: any) =>
-        item.id === product?.id &&
-        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-        item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
-    );
-    console.log(existingCartItem, 'cartItems');
-    if (!existingCartItem) {
-      dispatch(addItem(itemToAdd));
-      dispatch(openDrawer());
-      Navigate.push('/checkout');
-      return;
-    }
 
-    const currentQuantity = existingCartItem?.quantity || 0;
-    const newQuantity = currentQuantity + count;
-    if (newQuantity > totalStock) {
-      toast.error(
-        `Only ${totalStock} items are in stock. You cannot add more than that.`,
-      );
-      return;
+    let existingProduct = JSON.parse(localStorage.getItem('buyNowProduct') || 'null');
+
+    if (existingProduct) {
+      localStorage.setItem('buyNowProduct', JSON.stringify(itemToAdd));
+    } else {
+      localStorage.setItem('buyNowProduct', JSON.stringify(itemToAdd));
     }
-    dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
+
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -644,7 +673,10 @@ const ProductDetail = ({
                 <div className="flex space-x-4 mt-2">
                   {availableFilters.map((item, index: number) => {
                     const image = product.productImages.find(
-                      (img) => img?.color === item?.name && img.size === size?.name,
+                      (img) => img?.color === item?.name && (
+                        img.size === (size?.name || '') ||
+                        img.size === undefined
+                      )                      
                     );
                     if (!image) return null;
                     return (

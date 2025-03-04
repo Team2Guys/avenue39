@@ -28,6 +28,7 @@ const WishlistPage = () => {
     const storedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlist(storedWishlist);
   }, []);
+  console.log(wishlist, 'wishlist')
 
   const handleDeleteItem = (product: any) => {
     const updatedWishlist = wishlist.filter((item) =>
@@ -60,7 +61,7 @@ const WishlistPage = () => {
       return updatedWishlist;
     });
     window.dispatchEvent(new Event('WishlistChanged'));
-    const variationQuantity = getProductStock({product: item});
+    const variationQuantity = getProductStock({ product: item });
     if (item.quantity > variationQuantity) {
       toast.error('Insufficient stock. Please reduce quantity.');
     }
@@ -83,11 +84,9 @@ const WishlistPage = () => {
         item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
     );
 
-    // console.log(existingCartItem, 'cartItems');
-
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
-      const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+      const updatedWishlist = wishlist.filter((item) => !(item.id === product.id && item.selectedSize?.name === product.selectedSize?.name && item.selectedfilter?.name === product.selectedfilter?.name));
       setWishlist(updatedWishlist);
       localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
       window.dispatchEvent(new Event('WishlistChanged'));
@@ -95,7 +94,7 @@ const WishlistPage = () => {
     }
 
 
-    const totalStock = getProductStock({product: itemToAdd});
+    const totalStock = getProductStock({ product: itemToAdd });
 
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;
@@ -165,25 +164,15 @@ const WishlistPage = () => {
                       <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                         AED{' '}
                         <span>
-                          {product.selectedSize
-                            ? product.selectedSize?.discountPrice > 0
-                              ? product.selectedSize.discountPrice
-                              : product.selectedSize.price
-                            : Number(product.discountPrice) > 0
-                              ? product.discountPrice
-                              : product.price}
+                          {product.selectedSize ? product.selectedSize?.discountPrice > 0 ? product.selectedSize?.discountPrice : product.selectedSize.price : product.selectedfilter ? product.selectedfilter?.discountPrice > 0 ? product.selectedfilter?.discountPrice : product.selectedfilter.price : product.discountPrice > 0 ? product.discountPrice : product.price}
                         </span>
                       </p>
-                      {(Number(product.selectedSize?.discountPrice) > 0 &&
-                        Number(product.selectedSize?.price) >
-                        Number(product.selectedSize?.discountPrice)) ||
-                        (Number(product.discountPrice) > 0 &&
-                          Number(product.price) >
-                          Number(product.discountPrice)) ? (
+                      {(product.selectedSize?.discountPrice > 0 || product.selectedfilter?.discountPrice > 0 ||
+                        product.discountPrice > 0) ? (
                         <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
                           AED{' '}
                           <span>
-                            {product.selectedSize?.price ?? product.price}
+                            {product.selectedSize ? product.selectedSize.price : product.selectedfilter ? product.selectedfilter.price : product.price}
                           </span>
                         </p>
                       ) : null}
@@ -199,7 +188,7 @@ const WishlistPage = () => {
                     <div className="flex flex-wrap gap-4 items-center ">
                       <Counter
                         count={product.quantity}
-                        stock={getProductStock({product: product})}
+                        stock={getProductStock({ product: product })}
                         onIncrement={() => {
                           const updatedItem = { ...product, quantity: product.quantity + 1 };
                           updateProductQuantity(updatedItem);
@@ -224,7 +213,7 @@ const WishlistPage = () => {
             <div className="hidden md:block md:col-span-3 lg:col-span-3 xl:col-span-2 2xl:col-span-2">
               <Counter
                 count={product.quantity}
-                stock={getProductStock({product: product})}
+                stock={getProductStock({ product: product })}
                 onIncrement={() => {
                   const updatedItem = { ...product, quantity: product.quantity + 1 };
                   updateProductQuantity(updatedItem);
@@ -240,23 +229,20 @@ const WishlistPage = () => {
               <div className="flex items-center justify-evenly gap-1 lg:gap-4">
                 <div className="flex items-center  gap-1 lg:gap-4">
                   <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
-                    AED{' '}
                     <span>
-                      {product.selectedSize
-                        ? product.selectedSize?.discountPrice > 0
-                          ? product.selectedSize.discountPrice
-                          : product.selectedSize.price
-                        : Number(product.discountPrice) > 0
-                          ? product.discountPrice
-                          : product.price}
+                      AED{' '}
+                      {
+                        product.selectedSize ? product.selectedSize?.discountPrice > 0 ? product.selectedSize?.discountPrice : product.selectedSize.price : product.selectedfilter ? product.selectedfilter?.discountPrice > 0 ? product.selectedfilter?.discountPrice : product.selectedfilter.price : product.discountPrice > 0 ? product.discountPrice : product.price
+                      }
                     </span>
+
                   </p>
-                  {(product.selectedSize?.discountPrice > 0 ||
+                  {(product.selectedSize?.discountPrice > 0 || product.selectedfilter?.discountPrice > 0 ||
                     product.discountPrice > 0) && (
                       <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
                         AED{' '}
                         <span>
-                          {product.selectedSize?.price ?? product.price}
+                          {product.selectedSize ? product.selectedSize.price : product.selectedfilter ? product.selectedfilter.price : product.price}
                         </span>
                       </p>
                     )}

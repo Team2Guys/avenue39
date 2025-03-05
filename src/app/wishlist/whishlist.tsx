@@ -40,8 +40,6 @@ const WishlistPage = () => {
     setWishlist(updatedWishlist);
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
     window.dispatchEvent(new Event('WishlistChanged'));
-
-    toast.success('Product moved to Cart successfully!');
   };
 
   const updateProductQuantity = (item: CartItem) => {

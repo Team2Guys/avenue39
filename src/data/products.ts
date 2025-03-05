@@ -137,7 +137,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Braga Armchair',
-        posterImageUrl: '/images/HomeProducts/Living/Braga.png',
+        posterImageUrl: '/images/HomeProducts/Living/Braga.webp',
       },
       {
         name: 'Capri Leather Swivel Chair',

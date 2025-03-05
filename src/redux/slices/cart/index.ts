@@ -151,19 +151,21 @@ export const variationProductImage = (item: CartItem) => {
   if (!Array.isArray(item.productImages)) {
     return item.posterImageUrl;
   }
+  
   const filterImage = item.productImages.find(
     (image) => image.color === item.selectedfilter?.name
   );
   const sizeImage = item.productImages.find(
     (image) => image.size === item.selectedSize?.name && image.color === item.selectedfilter?.name
   );
-  if (sizeImage) {
+  if (item.sizes && item.sizes.length > 0 && sizeImage) {
     return sizeImage.imageUrl;
-  } else if (filterImage) {
+  } else if (item.filter && item.filter[0]?.additionalInformation?.length > 0 && filterImage) {
     return filterImage.imageUrl;
   } else {
     return item.posterImageUrl;
   }
+  
 };
 
 export const { addItem, removeItem, updateItemQuantity } = cartSlice.actions;

@@ -275,7 +275,7 @@ const Card: React.FC<CardProps> = ({
                     className={`${cardImageHeight} bg-[#E3E4E6] flex justify-center overflow-hidden items-center rounded-[35px] border-2 border-transparent group-hover:border-main ${portSpace ? portSpace : 'px-2'}`}
                   >
                     <Link href={finalUrl}
-                    className='flex flex-col gap-2 sm:gap-10 md:gap-0 xl:gap-10 justify-center'
+                      className='flex flex-col gap-2 sm:gap-10 md:gap-0 xl:gap-10 justify-center'
                       style={{
                         height: calculateHeight
                           ? calculateHeight
@@ -366,7 +366,7 @@ const Card: React.FC<CardProps> = ({
                         Add to Cart
                       </button>
 
-                      <Dialog>
+                      <Dialog >
                         <DialogTrigger className="w-full">
                           <button
                             className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
@@ -425,7 +425,7 @@ const Card: React.FC<CardProps> = ({
                           </button>
                         </DialogTrigger>
                         <DialogOverlay />
-                        <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
+                        <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl border  border-red-500 shadow-none gap-0 pb-0">
 
                           <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                             <ProductDetail
@@ -621,7 +621,7 @@ const Card: React.FC<CardProps> = ({
                       <DialogOverlay />
 
 
-                      <DialogContent className="max-w-[1400px] w-11/12 bg-white px-0 sm:rounded-3xl border border-black shadow-none gap-0 pb-0">
+                      <DialogContent className="max-w-[1400px]  w-11/12 bg-white px-0 sm:rounded-3xl   shadow-none gap-0 pb-0" >
 
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail

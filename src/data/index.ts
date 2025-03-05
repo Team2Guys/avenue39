@@ -37,7 +37,7 @@ export const serviceItems: IServiceItem[] = [
   {
     id: 4,
     icon: support,
-    title: 'Support Customer',
+    title: 'Customer Support',
   },
 ];
 

@@ -45,7 +45,6 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--font-helvetica);
-  margin-right:0% !important;
 }
 
 body[data-scroll-locked] {

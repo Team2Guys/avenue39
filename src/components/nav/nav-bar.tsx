@@ -190,7 +190,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   return (
     <div
-      className={`bg-white dark:text-black ${isSticky ? 'sticky top-0 z-[199] shadow-md md:shadow-none border-b md:border-b-0' : 'border-0 border-transparent z-[199]'}`}
+      className={`bg-white dark:text-black ${isSticky ? 'sticky top-0 !z-[100] shadow-md md:shadow-none border-b md:border-b-0' : 'border-0 border-transparent !z-[100]'}`}
     >
       <Container className="flex items-center justify-between p-2 md:p-4 gap-4 dark:bg-white ">
         <div className="w-3/12 min-w-24">

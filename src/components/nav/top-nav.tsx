@@ -8,7 +8,7 @@ import ramadan2 from '../../../public/images/moon.svg';
 
 const TopNav = () => {
   return (
-    <div className="bg-main text-secondary py-2 hidden md:block ">
+    <div className="bg-main text-secondary py-2 hidden md:block z-40">
       <Container className="flex justify-between items-center gap-2">
         <div className="max-lg:hidden lg:w-3/12 min-w-24">
           <div className="w-fit"></div>

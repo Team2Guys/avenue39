@@ -95,9 +95,9 @@ const ProductDetail = ({
   const [availableFilters, setAvailableFilters] = useState<any[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [slugParams, setSlugParams] = useState<{
-    filter?: string;
+    variant?: string;
     size?: string;
-  }>({ filter: filterParam, size: sizeParam });
+  }>({ variant: filterParam, size: sizeParam });
   const Navigate = useRouter();
   const product = params
     ? params
@@ -112,7 +112,7 @@ const ProductDetail = ({
 
     const sizeName = !slugParams.size ? generateSlug(size?.name || "") : slugParams.size;
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('filter', filterName);
+    currentUrl.searchParams.set('variant', filterName);
     sizeName && currentUrl.searchParams.set('size', sizeName);
     Navigate.push(currentUrl.pathname + currentUrl.search);
     setSlugParams(() => ({
@@ -134,7 +134,7 @@ const ProductDetail = ({
     const filterName = generateSlug(findFilter?.name || '');
     const sizeName = generateSlug(size.name);
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('filter', filterName);
+    currentUrl.searchParams.set('variant', filterName);
     currentUrl.searchParams.set('size', sizeName);
     Navigate.push(currentUrl.pathname + currentUrl.search);
     setSlugParams(() => ({
@@ -165,7 +165,7 @@ const ProductDetail = ({
     const customProductImage = [posterImage, hoverImage, ...(product?.productImages || [])];
     setCustomImages(customProductImage);
 
-    if (slugParams.filter && slugParams.size) {
+    if (slugParams.variant && slugParams.size) {
       const sizeIndex = uniqueSizes?.findIndex(
         (item: Sizes) => generateSlug(item.name) === slugParams.size,
       );
@@ -174,7 +174,7 @@ const ProductDetail = ({
       setSize(selectedSize);
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       const findFilter = additionalInfo.find(
-        (item) => generateSlug(item.name) === slugParams.filter,
+        (item) => generateSlug(item.name) === slugParams.variant,
       );
       setFilter(findFilter);
       const filteredImages = product?.productImages.filter(
@@ -204,11 +204,11 @@ const ProductDetail = ({
       const finalDiscPrice =
         Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
-    } else if (slugParams.filter && !slugParams.size) {
+    } else if (slugParams.variant && !slugParams.size) {
 
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       setAvailableFilters(additionalInfo);
-      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.filter);
+      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.variant);
       setSelectedSize(index)
       const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
       setFilter(firstColor);

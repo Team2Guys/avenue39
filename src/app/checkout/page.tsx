@@ -40,7 +40,7 @@ const Checkout = () => {
     first_name: '',
     last_name: '',
     user_email: '',
-    country: '',
+    country: 'United Arab Emirates',
     address: '',
     postalCode: '',
     city: '',
@@ -51,19 +51,21 @@ const Checkout = () => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      console.log(values);
       if (
         values.first_name === '' ||
         values.last_name === '' ||
         values.address === '' ||
-        values.user_email === ''
+        values.user_email === '' ||
+        values.country ==="" ||
+        values.city ==="" 
       ) {
+        console.log(values, "submissioValues")
         return showToast('warn', 'Please fill required filds😴');
       }
       const { postalCode, ...submissioValues } = values;
 
-      console.log(values, 'values');
-      console.log(postalCode, 'postalCode');
+      console.log(submissioValues, 'submissioValues');
+      console.log(postalCode, 'values');
 
       handlePayment(submissioValues);
     },
@@ -140,7 +142,7 @@ const Checkout = () => {
         console.log(price, discountPrice)
       }
     
-      return updatedItem; // Return the updated item
+      return updatedItem;
     }));
     try {
       let totalPayment = totalPrice + shippingfee;
@@ -165,7 +167,6 @@ const Checkout = () => {
           setPaymentKey(
             `https://uae.paymob.com/unifiedcheckout/?publicKey=${process.env.NEXT_PUBLIC_PAYMOB_PUBLIC_KEY}&clientSecret=${proceedPayment.data.result.client_secret}`,
           );
-          // window.location.href = `https://uae.paymob.com/unifiedcheckout/?publicKey=${process.env.NEXT_PUBLIC_PAYMOB_PUBLIC_KEY}&clientSecret=${proceedPayment.data.result.client_secret}`;
           setPaymentProcess(true);
         }
       } catch (error: any) {
@@ -277,7 +278,11 @@ const Checkout = () => {
                         </Label>
                         <Select
                           onValueChange={(value: any) =>
+                          {
+                            console.log(value, "values")
                             formik.setFieldValue('country', value)
+
+                          }
                           }
                           defaultValue="United Arab Emirates"
                           required

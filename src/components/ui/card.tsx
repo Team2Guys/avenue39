@@ -217,7 +217,7 @@ const Card: React.FC<CardProps> = ({
 
   let filterParams = '';
   if (itemToAdd.selectedfilter) {
-    filterParams += `?filter=${generateSlug(itemToAdd.selectedfilter.name)}`;
+    filterParams += `?variant=${generateSlug(itemToAdd.selectedfilter.name)}`;
   }
 
   if (itemToAdd.selectedSize?.name) {
@@ -293,7 +293,7 @@ const Card: React.FC<CardProps> = ({
                         width={600}
                         height={600}
                         className={cn(
-                          'object-contain rounded-[35px] w-full h-[150px] sm:h-[300px] lg:h-[350px] xl:h-[400px]',
+                          `object-contain rounded-[35px] w-full h-[150px] sm:h-[300px] lg:h-[350px] xl:h-[400px]`,
                           className,
                         )}
                       />
@@ -342,7 +342,7 @@ const Card: React.FC<CardProps> = ({
                   )}
                   {isModel ? null : isOutStock ? "Out of stock" : (
                     <div
-                      className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? accessoriesSlider ? 'pb-2 w-fit mx-auto' : 'w-fit mx-auto' : 'w-full'}`}
+                      className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? accessoriesSlider ? 'pb-2 w-full flex-wrap xl:flex-nowrap' : 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full'}`}
                       onClick={(e) => handleEventProbation(e)}
                     >
                       <button
@@ -536,7 +536,7 @@ const Card: React.FC<CardProps> = ({
                 {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                   <BsCartX size={18} /> Out of Stock</button> : (
                   <div
-                    className={`text-center flex flex-wrap md:flex-nowrap justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto' : 'w-full mb-4'}`}
+                    className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full mb-4 flex-wrap xl:flex-nowrap'}`}
                     onClick={(e) => handleEventProbation(e)}
                   >
                     <button

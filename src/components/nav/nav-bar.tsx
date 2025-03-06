@@ -331,7 +331,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                     autoComplete='off'
                     onChange={handleInputChange}
                     onClick={() => setIsProductListOpen(true)}
-                    className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-9 pr-2 z-[199] border-[#afa183] border-opacity-30 font-extralight"
+                    className=" h-[25px] sm:h-[40px] max-sm:placeholder:text-12 border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-9 pr-2 z-[199] border-[#afa183] border-opacity-30 font-extralight"
                     placeholder="Search Here..."
                   />
                   <button

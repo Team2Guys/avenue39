@@ -192,7 +192,7 @@ export function LoginForm({ onTabChange, activeTab }: TabsProps) {
             type="submit"
             variant={'login'}
             disabled={signinMutation.isPending ? true : false}
-            className="w-full h-[76px] custom-login-button"
+            className="w-full h-[50px] sm:h-[76px] custom-login-button"
           >
             {signinMutation.isPending ? (
               <Loader color="white" />
@@ -254,8 +254,9 @@ export function LoginForm({ onTabChange, activeTab }: TabsProps) {
               onChange={Signup.handleChange}
               value={Signup.values.confirm_password}
             />
-            <div className="flex items-center space-x-2 px-2 col-span-2">
-              <Checkbox
+            <div className="flex items-center space-y-3 px-2 col-span-2 flex-wrap sm:flex-nowrap">
+             <div className='flex gap-2 items-center'>
+             <Checkbox
                 id="terms"
                 value={terms as any}
                 onCheckedChange={(check: CheckedState) => setterms(check)}
@@ -264,8 +265,9 @@ export function LoginForm({ onTabChange, activeTab }: TabsProps) {
                 htmlFor="terms"
                 className="text-sm text-gray-400 space-x-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer "
               >
-                <span>By creating your account you agree to our</span>
+                <span className='text-14'>By creating your account you agree to our</span>
               </label>
+             </div>
               <Link
                 href="/terms-and-conditions"
                 className="text-black cursor-pointer"
@@ -278,7 +280,7 @@ export function LoginForm({ onTabChange, activeTab }: TabsProps) {
             type="submit"
             variant={'login'}
             disabled={signupMutation.isPending ? true : false}
-            className="w-full h-[76px] custom-login-button"
+            className="w-full h-[50px] sm:h-[76px] custom-login-button"
           >
             {signupMutation.isPending ? <Loader color="white" /> : 'Sign up'}
           </Button>

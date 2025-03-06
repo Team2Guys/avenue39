@@ -447,7 +447,7 @@ body[data-scroll-locked] {
 .Bannerclas {
   padding-bottom: 15px !important;
   position: relative !important;
-  z-index: 100 !important;
+  z-index: 30 !important;
   margin-bottom: 0px !important;
 
 }
@@ -493,6 +493,9 @@ body[data-scroll-locked] {
 
   .product-slider.custom-Slick .slick-list {
     height: auto !important;
+  }
+  .Bannerclas .swiper-pagination {
+    bottom: 20px !important;
   }
 }
 

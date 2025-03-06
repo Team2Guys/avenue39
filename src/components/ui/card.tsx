@@ -236,7 +236,7 @@ const Card: React.FC<CardProps> = ({
             onClick={(e) => handleAddToWishlist(e)}
             onMouseEnter={() => setIsHoverImage(true)}
             onMouseLeave={() => setIsHoverImage(false)}
-            className="absolute z-50 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+            className="absolute z-10 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
           >
             <IoIosHeartEmpty size={20} />
           </div>
@@ -659,7 +659,7 @@ const Card: React.FC<CardProps> = ({
             >
               <IoIosHeartEmpty size={25} />
             </div>
-            <Link href={finalUrl} className='block'>
+            <Link href={finalUrl} className='block bg-[#E3E4E6]'>
               <Image
                 src={card.posterImageUrl}
                 alt={card.posterImageAltText || card.name}

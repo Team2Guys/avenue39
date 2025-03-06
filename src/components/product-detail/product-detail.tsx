@@ -721,7 +721,7 @@ const ProductDetail = ({
           )}
         {
           <>
-            <div className="flex items-center gap-4 justify-between mb-2">
+            <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
               <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
                 <button
                   onClick={onDecrement}
@@ -772,19 +772,19 @@ const ProductDetail = ({
         }
 
         <div className="flex items-center justify-center relative mb-2">
-          <span className="absolute left-0 w-1/6 border-t border-gray-300"></span>
-          <p className="text-center px-3 w-4/6 font-helvetica whitespace-nowrap font-semibold text-sm xs:text-base lg:text-xs xl:text-base">
+          <span className="absolute left-0 w-1/6 border-t border-gray-300 hidden sm:block"></span>
+          <p className="text-center px-3 w-full xsm:w-4/6 font-helvetica whitespace-nowrap font-semibold text-sm xs:text-base lg:text-xs xl:text-base">
             Guaranteed Safe Checkout
           </p>
-          <span className="absolute right-0 w-1/6 border-t border-gray-300"></span>
+          <span className="absolute right-0 w-1/6 border-t border-gray-300 hidden xsm:block"></span>
         </div>
 
         <div className="flex gap-2 mb-2 ">
-          <div className="relative w-1/2 border-4 border-[#00FFBC] p-2 py-4 rounded-lg shadow">
+          <div className="relative w-1/2 border-4 border-[#00FFBC] p-2 py-3 xsm:py-4 rounded-lg shadow">
             <span className="font-helvetica absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
               tabby
             </span>
-            <p className="text-12 font-helvetica">
+            <p className="text-10 xsm:text-12 font-helvetica">
               Pay 4 interest-free payments of AED { }
               {productPrice > 0 || productDiscPrice > 0
                 ? productDiscPrice > 0
@@ -858,23 +858,23 @@ const ProductDetail = ({
               </Dialog>
             </p>
 
-            <div className="flex flex-wrap borderjustify-evenly gap-2 lg:gap-1 xl:gap-2 mt-2">
+            <div className="flex flex-wrap  justify-evenly gap-2 lg:gap-1 xl:gap-2 mt-2">
               {paymentLabels.map((label, index) => (
                 <div
                   key={index}
                   className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
                 >
-                  <p className="text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
-                  <p className="text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
+                  <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
+                  <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative w-1/2 border-4 border-[#D47C84] p-2 py-4 rounded-lg shadow">
+          <div className="relative w-1/2 border-4 border-[#D47C84] p-2 py-3 xsm:py-4 rounded-lg shadow">
             <span className="font-helvetica absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
               tamara
             </span>
-            <p className="text-12 font-helvetica">
+            <p className="text-10 xsm:text-12 font-helvetica">
               Pay 4 interest-free payments of AED{' '}
               {productPrice > 0 || productDiscPrice > 0
                 ? productDiscPrice > 0
@@ -967,8 +967,8 @@ const ProductDetail = ({
                   key={index}
                   className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
                 >
-                  <p className="text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
-                  <p className="text-[7px] xltext-[8px] 2xl:text-10">{label}</p>
+                  <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
+                  <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
                 </div>
               ))}
             </div>

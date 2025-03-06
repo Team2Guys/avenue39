@@ -113,7 +113,7 @@ const ResetForm = () => {
           <Button
             type="submit"
             variant="login"
-            className="w-full h-[76px]"
+            className="w-full h-[50px] sm:h-[76px]"
             disabled={loading}
           >
             {loading ? <Loader color="white" /> : 'Update Password'}

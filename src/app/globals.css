@@ -47,6 +47,11 @@ html {
   font-family: var(--font-helvetica);
 }
 
+body[data-scroll-locked] {
+  pointer-events: auto !important;
+  margin-right:0% !important;
+}
+
 .font-helvetica {
   font-family: var(--font-helvetica);
 }

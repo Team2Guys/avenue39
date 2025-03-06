@@ -64,7 +64,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       }
     }
   };
-  console.log(cartItems,'cartItems')
+  console.log(cartItems, 'cartItems')
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };
@@ -183,7 +183,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
               <Fragment>
                 <div className="flex-1 overflow-x-auto custom-scroll">
                   <ul className="space-y-4">
-                    {cartItems && cartItems.map((item: CartItem,index) => (
+                    {cartItems && cartItems.map((item: CartItem, index) => (
                       <li
                         key={index}
                         className="relative flex items-center bg-slate-50 border-dotted gap-3 p-4 w-full rounded-md font-helvetica"
@@ -285,7 +285,10 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                         <CustomButtom
                           variant="dark"
                           className="hover:text-white border-black border rounded-2xl"
-                          onClick={handleCloseDrawer}
+                          onClick={() => {
+                            handleCloseDrawer();
+                            localStorage.removeItem('buyNowProduct');
+                          }}
                         >
                           Check out
                         </CustomButtom>
@@ -307,7 +310,10 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                         <CustomButtom
                           variant="dark"
                           className="hover:text-white border-black border rounded-2xl"
-                          onClick={handleCloseDrawer}
+                          onClick={() => {
+                            handleCloseDrawer();
+                            localStorage.removeItem('buyNowProduct');
+                          }}
                         >
                           Check out
                         </CustomButtom>
@@ -322,7 +328,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
         </div>
       ) : (
         <div>
-          {cartItems.map((item: any,index) => (
+          {cartItems.map((item: any, index) => (
             <div
               className="shadow rounded-md w-full p-2 mt-3 flex flex-wrap md:flex-nowrap justify-between items-center bg-white "
               key={index}
@@ -474,7 +480,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                   <div>
                     {!isCheckoutPage && (
                       <div className="flex items-center gap-2">
-                      
+
                         <FaTrash
                           className="cursor-pointer"
                           size={15}

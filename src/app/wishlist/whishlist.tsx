@@ -28,7 +28,7 @@ const WishlistPage = () => {
     const storedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlist(storedWishlist);
   }, []);
-  console.log(wishlist, 'wishlist')
+  // console.log(wishlist, 'wishlist')
 
   const handleDeleteItem = (product: any) => {
     const updatedWishlist = wishlist.filter((item) =>
@@ -40,8 +40,6 @@ const WishlistPage = () => {
     setWishlist(updatedWishlist);
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
     window.dispatchEvent(new Event('WishlistChanged'));
-
-    toast.success('Product moved to Cart successfully!');
   };
 
   const updateProductQuantity = (item: CartItem) => {

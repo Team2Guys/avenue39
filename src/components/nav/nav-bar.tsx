@@ -190,7 +190,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   return (
     <div
-      className={`bg-white dark:text-black ${isSticky ? 'sticky top-0 z-[199] shadow-md md:shadow-none border-b md:border-b-0' : 'border-0 border-transparent z-[199]'}`}
+      className={`bg-white dark:text-black ${isSticky ? 'sticky top-0 !z-[100] shadow-md md:shadow-none border-b md:border-b-0' : 'border-0 border-transparent !z-[100]'}`}
     >
       <Container className="flex items-center justify-between p-2 md:p-4 gap-4 dark:bg-white ">
         <div className="w-3/12 min-w-24">
@@ -216,6 +216,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 type="text"
                 name="header-search"
                 value={searchText}
+                autoComplete='off'
                 onChange={handleInputChange}
                 onClick={() => setIsProductListOpen(true)}
                 className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-12 z-[199] border-black border-opacity-30 font-extralight"
@@ -281,18 +282,18 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                   )}
                                 </div>
                                 {(product.colorName || product.sizeName) &&
-                                  <div className='flex flex-wrap items-center justify-between gap-3 w-full pr-5'>
-                                    <div className='flex items-center gap-1 text-13'>
+                                  <div className='flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 w-full pr-5'>
+                                    <div className='flex items-center gap-1 text-13 lg:w-6/12'>
                                       <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
                                       <span className='capitalize'>{product.colorName}</span>
                                     </div>
 
-                                    <span className='text-13'>{product.sizeName}</span>
+                                    <span className='text-13 text-start lg:w-3/12'>{product.sizeName}</span>
 
-                                    <span className={`text-13 ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                                    <span className={`text-13 lg:w-3/12 text-end ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
                                   </div>}
-    {!(product.colorName || product.sizeName) && <span className={`text-13 text-end   ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
-                  }
+                                    {!(product.colorName || product.sizeName) && <span className={`text-13 text-end  pr-5  ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>
+                                    }
                                 <RenderStars card={product} />
                               </div>
                             </div>
@@ -327,6 +328,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                     type="text"
                     name="header-search"
                     value={searchText}
+                    autoComplete='off'
                     onChange={handleInputChange}
                     onClick={() => setIsProductListOpen(true)}
                     className="h-[40px] border focus-visible:outline-none focus-visible:ring-0 block w-full rounded-full custom-input-bg pl-9 pr-2 z-[199] border-[#afa183] border-opacity-30 font-extralight"

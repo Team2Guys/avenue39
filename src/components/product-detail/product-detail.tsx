@@ -95,23 +95,26 @@ const ProductDetail = ({
   const [availableFilters, setAvailableFilters] = useState<any[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [slugParams, setSlugParams] = useState<{
-    filter?: string;
+    variant?: string;
     size?: string;
-  }>({ filter: filterParam, size: sizeParam });
-
-
+  }>({ variant: filterParam, size: sizeParam });
+  const Navigate = useRouter();
   const product = params
     ? params
     : products?.find(
       (product) => (product.custom_url || product?.name) === slug,
     );
+    console.log(product,'product availableFilters', availableFilters ,size)
 
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
     const filterName = generateSlug(item.name);
 
     const sizeName = !slugParams.size ? generateSlug(size?.name || "") : slugParams.size;
-
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('variant', filterName);
+    sizeName && currentUrl.searchParams.set('size', sizeName);
+    Navigate.push(currentUrl.pathname + currentUrl.search);
     setSlugParams(() => ({
       filter: filterName,
       size: sizeName,
@@ -130,6 +133,10 @@ const ProductDetail = ({
     setSize(size);
     const filterName = generateSlug(findFilter?.name || '');
     const sizeName = generateSlug(size.name);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('variant', filterName);
+    currentUrl.searchParams.set('size', sizeName);
+    Navigate.push(currentUrl.pathname + currentUrl.search);
     setSlugParams(() => ({
       filter: filterName,
       size: sizeName,
@@ -146,11 +153,19 @@ const ProductDetail = ({
       size: '',
       color: '',
     };
+    const hoverImage = {
+      imageUrl: product?.hoverImageUrl || '',
+      public_id: product?.hoverImagePublicId,
+      altText: product?.name || 'Default Name',
+      imageIndex: 0,
+      size: '',
+      color: '',
+    };
 
-    const customProductImage = [posterImage, ...(product?.productImages || [])];
+    const customProductImage = [posterImage, hoverImage, ...(product?.productImages || [])];
     setCustomImages(customProductImage);
 
-    if (slugParams.filter && slugParams.size) {
+    if (slugParams.variant && slugParams.size) {
       const sizeIndex = uniqueSizes?.findIndex(
         (item: Sizes) => generateSlug(item.name) === slugParams.size,
       );
@@ -159,7 +174,7 @@ const ProductDetail = ({
       setSize(selectedSize);
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       const findFilter = additionalInfo.find(
-        (item) => generateSlug(item.name) === slugParams.filter,
+        (item) => generateSlug(item.name) === slugParams.variant,
       );
       setFilter(findFilter);
       const filteredImages = product?.productImages.filter(
@@ -189,11 +204,11 @@ const ProductDetail = ({
       const finalDiscPrice =
         Number(filterDiscPrice) > 0 ? filterDiscPrice : sizeDiscPrice;
       setProductDiscPrice(Number(finalDiscPrice));
-    } else if (slugParams.filter && !slugParams.size) {
+    } else if (slugParams.variant && !slugParams.size) {
 
       const additionalInfo = product?.filter?.[0]?.additionalInformation || [];
       setAvailableFilters(additionalInfo);
-      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.filter);
+      const index = additionalInfo.findIndex((item) => generateSlug(item.name) === slugParams.variant);
       setSelectedSize(index)
       const firstColor = index !== -1 ? additionalInfo[index] : additionalInfo[0];
       setFilter(firstColor);
@@ -282,7 +297,7 @@ const ProductDetail = ({
   }
 
 
-  const Navigate = useRouter();
+
   useEffect(() => {
     if (product) {
       const targetDate = product.sale_counter
@@ -384,33 +399,47 @@ const ProductDetail = ({
     dispatch(openDrawer());
   };
 
+  // const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
+  //   e.stopPropagation();
+  //   const existingCartItem = cartItems.find(
+  //     (item: any) =>
+  //       item.id === product?.id &&
+  //       item.selectedSize?.name === itemToAdd.selectedSize?.name &&
+  //       item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
+  //   );
+  //   console.log(existingCartItem, 'cartItems');
+  //   if (!existingCartItem) {
+  //     dispatch(addItem(itemToAdd));
+  //     dispatch(openDrawer());
+  //     Navigate.push('/checkout');
+  //     return;
+  //   }
+
+  //   const currentQuantity = existingCartItem?.quantity || 0;
+  //   const newQuantity = currentQuantity + count;
+  //   if (newQuantity > totalStock) {
+  //     toast.error(
+  //       `Only ${totalStock} items are in stock. You cannot add more than that.`,
+  //     );
+  //     return;
+  //   }
+  //   dispatch(addItem(itemToAdd));
+  //   Navigate.push('/checkout');
+  // };
+
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    const existingCartItem = cartItems.find(
-      (item: any) =>
-        item.id === product?.id &&
-        item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-        item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
-    );
-    console.log(existingCartItem, 'cartItems');
-    if (!existingCartItem) {
-      dispatch(addItem(itemToAdd));
-      dispatch(openDrawer());
-      Navigate.push('/checkout');
-      return;
-    }
 
-    const currentQuantity = existingCartItem?.quantity || 0;
-    const newQuantity = currentQuantity + count;
-    if (newQuantity > totalStock) {
-      toast.error(
-        `Only ${totalStock} items are in stock. You cannot add more than that.`,
-      );
-      return;
+    let existingProduct = JSON.parse(localStorage.getItem('buyNowProduct') || 'null');
+
+    if (existingProduct) {
+      localStorage.setItem('buyNowProduct', JSON.stringify(itemToAdd));
+    } else {
+      localStorage.setItem('buyNowProduct', JSON.stringify(itemToAdd));
     }
-    dispatch(addItem(itemToAdd));
     Navigate.push('/checkout');
   };
+
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -644,7 +673,10 @@ const ProductDetail = ({
                 <div className="flex space-x-4 mt-2">
                   {availableFilters.map((item, index: number) => {
                     const image = product.productImages.find(
-                      (img) => img?.color === item?.name && img.size === size?.name,
+                      (img) => img?.color === item?.name && (
+                        img.size === (size?.name || '') ||
+                        img.size === undefined
+                      )                      
                     );
                     if (!image) return null;
                     return (

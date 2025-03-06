@@ -342,7 +342,7 @@ const Card: React.FC<CardProps> = ({
                   )}
                   {isModel ? null : isOutStock ? "Out of stock" : (
                     <div
-                      className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? accessoriesSlider ? 'pb-2 w-full flex-wrap' : 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full'}`}
+                      className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? accessoriesSlider ? 'pb-2 w-full flex-wrap xl:flex-nowrap' : 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full'}`}
                       onClick={(e) => handleEventProbation(e)}
                     >
                       <button

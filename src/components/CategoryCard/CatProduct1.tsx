@@ -27,8 +27,8 @@ const CatProduct1 = ({
     <Container className="my-10">
       <div className="relative px-2 md:px-8 border-2 border-[#707070] rounded-[40px] sm:rounded-[87px]">
         <Link
-          href={`/${redirect}`} className="absolute -top-5 left-1/2 transform -translate-x-1/2 rounded-xl border bg-white xs:left-20 xs:transform-none hover:font-bold hover:bg-[#AFA183] hover:text-white">
-          <p className="px-2 md:text-3xl font-Helveticalight capitalize text-center">
+          href={`/${redirect}`} className="absolute -top-3 xsm:-top-5 left-1/2 transform -translate-x-1/2 rounded-xl border bg-white xs:left-20 xs:transform-none hover:font-bold hover:bg-[#AFA183] hover:text-white">
+          <p className="px-2 text-13 xsm:text-16 md:text-3xl font-Helveticalight capitalize text-center">
             {CategoryName}
           </p>
         </Link>
@@ -42,7 +42,7 @@ const CatProduct1 = ({
             </div>
           )}
         </div>
-        <div className={`mt-6 sm:mt-8 `}>
+        <div className={`mt-6 mb-0 sm:my-8 md:mt-8 md:mb-0`}>
           <div
             className={`grid grid-cols-12 sm:gap-8 ${reverse ? 'hidden' : ' block'}`}
           >

@@ -217,7 +217,7 @@ const Card: React.FC<CardProps> = ({
 
   let filterParams = '';
   if (itemToAdd.selectedfilter) {
-    filterParams += `?filter=${generateSlug(itemToAdd.selectedfilter.name)}`;
+    filterParams += `?variant=${generateSlug(itemToAdd.selectedfilter.name)}`;
   }
 
   if (itemToAdd.selectedSize?.name) {

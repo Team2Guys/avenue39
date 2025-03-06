@@ -209,26 +209,26 @@ export const homeProducts: IHomeProducts[] = [
   {
     name: 'accessories',
     products: [
-      {
-        name: 'Droplet Stand ',
-        posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
-      },
-      {
-        name: 'Layered Elegance',
-        posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
-      },
-      {
-        name: 'Abstract Vase',
-        posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
-      },
-      {
-        name: 'Monolith Sphere Towers',
-        posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
-      },
-      {
-        name: 'Rooted Egg Stands',
-        posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
-      },
+      // {
+      //   name: 'Droplet Stand ',
+      //   posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
+      // },
+      // {
+      //   name: 'Layered Elegance',
+      //   posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
+      // },
+      // {
+      //   name: 'Abstract Vase',
+      //   posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
+      // },
+      // {
+      //   name: 'Monolith Sphere Towers',
+      //   posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
+      // },
+      // {
+      //   name: 'Rooted Egg Stands',
+      //   posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
+      // },
     ],
   },
 ];

@@ -268,7 +268,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                 <div className="flex items-center gap-1 xs:gap-4">
                                   {product.discountPrice > 0 ? (
                                     <>
-                                      <p className="text-15 font-semibold">
+                                      <p className="text-15 font-semibold text-[#FF0000]">
                                         AED <span>{product.discountPrice}</span>
                                       </p>
                                       <p className="text-[12px] text-primary-foreground font-bold line-through">
@@ -415,12 +415,12 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                   </p>
 
                                   <div className="flex justify-center items-center gap-2 xs:gap-4">
-                                    <p className="text-14 xs:text-15 font-semibold">
+                                    <p className={`text-14 xs:text-15 font-semibold  ${product.discountPrice ? "text-[#FF0000]" :""}`}>
                                       AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
                                     </p>
                                     {(product.discountPrice && product.discountPrice > 0) ?
 
-                                      <p className="text-11 xs:text-[12px] text-primary-foreground font-bold line-through">
+                                      <p className="text-11 xs:text-[12px] text-primary-foreground font-bold line-through ">
                                         AED {product.price}
                                       </p> : ''
                                     }
@@ -463,7 +463,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
         </div>
         <div className="gap-3 lg:gap-3 flex justify-end items-center w-2/12 ps-2">
           {windowWidth > 895 && (
-            <div className="hidden md:flex justify-between gap-1 lg:gap-1 items-center relative">
+            <div className="hidden md:flex justify-between gap-1 lg:gap-1 items-center relative no-scroll">
               <Wishlist />
               <CartItems />
             </div>

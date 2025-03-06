@@ -34,7 +34,7 @@ const TermsAndConitions: React.FC = () => {
           {/* <h2 className="text-xl font-semibold mb-2">
             Terms & Conditions – Avenue39
           </h2> */}
-          <p>Terms And Conditions. These terms and conditions describe how to use our website, and how to adhere to them, especially when you make a purchase.</p>
+          <p>Welcome to Avenue 39. These terms and conditions describe how to use our website and how to adhere to them, especially when you make a purchase. </p>
           <ol className=" space-y-4 mt-5">
             {TermsCondition.map((section: any, index: number) => (
               <li key={index} className="mb-6">
@@ -43,7 +43,7 @@ const TermsAndConitions: React.FC = () => {
                 </h2>
 
                 <div className="space-y-4">
-                  {section?.description.map((description: string, lineIndex: number) => {
+                  {section?.description ?section?.description.map((description: string, lineIndex: number) => {
                     return (
                       <ol key={lineIndex} className="list-decimal pl-6">
                         <li className=" list-disc text-base">
@@ -61,7 +61,8 @@ const TermsAndConitions: React.FC = () => {
                                     +971 50 597 4495
                                   </Link>
                                 );
-                              } else if (part === '[[EMAIL_LINK]]') {
+                              } else if 
+                              (part === '[[EMAIL_LINK]]') {
 
                                 console.log(idx, "idx")
                                 return (
@@ -77,11 +78,53 @@ const TermsAndConitions: React.FC = () => {
                               } else {
                                 return <span key={idx}>{part}</span>;
                               }
+
+
                             })}
                         </li>
                       </ol>
                     );
-                  })}
+                  }) : 
+                <>
+                 { section?.newdescription?.map((description:{heading:string, descrip:string}, lineIndex:number)=>{
+                    return (
+                      <ol key={lineIndex} className="list-decimal pl-6">
+                      <li className=" list-disc text-base">
+                      <strong >{description.heading}</strong> <span>{description.descrip}</span>
+
+                      </li>
+                    </ol>
+                    )
+                  })
+                  
+                }
+      {         section.withoutbullets &&  <div>{section.withoutbullets?.map((value:string)=>{
+                  return (
+                    value.split(/(\[\[PHONE_LINK\]\]|\[\[EMAIL_LINK\]\])/).map((part, idx)=>{
+                      
+                        if (part === '[[EMAIL_LINK]]') {
+                                return (
+                                  <Link
+                                    key={idx}
+                                    target="_blank"
+                                    href="mailto:cs@avenue39.com"
+                                    className="text-red-600 hover:underline"
+                                  >
+                                    cs@avenue39.com
+                                  </Link>
+                                );
+                              } else {
+                                return <span key={idx}>{part}</span>;
+                              }
+
+                    })
+                  )
+                })}</div>}
+
+
+
+                </>  
+                  }
                 </div>
               </li>
             ))}

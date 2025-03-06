@@ -199,8 +199,38 @@ export const TermsCondition = [
     title: "General Terms",
     description: [
       "Product availability and payment confirmation are required for all transactions.",
-      "These terms and conditions are subject to change at any moment and without prior notification or announcement by Avenue39."
+      "These terms and conditions are subject to change at any moment and without prior notification or announcement by Avenue39"
     ]
+  },
+  {
+    title: "Sign-Up & Data Collection",
+    mainHeading: "When you sign up or create an account on Avenue39, you agree to provide correct and complete data, including your name, email address, phone number, and shipping details. This information is used for order processing, customer service, and service improvement.",
+    newdescription: [
+      {
+      heading:"Personal Information:",
+      descrip:"We collect information provided by customers during signing up, checkout, and website interactions",
+    },
+    {
+      heading:"Payment Information:",
+      descrip:"All payments are securely processed; Avenue39 does not store credit/debit card details.",
+    },
+    {
+      heading:"Cookies & Tracking:",
+      descrip:"Cookies and analytics tools are used on our website to improve the customer experience.",
+    },
+    {
+      heading:"Marketing Communication:",
+      descrip:"You agree to receive offers, promotions, and updates by signing up. Unsubscribing is possible at any time.",
+    },
+    {
+      heading:"Data Security:",
+      descrip:"Customer privacy is our priority, and we ensure data is stored securely and not shared with third parties, except as required for order fulfilment.",
+    },
+    
+  ],
+  withoutbullets:["For more details, please refer to our privacy policy or contact us at ",
+    "[[EMAIL_LINK]]"
+   ]
   },
   {
     title: "Pricing & Payment",

@@ -194,7 +194,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Cipriani Floor Lamp',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Cipriani.webp',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Ciprianifinal.webp',
       },
       {
         name: 'Unico Side Table',

@@ -210,7 +210,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                             className="rounded-md w-full min-w-[70px] h-full"
                           />
                         </div>
-                        <div className="grow">
+                        <div className="grow ">
                           <ProductName className="text-start !text-[16px]">
                             {item.name}
                           </ProductName>

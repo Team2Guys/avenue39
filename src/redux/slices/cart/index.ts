@@ -35,7 +35,7 @@ const cartSlice = createSlice({
       const item = action.payload;
       const existingItem = state.items.find((i) => i.id === item.id && i.selectedSize?.name === item.selectedSize?.name &&
         i.selectedfilter?.name === item.selectedfilter?.name);
-        const totalStock = getProductStock({product: item});
+      const totalStock = getProductStock({ product: item });
       if (existingItem) {
         const newQuantity = existingItem.quantity + item.quantity;
         if (newQuantity > totalStock) {

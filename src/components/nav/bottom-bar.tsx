@@ -67,7 +67,7 @@ const BottomBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center px-4 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-[51]">
+    <div className="flex justify-between items-center px-4 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-[100]">
       <Link href={'/'}>
         <AiOutlineHome size={25} />
       </Link>

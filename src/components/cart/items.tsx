@@ -67,18 +67,21 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
   console.log(cartItems, 'cartItems')
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
+    document.body.classList.remove('no-scroll'); // Remove the no-scroll class
   };
+
   const handleOpenDrawer = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     if (!drawerState) {
       dispatch(openDrawer());
+      document.body.classList.add('no-scroll'); // Add the no-scroll class
       timeoutRef.current = setTimeout(() => {
-        dispatch(closeDrawer());
+        handleCloseDrawer();
       }, 8000);
     } else {
-      dispatch(closeDrawer());
+      handleCloseDrawer();
     }
   };
   const handleEnterDrawer = () => {
@@ -91,6 +94,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       dispatch(closeDrawer());
     }, 8000);
   };
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -108,13 +112,22 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       }
     };
   }, [dispatch]);
+  useEffect(() => {
+    console.log('Drawer State:', drawerState);
+    if (drawerState) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [drawerState]);
+
   return (
     <React.Fragment>
       {!isCartPage ? (
         <div ref={drawerRef}>
           <div>
             <div
-              className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center  cursor-pointer ${path === '/cart' ? 'text-white bg-main' : 'text-black  border-black'}`}
+              className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center no-scroll  cursor-pointer ${path === '/cart' ? 'text-white bg-main' : 'text-black  border-black'}`}
               onClick={handleOpenDrawer}
             >
               <GiShoppingCart size={27} style={{ transform: 'scaleX(-1)' }} />
@@ -133,7 +146,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
             {isMoblie && (
               <div
                 className={`absolute -bottom-[3px] right-[38%] xs:right-1/2 transform rotate-180 xs:translate-x-7`}
-                style={{ zIndex: 1005 }}
+                style={{ zIndex: 50 }}
               >
                 <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">
                   <span className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[19px] border-r-white border-b-[20px] border-b-transparent transform rotate-0 absolute top-[2px] -left-[13px] -translate-y-[1px] rounded-t-md"></span>
@@ -144,7 +157,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
               {!isMoblie && (
                 <div
                   className={`absolute -top-[23px] z-[200] ${userDetails ? 'right-1/2' : 'right-[20px]'}`}
-                  style={{ zIndex: 1005 }}
+                  style={{ zIndex: 50 }}
                 >
                   <div className="w-0 h-0 border-l-[20px] border-l-transparent rounded-t-md border-r-[20px] border-r-[#0000002e] border-b-[20px] border-b-transparent transform -rotate-45 relative">
                     <span className="w-0 h-0 border-l-[13px] border-l-transparent border-r-[19px] border-r-white border-b-[20px] border-b-transparent transform rotate-0 absolute top-[2px] -left-[13px] -translate-y-[1px] rounded-t-md"></span>
@@ -160,7 +173,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                   </span>
                 )}
               </h3>
-              <span onClick={handleCloseDrawer} className="cursor-pointer">
+              <span onClick={handleCloseDrawer} className="cursor-pointer z-10">
                 <TfiClose size={20} />
               </span>
             </div>

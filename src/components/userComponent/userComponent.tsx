@@ -86,7 +86,7 @@ export default function UserComponent({
                     </p>
 
                     <Button
-                      className="w-full h-[76px]"
+                      className="w-full h-[50px] sm:h-[76px]"
                       variant={'login'}
                       type="submit"
                       disable={loading}
@@ -145,7 +145,7 @@ export default function UserComponent({
                     </p>
 
                     <Button
-                      className="w-full h-[76px]"
+                      className="w-full  h-[50px] sm:h-[76px]"
                       variant={'login'}
                       type="submit"
                       disable={loading}

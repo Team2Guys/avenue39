@@ -145,7 +145,7 @@ const SubCategoriesRow = ({ category }: any) => {
 
                   }
                   key={category.categoryId}
-                  className={`w-full text-center whitespace-nowrap rounded-lg py-2 px-2 border  block ${path === changeCategoryHandler((category?.custom_url || category?.name), ((subcat?.custom_url || subcat?.name) || category.title)) ? 'bg-primary text-white border-primary' : 'bg-transparent hover:bg-main hover:text-white text-main border-main'}`}
+                  className={`w-full text-center whitespace-nowrap rounded-lg py-1 sm:py-2 sm:px-2 border text-12 sm:text-16 block ${path === changeCategoryHandler((category?.custom_url || category?.name), ((subcat?.custom_url || subcat?.name) || category.title)) ? 'bg-primary text-white border-primary' : 'bg-transparent hover:bg-main hover:text-white text-main border-main'}`}
                 >
                   <span>{subcat?.name || subcat.title}</span>
                 </Link>

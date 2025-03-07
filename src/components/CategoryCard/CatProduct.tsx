@@ -28,7 +28,6 @@ const CatProduct = ({
   CategoryDescription,
 }: ICatProduct) => {
   const productImages = homeProducts.find((item) => item.name === redirect);
-  console.log('Products array: ', products, productImages);
   return (
     <Container className="my-10">
       <div className="relative px-2 md:px-8 border-2 border-[#707070] rounded-[40px] sm:rounded-[87px]">

@@ -40,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="relative flex items-center h-[76px] w-full rounded-full border-input custom-login-input bg-[#F6F6F6]">
+      <div className="relative flex items-center h-[45px] sm:h-[76px] w-full rounded-full border-input custom-login-input bg-[#F6F6F6]">
         <div className="absolute left-8 custom-login-input-icon">
           {getIcon()}
         </div>

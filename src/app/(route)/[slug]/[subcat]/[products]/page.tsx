@@ -18,9 +18,10 @@ interface SlugPageProps {
 }
 
 
-export async function generateMetadata({ params }: SlugPageProps): Promise<Metadata> {
+export async function generateMetadata({ params,searchParams }: SlugPageProps): Promise<Metadata> {
   let metaObject: any;
   const urls = await params;
+  let search_params = await searchParams;
   const { slug, subcat, products } = urls
   const categorylist: any = [slug, subcat, products]
   const headersList = await headers();
@@ -29,8 +30,9 @@ export async function generateMetadata({ params }: SlugPageProps): Promise<Metad
   const pathname = headersList.get('x-invoke-path') || '/';
 
   const fullUrl = `${protocol}://${domain}${pathname}`;
+  console.log(search_params.variant, "subcategory")
 
-  metaObject = await productsFindHandler(categorylist, fullUrl);
+  metaObject = await productsFindHandler(categorylist, fullUrl,"_",search_params);
 
   return metaObject;
 }
@@ -41,6 +43,7 @@ const Products: React.FC<SlugPageProps> = async ({ params , searchParams}) => {
   const { slug, subcat, products } = urls
   const categorylist: any = [slug, subcat, products]
 
+
   const SubCategoriesFinder = re_Calling_products.find((value) =>  generateSlug(value.mainCategory).trim().toLocaleLowerCase() === slug && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcat);
 
   if(SubCategoriesFinder){
@@ -48,6 +51,7 @@ const Products: React.FC<SlugPageProps> = async ({ params , searchParams}) => {
  return notFound()
   }
  
+
 
   return <SingleProduct mainslug={slug} subslug={subcat} slug={categorylist} filterParam={variant} sizeParam={size} />
 

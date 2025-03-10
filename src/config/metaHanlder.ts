@@ -54,23 +54,51 @@ export const productsFindHandler = async (
   slug: string[],
   url: string,
   subcategory?: string,
+  newparams?:any
 ) => {
   const productName = slug[2];
   const products = await fetchProducts();
 
   const findProduct = products.find((item: any) => {
     return (
-      generateSlug(item.custom_url || item.name) === (subcategory ? subcategory : productName)
+      generateSlug(item.custom_url || item.name) === (subcategory && subcategory!=="_" ? subcategory : productName)
     );
   });
+
 
   if (!findProduct) {
     notFound()
   }
+  const { filter, variant } = newparams;
 
-  let fullurl = `${url}${slug[0]}/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
-
-  console.log(fullurl, "urls")
+  // Create an array to hold query parameters
+  let queryParams = [];
+  
+  // Add filter and variant to queryParams if they exist
+  if (filter) {
+    queryParams.push(`filter=${filter}`);
+  }
+  
+  if (variant) {
+    queryParams.push(`variant=${variant}`);
+  }
+  
+  // Join the query parameters with '&'
+  let queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+  
+  let fullurl = `${url}${slug[0]}`;
+  
+  if (subcategory) {
+    fullurl = `${url}${slug[0]}/${subcategory}`;
+  } else {
+    fullurl += `/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
+  }
+  
+  // Append query string to the URL
+  fullurl += queryString;
+  
+  console.log(fullurl, "final URL"); // Log the final URL
+  
   let images = findProduct.posterImageUrl || 'images';
   let alttext = findProduct.posterImageAltText || 'Alternative Text';
   let NewImage = [
@@ -107,7 +135,7 @@ export const productsFindHandler = async (
   };
 };
 
-export const subCategory = async (slug: string[], url: string) => {
+export const subCategory = async (slug: string[], url: string,newparams?:any) => {
   let subcategoryName = slug[1];
   let category = slug[0];
   const subCategories = await fetchSubCategories();
@@ -129,10 +157,13 @@ export const subCategory = async (slug: string[], url: string) => {
     return isNameMatch && belongsToCategory;
   });
 
+  console.log(newparams, "newparams")
   if (!findSubCategory) {
-    return productsFindHandler(slug, url, subcategoryName);
+    return productsFindHandler(slug, url, subcategoryName, newparams);
   }
-  let fullurl = url;
+
+
+  let fullurl = url+findSubCategory.name;
 
   let images = findSubCategory.posterImageUrl || 'images';
   let alttext = findSubCategory.Images_Alt_Text || 'Alternative Text';

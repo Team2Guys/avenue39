@@ -292,6 +292,8 @@ export interface IOrder {
   products: IOrderProduct[];
   paymentStatus: IPaymentStatus;
   createdAt: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface IOrderProduct {
@@ -301,6 +303,9 @@ export interface IOrderProduct {
   quantity: number;
   saleRecordId: number;
   productData: IProduct;
+  color?: string;
+  selectedSize: Array<{ filterName?: string | undefined}>
+
 }
 
 export interface IPaymentStatus {

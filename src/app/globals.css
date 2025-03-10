@@ -507,6 +507,9 @@ body[data-scroll-locked] {
   .product-slider-wrapper .custom-slick-next-arrow {
     right: -7px !important
   }
+  .no-scroll {
+    overflow: hidden;
+  }
 }
 
 .ant-image-preview-mask {
@@ -516,7 +519,4 @@ body[data-scroll-locked] {
 
 .Dialog_parent{
   border: 1px solid blue !important;
-}
-.no-scroll {
-  overflow: hidden;
 }

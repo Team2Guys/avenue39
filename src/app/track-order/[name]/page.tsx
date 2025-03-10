@@ -5,26 +5,33 @@ import axios from 'axios';
 import Container from '@/components/ui/Container';
 import { IOrder, IOrderProduct } from '@/types/types';
 
-
-
 const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
   let userDetail: IOrder | null = null;
   let name = (await params).name;
 
   const formatDate = (date: Date) => {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const months = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
     
-    const day = date.getDate(); // Get day (1-31)
-    const month = months[date.getMonth()]; // Get month name
-    const year = date.getFullYear(); // Get year
+    const day = date.getDate();
+    const daySuffix = (day: number) => {
+      if (day > 3 && day < 21) return "th"; // Covers 11th to 20th
+      switch (day % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+      }
+    };
   
-    return `${month} ${day}, ${year}`;
+    const dayName = days[date.getDay()];
+    const month = months[date.getMonth()];
+  
+    return `${dayName}, ${day}${daySuffix(day)} ${month}`;
   };
-  
-  
 
   try {
     const response = await axios.get(
@@ -74,28 +81,30 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
   const Total = subTotal + Shipping;
 
   const getEstimatedDelivery = () => {
-    if (!userDetail?.createdAt) return "N/A"; // Handle missing date
-
+    if (!userDetail?.createdAt) return null;
+  
     const createdAtDate = new Date(userDetail.createdAt);
-    const deliveryDays = userDetail.address?.includes("Dubai") ? 12 : 2;
+    const deliveryDays = userDetail.address?.includes("Dubai") ? 1 : 2;
     
     const estimatedDate = new Date(createdAtDate);
     estimatedDate.setDate(createdAtDate.getDate() + deliveryDays);
-
-    return formatDate(estimatedDate);
+  
+    return estimatedDate;
   };
-  const orderDate = formatDate(new Date(userDetail.createdAt));
+  
+  const orderDate = new Date(userDetail.createdAt);
   const estimatedDeliveryDate = getEstimatedDelivery();
+  const isDelivered = estimatedDeliveryDate ? new Date() >= estimatedDeliveryDate : false;
 
-
-  const isDelivered = new Date() >= new Date(estimatedDeliveryDate);
-
+  const formattedOrderDate = formatDate(orderDate);
+  const formattedEstimatedDeliveryDate = estimatedDeliveryDate ? formatDate(estimatedDeliveryDate as Date) : "N/A";
+  
   const steps = [
-    { label: "Confirmed", date: orderDate, completed: true },
-    { label: "Ready To Ship", date: orderDate, completed: true },
-    { label: "Delivered", date: formatDate(new Date(estimatedDeliveryDate)), completed: isDelivered },
+    { label: "Confirmed", date: formattedOrderDate, completed: true },
+    { label: "Ready To Ship", date: formattedOrderDate, completed: true },
+    { label: "Delivered", date: `Expected by, ${formattedEstimatedDeliveryDate}`, completed: isDelivered },
   ];
-  console.log(userDetail,"userDetail")
+  
 
   return (
     <>
@@ -115,14 +124,14 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
         <path d="M8.7328 17.0625C6.3178 17.0625 4.04281 16.0125 2.50281 14.175C2.25781 13.9125 1.99534 13.545 1.76784 13.195C0.945338 11.9525 0.490338 10.4825 0.455338 8.94247C0.385338 6.38747 1.47036 3.98996 3.43036 2.36246C4.91786 1.13746 6.70277 0.4725 8.59277 0.4375C10.6578 0.455 12.7229 1.1375 14.2629 2.52C16.0129 4.06 17.0278 6.21253 17.0803 8.55753C17.1153 10.08 16.7303 11.585 15.9603 12.8975C15.5403 13.65 14.9628 14.3675 14.3328 14.8925C12.9328 16.2225 11.0078 17.01 8.96031 17.0625C8.87281 17.0625 8.8028 17.0625 8.7328 17.0625ZM8.7328 3.0625C8.6978 3.0625 8.66281 3.0625 8.62781 3.0625C7.35031 3.08 6.12527 3.55252 5.09277 4.39252C3.76277 5.49502 3.02782 7.14001 3.06282 8.87251C3.09782 9.92251 3.39534 10.92 3.95534 11.7425C4.11284 11.9875 4.2703 12.215 4.4628 12.425C5.5828 13.755 7.24533 14.455 8.87283 14.42C10.2728 14.385 11.5678 13.86 12.5478 12.9325C13.0028 12.5475 13.3703 12.0925 13.6503 11.585C14.1928 10.6575 14.4553 9.64247 14.4378 8.60997C14.4028 6.99997 13.7029 5.52998 12.5129 4.46248C11.4629 3.56998 10.1328 3.0625 8.7328 3.0625Z" fill="#AFA183"/>
         <path d="M7.78729 11.8124C7.45479 11.8124 7.13975 11.6898 6.87725 11.4448L5.10973 9.7649C4.58473 9.2574 4.56731 8.43491 5.07481 7.9099C5.58231 7.3849 6.4048 7.36737 6.9298 7.87487L7.78729 8.69732L10.5348 6.03739C11.0598 5.52989 11.8823 5.54732 12.3898 6.07232C12.8973 6.59732 12.8798 7.41992 12.3548 7.92742L8.69721 11.4623C8.43471 11.6898 8.10229 11.8124 7.78729 11.8124Z" fill="#AFA183"/>
         </svg>
-        <p className="text-10 sm:text-14 md:text-16 2xl:text-[20px] font-semibold text-main">Estimated delivery: <span className='text-black'>{getEstimatedDelivery()}</span></p>
+        <p className="text-10 sm:text-14 md:text-16 2xl:text-[20px] font-semibold text-main">Estimated delivery: <span className='text-black'>{getEstimatedDelivery() ? formatDate(getEstimatedDelivery() as Date) : "N/A"}</span></p>
         </div>
       </div>
       <hr/>
       <div className="w-full mt-5 sm:mt-10">
   <div className="relative flex items-center justify-between mx-auto">
     {/* Line connector */}
-    <div className="absolute top-[32px] sm:top-[38px] md:top-[50px] 2xl:top-[60px] left-1/2 w-full h-[2px] md:h-[4px] bg-gray-300 md:max-w-[89%] xl:max-w-[93%] 2xl:max-w-[93%] mx-auto -translate-x-1/2"></div>
+    <div className={`absolute top-[32px] sm:top-[38px] md:top-[50px] 2xl:top-[60px] left-1/2 w-full h-[2px] md:h-[4px]  md:max-w-[89%] xl:max-w-[93%] 2xl:max-w-[93%] mx-auto -translate-x-1/2 ${isDelivered ? "bg-main" : "bg-gray-300 "}`}></div>
 
     {steps.map((step, index) => (
       <div key={index} className={`flex flex-col relative w-full text-center ${
@@ -166,7 +175,7 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
                     product.productData.hoverImageUrl
                   }
                   alt={product.productData.name}
-                className="object-cover rounded-lg bg-[#E3E4E6]"
+                className="object-cover rounded-lg bg-[#E3E4E6] w-14 h-14 md:w-24 md:h-24 2xl:w-40 2xl:h-40"
               />
             </div>
 

@@ -163,7 +163,7 @@ const SofaBanner: React.FC = () => {
                       width={900}
                       height={500}
                       alt={slide.title}
-                      className="max-w-[900px] w-full h-full object-cover"
+                      className="max-w-[900px] w-full h-full"
                     />
                   </Link>
                 </div>

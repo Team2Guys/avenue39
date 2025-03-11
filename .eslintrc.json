@@ -16,6 +16,9 @@
     ],
     "@typescript-eslint/no-unused-vars": "off",
     "prefer-const": "off",
-    "no-useless-catch": "warn"
+    "no-useless-catch": "warn",
+    "no-console": "warn", // Warns when using console.log
+    "react-hooks/rules-of-hooks": "error", // Ensures rules of hooks are followed
+    "react/display-name": "off" // Disables display name validation
   }
 }

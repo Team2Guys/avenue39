@@ -125,7 +125,7 @@ const Card: React.FC<CardProps> = ({
     if (card) {
       const updatedDisplayName = variationName({ product: card });
       setDisplayName(updatedDisplayName);
-      console.log(card,'updatedDisplayName')
+      console.log(card, 'updatedDisplayName')
     }
   }, [card]);
 
@@ -425,7 +425,7 @@ const Card: React.FC<CardProps> = ({
                           </button>
                         </DialogTrigger>
                         <DialogOverlay />
-                        <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl border  border-red-500 shadow-none gap-0 pb-0">
+                        <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl shadow-none gap-0 pb-0">
 
                           <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                             <ProductDetail
@@ -536,7 +536,7 @@ const Card: React.FC<CardProps> = ({
                 {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                   <BsCartX size={18} /> Out of Stock</button> : (
                   <div
-                    className={`text-center w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
+                    className={`text-center w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
                     onClick={(e) => handleEventProbation(e)}
                   >
 
@@ -623,7 +623,7 @@ const Card: React.FC<CardProps> = ({
 
 
                       <DialogContent className="max-w-[1400px]  w-11/12 bg-white px-0 sm:rounded-3xl   shadow-none gap-0 pb-0" >
-
+                        <DialogTitle>Diagloge</DialogTitle>
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail
                             params={card}

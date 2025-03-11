@@ -974,6 +974,7 @@ const ProductDetail = ({
             </div>
           </div>
         </div>
+        
         <div className="flex justify-center space-x-4">
           {paymentIcons.map((icon, index) => (
             <div key={index} className="w-14 h-auto p-1">

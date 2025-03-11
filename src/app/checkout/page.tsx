@@ -52,6 +52,8 @@ const Checkout = () => {
   }, [storedProduct]);
 
 
+  console.log(product, "product")
+
   // useEffect(() => {
   //   return () => {
   //     localStorage.removeItem('buyNowProduct');
@@ -326,7 +328,7 @@ const Checkout = () => {
                         <Select
                           onValueChange={(value: any) =>
                           {
-                            console.log(value, "values")
+           
                             formik.setFieldValue('country', value)
 
                           }
@@ -478,9 +480,19 @@ const Checkout = () => {
                                       <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
                                         <span>
                                           AED{' '}
-                                          {(
-                                            (Number(product.selectedSize?.price) || (Number(product.selectedfilter?.price) === 0) && product.discountPrice ? product.discountPrice : product.price) * product.quantity
-                                          ).toLocaleString()}
+                                          {
+                                       (
+                                        product.selectedSize?.price || product.selectedSize?.discountPrice 
+                                        ? Number(product.selectedSize?.discountPrice || product.selectedSize.price) // Use selectedSize price if it exists
+                                        : (Number(product.selectedfilter?.price) === 0 && product.discountPrice)
+                                        ? product.discountPrice // Use discountPrice if filter price is 0 and discountPrice exists
+                                        : product.price 
+                                        
+                                        * product.quantity
+                                      ).toLocaleString()
+                                      
+                                          
+                                          }
                                         </span>
                                       </ProductPrice>
                                       : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (

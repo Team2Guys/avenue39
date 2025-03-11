@@ -536,11 +536,12 @@ const Card: React.FC<CardProps> = ({
                 {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                   <BsCartX size={18} /> Out of Stock</button> : (
                   <div
-                    className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
+                    className={`text-center w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
                     onClick={(e) => handleEventProbation(e)}
                   >
+
                     <button
-                      className={` my-1  h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                      className={`  my-1  h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
                       onClick={(e) => handleAddToCard(e)}
                     >
                       <svg
@@ -561,7 +562,7 @@ const Card: React.FC<CardProps> = ({
                     </button>
 
                     <Dialog>
-                      <DialogTrigger className="w-fit">
+                      <DialogTrigger className="w-fit align-middle">
                         <button
                           className={`my-1  h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                         >
@@ -637,6 +638,8 @@ const Card: React.FC<CardProps> = ({
                         </div>
                       </DialogContent>
                     </Dialog>
+
+
                   </div>
                 )}
               </div>

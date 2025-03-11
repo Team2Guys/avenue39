@@ -171,7 +171,7 @@ export const subCategory = async (slug: string[], url: string,newparams?:any) =>
   }
 
 
-  let fullurl = url+category+"/"+findSubCategory.name;
+  let fullurl = url+category+"/"+subcategoryName;
 
   console.log(fullurl, "full urls")
 

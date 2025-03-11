@@ -52,8 +52,6 @@ const Checkout = () => {
   }, [storedProduct]);
 
 
-  console.log(product, "product")
-
   // useEffect(() => {
   //   return () => {
   //     localStorage.removeItem('buyNowProduct');

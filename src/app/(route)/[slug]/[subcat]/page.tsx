@@ -54,8 +54,6 @@ const Subcat: React.FC<SlugPageProps> = async ({ params , searchParams}) => {
   const { slug, subcat } = urls
   const categorylist: any = [slug, subcat]
 
-  console.log(filter, size, "search")
-
   const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === slug && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcat);
 console.log(SubCategoriesFinder, "SubCategoriesFinder", categorylist)
   if (SubCategoriesFinder) {

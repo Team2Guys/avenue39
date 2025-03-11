@@ -69,35 +69,42 @@ export const productsFindHandler = async (
   if (!findProduct) {
     notFound()
   }
-  const { filter, variant } = newparams;
+  const { filter, variant, size } = newparams;
 
-  // Create an array to hold query parameters
-  let queryParams = [];
-  
-  // Add filter and variant to queryParams if they exist
-  if (filter) {
-    queryParams.push(`filter=${filter}`);
-  }
-  
-  if (variant) {
-    queryParams.push(`variant=${variant}`);
-  }
-  
-  // Join the query parameters with '&'
-  let queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-  
-  let fullurl = `${url}${slug[0]}`;
-  
-  if (subcategory) {
-    fullurl = `${url}${slug[0]}/${subcategory}`;
-  } else {
-    fullurl += `/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
-  }
-  
-  // Append query string to the URL
-  fullurl += queryString;
-  
-  console.log(fullurl, "final URL"); // Log the final URL
+// Initialize queryParams array to collect query parameters
+let queryParams = [];
+
+// Add filter parameter if it exists
+if (filter) {
+  queryParams.push(`filter=${filter}`);
+}
+
+// Add variant parameter if it exists
+if (variant) {
+  queryParams.push(`variant=${variant}`);
+}
+
+// Add size parameter if it exists (added based on your example URL)
+if (size) {
+  queryParams.push(`size=${size}`);
+}
+
+// Join the query parameters with '&'
+let queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
+// Initialize the base URL
+let fullurl = `${url}${slug[0]}`;
+
+// Handle the subcategory, ensuring it doesn’t include an underscore ("_")
+if (subcategory && subcategory !== "_") {
+  fullurl = `${url}${slug[0]}/${subcategory}`;
+} else {
+  fullurl += `/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
+}
+
+// Append the query string to the final URL
+fullurl += queryString;
+
   
   let images = findProduct.posterImageUrl || 'images';
   let alttext = findProduct.posterImageAltText || 'Alternative Text';
@@ -108,6 +115,7 @@ export const productsFindHandler = async (
     },
   ];
 
+  console.log(findProduct?.Meta_Title, "meta title")
   let title = findProduct?.Meta_Title || 'Avenue39';
   let description = findProduct?.Meta_Description || 'Welcome to Avenue39';
   let canonical = findProduct?.Canonical_Tag;
@@ -116,7 +124,7 @@ export const productsFindHandler = async (
     title: title,
     description: description,
     openGraph: {
-      title: fullurl,
+      title: title,
       description: description,
       url: fullurl,
       images: NewImage,
@@ -157,13 +165,15 @@ export const subCategory = async (slug: string[], url: string,newparams?:any) =>
     return isNameMatch && belongsToCategory;
   });
 
-  console.log(newparams, "newparams")
+
   if (!findSubCategory) {
     return productsFindHandler(slug, url, subcategoryName, newparams);
   }
 
 
-  let fullurl = url+findSubCategory.name;
+  let fullurl = url+category+"/"+findSubCategory.name;
+
+  console.log(fullurl, "full urls")
 
   let images = findSubCategory.posterImageUrl || 'images';
   let alttext = findSubCategory.Images_Alt_Text || 'Alternative Text';

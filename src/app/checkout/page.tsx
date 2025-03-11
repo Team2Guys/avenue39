@@ -50,11 +50,15 @@ const Checkout = () => {
         setProduct(parsedProduct);
     }
   }, [storedProduct]);
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem('buyNowProduct');
-    };
-  }, []);
+
+
+  // useEffect(() => {
+  //   return () => {
+  //     localStorage.removeItem('buyNowProduct');
+  //   };
+  // }, []);
+
+
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -223,6 +227,8 @@ const Checkout = () => {
       setloading(false);
     }
   };
+
+  console.log(product, "product")
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />

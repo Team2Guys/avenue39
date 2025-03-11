@@ -374,6 +374,7 @@ const ProductDetail = ({
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
+    localStorage.removeItem('buyNowProduct')
     const existingCartItem = cartItems.find(
       (item: any) =>
         item.id === product?.id &&
@@ -443,7 +444,6 @@ const ProductDetail = ({
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    // console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     if (!Array.isArray(existingWishlist)) {
       existingWishlist = [];

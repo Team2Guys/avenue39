@@ -58,6 +58,7 @@ const FeatureCard: React.FC<CardProps> = ({
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
+    localStorage.removeItem('buyNowProduct')
     const existingCartItem = cartItems.find((item) => item.id === card?.id);
     const currentQuantity = existingCartItem?.quantity || 0;
     const newQuantity = currentQuantity + itemToAdd.quantity;

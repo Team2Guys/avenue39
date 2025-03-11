@@ -125,16 +125,14 @@ const Card: React.FC<CardProps> = ({
     if (card) {
       const updatedDisplayName = variationName({ product: card });
       setDisplayName(updatedDisplayName);
-      console.log(card, 'updatedDisplayName')
     }
   }, [card]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(itemToAdd, 'itemToAdd')
+    localStorage.removeItem('buyNowProduct')
     e.stopPropagation();
     const existingCartItem = cartItems.find((item: any) => item.id === card?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
       item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
-    console.log(existingCartItem, "cartItems")
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());

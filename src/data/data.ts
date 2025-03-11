@@ -548,3 +548,15 @@ export const footerItems: FooterItem[] = [
     imageSrc: "/assets/images/footer/showroomicon.svg",
   },
 ];
+
+
+
+export   const selectOption = [
+    { title: 'Dubai', fee: 50 },
+    { title: 'Abu Dhabi', fee: 100 },
+    { title: 'Sharjah', fee: 100 },
+    { title: 'Ajman', fee: 100 },
+    { title: 'Ras Al Khaima', fee: 100 },
+    { title: 'Umm Al Quwain', fee: 100 },
+    { title: 'Fujairah', fee: 100 },
+  ];

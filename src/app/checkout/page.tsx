@@ -1,7 +1,7 @@
 'use client';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
-import { checkout } from '@/data/data';
+import { checkout, selectOption } from '@/data/data';
 import React, { Fragment, useEffect, useState } from 'react';
 import Coupan from '@/components/coupan-code';
 import CartItems from '@/components/cart/items';
@@ -30,6 +30,7 @@ import { CartItem } from '@/redux/slices/cart/types';
 import Image from 'next/image';
 import { ChangeUrlHandler } from '@/config/fetch';
 import { ProductPrice } from '@/styles/typo';
+import { product_refactor } from '@/config/HelperFunctions';
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(50);
@@ -41,7 +42,7 @@ const Checkout = () => {
   const cartItems = useSelector((state: State) => state.cart.items);
   const [product, setProduct] = useState<CartItem>()
   const storedProduct = localStorage.getItem('buyNowProduct');
-  // const router = useRouter();
+
 
 
   useEffect(() => {
@@ -54,19 +55,6 @@ const Checkout = () => {
   }, [storedProduct]);
 
 
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     localStorage.removeItem('buyNowProduct');
-  //   };
-
-  //   // Run the cleanup when the route changes
-  //   router.events.on('routeChangeStart', handleRouteChange);
-
-  //   // Cleanup on component unmount
-  //   return () => {
-  //     router.events.off('routeChangeStart', handleRouteChange);
-  //   };
-  // }, [router])
 
 
   const initialValues = {
@@ -92,29 +80,18 @@ const Checkout = () => {
         values.country ==="" ||
         values.city ==="" 
       ) {
-        console.log(values, "submissioValues")
         return showToast('warn', 'Please fill required filds😴');
       }
       const { postalCode, ...submissioValues } = values;
 
-      console.log(submissioValues, 'submissioValues');
       console.log(postalCode, 'values');
 
       handlePayment(submissioValues);
     },
   });
-  const selectOption = [
-    { title: 'Dubai', fee: 50 },
-    { title: 'Abu Dhabi', fee: 100 },
-    { title: 'Sharjah', fee: 100 },
-    { title: 'Ajman', fee: 100 },
-    { title: 'Ras Al Khaima', fee: 100 },
-    { title: 'Umm Al Quwain', fee: 100 },
-    { title: 'Fujairah', fee: 100 },
-  ];
 
-  const handleCoupon = (coupan: string) => {
-    console.log(coupan)
+
+  const handleCoupon = () => {
     toast.error('coupon is not available.')
   }
 
@@ -129,32 +106,6 @@ const Checkout = () => {
 
 
   const handlePayment = async (values: any) => {
-
-    // await cartItems.map((item) => {
-    //   if (item.selectedSize) {
-    //     if (item.selectedSize.price) {
-    //       //@ts-expect-error
-    //       delete item.selectedSize.price;
-    //     }
-    //     if (item.selectedSize.discountPrice) {
-    //       delete item.selectedSize.discountPrice;
-    //     }
-    //   }
-
-    //   if (item.selectedfilter) {
-    //     if (item.selectedfilter.price) {
-    //       //@ts-expect-error
-    //       delete item.selectedfilter.price;
-    //     }
-    //     if (item.selectedfilter.discountPrice) {
-    //       delete item.selectedfilter.discountPrice;
-    //     }
-    //   }
-    //   delete item.sizes;
-    //   delete item.filter;
-    // });
-
-
 
     const cartItems_refactor = await Promise.all(cartItems.map((item) => {
       // Create a shallow copy of the item
@@ -177,25 +128,7 @@ const Checkout = () => {
     
       return updatedItem;
     }));
-    const product_refactor = async (product: CartItem) => {
-      const { sizes, filter, ...updatedProduct } = product;
-    
-      console.log(sizes, filter);
-    
-      if (updatedProduct.selectedSize) {
-        const { price, discountPrice, ...updatedSize } = updatedProduct.selectedSize;
-        updatedProduct.selectedSize = updatedSize as any; 
-        console.log(price, discountPrice);
-      }
-    
-      if (updatedProduct.selectedfilter) {
-        const { price, discountPrice, ...updatedFilter } = updatedProduct.selectedfilter;
-        updatedProduct.selectedfilter = updatedFilter as any; 
-        console.log(price, discountPrice);
-      }
-    
-      return updatedProduct;
-    };
+  
     
     const updatedProduct = product && await product_refactor(product);
     
@@ -215,8 +148,7 @@ const Checkout = () => {
             phone_number: Number(values.phone_number),
           },
         );
-        console.log(proceedPayment, 'proceedPayment');
-
+    
         if (proceedPayment.status === 201) {
           // showToast('success', 'Order Placed Successfully');
           setPaymentKey(
@@ -232,13 +164,15 @@ const Checkout = () => {
         throw new Error('Something is wrong. Please check the input fields.');
       }
     } catch (error) {
-      console.error('Payment Error:', error);
+        return  error;
     } finally {
       setloading(false);
     }
   };
 
-  console.log(product, "product",cartItems)
+  console.log(product, "product")
+
+
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />
@@ -491,9 +425,11 @@ const Checkout = () => {
                                           {
                                        (
                                         product.selectedSize?.price || product.selectedSize?.discountPrice 
-                                        ? Number(product.selectedSize?.discountPrice || product.selectedSize.price) // Use selectedSize price if it exists
-                                        : (Number(product.selectedfilter?.price) === 0 && product.discountPrice)
-                                        ? product.discountPrice // Use discountPrice if filter price is 0 and discountPrice exists
+                                        ? Number(product.selectedSize?.discountPrice || product.selectedSize.price) 
+                                        : (product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                        ? Number(product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                       :(Number(product.selectedfilter?.price) === 0 && product.discountPrice)
+                                        ? product.discountPrice 
                                         : product.price 
                                         
                                         * product.quantity

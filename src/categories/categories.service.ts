@@ -1,32 +1,55 @@
-import { Delete, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AddCategoryDto, UpdateCategoryDto } from './dto/category.dto';
 import { customHttpException } from '../utils/helper';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { CHACHE_CATEGORY_KEY } from '../../src/utils/CacheKeys';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) { }
 
- async getCategories() {
+
+
+  async getCategories() {
     try {
-      return await this.prisma.categories.findMany({
+      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
+console.log(cachedCategories, "cachec categories")
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
+
+      let categories = await this.prisma.categories.findMany({
         include: {
-          subcategories: { include:{categories: true,products: true}},
+          subcategories: { include: { categories: true, products: true } },
           products: {
             include: {
-              subcategories: true, 
+              subcategories: true,
               categories: true,
             },
           }
         },
-        
+
+
       });
+
+      // @ts-ignore
+      await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+
+      return categories;
+
+
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
 
-  async addCategory(categoryData: AddCategoryDto,userEmail:string) {
+  async addCategory(categoryData: AddCategoryDto, userEmail: string) {
     console.log('Update category triggered');
     console.log(categoryData);
     try {
@@ -57,7 +80,7 @@ export class CategoriesService {
     }
   }
 
-  async updateCategory(categoryData: UpdateCategoryDto, userEmail:string) {
+  async updateCategory(categoryData: UpdateCategoryDto, userEmail: string) {
     console.log('Update category triggered');
     console.log(userEmail);
     try {

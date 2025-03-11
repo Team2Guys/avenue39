@@ -41,6 +41,8 @@ const Checkout = () => {
   const cartItems = useSelector((state: State) => state.cart.items);
   const [product, setProduct] = useState<CartItem>()
   const storedProduct = localStorage.getItem('buyNowProduct');
+  // const router = useRouter();
+
 
   useEffect(() => {
     if (storedProduct) {
@@ -53,10 +55,18 @@ const Checkout = () => {
 
 
   // useEffect(() => {
-  //   return () => {
+  //   const handleRouteChange = () => {
   //     localStorage.removeItem('buyNowProduct');
   //   };
-  // }, []);
+
+  //   // Run the cleanup when the route changes
+  //   router.events.on('routeChangeStart', handleRouteChange);
+
+  //   // Cleanup on component unmount
+  //   return () => {
+  //     router.events.off('routeChangeStart', handleRouteChange);
+  //   };
+  // }, [router])
 
 
   const initialValues = {
@@ -228,7 +238,7 @@ const Checkout = () => {
     }
   };
 
-  console.log(product, "product")
+  console.log(product, "product",cartItems)
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />
@@ -250,7 +260,7 @@ const Checkout = () => {
           </div>
         ) : (
           <Container>
-            {product || cartItems ? (
+            {product || cartItems && cartItems.length >0 ? (
               <form
                 onSubmit={formik.handleSubmit}
                 className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-5 xl:gap-10 mb-10 px-2"

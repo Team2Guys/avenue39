@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.webp';
-import Marlin from '@assets/images/banners/Marlin-chair.png';
+import Marlin from '@assets/images/banners/Marlin.webp';
 import rafael from '@assets/images/banners/rafael.webp';
 import Calda from '@assets/images/banners/Calda.webp';
 import Magia from '@assets/images/banners/Magia.webp';
@@ -164,6 +164,7 @@ const SofaBanner: React.FC = () => {
                       height={500}
                       alt={slide.title}
                       className="max-w-[900px] w-full h-full"
+                      loading='eager'
                     />
                   </Link>
                 </div>

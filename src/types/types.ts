@@ -150,13 +150,6 @@ export interface IProductAdd {
   filters?: any[];
   custom_url?:string
 }
-export interface ITestimonialCard {
-  id: number;
-  profile: StaticImageData;
-  name: string;
-  comment: string;
-  reviews: number;
-}
 
 export interface ISaleItems {
   id: number;

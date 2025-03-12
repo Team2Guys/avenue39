@@ -151,7 +151,6 @@ const Card: React.FC<CardProps> = ({
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     if (!Array.isArray(existingWishlist)) {
       existingWishlist = [];
@@ -166,7 +165,6 @@ const Card: React.FC<CardProps> = ({
     if (!existingWishlistItem) {
       existingWishlist.push(itemToAdd);
       localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-      console.log('Added to wishlist:', itemToAdd);
       window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
@@ -188,7 +186,6 @@ const Card: React.FC<CardProps> = ({
       toast.success('Product quantity updated in Wishlist.');
     }
   };
-  window.addEventListener('WishlistChanged', () => console.log('WishlistChanged event received'));
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
@@ -344,6 +341,8 @@ const Card: React.FC<CardProps> = ({
                       onClick={(e) => handleEventProbation(e)}
                     >
                       <button
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
                         className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                         onClick={(e) => handleAddToCard(e)}
                       >
@@ -367,7 +366,9 @@ const Card: React.FC<CardProps> = ({
                       <Dialog >
                         <DialogTrigger className="w-full">
                           <button
-                            className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
+                            aria-haspopup="dialog"
+                            aria-expanded="false"
+                            className={`my-1 h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -562,6 +563,8 @@ const Card: React.FC<CardProps> = ({
                     <Dialog>
                       <DialogTrigger className="w-fit align-middle">
                         <button
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
                           className={`my-1  h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                         >
                           <svg

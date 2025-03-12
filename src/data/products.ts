@@ -18,16 +18,16 @@ export const bannerData = {
 };
 export const ColorBannerData = [
   {
-    imageUrl: '/images/catalogue/1s.jpg',
-    imageUrl2: '/images/catalogue/BOX.png',
+    imageUrl: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp',
+    imageUrl2: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771764/c2wiqthukzvonbdcrwx9_vgdwum.webp',
     Heading: 'luxury furniture',
     Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",
     link: "/dining"  
   
   },
   {
-    imageUrl: '/images/catalogue/design_chair1.webp',
-    imageUrl2: '/images/catalogue/BOX-REVISED.png',
+    imageUrl: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771949/design_chair1_x8u8nx.webp',
+    imageUrl2: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771851/eun1nln7xluogwegj0ry_u2bupu.webp',
     Heading: 'dining furniture',
     Description:
       "Choosing Avenue39 means choosing a legacy of quality, luxury, and innovation. Our dining furniture spans from the simplistic to the ornate, and quality is always at the forefront.",

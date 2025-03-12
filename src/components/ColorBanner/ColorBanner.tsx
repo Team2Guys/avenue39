@@ -45,9 +45,6 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     }
   }, [windowWidth]);
 
-  console.log(windowWidth, "windowWidth",isWide)
-
-
   return (
     <ContainerFluid className={`mx-auto py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? "main_container" : ''}`}>
       <Swiper
@@ -83,7 +80,9 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                       alt="Left Image"
                       width={1200}
                       height={1200}
-                      quality={100}
+                      quality={75}
+                      loading='eager'
+                      priority
                     />
                   </div>
                 </div>
@@ -96,7 +95,9 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                     alt="Right Image"
                     width={1200}
                     height={1200}
-                    quality={100}
+                    quality={75}
+                    loading='eager'
+                      priority
                   />
                 </Link>
               </div>

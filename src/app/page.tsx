@@ -1,7 +1,5 @@
 import React from 'react';
-import { testimonialcards } from '@/data';
 import SofaBanner from '@/components/discount-banner/sofa-banner';
-import Testimonial from '@/components/testimonial/testimonial';
 import HeroVideo from '@/components/Home/hero-video';
 import AllCategory from '@/components/CategoryCard/AllCategory';
 import NewArrival from '@/components/newarrival';
@@ -44,10 +42,7 @@ export default async function Home() {
         <NewArrival />
       </Suspense>
       <AllCategory products={products} />
-      {/* <Catalogue /> */}
-      {testimonialcards && testimonialcards.length > 50 && (
-        <Testimonial testimonialitems={testimonialcards} />
-        )}
+    
     </>
   );
 }

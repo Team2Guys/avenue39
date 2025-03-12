@@ -11,9 +11,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
 import FeatureSlider from '../card-slider/feature-slider';
 
-const Product = ({ params, reviews, similarProducts, product, products, subslug, mainslug, filterParam, sizeParam , uniqueSizes }: {
-  params: IProductDetail;
-  reviews: IReview[];
+const Product = ({ similarProducts, product, products, subslug, mainslug, filterParam, sizeParam , uniqueSizes }: {
+  params?: IProductDetail;
+  reviews?: IReview[];
   product: IProduct;
   similarProducts: IProduct[];
   products?: IProduct[];
@@ -23,8 +23,7 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
   sizeParam?: string;
   uniqueSizes: any;
 }) => {
-  const slug = params.name;
-  console.log(slug, 'slug', reviews);
+
   const additional_columns_handler = () => {
     const section = product?.sections;
     if (section && section.length > 0) {
@@ -133,19 +132,7 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
     additional_columns_handler();
   }, [product]);
 
-  const getElementTopPosition = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      return rect.top + window.scrollY;
-    }
-    return null;
-  };
 
-  const onScrollToDesc = () => {
-    const topPosition = getElementTopPosition('product-desc') || undefined;
-    window.scrollTo({ top: (topPosition && topPosition - 85), behavior: 'smooth'});
-  };
 
   return (
     <div>
@@ -174,7 +161,6 @@ const Product = ({ params, reviews, similarProducts, product, products, subslug,
               filterParam={filterParam}
               sizeParam={sizeParam}
               uniqueSizes={uniqueSizes}
-              onclickDesc={onScrollToDesc}
             />
           )
         )}

@@ -8,6 +8,7 @@ export const Helvetica = localFont({
     },
   ],
   variable: '--font-helvetica',
+  display: 'swap', 
 });
 
 export const Helveticalight = localFont({
@@ -19,6 +20,7 @@ export const Helveticalight = localFont({
     },
   ],
   variable: '--font-helvetica-light',
+  display: 'swap', 
 });
 export const belgium = localFont({
   src: [
@@ -29,7 +31,10 @@ export const belgium = localFont({
     },
   ],
   variable: '--font-belgium',
+  display: 'swap', 
 });
+
+
 export const jadyn = localFont({
   src: [
     {
@@ -39,4 +44,5 @@ export const jadyn = localFont({
     },
   ],
   variable: '--font-jadyn',
+  display: 'swap', 
 });

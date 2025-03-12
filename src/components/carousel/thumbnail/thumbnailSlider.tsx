@@ -69,26 +69,12 @@ const CustomThumbnailSlickSlider = ({
         },
       },
     ],
-    // beforeChange: (_: number, next: number) => {
-    //   console.log('beforeChange', next);
-    //   onSlideChange(next);
-    // },
+
   };
 
   return (
     <div className="w-full md:w-3/12 lg:w-1/5 relative product-slider-wrapper">
-      {/* <div
-        id="prevArrow" onClick={() => slickRef.current?.slickPrev()}
-        className="slick-prev-arrow custom-slick-prev-arrow !flex !justify-center !items-center cursor-pointer absolute -top-8 left-1/2 -translate-x-[50%]"
-      >
-        <IoIosArrowUp className="text-black text-21 xs:text-[30px]" />
-      </div>
-      <div
-        id="nextArrow" onClick={() => slickRef.current?.slickNext()}
-        className="slick-next-arrow custom-slick-next-arrow !flex !justify-center !items-center cursor-pointer absolute -bottom-[30px] left-1/2 -translate-x-[50%]"
-      >
-        <IoIosArrowDown className="text-black text-21 xs:text-[30px]" />
-      </div> */}
+      
       
       <Slider
         ref={slickRef}
@@ -106,9 +92,7 @@ const CustomThumbnailSlickSlider = ({
               src={thumb.imageUrl || '/default-image.jpg'}
               width={150}
               height={150}
-              onClick={() => {
-                console.log(thumb);
-              }}
+        
               alt={thumb.altText || 'Thumbnail'}
               priority={false}
             />

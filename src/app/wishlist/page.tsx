@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import React from 'react'
-import WishlistPage from './whishlist';
+import dynamic from 'next/dynamic';
+const WishlistPage = dynamic(() => import('./whishlist'))
 
 export const metadata: Metadata = {
     title: 'Wishlist | Save Your Favorite Luxury Furniture Pieces',

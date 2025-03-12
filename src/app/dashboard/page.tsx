@@ -1,9 +1,10 @@
 import { get_all_records } from "@/config/fetch";
-import DashboardMain from "./DashboardMain";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import Loader from "@/components/Loader/Loader";
+import dynamic from 'next/dynamic';
+const DashboardMain = dynamic(() => import('./DashboardMain'))
+const Loader = dynamic(() => import('@/components/Loader/Loader'))
 
 async function Home() {
   const cookieStore = await cookies()

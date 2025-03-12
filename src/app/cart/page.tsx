@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
-import Cart from './Cart';
 import { fetchProducts } from '@/config/fetch';
+import dynamic from 'next/dynamic';
+const Cart = dynamic(() => import('./Cart'))
+
 
 export const metadata: Metadata = {
   title: 'Shopping Cart – Review & Secure Checkout | Avenue39',

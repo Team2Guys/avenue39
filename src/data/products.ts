@@ -236,7 +236,7 @@ export const homeProducts: IHomeProducts[] = [
 
 export const cardProductTags = [
   {name: 'Ricordi Dining Table', tagPara: 'All season elegance' , displayName: 'Ricordi'},
-  {name: 'Sapori Dining Table', tagPara: 'Better dining: unique experience' , displayName: 'Sapori'},
+  {name: 'Sapori Dining Table', tagPara: 'Better dining, unique experience' , displayName: 'Sapori'},
   {name: 'Hallie Sofa', tagPara: 'Simple But Significant' , displayName: 'Hallie Sofa'},
   {name: 'Lisbon Sofa', tagPara: 'get The Best Sofa In The House' , displayName: 'Lisbon Sofa'},
 ]

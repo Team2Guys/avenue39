@@ -57,6 +57,7 @@ model Products {
   sizes                 Json[]                  @default([])
   filter                Json[]                  @default([])
   custom_url            String?
+  shippingOptions   Json[] @default([])
 }
 
 model Categories {

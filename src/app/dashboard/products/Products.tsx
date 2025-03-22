@@ -55,10 +55,6 @@ const Product = ({cetagories,productsData}: {
   }, [productsData])
   
 
-  
-
-
-
 
   console.log(editProduct, "EditInitialProductValues")
 

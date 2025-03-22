@@ -64,6 +64,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   );
   const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],
   );
+
+  const [selectedShippingOption, setSelectedShippingOption] = useState<Shipping[]>([shippingOption[0]]);
   const [loading, setloading] = useState<boolean>(false);
   const [productInitialValue, setProductInitialValue] = useState<any | null | undefined>(EditProductValue);
   const [imgError, setError] = useState<string | null | undefined>();
@@ -113,6 +115,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
 
 
         sethoverImage(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],)
+          setSelectedShippingOption(EditInitialValues  && EditInitialValues.shippingOptions ? EditInitialValues.shippingOptions : [] )
+        
         setProductInitialValue(EditProductValue)
 
       } catch (err) {
@@ -204,7 +208,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   };
 
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
-  const [selectedShippingOption, setSelectedShippingOption] = useState<Shipping[]>([shippingOption[0]]);
+
   const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<number[]>([]);
   const [filteredSubcategories, setFilteredSubcategories] = useState<any>([]);
   const [isCropModalVisible, setIsCropModalVisible] = useState<boolean>(false);
@@ -219,6 +223,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     const subcategories = selectedCategories?.flatMap(
       (category: ICategory) => category.subcategories,
     );
+
     setFilteredSubcategories(subcategories || []);
   }, [selectedCategoryIds, categoriesList]);
 
@@ -397,6 +402,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   };
 
 
+  console.log(selectedShippingOption,"EditInitialValues" )
   return (
     <>
       <p
@@ -862,7 +868,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                             className="flex items-center space-x-2"
                           >
                             <Checkbox
-                              checked={selectedShippingOption.includes(shipping)}
+                              checked={selectedShippingOption.some((value:any)=>value.name === shipping.name)}
                               className="custom-checkbox"
                               onChange={(e) => {
                                 const checked = e.target.checked;

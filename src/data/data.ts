@@ -44,7 +44,7 @@ export const TShippingPolicybredcrumbs = [
 
 import * as Yup from 'yup';
 import { Product, Category, SubCategory, FooterItem } from '@/types/interfaces';
-import { IProductAdd } from '@/types/types';
+import { IProductAdd, Shipping } from '@/types/types';
 
 export const validateForm = (formData: {
   fullName: string;
@@ -189,7 +189,8 @@ export const AddproductsinitialValues: IProductAdd = {
   Images_Alt_Text: '',
   sale_counter: '',
   filters: [],
-  custom_url:""
+  custom_url:"",
+  shippingOptions: []
 };
 
 export const options = [
@@ -560,3 +561,9 @@ export   const selectOption = [
     { title: 'Umm Al Quwain', fee: 100 },
     { title: 'Fujairah', fee: 100 },
   ];
+
+export const shippingOption: Shipping[] = [
+  {name: 'Standard Shipping' , description: 'Within 3-4 days delivery after placing the order.' , shippingFee: 0},
+  {name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100},
+  {name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100}
+]

@@ -229,7 +229,7 @@ function TabyTamra({productPrice, productDiscPrice, product}:TabyTamraPROPS) {
         {paymentLabels.map((label, index) => (
           <div
             key={index}
-            className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
+            className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#D47C84]"
           >
             <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
             <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>

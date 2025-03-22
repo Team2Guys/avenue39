@@ -19,3 +19,8 @@ import { CartItem } from "@/redux/slices/cart/types";
     
       return updatedProduct;
     };
+
+export function formatPrice(price: any) {
+  if (!price) return 0;
+  return price > 1000 ? price.toLocaleString('en-US') : price;
+}

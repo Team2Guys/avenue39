@@ -26,6 +26,7 @@ import Icondelivery from '../../../public/assets/icons/Group2037.svg';
 import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
 import dynamic from 'next/dynamic';
+import { formatPrice } from '@/config/HelperFunctions';
 const TabyTamra = dynamic(() => import('./TabyTamra'))
 
 
@@ -268,10 +269,7 @@ const ProductDetail = ({
     }
   }, [product, size, filter, uniqueSizes]);
 
-  function formatPrice(price: any) {
-    if (!price) return 0;
-    return price > 1000 ? price.toLocaleString('en-US') : price;
-  }
+  
 
 
 
@@ -520,11 +518,11 @@ const ProductDetail = ({
             AED{' '}
             {productDiscPrice > 0
               ? productDiscPrice > 1000
-                ? productDiscPrice.toLocaleString()
+                ? formatPrice(productDiscPrice.toLocaleString())
                 : formatPrice(productDiscPrice)
               : product?.discountPrice > 1000
-                ? product?.discountPrice.toLocaleString()
-                : product?.discountPrice}
+                ? formatPrice(product?.discountPrice.toLocaleString())
+                : formatPrice(product?.discountPrice)}
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">

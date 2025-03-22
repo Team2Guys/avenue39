@@ -1,3 +1,7 @@
+import lightImg from '../../public/assets/icons/light1(traced).png'
+import deliveryImg from '../..//public/assets/icons/delivery-truck 2 (traced).png'
+import locationImg from '../..//public/assets/icons/location 1 (traced).png'
+
 export const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 export const aboutbreadcrumbs = [
   { label: 'Home', href: '/' },
@@ -563,7 +567,7 @@ export   const selectOption = [
   ];
 
 export const shippingOption: Shipping[] = [
-  {name: 'Standard Shipping' , description: 'Within 3-4 days delivery after placing the order.' , shippingFee: 0},
-  {name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100},
-  {name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100}
+  {icon: locationImg, name: 'Standard Shipping' , description: 'Within 3-4 days delivery after placing the order.' , shippingFee: 0},
+  {icon: deliveryImg, name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150},
+  {icon: lightImg, name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150}
 ]

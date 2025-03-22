@@ -103,6 +103,9 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
           __v,
           'EditInitialValues',
         );
+        const shipping = EditInitialValues.shippingOptions?.map((category: any) => category) || shippingOption[0];
+        setSelectedShippingOption(shipping);
+        console.log(shipping, 'shipping')
         const categoryIds = EditInitialValues.categories?.map((category: any) => category.id) || [];
         setSelectedCategoryIds(categoryIds);
 
@@ -122,6 +125,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
 
     CategoryHandler();
   }, [EditInitialValues]);
+
 
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
@@ -202,9 +206,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       setloading(false);
     }
   };
-
+  const [selectedShippingOption, setSelectedShippingOption] = useState<Shipping[]>([]);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
-  const [selectedShippingOption, setSelectedShippingOption] = useState<Shipping[]>([shippingOption[0]]);
   const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<number[]>([]);
   const [filteredSubcategories, setFilteredSubcategories] = useState<any>([]);
   const [isCropModalVisible, setIsCropModalVisible] = useState<boolean>(false);
@@ -396,6 +399,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     setCroppedImage(null);
   };
 
+  console.log(selectedShippingOption, 'shipping')
 
   return (
     <>
@@ -848,46 +852,48 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       ) : null}
                     </div>
                   </div>
+                  {selectedShippingOption &&
+                    <div className="flex gap-4 flex-col mb-2">
 
-                  <div className="flex gap-4 flex-col mb-2">
-
-                    <div className="w-full">
-                      <label className="mb-1 block py-4 px-2 text-sm font-medium text-black dark:text-white">
-                        Select Shipping Options (at least one)
-                      </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                        {shippingOption?.map((shipping, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center space-x-2"
-                          >
-                            <Checkbox
-                              checked={selectedShippingOption.includes(shipping)}
-                              className="custom-checkbox"
-                              onChange={(e) => {
-                                const checked = e.target.checked;
-                                setSelectedShippingOption((prev) => {
-                                  if (checked) {
-                                    return [...prev, shipping];
-                                  } else if (prev.length > 1) {
-                                    return prev.filter((ship) => ship !== shipping);
-                                  }
-                                  return prev;
-                                });
-                              }}
-                              id={`shipping-${index}`}
-                            />
-                            <label
-                              htmlFor={`shipping-${index}`}
-                              className="ml-2 text-black dark:text-white cursor-pointer"
+                      <div className="w-full">
+                        <label className="mb-1 block py-4 px-2 text-sm font-medium text-black dark:text-white">
+                          Select Shipping Options (at least one)
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                          {shippingOption?.map((shipping, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2"
                             >
-                              {shipping.name}
-                            </label>
-                          </div>
-                        ))}
+                              <Checkbox
+                                checked={!!selectedShippingOption.find((item) => item.name === shipping.name)}
+                                className="custom-checkbox"
+                                onChange={(e) => {
+                                  const checked = e.target.checked;
+
+                                  setSelectedShippingOption((prev) => {
+                                    if (checked) {
+                                      return [...prev, shipping];
+                                    } else if (prev.length > 1) {
+                                      return prev.filter((ship) => ship.name !== shipping.name);
+                                    }
+                                    return prev;
+                                  });
+                                }}
+                                id={`shipping-${index}`}
+                              />
+                              <label
+                                htmlFor={`shipping-${index}`}
+                                className="ml-2 text-black dark:text-white cursor-pointer"
+                              >
+                                {shipping.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  }
 
                   <div className="rounded-sm border border-stroke bg-white  dark:bg-black">
                     <div className="border-b border-stroke py-4 px-6 dark:border-strokedark">

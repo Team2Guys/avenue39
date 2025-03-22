@@ -89,6 +89,7 @@ const Card: React.FC<CardProps> = ({
       ?? ((isHomepage || slider) ? card?.sizes?.[0] : undefined),
     selectedfilter: card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)
       ?? ((isHomepage || slider) ? card?.filter?.[0]?.additionalInformation?.[0] : undefined),
+    selectedShipping: card?.shippingOptions?.[0] || null,
   };
 
   useEffect(() => {

@@ -115,8 +115,6 @@ const Checkout = () => {
       handlePayment(submissioValues);
     },
   });
-
-console.log(product,'product ----')
   const handleCoupon = () => {
     toast.error('coupon is not available.')
   }

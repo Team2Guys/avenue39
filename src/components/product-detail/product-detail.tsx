@@ -719,8 +719,8 @@ const ProductDetail = ({
 
             <Collapse
               accordion
-              activeKey={activeKey} // ✅ Store the open panel key
-              onChange={handleCollapseChange} // ✅ Detect panel open/close
+              activeKey={activeKey}
+              onChange={handleCollapseChange} 
               bordered={false}
               expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
               expandIconPosition="end"

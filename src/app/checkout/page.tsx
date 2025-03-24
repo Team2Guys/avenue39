@@ -1,7 +1,7 @@
 'use client';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
-import { checkout, selectOption, shippingOption } from '@/data/data';
+import { checkout, selectOption } from '@/data/data';
 import React, { Fragment, useEffect, useState } from 'react';
 import Coupan from '@/components/coupan-code';
 import CartItems from '@/components/cart/items';
@@ -33,6 +33,7 @@ import { ProductPrice } from '@/styles/typo';
 import { product_refactor } from '@/config/HelperFunctions';
 import { Collapse } from 'antd';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { Shipping } from '@/types/types';
 
 
 const Checkout = () => {
@@ -46,7 +47,10 @@ const Checkout = () => {
   const cartItems = useSelector((state: State) => state.cart.items);
   const [product, setProduct] = useState<CartItem>()
   const storedProduct = localStorage.getItem('buyNowProduct');
-  const { Panel } = Collapse;
+  const [uniqueShipping, setUniqueShipping] = useState<Shipping[] | undefined>([]);
+
+  const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
+  const [activeKey, setActiveKey] = useState<string | string[]>('0');
 
 
   useEffect(() => {
@@ -58,8 +62,26 @@ const Checkout = () => {
     }
   }, [storedProduct]);
 
+  useEffect(() => {
+    if (cartItems?.length) {
+      const allShippingOptions = cartItems.flatMap(item => item.shippingOptions || []);
+      const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
+  
+      setUniqueShipping(uniqueOptions);
+    }
+  }, [cartItems]);
 
 
+  const handleCollapseChange = (key: string | string[]) => {
+    setActiveKey(key);
+    const selected = uniqueShipping?.[Number(key)];
+    setSelectedShipping(selected);
+  };
+  useEffect(() => {
+    if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
+      setSelectedShipping(product.shippingOptions[Number(activeKey)]);
+    }
+  }, [product?.shippingOptions]);
 
   const initialValues = {
     first_name: '',
@@ -93,8 +115,6 @@ const Checkout = () => {
       handlePayment(submissioValues);
     },
   });
-
-
   const handleCoupon = () => {
     toast.error('coupon is not available.')
   }
@@ -107,6 +127,33 @@ const Checkout = () => {
       setShippingFee(option ? option.fee : 50);
     }
   }, [selectedState]);
+
+    const itemsCollapse = uniqueShipping?.map((shipping, index) => ({
+      key: index.toString(),
+      label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+      children: (
+        <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+          <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+          <div>
+            <strong className="text-15 xs:text-20">{shipping.name}</strong>
+            <p className="text-11 xs:text-16">{shipping.description}</p>
+            <p className="text-11 xs:text-16">
+              <span>Delivery Cost: </span>
+              {shipping.shippingFee > 0 ? (
+                <>
+                  <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+                </>
+              ) : (
+                <strong>Free</strong>
+              )}
+              {shipping.otherEmiratesFee && (
+                <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
+              )}
+            </p>
+          </div>
+        </div>
+      ),
+    }));
 
 
   const handlePayment = async (values: any) => {
@@ -526,30 +573,22 @@ const Checkout = () => {
                         account.
                       </p>
                     </div>
-                    {shippingOption &&
-                      <div className="bg-[#EEEEEE]">
-                        <Collapse accordion defaultActiveKey={["1"]} bordered={false} expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)} expandIconPosition="end" className="w-full bg-transparent custom-collapse">
-                          <Panel
-                            header={<span className="text-slate-500">Shipping Options</span>}
-                            key="1"
-                          >
-                            {shippingOption.map((shipping, index) => (
-                              <div key={index} className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
-                                <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
-                                <div>
-                                  <strong className="text-15 xs:text-20">{shipping.name}</strong>
-                                  <p className="text-11 xs:text-16">{shipping.description}</p>
-                                  <p className="text-11 xs:text-16">
-                                    <span>Delivery Cost:</span>  {shipping.shippingFee > 0 ? <><span>In Dubai </span><strong>AED {shipping.shippingFee}</strong></> : <strong>Free</strong>}<span>{shipping.otherEmiratesFee && <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>}</span>
-                                  </p>
-                                </div>
+                  
+                    {uniqueShipping &&
+                              <div className="bg-[#EEEEEE]">
+                    
+                                <Collapse
+                                  accordion
+                                  activeKey={activeKey}
+                                  onChange={handleCollapseChange}
+                                  bordered={false}
+                                  expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+                                  expandIconPosition="end"
+                                  className="w-full bg-transparent custom-collapse"
+                                  items={itemsCollapse}
+                                />
                               </div>
-                            ))}
-                          </Panel>
-                        </Collapse>
-                      </div>
-                    }
-
+                            }
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

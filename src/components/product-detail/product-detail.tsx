@@ -27,7 +27,8 @@ import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
 import dynamic from 'next/dynamic';
 import { formatPrice } from '@/config/HelperFunctions';
-import { Radio, RadioChangeEvent } from 'antd';
+import { Collapse } from 'antd';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 const TabyTamra = dynamic(() => import('./TabyTamra'))
 
 
@@ -83,18 +84,19 @@ const ProductDetail = ({
     size?: string;
   }>({ variant: filterParam, size: sizeParam });
   const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
+  const [activeKey, setActiveKey] = useState<string | string[]>('0');
   const Navigate = useRouter();
   const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
 
 
-  const handleShippingChange = (e: RadioChangeEvent) => {
-    const selected = product?.shippingOptions?.find((item) => item.name.toLowerCase() === e.target.value.name.toLowerCase());
-    setSelectedShipping(selected);
+  const handleCollapseChange = (key: string | string[]) => {
+    setActiveKey(key);
+    const selected = product?.shippingOptions?.[Number(key)];
+      setSelectedShipping(selected);
   };
-
   useEffect(() => {
     if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
-      setSelectedShipping(product.shippingOptions[0]);
+      setSelectedShipping(product.shippingOptions[Number(activeKey)]);
     }
   }, [product?.shippingOptions]);
 
@@ -285,7 +287,32 @@ const ProductDetail = ({
   }, [product, size, filter, uniqueSizes]);
 
 
-
+  const itemsCollapse = product?.shippingOptions?.map((shipping, index) => ({
+    key: index.toString(),
+    label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+    children: (
+      <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+        <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+        <div>
+          <strong className="text-15 xs:text-20">{shipping.name}</strong>
+          <p className="text-11 xs:text-16">{shipping.description}</p>
+          <p className="text-11 xs:text-16">
+            <span>Delivery Cost: </span>
+            {shipping.shippingFee > 0 ? (
+              <>
+                <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+              </>
+            ) : (
+              <strong>Free</strong>
+            )}
+            {shipping.otherEmiratesFee && (
+              <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
+            )}
+          </p>
+        </div>
+      </div>
+    ),
+  }));
 
 
   useEffect(() => {
@@ -687,23 +714,21 @@ const ProductDetail = ({
           </div>
         </div>
 
-        {product.shippingOptions && (
-          <div className='mb-2'>
-            <Radio.Group onChange={(e) => handleShippingChange(e)} value={selectedShipping} className='flex flex-wrap gap-2 justify-between'>
-              {product.shippingOptions.map((option, index) => (
-                <Radio
-                  key={index}
-                  value={option}
-                  className="font-helvetica custom-radio"
-                >
-                  {/* {option.name} - {option.shippingFee > 0 ? `AED ${option.shippingFee.toLocaleString()}` : 'Free'} */}
-                  {option.name}
-                </Radio>
-              ))}
-            </Radio.Group>
+        {product.shippingOptions &&
+          <div className="bg-[#EEEEEE]">
 
+            <Collapse
+              accordion
+              activeKey={activeKey}
+              onChange={handleCollapseChange} 
+              bordered={false}
+              expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+              expandIconPosition="end"
+              className="w-full bg-transparent custom-collapse"
+              items={itemsCollapse}
+            />
           </div>
-        )}
+        }
 
 
         {isOutStock ? null : (
@@ -771,7 +796,7 @@ const ProductDetail = ({
           <p className='font-helvetica'>Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

@@ -14,11 +14,12 @@ import { ADDPRODUCTFORMPROPS, FormValues } from '@/types/interfaces';
 import {
   AddproductsinitialValues,
   AddProductvalidationSchema,
+  shippingOption,
 } from '@/data/data';
 import { Checkbox, Modal, Select } from 'antd';
 import showToast from '@components/Toaster/Toaster';
 import revalidateTag from '@/components/ServerActons/ServerAction';
-import { ICategory } from '@/types/types';
+import { ICategory, Shipping } from '@/types/types';
 import Cookies from 'js-cookie';
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -102,6 +103,9 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
           __v,
           'EditInitialValues',
         );
+        const shipping = EditInitialValues.shippingOptions?.map((category: any) => category) || shippingOption[0];
+        setSelectedShippingOption(shipping);
+        console.log(shipping, 'shipping')
         const categoryIds = EditInitialValues.categories?.map((category: any) => category.id) || [];
         setSelectedCategoryIds(categoryIds);
 
@@ -122,6 +126,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     CategoryHandler();
   }, [EditInitialValues]);
 
+
   const token = Cookies.get('2guysAdminToken');
   const superAdminToken = Cookies.get('superAdminToken');
   let finalToken = token ? token : superAdminToken;
@@ -129,6 +134,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   const onSubmit = async (values: any, { resetForm }: any) => {
     values.categories = selectedCategoryIds;
     values.subcategories = selectedSubcategoryIds;
+    values.shippingOptions = selectedShippingOption;
     console.log(values, 'values')
     try {
       setError(null);
@@ -200,7 +206,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       setloading(false);
     }
   };
-
+  const [selectedShippingOption, setSelectedShippingOption] = useState<Shipping[]>([]);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
   const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<number[]>([]);
   const [filteredSubcategories, setFilteredSubcategories] = useState<any>([]);
@@ -291,15 +297,15 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   const onCropComplete = (crop: Crop) => {
     const image = imgRef.current;
     if (!image || !crop.width || !crop.height) return;
-  
+
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
     const ctx = canvas.getContext('2d');
-  
+
     canvas.width = crop.width;
     canvas.height = crop.height;
-  
+
     if (ctx) {
       ctx.drawImage(
         image,
@@ -313,21 +319,21 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         crop.height
       );
     }
-  
+
     const base64Image = canvas.toDataURL('image/jpeg');
     setCroppedImage(base64Image);
   };
-  
+
 
   const handleCropModalOk = async () => {
     if (croppedImage && imageSrc) {
       try {
         // Convert the cropped image (base64) to a File
         const file = base64ToFile(croppedImage, `cropped_${Date.now()}.jpg`);
-  
+
         // Upload the cropped image to your backend or Cloudinary
         const response = await uploadPhotosToBackend([file]);
-  
+
         // Use the base URL from your environment variables
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
         const uploadedImageUrl = response[0].imageUrl;
@@ -335,13 +341,13 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         const newImageUrl = uploadedImageUrl.startsWith('http')
           ? uploadedImageUrl
           : `${baseUrl}${uploadedImageUrl}`;
-  
+
         const newImage = { imageUrl: newImageUrl, public_id: response[0].public_id };
-  
+
         // First close the modal and reset croppedImage
         setIsCropModalVisible(false);
         setCroppedImage(null);
-  
+
         // Use a timeout to update states after the modal has closed
         setTimeout(() => {
           setposterimageUrl((prevImages) =>
@@ -366,7 +372,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       }
     }
   };
-  
+
   // Helper function to convert a base64 string to a File object
   const base64ToFile = (base64: string, filename: string): File => {
     const arr = base64.split(',');
@@ -375,24 +381,25 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     const bstr = atob(arr[1]);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
-  
+
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-  
+
     return new File([u8arr], filename, { type: mime });
   };
-  
-  
 
-  
-  
+
+
+
+
 
   const handleCropModalCancel = () => {
     setIsCropModalVisible(false);
     setCroppedImage(null);
   };
 
+  console.log(selectedShippingOption, 'shipping')
 
   return (
     <>
@@ -428,63 +435,63 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       </div>
 
                       {posterimageUrl && posterimageUrl?.length > 0 ? (
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
-    {posterimageUrl.map((item: any, index) => {
-      return (
-        <div key={index}>
-          <div className="relative group rounded-lg overflow-hidden shadow-md bg-white dark:bg-black transform transition-transform duration-300 hover:scale-105">
-            <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white dark:bg-black rounded-full">
-              <RxCross2
-                className="cursor-pointer text-red-500 dark:text-red-700"
-                size={17}
-                onClick={() => {
-                  ImageRemoveHandler(
-                    item.public_id,
-                    setposterimageUrl,
-                  );
-                }}
-              />
-            </div>
-            <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
-              <FaCropSimple
-                className="text-white"
-                size={12}
-                onClick={() => handleCropClick(item.imageUrl)}
-              />
-            </div>
-            <Image
-              key={index}
-              className="object-cover w-full h-full"
-              width={300}
-              height={400}
-              loading='lazy'
-              src={item?.imageUrl}
-              alt={`productImage-${index}`}
-            />
-          </div>
-          <input
-            className="border mt-2 w-full rounded-md border-stroke px-2 text-14 py-2 focus:border-primary active:border-primary outline-none"
-            placeholder="altText"
-            type="text"
-            name="altText"
-            value={item.altText}
-            onChange={(e) =>
-              handleImageAltText(
-                index,
-                String(e.target.value),
-                setposterimageUrl,
-              )
-            }
-          />
-        </div>
-      );
-    })}
-  </div>
-) : (
-  <>
-    <Imageupload setposterimageUrl={setposterimageUrl} />
-  </>
-)}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
+                          {posterimageUrl.map((item: any, index) => {
+                            return (
+                              <div key={index}>
+                                <div className="relative group rounded-lg overflow-hidden shadow-md bg-white dark:bg-black transform transition-transform duration-300 hover:scale-105">
+                                  <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white dark:bg-black rounded-full">
+                                    <RxCross2
+                                      className="cursor-pointer text-red-500 dark:text-red-700"
+                                      size={17}
+                                      onClick={() => {
+                                        ImageRemoveHandler(
+                                          item.public_id,
+                                          setposterimageUrl,
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
+                                    <FaCropSimple
+                                      className="text-white"
+                                      size={12}
+                                      onClick={() => handleCropClick(item.imageUrl)}
+                                    />
+                                  </div>
+                                  <Image
+                                    key={index}
+                                    className="object-cover w-full h-full"
+                                    width={300}
+                                    height={400}
+                                    loading='lazy'
+                                    src={item?.imageUrl}
+                                    alt={`productImage-${index}`}
+                                  />
+                                </div>
+                                <input
+                                  className="border mt-2 w-full rounded-md border-stroke px-2 text-14 py-2 focus:border-primary active:border-primary outline-none"
+                                  placeholder="altText"
+                                  type="text"
+                                  name="altText"
+                                  value={item.altText}
+                                  onChange={(e) =>
+                                    handleImageAltText(
+                                      index,
+                                      String(e.target.value),
+                                      setposterimageUrl,
+                                    )
+                                  }
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <>
+                          <Imageupload setposterimageUrl={setposterimageUrl} />
+                        </>
+                      )}
                     </div>
 
                     <div className="flex flex-col ">
@@ -845,6 +852,48 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       ) : null}
                     </div>
                   </div>
+                  {selectedShippingOption &&
+                    <div className="flex gap-4 flex-col mb-2">
+
+                      <div className="w-full">
+                        <label className="mb-1 block py-4 px-2 text-sm font-medium text-black dark:text-white">
+                          Select Shipping Options (at least one)
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                          {shippingOption?.map((shipping, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2"
+                            >
+                              <Checkbox
+                                checked={!!selectedShippingOption.find((item) => item.name === shipping.name)}
+                                className="custom-checkbox"
+                                onChange={(e) => {
+                                  const checked = e.target.checked;
+
+                                  setSelectedShippingOption((prev) => {
+                                    if (checked) {
+                                      return [...prev, shipping];
+                                    } else if (prev.length > 1) {
+                                      return prev.filter((ship) => ship.name !== shipping.name);
+                                    }
+                                    return prev;
+                                  });
+                                }}
+                                id={`shipping-${index}`}
+                              />
+                              <label
+                                htmlFor={`shipping-${index}`}
+                                className="ml-2 text-black dark:text-white cursor-pointer"
+                              >
+                                {shipping.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  }
 
                   <div className="rounded-sm border border-stroke bg-white  dark:bg-black">
                     <div className="border-b border-stroke py-4 px-6 dark:border-strokedark">
@@ -1210,6 +1259,17 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                     </div>
                   </div>
 
+                  <div className="rounded-sm border border-stroke bg-white  dark:bg-black">
+                    <div className="border-b border-stroke py-4 px-6 dark:border-strokedark">
+                      <h3 className="font-medium text-black dark:text-white">
+                        Add Shipping
+                      </h3>
+                    </div>
+                    <div className="flex flex-col py-4 px-6">
+
+                    </div>
+                  </div>
+
                   <div className="rounded-sm border border-stroke bg-white  dark:bg-black ">
                     <div className="border-b border-stroke py-4 px-4 dark:border-strokedark">
                       <h3 className="font-medium text-black dark:text-white">
@@ -1296,7 +1356,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                                       className={`w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary `}
                                     />
                                     <Select
-                                    className={`w-full ml-1 rounded-lg border-[1.5px] border-stroke bg-transparent px-2 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary custom-color-selector h-[50px]`}
+                                      className={`w-full ml-1 rounded-lg border-[1.5px] border-stroke bg-transparent px-2 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary custom-color-selector h-[50px]`}
                                       onChange={(value) => {
                                         const updatedSizes = [...formik.values.sizes];
                                         if (updatedSizes[modelIndex]) {
@@ -1392,61 +1452,61 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                     </div>
 
                     {hoverImage && hoverImage.length > 0 ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-    {hoverImage.map((item: any, index) => {
-      return (
-        <div key={index}>
-          <div className="relative group rounded-lg overflow-hidden shadow-md bg-white transform transition-transform duration-300 hover:scale-105">
-            <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white rounded-full">
-              <RxCross2
-                className="cursor-pointer text-red-500 dark:text-red-700"
-                size={17}
-                onClick={() => {
-                  ImageRemoveHandler(
-                    item.public_id,
-                    sethoverImage,
-                  );
-                }}
-              />
-            </div>
-            <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
-              <FaCropSimple
-                className="text-white"
-                size={12}
-                onClick={() => handleCropClick(item.imageUrl)}
-              />
-            </div>
-            <Image
-              key={index}
-              className="object-cover w-full h-full md:h-32 dark:bg-black dark:shadow-lg"
-              width={100}
-              height={100}
-              loading='lazy'
-              src={item?.imageUrl ? item?.imageUrl : ''}
-              alt={`productImage-${index}`}
-            />
-          </div>
-          <input
-            className="border mt-2 w-full rounded-md border-stroke px-2 text-14 py-2 focus:border-primary active:border-primary outline-none"
-            placeholder="altText"
-            type="text"
-            name="altText"
-            value={item.altText}
-            onChange={(e) =>
-              handleImageAltText(
-                index,
-                String(e.target.value),
-                sethoverImage,
-              )
-            }
-          />
-        </div>
-      );
-    })}
-  </div>
-) : (
-  <Imageupload sethoverImage={sethoverImage} />
-)}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+                        {hoverImage.map((item: any, index) => {
+                          return (
+                            <div key={index}>
+                              <div className="relative group rounded-lg overflow-hidden shadow-md bg-white transform transition-transform duration-300 hover:scale-105">
+                                <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white rounded-full">
+                                  <RxCross2
+                                    className="cursor-pointer text-red-500 dark:text-red-700"
+                                    size={17}
+                                    onClick={() => {
+                                      ImageRemoveHandler(
+                                        item.public_id,
+                                        sethoverImage,
+                                      );
+                                    }}
+                                  />
+                                </div>
+                                <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
+                                  <FaCropSimple
+                                    className="text-white"
+                                    size={12}
+                                    onClick={() => handleCropClick(item.imageUrl)}
+                                  />
+                                </div>
+                                <Image
+                                  key={index}
+                                  className="object-cover w-full h-full md:h-32 dark:bg-black dark:shadow-lg"
+                                  width={100}
+                                  height={100}
+                                  loading='lazy'
+                                  src={item?.imageUrl ? item?.imageUrl : ''}
+                                  alt={`productImage-${index}`}
+                                />
+                              </div>
+                              <input
+                                className="border mt-2 w-full rounded-md border-stroke px-2 text-14 py-2 focus:border-primary active:border-primary outline-none"
+                                placeholder="altText"
+                                type="text"
+                                name="altText"
+                                value={item.altText}
+                                onChange={(e) =>
+                                  handleImageAltText(
+                                    index,
+                                    String(e.target.value),
+                                    sethoverImage,
+                                  )
+                                }
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <Imageupload sethoverImage={sethoverImage} />
+                    )}
                   </div>
 
                   <div className="rounded-sm border border-stroke bg-white  dark:bg-black">
@@ -1482,7 +1542,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                                     }}
                                   />
                                 </div>
-                                  <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
+                                <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
                                   <FaCropSimple
                                     className="text-white"
                                     size={12}
@@ -1499,31 +1559,31 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                                   alt={`productImage-${index}`}
                                 />
                               </div>
-                              
+
                               {isCropModalVisible && imageSrc && (
 
-                              <Modal
-                                title="Crop Image"
-                                open={isCropModalVisible}
-                                onOk={handleCropModalOk}
-                                onCancel={handleCropModalCancel}
-                                width={500}
-                              >
-                                {imageSrc && (
-                                  <ReactCrop crop={crop} onChange={setCrop} onComplete={onCropComplete}>
-                                    <Image
-                                      ref={imgRef}
-                                      src={imageSrc}
-                                      alt="Crop Image"
-                                      width={500}
-                                      height={300}
-                                      className='w-full h-full object-cover'
-                                      onLoad={onImageLoad}
-                                    />
-                                  </ReactCrop>
-                                )}
-                              </Modal>
-                                    )}
+                                <Modal
+                                  title="Crop Image"
+                                  open={isCropModalVisible}
+                                  onOk={handleCropModalOk}
+                                  onCancel={handleCropModalCancel}
+                                  width={500}
+                                >
+                                  {imageSrc && (
+                                    <ReactCrop crop={crop} onChange={setCrop} onComplete={onCropComplete}>
+                                      <Image
+                                        ref={imgRef}
+                                        src={imageSrc}
+                                        alt="Crop Image"
+                                        width={500}
+                                        height={300}
+                                        className='w-full h-full object-cover'
+                                        onLoad={onImageLoad}
+                                      />
+                                    </ReactCrop>
+                                  )}
+                                </Modal>
+                              )}
                               <input
                                 type="text"
                                 placeholder="Add Image Color"

@@ -1,5 +1,5 @@
 import React, { FormEventHandler, SetStateAction } from 'react';
-import { ICategory } from './types';
+import { ICategory, Shipping } from './types';
 
 React.FormEvent<HTMLFormElement>;
 export interface USRPROPS {
@@ -47,6 +47,7 @@ export interface Product {
   spacification: { specsDetails: string }[];
   discountPrice: string;
   category: string;
+  shippingOptions?: Shipping[];
 }
 
 export interface Category {

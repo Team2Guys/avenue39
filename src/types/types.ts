@@ -52,6 +52,7 @@ export interface IServiceItem {
   id: number;
   icon: StaticImageData;
   title: string;
+  description?: string
 }
 export interface MenuItem {
   categoryId?: number;
@@ -104,7 +105,8 @@ export interface IProduct {
   displayName?: string;
   sizeName?: string;
   colorName?: string;
-  custom_url?:string
+  custom_url?:string;
+  shippingOptions?: Shipping[];
 }
 interface Filter {
   heading: string;
@@ -148,7 +150,8 @@ export interface IProductAdd {
   Images_Alt_Text: string;
   sale_counter?: string;
   filters?: any[];
-  custom_url?:string
+  custom_url?:string;
+  shippingOptions: Shipping[]
 }
 
 export interface ISaleItems {
@@ -318,4 +321,12 @@ export interface RECORDS {
   totalRevenue: string;
   total_sub_categories: string;
   Total_abandant_order: string;
+}
+
+export interface Shipping {
+  icon: StaticImageData;
+  name: string;
+  description: string;
+  shippingFee: number;
+  otherEmiratesFee?: number;
 }

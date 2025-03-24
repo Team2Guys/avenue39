@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct, ProductImage, Sizes } from '@/types/types';
+import { IProduct, ProductImage, Shipping, Sizes } from '@/types/types';
 import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 
@@ -26,6 +26,8 @@ import Icondelivery from '../../../public/assets/icons/Group2037.svg';
 import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
 import dynamic from 'next/dynamic';
+import { formatPrice } from '@/config/HelperFunctions';
+import { Radio, RadioChangeEvent } from 'antd';
 const TabyTamra = dynamic(() => import('./TabyTamra'))
 
 
@@ -80,9 +82,23 @@ const ProductDetail = ({
     variant?: string;
     size?: string;
   }>({ variant: filterParam, size: sizeParam });
+  const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
   const Navigate = useRouter();
+  const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
 
-  const product = params? params: products?.find((product) => (product.custom_url || product?.name) === slug);
+
+  const handleShippingChange = (e: RadioChangeEvent) => {
+    const selected = product?.shippingOptions?.find((item) => item.name.toLowerCase() === e.target.value.name.toLowerCase());
+    setSelectedShipping(selected);
+  };
+
+  useEffect(() => {
+    if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
+      setSelectedShipping(product.shippingOptions[0]);
+    }
+  }, [product?.shippingOptions]);
+
+
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
     const filterName = generateSlug(item.name);
@@ -268,10 +284,7 @@ const ProductDetail = ({
     }
   }, [product, size, filter, uniqueSizes]);
 
-  function formatPrice(price: any) {
-    if (!price) return 0;
-    return price > 1000 ? price.toLocaleString('en-US') : price;
-  }
+
 
 
 
@@ -322,6 +335,7 @@ const ProductDetail = ({
     quantity: count,
     selectedSize: size,
     selectedfilter: filter,
+    selectedShipping: selectedShipping,
   };
 
   useEffect(() => {
@@ -520,11 +534,11 @@ const ProductDetail = ({
             AED{' '}
             {productDiscPrice > 0
               ? productDiscPrice > 1000
-                ? productDiscPrice.toLocaleString()
+                ? formatPrice(productDiscPrice.toLocaleString())
                 : formatPrice(productDiscPrice)
               : product?.discountPrice > 1000
-                ? product?.discountPrice.toLocaleString()
-                : product?.discountPrice}
+                ? formatPrice(product?.discountPrice.toLocaleString())
+                : formatPrice(product?.discountPrice)}
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">
@@ -654,56 +668,75 @@ const ProductDetail = ({
             </>
           )}
 
+        <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
+          <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
+            <button
+              onClick={onDecrement}
+              className="px-2 text-gray-600  "
+              disabled={count <= 1}
+            >
+              <HiMinusSm size={20} />
+            </button>
+            <span className="mx-2">{count}</span>
+            <button
+              onClick={onIncrement}
+              className="px-2 text-gray-600 disabled:text-gray-300"
+            >
+              <HiPlusSm size={20} />
+            </button>
+          </div>
+        </div>
 
-            <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
-              <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
-                <button
-                  onClick={onDecrement}
-                  className="px-2 text-gray-600  "
-                  disabled={count <= 1}
+        {product.shippingOptions && (
+          <div className='mb-2'>
+            <Radio.Group onChange={(e) => handleShippingChange(e)} value={selectedShipping} className='flex flex-wrap gap-2 justify-between'>
+              {product.shippingOptions.map((option, index) => (
+                <Radio
+                  key={index}
+                  value={option}
+                  className="font-helvetica custom-radio"
                 >
-                  <HiMinusSm size={20} />
-                </button>
-                <span className="mx-2">{count}</span>
-                <button
-                  onClick={onIncrement}
-                  className="px-2 text-gray-600 disabled:text-gray-300"
-                >
-                  <HiPlusSm size={20} />
-                </button>
-              </div>
-            </div>
-            {isOutStock ? null : (
-              <Button
-                className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
-                onClick={(e: any) => handleBuyNow(e)}
-              >
-                <CiShoppingCart size={20} /> BUY IT NOW
-              </Button>
-            )}
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
-              <Button
-                variant={'main'}
-                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) =>
-                  isOutStock ? () => { } : handleAddToCard(e)
-                }
-                disable={isOutStock}
-              >
-                {isOutStock ? 'Out of Stock' : 'Add to cart'}
-              </Button>
-              <Button
-                variant="outline"
-                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
-                  handleAddToWishlist(e)
-                }
-              >
-                Add to Wishlist
-              </Button>
-            </div>
-       
-    
+                  {/* {option.name} - {option.shippingFee > 0 ? `AED ${option.shippingFee.toLocaleString()}` : 'Free'} */}
+                  {option.name}
+                </Radio>
+              ))}
+            </Radio.Group>
+
+          </div>
+        )}
+
+
+        {isOutStock ? null : (
+          <Button
+            className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
+            onClick={(e: any) => handleBuyNow(e)}
+          >
+            <CiShoppingCart size={20} /> BUY IT NOW
+          </Button>
+        )}
+        <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
+          <Button
+            variant={'main'}
+            className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+            onClick={(e: any) =>
+              isOutStock ? () => { } : handleAddToCard(e)
+            }
+            disable={isOutStock}
+          >
+            {isOutStock ? 'Out of Stock' : 'Add to cart'}
+          </Button>
+          <Button
+            variant="outline"
+            className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              handleAddToWishlist(e)
+            }
+          >
+            Add to Wishlist
+          </Button>
+        </div>
+
+
         <div className="flex items-center justify-center relative mb-2">
           <span className="absolute left-0 w-1/6 border-t border-gray-300 hidden sm:block"></span>
           <p className="text-center px-3 w-full xsm:w-4/6 font-helvetica whitespace-nowrap font-semibold text-sm xs:text-base lg:text-xs xl:text-base">
@@ -712,7 +745,7 @@ const ProductDetail = ({
           <span className="absolute right-0 w-1/6 border-t border-gray-300 hidden xsm:block"></span>
         </div>
 
-<TabyTamra productPrice={productPrice} productDiscPrice={productDiscPrice} product={product}/>
+        <TabyTamra productPrice={productPrice} productDiscPrice={productDiscPrice} product={product} />
 
 
 

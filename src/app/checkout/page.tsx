@@ -1,7 +1,7 @@
 'use client';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
-import { checkout, selectOption } from '@/data/data';
+import { checkout, selectOption, shippingOption } from '@/data/data';
 import React, { Fragment, useEffect, useState } from 'react';
 import Coupan from '@/components/coupan-code';
 import CartItems from '@/components/cart/items';
@@ -31,26 +31,30 @@ import Image from 'next/image';
 import { ChangeUrlHandler } from '@/config/fetch';
 import { ProductPrice } from '@/styles/typo';
 import { product_refactor } from '@/config/HelperFunctions';
+import { Collapse } from 'antd';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+
+
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(50);
   const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
-  const [ totalPrice , setTotalPrice ] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0)
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [loading, setloading] = useState<boolean>(false);
   const [paymentkey, setPaymentKey] = useState('');
   const cartItems = useSelector((state: State) => state.cart.items);
   const [product, setProduct] = useState<CartItem>()
   const storedProduct = localStorage.getItem('buyNowProduct');
-
+  const { Panel } = Collapse;
 
 
   useEffect(() => {
     if (storedProduct) {
       const parsedProduct = JSON.parse(storedProduct);
       const price = getItemPrice(parsedProduct);
-        setTotalPrice(price);
-        setProduct(parsedProduct);
+      setTotalPrice(price);
+      setProduct(parsedProduct);
     }
   }, [storedProduct]);
 
@@ -77,8 +81,8 @@ const Checkout = () => {
         values.last_name === '' ||
         values.address === '' ||
         values.user_email === '' ||
-        values.country ==="" ||
-        values.city ==="" 
+        values.country === "" ||
+        values.city === ""
       ) {
         return showToast('warn', 'Please fill required filds😴');
       }
@@ -125,13 +129,13 @@ const Checkout = () => {
         updatedItem.selectedfilter = updatedFilter as any; // Keep only the properties you want
         console.log(price, discountPrice)
       }
-    
+
       return updatedItem;
     }));
-  
-    
+
+
     const updatedProduct = product && await product_refactor(product);
-    
+
     try {
       let totalPayment = product ? totalPrice : cartPrice + shippingfee;
       console.log(updatedProduct ? updatedProduct : cartItems_refactor)
@@ -148,7 +152,7 @@ const Checkout = () => {
             phone_number: Number(values.phone_number),
           },
         );
-    
+
         if (proceedPayment.status === 201) {
           // showToast('success', 'Order Placed Successfully');
           setPaymentKey(
@@ -164,7 +168,7 @@ const Checkout = () => {
         throw new Error('Something is wrong. Please check the input fields.');
       }
     } catch (error) {
-        return  error;
+      return error;
     } finally {
       setloading(false);
     }
@@ -194,7 +198,7 @@ const Checkout = () => {
           </div>
         ) : (
           <Container>
-            {product || cartItems && cartItems.length >0 ? (
+            {product || cartItems && cartItems.length > 0 ? (
               <form
                 onSubmit={formik.handleSubmit}
                 className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-5 xl:gap-10 mb-10 px-2"
@@ -268,9 +272,8 @@ const Checkout = () => {
                           Country/Region *
                         </Label>
                         <Select
-                          onValueChange={(value: any) =>
-                          {
-           
+                          onValueChange={(value: any) => {
+
                             formik.setFieldValue('country', value)
 
                           }
@@ -415,61 +418,61 @@ const Checkout = () => {
                                     )}
                                 </div>
                               </div>
-                              
+
                               <div className="hidden lg:flex items-center justify-between gap-2 xl:gap-6 w-full">
-                                  <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
-                                    {(product.selectedfilter || product.selectedSize) ?
-                                      <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                        <span>
+                                <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
+                                  {(product.selectedfilter || product.selectedSize) ?
+                                    <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                      <span>
+                                        AED{' '}
+                                        {
+                                          (
+                                            product.selectedSize?.price || product.selectedSize?.discountPrice
+                                              ? Number(product.selectedSize?.discountPrice || product.selectedSize.price)
+                                              : (product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                                ? Number(product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                                : (Number(product.selectedfilter?.price) === 0 && product.discountPrice)
+                                                  ? product.discountPrice
+                                                  : product.price
+
+                                                  * product.quantity
+                                          ).toLocaleString()
+
+
+                                        }
+                                      </span>
+                                    </ProductPrice>
+                                    : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
+                                      <>
+                                        <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
                                           AED{' '}
-                                          {
-                                       (
-                                        product.selectedSize?.price || product.selectedSize?.discountPrice 
-                                        ? Number(product.selectedSize?.discountPrice || product.selectedSize.price) 
-                                        : (product.selectedfilter?.discountPrice || product.selectedfilter?.price)
-                                        ? Number(product.selectedfilter?.discountPrice || product.selectedfilter?.price)
-                                       :(Number(product.selectedfilter?.price) === 0 && product.discountPrice)
-                                        ? product.discountPrice 
-                                        : product.price 
-                                        
-                                        * product.quantity
-                                      ).toLocaleString()
-                                      
-                                          
-                                          }
-                                        </span>
-                                      </ProductPrice>
-                                      : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
-                                        <>
-                                          <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
-                                            AED{' '}
-                                            <span>
-                                              {(product?.price * product.quantity).toLocaleString()}
-                                            </span>
-                                          </p>
-                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                                            AED{' '}
-                                            <span>
-                                              {(
-                                                product?.discountPrice * product.quantity
-                                              ).toLocaleString()}
-                                            </span>
-                                          </p>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                            AED{' '}
-                                            <span>
-                                              {(product?.price * product.quantity).toLocaleString()}
-                                            </span>
-                                          </p>
-                                        </>
-                                      )}
-                                    <div>
-                                    </div>
+                                          <span>
+                                            {(product?.price * product.quantity).toLocaleString()}
+                                          </span>
+                                        </p>
+                                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
+                                          AED{' '}
+                                          <span>
+                                            {(
+                                              product?.discountPrice * product.quantity
+                                            ).toLocaleString()}
+                                          </span>
+                                        </p>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                          AED{' '}
+                                          <span>
+                                            {(product?.price * product.quantity).toLocaleString()}
+                                          </span>
+                                        </p>
+                                      </>
+                                    )}
+                                  <div>
                                   </div>
                                 </div>
+                              </div>
                             </div>
                           </div>
                           : <CartItems isCartPage={true} isCheckoutPage={true} />}
@@ -523,6 +526,30 @@ const Checkout = () => {
                         account.
                       </p>
                     </div>
+                    {shippingOption &&
+                      <div className="bg-[#EEEEEE]">
+                        <Collapse accordion defaultActiveKey={["1"]} bordered={false} expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)} expandIconPosition="end" className="w-full bg-transparent custom-collapse">
+                          <Panel
+                            header={<span className="text-slate-500">Shipping Options</span>}
+                            key="1"
+                          >
+                            {shippingOption.map((shipping, index) => (
+                              <div key={index} className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+                                <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+                                <div>
+                                  <strong className="text-15 xs:text-20">{shipping.name}</strong>
+                                  <p className="text-11 xs:text-16">{shipping.description}</p>
+                                  <p className="text-11 xs:text-16">
+                                    <span>Delivery Cost:</span>  {shipping.shippingFee > 0 ? <><span>In Dubai </span><strong>AED {shipping.shippingFee}</strong></> : <strong>Free</strong>}<span>{shipping.otherEmiratesFee && <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>}</span>
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </Panel>
+                        </Collapse>
+                      </div>
+                    }
+
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

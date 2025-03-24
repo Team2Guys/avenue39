@@ -256,6 +256,15 @@ body[data-scroll-locked] {
   font-weight: 600 !important;
 }
 
+.custom-radio.ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+  border-color: var(--main);
+  background-color: var(--main);
+}
+
+.custom-radio.ant-radio-wrapper:hover .ant-radio-inner {
+  border-color: var(--main);
+}
+
 @media (min-height: 800px) and (max-height: 980px) and (min-width: 1024px) {
   .login-form-wrapper {
     padding: 20px !important;

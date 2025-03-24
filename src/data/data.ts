@@ -1,3 +1,7 @@
+import lightImg from '../../public/assets/icons/light1(traced).png'
+import deliveryImg from '../..//public/assets/icons/delivery-truck 2 (traced).png'
+import locationImg from '../..//public/assets/icons/location 1 (traced).png'
+
 export const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 export const aboutbreadcrumbs = [
   { label: 'Home', href: '/' },
@@ -44,7 +48,7 @@ export const TShippingPolicybredcrumbs = [
 
 import * as Yup from 'yup';
 import { Product, Category, SubCategory, FooterItem } from '@/types/interfaces';
-import { IProductAdd } from '@/types/types';
+import { IProductAdd, Shipping } from '@/types/types';
 
 export const validateForm = (formData: {
   fullName: string;
@@ -189,7 +193,8 @@ export const AddproductsinitialValues: IProductAdd = {
   Images_Alt_Text: '',
   sale_counter: '',
   filters: [],
-  custom_url:""
+  custom_url:"",
+  shippingOptions: []
 };
 
 export const options = [
@@ -560,3 +565,9 @@ export   const selectOption = [
     { title: 'Umm Al Quwain', fee: 100 },
     { title: 'Fujairah', fee: 100 },
   ];
+
+export const shippingOption: Shipping[] = [
+  {icon: locationImg, name: 'Standard Shipping' , description: 'Within 3-4 days delivery after placing the order.' , shippingFee: 0},
+  {icon: deliveryImg, name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150},
+  {icon: lightImg, name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150}
+]

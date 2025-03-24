@@ -89,6 +89,7 @@ const Card: React.FC<CardProps> = ({
       ?? ((isHomepage || slider) ? card?.sizes?.[0] : undefined),
     selectedfilter: card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)
       ?? ((isHomepage || slider) ? card?.filter?.[0]?.additionalInformation?.[0] : undefined),
+    selectedShipping: card?.shippingOptions?.[0] || null,
   };
 
   useEffect(() => {
@@ -318,15 +319,15 @@ const Card: React.FC<CardProps> = ({
                     {card.discountPrice > 0 ? (
                       <div className="flex gap-2 justify-center">
                         <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                          AED {new Intl.NumberFormat().format(card.price)}
+                          AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                         </p>
                         <p className="text-sm md:text-18 font-bold text-[#FF0000]">
-                          AED {new Intl.NumberFormat().format(card.discountPrice)}
+                          AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                         </p>
                       </div>
                     ) : (
                       <p className="text-sm md:text-18 font-bold">
-                        AED {new Intl.NumberFormat().format(card.price)}
+                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                       </p>
                     )}
                   </div>
@@ -514,15 +515,15 @@ const Card: React.FC<CardProps> = ({
                   {card.discountPrice ? (
                     <div className="flex gap-2 justify-center">
                       <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                        AED {card.price}
+                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                       </p>
                       <p className="text-sm md:text-18 font-bold text-[#FF0000]">
-                        AED {card.discountPrice}
+                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                       </p>
                     </div>
                   ) : (
                     <p className="text-sm md:text-18 font-bold">
-                      AED {card.price}
+                      AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                     </p>
                   )}
                   <p>{ }</p>
@@ -689,13 +690,13 @@ const Card: React.FC<CardProps> = ({
             </p>
             {card.discountPrice > 0 ? (
               <p className="text-md font-semibold mt-2">
-                AED{card.discountPrice}
+                AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                 <span className="line-through text-secondary-foreground ms-2">
-                  AED{card.price}
+                  AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                 </span>
               </p>
             ) : (
-              <p className="text-md font-semibold  pt-2">AED{card.price}</p>
+              <p className="text-md font-semibold  pt-2">AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}</p>
             )}
             <div className="flex gap-1 mt-2 items-center justify-center sm:justify-start h-8">
               {averageRating > 1 && renderStars({ star: averageRating })}

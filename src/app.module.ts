@@ -10,21 +10,26 @@ import { AdminModule } from './admin/admin.module';
 import { SalesRecordModule } from './sales_record/sales_record.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { PaymobModule } from './paymob/paymob.module';
-import { SketchfabModule } from './sketchfab/sketchfab.module';
 import { PaytabsModule } from './paytabs/paytabs.module';
 import { NewslettersModule } from './newsletters/newsletters.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { LoggerMiddleware } from '../src/common/logger.middleware';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-store';
+
 
 
 @Module({
   imports: [
+  
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'src', 'newsletters', 'templates'),
       serveRoot: '/templates',
+      
     }),
+ 
     UsersModule,
     PrismaModule,
     ProductsModule,
@@ -34,7 +39,6 @@ import { FileUploadModule } from './file-upload/file-upload.module';
     SalesRecordModule,
     SubcategoriesModule,
     PaymobModule,
-    SketchfabModule,
     PaytabsModule,
     NewslettersModule,
     FileUploadModule

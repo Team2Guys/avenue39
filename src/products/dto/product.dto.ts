@@ -94,6 +94,10 @@ export class AddProductDto {
   @IsOptional()
   @IsArray()
   spacification: [];
+  
+  @IsOptional()
+  @IsArray()
+  shippingOptions:[];
 
   @IsNotEmpty()
   @IsArray()

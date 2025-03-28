@@ -112,7 +112,7 @@ const Footer: React.FC = () => {
               <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
             )}
             {item.overlayText.map((line, index) => (
-              <p className=' leading-4 lg:leading-6' key={index}>{line}</p>
+              <div className='leading-4 lg:leading-6' key={index} dangerouslySetInnerHTML={{ __html: line }} />
             ))}
             {/* <p className="text-14">*(some exclusions apply)</p> */}
               </div>
@@ -241,7 +241,7 @@ const Footer: React.FC = () => {
             </li>
           </ul>
         </div>
-        <div className="flex flex-col md:items-center items-center xs:items-start text-center xs:text-start w-full xs:w-fit">
+        <div className="flex flex-col md:items-center items-center xs:items-start text-center xs:text-start w-full xs:w-fit lg:pr-14">
           <div className='flex flex-col md:items-center w-fit'>
           <h5 className="font-extralight font-helvetica w-full sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
@@ -307,7 +307,7 @@ const Footer: React.FC = () => {
       </Container>
       <div className="bg-main mb-7 md:mb-0 mt-10 py-3 px-4">
         <Container className="flex flex-wrap sm:flex-nowrap justify-center sm:justify-between items-center gap-x-8 gap-y-4 pb-10 md:pb-0 ">
-          <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticaligh">
+          <p className="text-white text-17 font-extralight text-center md:w-full font-Helveticalight">
             Copyright © 2025 avenue39 All rights reserved.
           </p>
           <div className=" text-black text-center w-fit mx-auto">

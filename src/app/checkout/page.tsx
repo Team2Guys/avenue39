@@ -51,6 +51,7 @@ const Checkout = () => {
 
   const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
+  const [minDate, setMinDate] = useState(new Date().toISOString().split('T')[0]);
 
 
   useEffect(() => {
@@ -78,10 +79,37 @@ const Checkout = () => {
     setSelectedShipping(selected);
   };
   useEffect(() => {
-    if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
-      setSelectedShipping(product.shippingOptions[Number(activeKey)]);
+    if (uniqueShipping) {
+      setSelectedShipping(uniqueShipping[Number(activeKey)]);
     }
-  }, [product?.shippingOptions]);
+  }, [uniqueShipping]);
+
+  useEffect(() => {
+    if (selectedShipping?.name === 'Next-day Shipping') {
+      const currentTime = new Date();
+      const currentHour = currentTime.getHours();
+      const currentMinutes = currentTime.getMinutes();
+  
+      if (selectedShipping?.name === 'Next-day Shipping') {
+        if (currentHour < 13 || (currentHour === 13 && currentMinutes === 0)) {
+          currentTime.setDate(currentTime.getDate() + 1);
+          setMinDate(currentTime.toISOString().split('T')[0]);
+        } else {
+          currentTime.setDate(currentTime.getDate() + 2);
+          setMinDate(currentTime.toISOString().split('T')[0]);
+        }
+      } else if (selectedShipping?.name === 'Lightning Shipping') {
+        if (currentHour < 13 || (currentHour === 13 && currentMinutes === 0)) {
+          setMinDate(new Date().toISOString().split('T')[0]);
+        } else {
+          currentTime.setDate(currentTime.getDate() + 1);
+          setMinDate(currentTime.toISOString().split('T')[0]);
+        }
+      } else {
+        setMinDate(new Date().toISOString().split('T')[0]);
+      }
+    }
+  }, [selectedShipping]);
 
   const initialValues = {
     first_name: '',
@@ -93,6 +121,7 @@ const Checkout = () => {
     city: '',
     phone_number: '',
     note: '',
+    shippingDate: ''
   };
 
   const formik = useFormik({
@@ -309,6 +338,16 @@ const Checkout = () => {
                       required
                       onChange={formik.handleChange}
                       value={formik.values.address}
+                    />
+                    <LabelInput
+                      label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
+                      id="shippingDate"
+                      name="shippingDate"
+                      type="date"
+                      required={selectedShipping?.name !== 'Standard Shipping'}
+                      onChange={formik.handleChange}
+                      value={formik.values.shippingDate}
+                      min={minDate}
                     />
                     <div className="flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2">
                       <div className="flex-1">

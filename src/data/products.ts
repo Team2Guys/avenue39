@@ -160,10 +160,10 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Tavola Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.webp',
       },
-      {
-        name: 'Moderno Bedside Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
-      },
+      // {
+      //   name: 'Moderno Bedside Table',
+      //   posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
+      // },
       {
         name: 'Ombra Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Ombra.webp',
@@ -195,14 +195,6 @@ export const homeProducts: IHomeProducts[] = [
       {
         name: 'Cipriani Floor Lamp',
         posterImageUrl: '/images/HomeProducts/Bedroom/Ciprianifinal.webp',
-      },
-      {
-        name: 'Unico Side Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/unico.png',
-      },
-      {
-        name: 'Unico Side Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Unico.png',
       },
     ],
   },

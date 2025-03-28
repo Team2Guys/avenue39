@@ -53,6 +53,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
   return (
     <>
       {subCategory?.map((item, index) => (
+        item.name !== 'TV Stands' &&
         <Link
           href={
             item.name === 'Accessories'

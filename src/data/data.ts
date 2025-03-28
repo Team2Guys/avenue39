@@ -499,7 +499,8 @@ export const Living = [
 ];
 export const Bedroom = [
   'Yakuba Side Table',
-  'Unico Side Table',
+  // 'Unico Side Table',
+  'Moderno Bedside Table',
   'Tavola Bedside Table',
   'Ombra Bedside Table',
   'Accenti Bedside Table',

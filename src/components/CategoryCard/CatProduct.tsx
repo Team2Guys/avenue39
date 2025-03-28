@@ -33,7 +33,7 @@ const CatProduct = ({
       <div className="relative px-2 md:px-8 border-2 border-[#707070] rounded-[40px] sm:rounded-[87px]">
         <Link
           href={`/${redirect}`}
-          className="absolute -top-3 xsm:-top-5 left-1/2 transform -translate-x-1/2 rounded-xl border bg-white xs:left-20 xs:transform-none hover:font-bold hover:bg-[#AFA183] hover:text-white"
+          className="absolute -top-3 xsm:-top-5 left-1/2 transform -translate-x-1/2 rounded-xl border bg-white xs:left-20 xs:transform-none hover:font-bold hover:bg-black text-[#AFA183] hover:text-white"
         >
           <h2 className="px-2 text-13 xsm:text-16 md:text-3xl font-Helveticalight capitalize text-center">
             {CategoryName}

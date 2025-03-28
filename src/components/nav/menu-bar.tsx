@@ -110,7 +110,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
                   >
                     <Link
                       href={`/${generateSlug(item.custom_url || item.name)}`}
-                      className={`relative menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-black dark:text-black flex flex-row gap-2 items-center cursor-pointer ${
+                      className={`relative menu-item text-13 lg:text-15 pb-2 tracking-wide uppercase whitespace-nowrap text-black dark:text-black flex flex-row gap-2 items-center cursor-pointer ${
                         isActiveMenu === (item?.custom_url?.toLowerCase() || item.name.toLowerCase()) ? 'linkactive' : 'link-underline'
                       }`}
                       onClick={() => handleClickMenu(item.name)}

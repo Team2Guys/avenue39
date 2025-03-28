@@ -182,7 +182,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Yakuba Side Table',
-        posterImageUrl: '/images/HomeProducts/Bedroom/Yakuba.webp',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Yakuba.png',
       },
       {
         name: 'Sexton Floor Lamp',

@@ -54,23 +54,58 @@ export const productsFindHandler = async (
   slug: string[],
   url: string,
   subcategory?: string,
+  newparams?:any
 ) => {
   const productName = slug[2];
   const products = await fetchProducts();
 
   const findProduct = products.find((item: any) => {
     return (
-      generateSlug(item.custom_url || item.name) === (subcategory ? subcategory : productName)
+      generateSlug(item.custom_url || item.name) === (subcategory && subcategory!=="_" ? subcategory : productName)
     );
   });
+
 
   if (!findProduct) {
     notFound()
   }
+  const { filter, variant, size } = newparams;
 
-  let fullurl = `${url}${slug[0]}/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
+// Initialize queryParams array to collect query parameters
+let queryParams = [];
 
-  console.log(fullurl, "urls")
+// Add filter parameter if it exists
+if (filter) {
+  queryParams.push(`filter=${filter}`);
+}
+
+// Add variant parameter if it exists
+if (variant) {
+  queryParams.push(`variant=${variant}`);
+}
+
+// Add size parameter if it exists (added based on your example URL)
+if (size) {
+  queryParams.push(`size=${size}`);
+}
+
+// Join the query parameters with '&'
+let queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
+// Initialize the base URL
+let fullurl = `${url}${slug[0]}`;
+
+// Handle the subcategory, ensuring it doesn’t include an underscore ("_")
+if (subcategory && subcategory !== "_") {
+  fullurl = `${url}${slug[0]}/${subcategory}`;
+} else {
+  fullurl += `/${slug[1]}/${generateSlug(findProduct?.custom_url || findProduct?.name)}`;
+}
+
+// Append the query string to the final URL
+fullurl += queryString;
+
+  
   let images = findProduct.posterImageUrl || 'images';
   let alttext = findProduct.posterImageAltText || 'Alternative Text';
   let NewImage = [
@@ -80,6 +115,7 @@ export const productsFindHandler = async (
     },
   ];
 
+  console.log(findProduct?.Meta_Title, "meta title")
   let title = findProduct?.Meta_Title || 'Avenue39';
   let description = findProduct?.Meta_Description || 'Welcome to Avenue39';
   let canonical = findProduct?.Canonical_Tag;
@@ -88,7 +124,7 @@ export const productsFindHandler = async (
     title: title,
     description: description,
     openGraph: {
-      title: fullurl,
+      title: title,
       description: description,
       url: fullurl,
       images: NewImage,
@@ -107,7 +143,7 @@ export const productsFindHandler = async (
   };
 };
 
-export const subCategory = async (slug: string[], url: string) => {
+export const subCategory = async (slug: string[], url: string,newparams?:any) => {
   let subcategoryName = slug[1];
   let category = slug[0];
   const subCategories = await fetchSubCategories();
@@ -129,10 +165,15 @@ export const subCategory = async (slug: string[], url: string) => {
     return isNameMatch && belongsToCategory;
   });
 
+
   if (!findSubCategory) {
-    return productsFindHandler(slug, url, subcategoryName);
+    return productsFindHandler(slug, url, subcategoryName, newparams);
   }
-  let fullurl = url;
+
+
+  let fullurl = url+category+"/"+subcategoryName;
+
+  console.log(fullurl, "full urls")
 
   let images = findSubCategory.posterImageUrl || 'images';
   let alttext = findSubCategory.Images_Alt_Text || 'Alternative Text';

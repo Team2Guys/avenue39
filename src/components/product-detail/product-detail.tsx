@@ -2,41 +2,21 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct, IReview, ProductImage, Sizes } from '@/types/types';
+import { IProduct, ProductImage, Shipping, Sizes } from '@/types/types';
 import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogOverlay,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog';
+
 import Image from 'next/image';
-import tabbyLogo from '@icons/tabby-logo-charcoal.png';
-import tamaraLogo from '@icons/EN0-full-logo-black.png';
-import {
-  tabbyfeature,
-  tabbyhowitwork,
-  tabbypayicon,
-  tamarafeature,
-  tamaralist,
-  tamarawhy,
-} from '@/data';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '@/redux/slices/cart';
 import { Dispatch } from 'redux';
 import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
 import { CartSize } from '@/redux/slices/cart/types';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { fetchReviews } from '@/config/fetch';
 import {
-  calculateRatingsPercentage,
   generateSlug,
   getProductStock,
-  renderStars,
 } from '@/config';
 import { paymentIcons } from '@/data/products';
 import { ProductDetailSkeleton } from './skelton';
@@ -45,6 +25,12 @@ import Icontime from '../../../public/assets/icons/Group2038.svg';
 import Icondelivery from '../../../public/assets/icons/Group2037.svg';
 import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
+import dynamic from 'next/dynamic';
+import { formatPrice } from '@/config/HelperFunctions';
+import { Collapse } from 'antd';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+const TabyTamra = dynamic(() => import('./TabyTamra'))
+
 
 const ProductDetail = ({
   params,
@@ -56,7 +42,7 @@ const ProductDetail = ({
   filterParam,
   sizeParam,
   uniqueSizes,
-  onclickDesc
+
 }: {
   params: IProduct;
   isZoom?: Boolean;
@@ -67,7 +53,6 @@ const ProductDetail = ({
   filterParam?: string;
   sizeParam?: string;
   uniqueSizes?: any;
-  onclickDesc?: any
 }) => {
   const truncateText = (text: any, limit: any) => {
     return text.length > limit ? text.slice(0, limit) + '...' : text;
@@ -98,13 +83,23 @@ const ProductDetail = ({
     variant?: string;
     size?: string;
   }>({ variant: filterParam, size: sizeParam });
+  const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
+  const [activeKey, setActiveKey] = useState<string | string[]>('0');
   const Navigate = useRouter();
-  const product = params
-    ? params
-    : products?.find(
-      (product) => (product.custom_url || product?.name) === slug,
-    );
-    console.log(product,'product availableFilters', availableFilters ,size)
+  const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
+
+
+  const handleCollapseChange = (key: string | string[]) => {
+    setActiveKey(key);
+    const selected = product?.shippingOptions?.[Number(key)];
+      setSelectedShipping(selected);
+  };
+  useEffect(() => {
+    if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
+      setSelectedShipping(product.shippingOptions[Number(activeKey)]);
+    }
+  }, [product?.shippingOptions]);
+
 
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
@@ -291,11 +286,33 @@ const ProductDetail = ({
     }
   }, [product, size, filter, uniqueSizes]);
 
-  function formatPrice(price: any) {
-    if (!price) return 0;
-    return price > 1000 ? price.toLocaleString('en-US') : price;
-  }
 
+  const itemsCollapse = product?.shippingOptions?.map((shipping, index) => ({
+    key: index.toString(),
+    label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+    children: (
+      <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+        <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+        <div>
+          <strong className="text-15 xs:text-20">{shipping.name}</strong>
+          <p className="text-11 xs:text-16">{shipping.description}</p>
+          <p className="text-11 xs:text-16">
+            <span>Delivery Cost: </span>
+            {shipping.shippingFee > 0 ? (
+              <>
+                <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+              </>
+            ) : (
+              <strong>Free</strong>
+            )}
+            {shipping.otherEmiratesFee && (
+              <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
+            )}
+          </p>
+        </div>
+      </div>
+    ),
+  }));
 
 
   useEffect(() => {
@@ -328,23 +345,24 @@ const ProductDetail = ({
     }
   }, [product]);
 
-  const { data: reviews = [] } = useQuery<IReview[], Error>({
-    queryKey: ['reviews'],
-    queryFn: fetchReviews,
-  });
-  const productId = product?.id;
+  // const { data: reviews = [] } = useQuery<IReview[], Error>({
+  //   queryKey: ['reviews'],
+  //   queryFn: fetchReviews,
+  // });
+  // const productId = product?.id;
 
-  const filteredReviews = Array.isArray(reviews)
-    ? reviews.filter((review) => review.productId === productId)
-    : [];
+  // const filteredReviews = Array.isArray(reviews)
+  //   ? reviews.filter((review) => review.productId === productId)
+  //   : [];
 
-  const { averageRating, productReviews } =
-    calculateRatingsPercentage(filteredReviews);
+  // const { averageRating, productReviews } =
+  //   calculateRatingsPercentage(filteredReviews);
   const itemToAdd: any = {
     ...product,
     quantity: count,
     selectedSize: size,
     selectedfilter: filter,
+    selectedShipping: selectedShipping,
   };
 
   useEffect(() => {
@@ -374,13 +392,13 @@ const ProductDetail = ({
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
+    localStorage.removeItem('buyNowProduct')
     const existingCartItem = cartItems.find(
       (item: any) =>
         item.id === product?.id &&
         item.selectedSize?.name === itemToAdd.selectedSize?.name &&
         item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
     );
-    console.log(existingCartItem, 'cartItems');
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
@@ -399,34 +417,6 @@ const ProductDetail = ({
     dispatch(openDrawer());
   };
 
-  // const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
-  //   e.stopPropagation();
-  //   const existingCartItem = cartItems.find(
-  //     (item: any) =>
-  //       item.id === product?.id &&
-  //       item.selectedSize?.name === itemToAdd.selectedSize?.name &&
-  //       item.selectedfilter?.name === itemToAdd.selectedfilter?.name,
-  //   );
-  //   console.log(existingCartItem, 'cartItems');
-  //   if (!existingCartItem) {
-  //     dispatch(addItem(itemToAdd));
-  //     dispatch(openDrawer());
-  //     Navigate.push('/checkout');
-  //     return;
-  //   }
-
-  //   const currentQuantity = existingCartItem?.quantity || 0;
-  //   const newQuantity = currentQuantity + count;
-  //   if (newQuantity > totalStock) {
-  //     toast.error(
-  //       `Only ${totalStock} items are in stock. You cannot add more than that.`,
-  //     );
-  //     return;
-  //   }
-  //   dispatch(addItem(itemToAdd));
-  //   Navigate.push('/checkout');
-  // };
-
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
 
@@ -443,7 +433,6 @@ const ProductDetail = ({
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    // console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     if (!Array.isArray(existingWishlist)) {
       existingWishlist = [];
@@ -463,19 +452,9 @@ const ProductDetail = ({
       window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
-      const variationQuantity =
-        itemToAdd.selectedSize?.stock ||
-        itemToAdd.selectedfilter?.stock ||
-        itemToAdd.stock;
+
       const addedQuantity = existingWishlistItem.quantity + count;
-      console.log(
-        'Item already exists in wishlist:',
-        variationQuantity,
-        addedQuantity,
-        size,
-        itemToAdd.selectedSize,
-        existingWishlistItem,
-      );
+
       if (addedQuantity > totalStock) {
         toast.error(
           `Only ${totalStock} items are in stock. You cannot add more than that.`,
@@ -497,14 +476,6 @@ const ProductDetail = ({
     }
   };
 
-  const paymentLabels = ['Today', 'In 1 month', 'In 2 months', 'In 3 months'];
-
-  const installmentAmount =
-    productPrice > 0 || productDiscPrice > 0
-      ? productDiscPrice > 0
-        ? productDiscPrice / 4
-        : productPrice / 4
-      : (product?.discountPrice ? product?.discountPrice : product?.price) / 4;
 
   return (
     <div
@@ -566,7 +537,7 @@ const ProductDetail = ({
         <h1 className="font-helvetica text-bold text-[26px] text-primary">
           {product?.name}
         </h1>
-        {averageRating > 1 && (
+        {/* {averageRating > 1 && (
           <>
             <div className="flex gap-2 items-center font-helvetica">
               <span className="flex items-center">
@@ -577,7 +548,7 @@ const ProductDetail = ({
               </span>
             </div>
           </>
-        )}
+        )} */}
 
         {product?.discountPrice > 0 || productDiscPrice > 0 ? (
           <ProductPrice className="flex items-center gap-2">
@@ -590,11 +561,11 @@ const ProductDetail = ({
             AED{' '}
             {productDiscPrice > 0
               ? productDiscPrice > 1000
-                ? productDiscPrice.toLocaleString()
+                ? formatPrice(productDiscPrice.toLocaleString())
                 : formatPrice(productDiscPrice)
               : product?.discountPrice > 1000
-                ? product?.discountPrice.toLocaleString()
-                : product?.discountPrice}
+                ? formatPrice(product?.discountPrice.toLocaleString())
+                : formatPrice(product?.discountPrice)}
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">
@@ -605,29 +576,33 @@ const ProductDetail = ({
           </ProductPrice>
         )}
 
+
+
         <p className="text-lightdark text-14 tracking-wide leading-6 font-helvetica">
-          {isZoom ? <>{truncateText(product?.description, 120)}<span className='underline font-medium cursor-pointer text-nowrap' onClick={onclickDesc}>View More</span></> :
-            <>{isExpanded ? (
-              <>
-                {product.description}
-                <span
-                  className="underline font-medium cursor-pointer text-nowrap"
-                  onClick={() => setIsExpanded(false)}
-                >
-                  View Less
-                </span>
-              </>
-            ) : (
-              <>
-                {truncateText(product.description, 120)}
-                <span
-                  className="underline font-medium cursor-pointer text-nowrap"
-                  onClick={() => setIsExpanded(true)}
-                >
-                  View More
-                </span>
-              </>
-            )}</>}
+
+          {isExpanded ? (
+            <>
+              {product.description}
+              <span
+                className="underline font-medium cursor-pointer text-nowrap"
+                onClick={() => setIsExpanded(false)}
+              >
+                View Less
+              </span>
+            </>
+          ) : (
+            <>
+              {truncateText(product.description, 120)}
+              <span
+                className="underline font-medium cursor-pointer text-nowrap"
+                onClick={() => setIsExpanded(true)}
+              >
+                View More
+              </span>
+            </>
+          )}
+
+
         </p>
 
         <div>
@@ -676,7 +651,7 @@ const ProductDetail = ({
                       (img) => img?.color === item?.name && (
                         img.size === (size?.name || '') ||
                         img.size === undefined
-                      )                      
+                      )
                     );
                     if (!image) return null;
                     return (
@@ -719,57 +694,73 @@ const ProductDetail = ({
               </div>
             </>
           )}
-        {
-          <>
-            <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
-              <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
-                <button
-                  onClick={onDecrement}
-                  className="px-2 text-gray-600  "
-                  disabled={count <= 1}
-                >
-                  <HiMinusSm size={20} />
-                </button>
-                <span className="mx-2">{count}</span>
-                <button
-                  onClick={onIncrement}
-                  className="px-2 text-gray-600 disabled:text-gray-300"
-                >
-                  <HiPlusSm size={20} />
-                </button>
-              </div>
-            </div>
-            {isOutStock ? null : (
-              <Button
-                className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
-                onClick={(e: any) => handleBuyNow(e)}
-              >
-                <CiShoppingCart size={20} /> BUY IT NOW
-              </Button>
-            )}
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
-              <Button
-                variant={'main'}
-                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) =>
-                  isOutStock ? () => { } : handleAddToCard(e)
-                }
-                disable={isOutStock}
-              >
-                {isOutStock ? 'Out of Stock' : 'Add to cart'}
-              </Button>
-              <Button
-                variant="outline"
-                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
-                  handleAddToWishlist(e)
-                }
-              >
-                Add to Wishlist
-              </Button>
-            </div>
-          </>
+
+        <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
+          <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
+            <button
+              onClick={onDecrement}
+              className="px-2 text-gray-600  "
+              disabled={count <= 1}
+            >
+              <HiMinusSm size={20} />
+            </button>
+            <span className="mx-2">{count}</span>
+            <button
+              onClick={onIncrement}
+              className="px-2 text-gray-600 disabled:text-gray-300"
+            >
+              <HiPlusSm size={20} />
+            </button>
+          </div>
+        </div>
+
+        {product.shippingOptions &&
+          <div className="bg-[#EEEEEE]">
+
+            <Collapse
+              accordion
+              activeKey={activeKey}
+              onChange={handleCollapseChange} 
+              bordered={false}
+              expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+              expandIconPosition="end"
+              className="w-full bg-transparent custom-collapse"
+              items={itemsCollapse}
+            />
+          </div>
         }
+
+
+        {isOutStock ? null : (
+          <Button
+            className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
+            onClick={(e: any) => handleBuyNow(e)}
+          >
+            <CiShoppingCart size={20} /> BUY IT NOW
+          </Button>
+        )}
+        <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
+          <Button
+            variant={'main'}
+            className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+            onClick={(e: any) =>
+              isOutStock ? () => { } : handleAddToCard(e)
+            }
+            disable={isOutStock}
+          >
+            {isOutStock ? 'Out of Stock' : 'Add to cart'}
+          </Button>
+          <Button
+            variant="outline"
+            className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              handleAddToWishlist(e)
+            }
+          >
+            Add to Wishlist
+          </Button>
+        </div>
+
 
         <div className="flex items-center justify-center relative mb-2">
           <span className="absolute left-0 w-1/6 border-t border-gray-300 hidden sm:block"></span>
@@ -779,201 +770,10 @@ const ProductDetail = ({
           <span className="absolute right-0 w-1/6 border-t border-gray-300 hidden xsm:block"></span>
         </div>
 
-        <div className="flex gap-2 mb-2 ">
-          <div className="relative w-1/2 border-4 border-[#00FFBC] p-2 py-3 xsm:py-4 rounded-lg shadow">
-            <span className="font-helvetica absolute -top-3 left-2 bg-[#00FFBC] text-primary px-2 py-1 rounded-lg text-xs font-extrabold">
-              tabby
-            </span>
-            <p className="text-10 xsm:text-12 font-helvetica">
-              Pay 4 interest-free payments of AED { }
-              {productPrice > 0 || productDiscPrice > 0
-                ? productDiscPrice > 0
-                  ? productDiscPrice / 4
-                  : productPrice / 4
-                : (
-                  (product?.discountPrice
-                    ? product?.discountPrice
-                    : product?.price) / 4
-                ).toFixed(1)}{' '}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <span className="text-red-600 underline cursor-pointer">
-                    Learn more
-                  </span>
-                </DialogTrigger>
+        <TabyTamra productPrice={productPrice} productDiscPrice={productDiscPrice} product={product} />
 
-                <DialogOverlay className="bg-white/80" />
-                <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
-                  <DialogHeader>
-                    <DialogTitle className="text-xl xs:text-xl font-helvetica sm:text-2xl font-bold tracking-wide border-b-2 pb-3 sm:ps-5 md:ps-10 pe-10">
-                      Easy Monthly Installments
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="py-4 ps-5 xs:ps-10 md:ps-20 pe-4 me-4 xs:me-7 max-h-[80vh] overflow-y-auto custom-scroll">
-                    <Image src={tabbyLogo} alt="tabby logo" />
-                    <h2 className="text-2xl xs:text-3xl  font-bold mt-8 leading-10 xs:leading-tight font-helvetica">
-                      <span className="rounded-full bg-[#3BFFC1] px-4 py-0 text-nowrap">
-                        Shop now,
-                      </span>
-                      <br />
-                      <span className="text-[#3BFFC1] text-outline-border text-4xl  tracking-wider">
-                        pay over time.
-                      </span>
-                    </h2>
-                    <ul className='mt-5 font-bold font-helvetica text-lg sm:text-xl md:text-2xl list-["–"] list-inside leading-normal md:leading-normal'>
-                      {tabbyfeature.map((item) => (
-                        <li key={item.id}>{item.para}</li>
-                      ))}
-                    </ul>
-                    <div className="mt-5">
-                      <h3 className="font-bold text-2xl sm:text-4xl font-helvetica">
-                        How it works
-                      </h3>
-                      <ul className="font-medium text-base xs:text-lg md:text-xl mt-8 md:leading-relaxed">
-                        {tabbyhowitwork.map((item) => (
-                          <li
-                            className="flex items-center gap-2 font-helvetica"
-                            key={item.id}
-                          >
-                            <span className="rounded-full bg-lightbackground min-w-10 h-10 flex items-center justify-center">
-                              {item.id}
-                            </span>
-                            <span className="w-full">{item.para}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="flex justify-end gap-2 mt-10 px-6">
-                      {tabbypayicon.map((item, index) => (
-                        <Image
-                          src={item.imageUrl}
-                          alt="master"
-                          className="w-20 h-20 object-contain"
-                          key={index}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </p>
 
-            <div className="flex flex-wrap  justify-evenly gap-2 lg:gap-1 xl:gap-2 mt-2">
-              {paymentLabels.map((label, index) => (
-                <div
-                  key={index}
-                  className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
-                >
-                  <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
-                  <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative w-1/2 border-4 border-[#D47C84] p-2 py-3 xsm:py-4 rounded-lg shadow">
-            <span className="font-helvetica absolute -top-3 left-2 bg-gradient-to-r from-blue-300 via-orange-300 to-pink-300 text-primary font-extrabold px-2 py-1 rounded-lg text-xs">
-              tamara
-            </span>
-            <p className="text-10 xsm:text-12 font-helvetica">
-              Pay 4 interest-free payments of AED{' '}
-              {productPrice > 0 || productDiscPrice > 0
-                ? productDiscPrice > 0
-                  ? productDiscPrice / 4
-                  : productPrice / 4
-                : (
-                  (product?.discountPrice
-                    ? product?.discountPrice
-                    : product?.price) / 4
-                ).toFixed(1)}{' '}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <span className="text-red-600 underline cursor-pointer">
-                    Learn more
-                  </span>
-                </DialogTrigger>
 
-                <DialogOverlay className="bg-white/80" />
-                <DialogContent className="sm:max-w-[80%] lg:max-w-[60%] bg-white px-0 sm:rounded-none border border-black shadow-none gap-0 pb-0">
-                  <DialogHeader>
-                    <DialogTitle className="text-xl xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-wide border-b-2 pb-3 sm:ps-5 md:ps-10 pe-10">
-                      Easy Monthly Installments
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="py-8 px-5 xs:px-10 md:px-20 me-4 xs:me-7 max-h-[80vh] overflow-y-auto custom-scroll">
-                    <div className="text-center">
-                      <Image
-                        src={tamaraLogo}
-                        alt="tamara logo"
-                        className="mx-auto"
-                      />
-                    </div>
-                    <h2 className="text-center font-bold text-4xl mt-8">
-                      Pay easier with Tamara
-                    </h2>
-                    <div className="px-4 py-2 bg-gradient-to-r from-orange-300 via-blue-300 to-pink-300 mt-8 rounded-[70px]">
-                      <div className="bg-gradient-to-r from-orange-100 via-blue-100 to-pink-100 pb-4 pt-2 px-8 rounded-[70px] flex flex-col gap-4">
-                        <div className="w-10/12 mx-auto">
-                          {tamarafeature.map((item) => (
-                            <div
-                              className="flex justify-between items-center py-2"
-                              key={item.id}
-                            >
-                              <div>
-                                <h3 className="font-bold text-xl">
-                                  {item.title}
-                                </h3>
-                                <p className="text-md font-light mt-2 text-nowrap">
-                                  {item.para}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-5 px-5 xs:px-10 2xl:px-20">
-                      <h3 className="font-bold text-2xl">Why Tamara?</h3>
-                      <div className="flex items-center flex-wrap 2xl:flex-nowrap justify-center 2xl:justify-between gap-4 pt-6">
-                        {tamarawhy.map((item) => (
-                          <div
-                            className="w-48 h-9 rounded-2xl bg-primary text-white flex items-center justify-center text-20 font-semibold"
-                            key={item.id}
-                          >
-                            {item.para}
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-5">
-                        <ul className="font-16 font-normal">
-                          {tamaralist.map((item) => (
-                            <li
-                              className="flex items-center gap-2"
-                              key={item.id}
-                            >
-                              <span>({item.id})</span>
-                              <span>{item.para}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </p>
-            <div className="flex flex-wrap  justify-evenly gap-2 lg:gap-1 xl:gap-2 mt-2">
-              {paymentLabels.map((label, index) => (
-                <div
-                  key={index}
-                  className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
-                >
-                  <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
-                  <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
         <div className="flex justify-center space-x-4">
           {paymentIcons.map((icon, index) => (
             <div key={index} className="w-14 h-auto p-1">
@@ -996,7 +796,7 @@ const ProductDetail = ({
           <p className='font-helvetica'>Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

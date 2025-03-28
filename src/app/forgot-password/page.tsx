@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import ForgotForm from '@/components/register/forgot-form';
-import Services from '@/components/services/services';
+import dynamic from 'next/dynamic'
+const ForgotForm = dynamic(() => import('@/components/register/forgot-form'))
+const Services = dynamic(() => import('@/components/services/services'))
 
 const ForgotPasswordPage = () => {
   return (

@@ -2,11 +2,9 @@
 const nextConfig = {
   images: {
     domains: [
-      'furniturezone.pk',
-      'example.com',
       'res.cloudinary.com',
-      'unsplash.com',
-      "www.facebook.com"
+      'www.facebook.com'
+     
     ],
    
   },

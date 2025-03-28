@@ -89,6 +89,7 @@ const Card: React.FC<CardProps> = ({
       ?? ((isHomepage || slider) ? card?.sizes?.[0] : undefined),
     selectedfilter: card?.filter?.[0]?.additionalInformation?.find((size) => size.name === card.colorName)
       ?? ((isHomepage || slider) ? card?.filter?.[0]?.additionalInformation?.[0] : undefined),
+    selectedShipping: card?.shippingOptions?.[0] || null,
   };
 
   useEffect(() => {
@@ -125,16 +126,14 @@ const Card: React.FC<CardProps> = ({
     if (card) {
       const updatedDisplayName = variationName({ product: card });
       setDisplayName(updatedDisplayName);
-      console.log(card,'updatedDisplayName')
     }
   }, [card]);
 
   const handleAddToCard = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(itemToAdd, 'itemToAdd')
+    localStorage.removeItem('buyNowProduct')
     e.stopPropagation();
     const existingCartItem = cartItems.find((item: any) => item.id === card?.id && item.selectedSize?.name === itemToAdd.selectedSize?.name &&
       item.selectedfilter?.name === itemToAdd.selectedfilter?.name)
-    console.log(existingCartItem, "cartItems")
     if (!existingCartItem) {
       dispatch(addItem(itemToAdd));
       dispatch(openDrawer());
@@ -153,7 +152,6 @@ const Card: React.FC<CardProps> = ({
 
   const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     if (!Array.isArray(existingWishlist)) {
       existingWishlist = [];
@@ -168,7 +166,6 @@ const Card: React.FC<CardProps> = ({
     if (!existingWishlistItem) {
       existingWishlist.push(itemToAdd);
       localStorage.setItem('wishlist', JSON.stringify(existingWishlist));
-      console.log('Added to wishlist:', itemToAdd);
       window.dispatchEvent(new Event('WishlistChanged'));
       toast.success('Product added to Wishlist successfully!');
     } else {
@@ -190,7 +187,6 @@ const Card: React.FC<CardProps> = ({
       toast.success('Product quantity updated in Wishlist.');
     }
   };
-  window.addEventListener('WishlistChanged', () => console.log('WishlistChanged event received'));
 
   if (!card) {
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
@@ -323,15 +319,15 @@ const Card: React.FC<CardProps> = ({
                     {card.discountPrice > 0 ? (
                       <div className="flex gap-2 justify-center">
                         <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                          AED {new Intl.NumberFormat().format(card.price)}
+                          AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                         </p>
                         <p className="text-sm md:text-18 font-bold text-[#FF0000]">
-                          AED {new Intl.NumberFormat().format(card.discountPrice)}
+                          AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                         </p>
                       </div>
                     ) : (
                       <p className="text-sm md:text-18 font-bold">
-                        AED {new Intl.NumberFormat().format(card.price)}
+                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                       </p>
                     )}
                   </div>
@@ -346,6 +342,8 @@ const Card: React.FC<CardProps> = ({
                       onClick={(e) => handleEventProbation(e)}
                     >
                       <button
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
                         className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                         onClick={(e) => handleAddToCard(e)}
                       >
@@ -369,7 +367,9 @@ const Card: React.FC<CardProps> = ({
                       <Dialog >
                         <DialogTrigger className="w-full">
                           <button
-                            className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
+                            aria-haspopup="dialog"
+                            aria-expanded="false"
+                            className={`my-1 h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -425,7 +425,7 @@ const Card: React.FC<CardProps> = ({
                           </button>
                         </DialogTrigger>
                         <DialogOverlay />
-                        <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl border  border-red-500 shadow-none gap-0 pb-0">
+                        <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl shadow-none gap-0 pb-0">
 
                           <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                             <ProductDetail
@@ -515,15 +515,15 @@ const Card: React.FC<CardProps> = ({
                   {card.discountPrice ? (
                     <div className="flex gap-2 justify-center">
                       <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                        AED {card.price}
+                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                       </p>
                       <p className="text-sm md:text-18 font-bold text-[#FF0000]">
-                        AED {card.discountPrice}
+                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                       </p>
                     </div>
                   ) : (
                     <p className="text-sm md:text-18 font-bold">
-                      AED {card.price}
+                      AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                     </p>
                   )}
                   <p>{ }</p>
@@ -536,11 +536,12 @@ const Card: React.FC<CardProps> = ({
                 {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                   <BsCartX size={18} /> Out of Stock</button> : (
                   <div
-                    className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full mb-4 flex-wrap xl:flex-nowrap'}`}
+                    className={`text-center w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
                     onClick={(e) => handleEventProbation(e)}
                   >
+
                     <button
-                      className={` my-1 w-full h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
+                      className={`  my-1  h-8 text-primary border text-12 font-medium border-primary cardBtn-addToCart rounded-full flex items-center justify-center whitespace-nowrap gap-2 hover:bg-primary hover:text-white ${slider ? 'px-6' : 'px-2'}`}
                       onClick={(e) => handleAddToCard(e)}
                     >
                       <svg
@@ -561,9 +562,11 @@ const Card: React.FC<CardProps> = ({
                     </button>
 
                     <Dialog>
-                      <DialogTrigger className="w-full">
+                      <DialogTrigger className="w-fit align-middle">
                         <button
-                          className={`my-1 w-full h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          className={`my-1  h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -622,7 +625,7 @@ const Card: React.FC<CardProps> = ({
 
 
                       <DialogContent className="max-w-[1400px]  w-11/12 bg-white px-0 sm:rounded-3xl   shadow-none gap-0 pb-0" >
-
+                        <DialogTitle>Diagloge</DialogTitle>
                         <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                           <ProductDetail
                             params={card}
@@ -637,6 +640,8 @@ const Card: React.FC<CardProps> = ({
                         </div>
                       </DialogContent>
                     </Dialog>
+
+
                   </div>
                 )}
               </div>
@@ -685,13 +690,13 @@ const Card: React.FC<CardProps> = ({
             </p>
             {card.discountPrice > 0 ? (
               <p className="text-md font-semibold mt-2">
-                AED{card.discountPrice}
+                AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                 <span className="line-through text-secondary-foreground ms-2">
-                  AED{card.price}
+                  AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                 </span>
               </p>
             ) : (
-              <p className="text-md font-semibold  pt-2">AED{card.price}</p>
+              <p className="text-md font-semibold  pt-2">AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}</p>
             )}
             <div className="flex gap-1 mt-2 items-center justify-center sm:justify-start h-8">
               {averageRating > 1 && renderStars({ star: averageRating })}

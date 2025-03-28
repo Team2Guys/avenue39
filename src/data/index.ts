@@ -1,6 +1,5 @@
 import {
   IServiceItem,
-  ITestimonialCard,
   City,
   ISaleItems,
   ITabbyPayList,
@@ -11,7 +10,6 @@ import palette from '@icons/palette.png';
 import delivery from '@icons/delivery-fast.png';
 import privacy from '@icons/privacy.png';
 import support from '@icons/chat-46.png';
-import profileimage1 from '@images/profile/Ellipse 4.png';
 import saleimage1 from '@icons/EN0-full-logo-black.png';
 import saleimage2 from '@icons/tabby-logo-charcoal.png';
 import masterCard from '@icons/business.png';
@@ -38,57 +36,6 @@ export const serviceItems: IServiceItem[] = [
     id: 4,
     icon: support,
     title: 'Customer Support',
-  },
-];
-
-export const testimonialcards: ITestimonialCard[] = [
-  {
-    id: 1,
-    profile: profileimage1,
-    name: 'Sparta Coffee Table',
-    comment:
-      'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 3,
-  },
-  {
-    id: 2,
-    profile: profileimage1,
-    name: 'Sparta Coffee Table',
-    comment:
-      'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 5,
-  },
-  {
-    id: 3,
-    profile: profileimage1,
-    name: 'Sparta Coffee Table',
-    comment:
-      'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 2,
-  },
-  {
-    id: 4,
-    profile: profileimage1,
-    name: 'Sparta Coffee Table',
-    comment:
-      'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 5,
-  },
-  {
-    id: 5,
-    profile: profileimage1,
-    name: 'Sparta Coffee Table',
-    comment:
-      'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 4,
-  },
-  {
-    id: 6,
-    profile: profileimage1,
-    name: 'Sparta Coffee Table',
-    comment:
-      'It is very comfortable because there is free internet for tasks, and cheap food',
-    reviews: 5,
   },
 ];
 

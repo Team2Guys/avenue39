@@ -1,7 +1,7 @@
 'use client';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
-import { checkout } from '@/data/data';
+import { checkout, selectOption } from '@/data/data';
 import React, { Fragment, useEffect, useState } from 'react';
 import Coupan from '@/components/coupan-code';
 import CartItems from '@/components/cart/items';
@@ -30,31 +30,59 @@ import { CartItem } from '@/redux/slices/cart/types';
 import Image from 'next/image';
 import { ChangeUrlHandler } from '@/config/fetch';
 import { ProductPrice } from '@/styles/typo';
+import { product_refactor } from '@/config/HelperFunctions';
+import { Collapse } from 'antd';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { Shipping } from '@/types/types';
+
+
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(50);
   const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
-  const [ totalPrice , setTotalPrice ] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0)
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [loading, setloading] = useState<boolean>(false);
   const [paymentkey, setPaymentKey] = useState('');
   const cartItems = useSelector((state: State) => state.cart.items);
   const [product, setProduct] = useState<CartItem>()
   const storedProduct = localStorage.getItem('buyNowProduct');
+  const [uniqueShipping, setUniqueShipping] = useState<Shipping[] | undefined>([]);
+
+  const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
+  const [activeKey, setActiveKey] = useState<string | string[]>('0');
+
 
   useEffect(() => {
     if (storedProduct) {
       const parsedProduct = JSON.parse(storedProduct);
       const price = getItemPrice(parsedProduct);
-        setTotalPrice(price);
-        setProduct(parsedProduct);
+      setTotalPrice(price);
+      setProduct(parsedProduct);
     }
   }, [storedProduct]);
+
   useEffect(() => {
-    return () => {
-      localStorage.removeItem('buyNowProduct');
-    };
-  }, []);
+    if (cartItems?.length) {
+      const allShippingOptions = cartItems.flatMap(item => item.shippingOptions || []);
+      const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
+  
+      setUniqueShipping(uniqueOptions);
+    }
+  }, [cartItems]);
+
+
+  const handleCollapseChange = (key: string | string[]) => {
+    setActiveKey(key);
+    const selected = uniqueShipping?.[Number(key)];
+    setSelectedShipping(selected);
+  };
+  useEffect(() => {
+    if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
+      setSelectedShipping(product.shippingOptions[Number(activeKey)]);
+    }
+  }, [product?.shippingOptions]);
+
   const initialValues = {
     first_name: '',
     last_name: '',
@@ -75,32 +103,19 @@ const Checkout = () => {
         values.last_name === '' ||
         values.address === '' ||
         values.user_email === '' ||
-        values.country ==="" ||
-        values.city ==="" 
+        values.country === "" ||
+        values.city === ""
       ) {
-        console.log(values, "submissioValues")
         return showToast('warn', 'Please fill required filds😴');
       }
       const { postalCode, ...submissioValues } = values;
 
-      console.log(submissioValues, 'submissioValues');
       console.log(postalCode, 'values');
 
       handlePayment(submissioValues);
     },
   });
-  const selectOption = [
-    { title: 'Dubai', fee: 50 },
-    { title: 'Abu Dhabi', fee: 100 },
-    { title: 'Sharjah', fee: 100 },
-    { title: 'Ajman', fee: 100 },
-    { title: 'Ras Al Khaima', fee: 100 },
-    { title: 'Umm Al Quwain', fee: 100 },
-    { title: 'Fujairah', fee: 100 },
-  ];
-
-  const handleCoupon = (coupan: string) => {
-    console.log(coupan)
+  const handleCoupon = () => {
     toast.error('coupon is not available.')
   }
 
@@ -113,34 +128,35 @@ const Checkout = () => {
     }
   }, [selectedState]);
 
+    const itemsCollapse = uniqueShipping?.map((shipping, index) => ({
+      key: index.toString(),
+      label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+      children: (
+        <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+          <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+          <div>
+            <strong className="text-15 xs:text-20">{shipping.name}</strong>
+            <p className="text-11 xs:text-16">{shipping.description}</p>
+            <p className="text-11 xs:text-16">
+              <span>Delivery Cost: </span>
+              {shipping.shippingFee > 0 ? (
+                <>
+                  <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+                </>
+              ) : (
+                <strong>Free</strong>
+              )}
+              {shipping.otherEmiratesFee && (
+                <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
+              )}
+            </p>
+          </div>
+        </div>
+      ),
+    }));
+
 
   const handlePayment = async (values: any) => {
-
-    // await cartItems.map((item) => {
-    //   if (item.selectedSize) {
-    //     if (item.selectedSize.price) {
-    //       //@ts-expect-error
-    //       delete item.selectedSize.price;
-    //     }
-    //     if (item.selectedSize.discountPrice) {
-    //       delete item.selectedSize.discountPrice;
-    //     }
-    //   }
-
-    //   if (item.selectedfilter) {
-    //     if (item.selectedfilter.price) {
-    //       //@ts-expect-error
-    //       delete item.selectedfilter.price;
-    //     }
-    //     if (item.selectedfilter.discountPrice) {
-    //       delete item.selectedfilter.discountPrice;
-    //     }
-    //   }
-    //   delete item.sizes;
-    //   delete item.filter;
-    // });
-
-
 
     const cartItems_refactor = await Promise.all(cartItems.map((item) => {
       // Create a shallow copy of the item
@@ -160,31 +176,13 @@ const Checkout = () => {
         updatedItem.selectedfilter = updatedFilter as any; // Keep only the properties you want
         console.log(price, discountPrice)
       }
-    
+
       return updatedItem;
     }));
-    const product_refactor = async (product: CartItem) => {
-      const { sizes, filter, ...updatedProduct } = product;
-    
-      console.log(sizes, filter);
-    
-      if (updatedProduct.selectedSize) {
-        const { price, discountPrice, ...updatedSize } = updatedProduct.selectedSize;
-        updatedProduct.selectedSize = updatedSize as any; 
-        console.log(price, discountPrice);
-      }
-    
-      if (updatedProduct.selectedfilter) {
-        const { price, discountPrice, ...updatedFilter } = updatedProduct.selectedfilter;
-        updatedProduct.selectedfilter = updatedFilter as any; 
-        console.log(price, discountPrice);
-      }
-    
-      return updatedProduct;
-    };
-    
+
+
     const updatedProduct = product && await product_refactor(product);
-    
+
     try {
       let totalPayment = product ? totalPrice : cartPrice + shippingfee;
       console.log(updatedProduct ? updatedProduct : cartItems_refactor)
@@ -201,7 +199,6 @@ const Checkout = () => {
             phone_number: Number(values.phone_number),
           },
         );
-        console.log(proceedPayment, 'proceedPayment');
 
         if (proceedPayment.status === 201) {
           // showToast('success', 'Order Placed Successfully');
@@ -218,11 +215,15 @@ const Checkout = () => {
         throw new Error('Something is wrong. Please check the input fields.');
       }
     } catch (error) {
-      console.error('Payment Error:', error);
+      return error;
     } finally {
       setloading(false);
     }
   };
+
+  console.log(product, "product")
+
+
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />
@@ -244,7 +245,7 @@ const Checkout = () => {
           </div>
         ) : (
           <Container>
-            {product || cartItems ? (
+            {product || cartItems && cartItems.length > 0 ? (
               <form
                 onSubmit={formik.handleSubmit}
                 className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-5 xl:gap-10 mb-10 px-2"
@@ -318,9 +319,8 @@ const Checkout = () => {
                           Country/Region *
                         </Label>
                         <Select
-                          onValueChange={(value: any) =>
-                          {
-                            console.log(value, "values")
+                          onValueChange={(value: any) => {
+
                             formik.setFieldValue('country', value)
 
                           }
@@ -465,49 +465,61 @@ const Checkout = () => {
                                     )}
                                 </div>
                               </div>
-                              
+
                               <div className="hidden lg:flex items-center justify-between gap-2 xl:gap-6 w-full">
-                                  <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
-                                    {(product.selectedfilter || product.selectedSize) ?
-                                      <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                        <span>
+                                <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
+                                  {(product.selectedfilter || product.selectedSize) ?
+                                    <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                      <span>
+                                        AED{' '}
+                                        {
+                                          (
+                                            product.selectedSize?.price || product.selectedSize?.discountPrice
+                                              ? Number(product.selectedSize?.discountPrice || product.selectedSize.price)
+                                              : (product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                                ? Number(product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                                : (Number(product.selectedfilter?.price) === 0 && product.discountPrice)
+                                                  ? product.discountPrice
+                                                  : product.price
+
+                                                  * product.quantity
+                                          ).toLocaleString()
+
+
+                                        }
+                                      </span>
+                                    </ProductPrice>
+                                    : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
+                                      <>
+                                        <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
                                           AED{' '}
-                                          {(
-                                            (Number(product.selectedSize?.price) || (Number(product.selectedfilter?.price) === 0) && product.discountPrice ? product.discountPrice : product.price) * product.quantity
-                                          ).toLocaleString()}
-                                        </span>
-                                      </ProductPrice>
-                                      : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
-                                        <>
-                                          <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
-                                            AED{' '}
-                                            <span>
-                                              {(product?.price * product.quantity).toLocaleString()}
-                                            </span>
-                                          </p>
-                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                                            AED{' '}
-                                            <span>
-                                              {(
-                                                product?.discountPrice * product.quantity
-                                              ).toLocaleString()}
-                                            </span>
-                                          </p>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                            AED{' '}
-                                            <span>
-                                              {(product?.price * product.quantity).toLocaleString()}
-                                            </span>
-                                          </p>
-                                        </>
-                                      )}
-                                    <div>
-                                    </div>
+                                          <span>
+                                            {(product?.price * product.quantity).toLocaleString()}
+                                          </span>
+                                        </p>
+                                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
+                                          AED{' '}
+                                          <span>
+                                            {(
+                                              product?.discountPrice * product.quantity
+                                            ).toLocaleString()}
+                                          </span>
+                                        </p>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                          AED{' '}
+                                          <span>
+                                            {(product?.price * product.quantity).toLocaleString()}
+                                          </span>
+                                        </p>
+                                      </>
+                                    )}
+                                  <div>
                                   </div>
                                 </div>
+                              </div>
                             </div>
                           </div>
                           : <CartItems isCartPage={true} isCheckoutPage={true} />}
@@ -561,6 +573,22 @@ const Checkout = () => {
                         account.
                       </p>
                     </div>
+                  
+                    {uniqueShipping &&
+                              <div className="bg-[#EEEEEE]">
+                    
+                                <Collapse
+                                  accordion
+                                  activeKey={activeKey}
+                                  onChange={handleCollapseChange}
+                                  bordered={false}
+                                  expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+                                  expandIconPosition="end"
+                                  className="w-full bg-transparent custom-collapse"
+                                  items={itemsCollapse}
+                                />
+                              </div>
+                            }
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

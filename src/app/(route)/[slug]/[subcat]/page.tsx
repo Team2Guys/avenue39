@@ -19,11 +19,13 @@ interface SlugPageProps {
 }
 
 
-export async function generateMetadata({ params }: SlugPageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: SlugPageProps): Promise<Metadata> {
   const urls = await params
   const { slug, subcat } = urls
   const categorylist: any = [slug, subcat]
   let metaObject: any;
+  let newparams =await (searchParams)
+
 
 
   let url = `${slug}/${subcat}`
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }: SlugPageProps): Promise<Metad
   const pathname = headersList.get('x-invoke-path') || '/';
 
   const fullUrl = `${protocol}://${domain}${pathname}`;
-  metaObject = await subCategory(categorylist, fullUrl);
+  metaObject = await subCategory(categorylist, fullUrl, newparams);
 
   return metaObject;
 }

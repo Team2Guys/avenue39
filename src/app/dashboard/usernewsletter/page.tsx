@@ -1,5 +1,6 @@
 import axios from 'axios';
-import NewsLetter from './NewsLetter';
+import dynamic from 'next/dynamic';
+const NewsLetter = dynamic(() => import('./NewsLetter'))
 
 const productHandler = async () => {
   try {

@@ -43,7 +43,8 @@ const Product = ({cetagories,productsData}: {
     colors: (editProduct && editProduct?.colors) || [],
     sizes: (editProduct && editProduct?.sizes) || [],
     filter: (editProduct && editProduct?.filter) || [],
-    custom_url: editProduct && editProduct?.custom_url
+    custom_url: editProduct && editProduct?.custom_url,
+    shippingOptions: editProduct && editProduct?.shippingOptions
   };
 
 

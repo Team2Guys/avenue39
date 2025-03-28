@@ -8,7 +8,7 @@
 
 /package-lock.json
 /yarn.lock
-
+/bun.lockb
 # testing
 /coverage
 

@@ -3,10 +3,12 @@ import Breadcrumb from '@components/Dashboard/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
 import { useState } from 'react';
-import AddSubcategory from '@components/AddCategory/AddSubcategory';
 import type { Category } from '@/types/interfaces';
-import ViewSubcategries from '@/components/Dashboard/Tables/ViewSubcategries';
 import { SubCategoryComponentProps_dashboard } from '@/types/Pages_props';
+import dynamic from 'next/dynamic';
+const ViewSubcategries = dynamic(() => import('@/components/Dashboard/Tables/ViewSubcategries'))
+const AddSubcategory = dynamic(() => import('@components/AddCategory/AddSubcategory'))
+
 
 const SubCategoryComponent = ({
   subCategories,

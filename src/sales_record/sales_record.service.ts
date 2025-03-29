@@ -132,6 +132,9 @@ export class SalesRecordService {
             firstName: data.first_name,
             lastName: data.last_name,
             user_email: data.user_email,
+            shippingDate: data.shippingDate,
+            shippingTime: data.shippingTime,
+            shipmentMethod: data.shipmentMethod,
             products: {
               create: data.orderedProductDetails.map((product) => ({
                 quantity: product.quantity,

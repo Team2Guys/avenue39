@@ -1,10 +1,11 @@
 'use client';
 
-import ViewNewsletter from '@components/Dashboard/Tables/ViewNewsletter';
 import { useState } from 'react';
 import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
-import Breadcrumb from '@components/Dashboard/Breadcrumbs/Breadcrumb';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
+import dynamic from 'next/dynamic';
+const ViewNewsletter = dynamic(() => import('@components/Dashboard/Tables/ViewNewsletter'))
+const Breadcrumb = dynamic(() => import('@components/Dashboard/Breadcrumbs/Breadcrumb'))
 
 interface Product {
   id: string;

@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import Breadcrumb from '@/components/Dashboard/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@/components/Dashboard/Layouts/DefaultLayout';
 import { formatDate } from '@/config';
-import OrderList from '@/components/Orders/orders';
 import { LuView } from 'react-icons/lu';
 import { IOrder, IProduct } from '@/types/types';
+import dynamic from 'next/dynamic';
+const OrderList = dynamic(() => import('@/components/Orders/orders'))
 
 const Orders = ({ orderData }: { orderData: IOrder[] }) => {
   const [selectedProducts, setSelectedProducts] = useState<IProduct[]>([]);

@@ -7,11 +7,13 @@ import { useRouter } from 'next/navigation';
 import Toaster from '@components/Toaster/Toaster';
 import { useAppDispatch } from '@components/Others/HelperRedux';
 import { loggedInAdminAction } from '@/redux/slices/Admin/AdminsSlice';
-import USRcomponent from '@components/userComponent/userComponent';
 import { IoIosLock, IoMdMail } from 'react-icons/io';
 import NoneAuth from '@/hooks/None-AuthHook';
+const USRcomponent = dynamic(() => import('@components/userComponent/userComponent'))
+
 
 import Cookies from 'js-cookie';
+import dynamic from 'next/dynamic';
 
 const DashboardLogin = () => {
   const router = useRouter();

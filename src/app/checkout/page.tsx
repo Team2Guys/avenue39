@@ -158,7 +158,7 @@ const Checkout = () => {
     note: '',
     shippingDate: '',
     shippingTime: '',
-    shippingOption: null,
+    shipmentMethod: null,
   };
 
   const formik = useFormik({
@@ -174,7 +174,7 @@ const Checkout = () => {
       ) {
         return showToast('warn', 'Please fill required filds😴');
       }
-      const newValues = { ...values, shippingOption: selectedShipping }
+      const newValues = { ...values, shipmentMethod: selectedShipping }
       const { postalCode, ...submissioValues } = newValues;
 
       console.log(postalCode, 'values');

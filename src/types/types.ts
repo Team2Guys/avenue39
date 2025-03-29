@@ -329,4 +329,5 @@ export interface Shipping {
   description: string;
   shippingFee: number;
   otherEmiratesFee?: number;
+  freeShippingFee?: number;
 }

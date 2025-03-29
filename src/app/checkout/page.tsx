@@ -52,6 +52,7 @@ const Checkout = () => {
   const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
   const [minDate, setMinDate] = useState(new Date().toISOString().split('T')[0]);
+  const [disabledDates, setDisabledDates] = useState<string[]>([]);
 
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const Checkout = () => {
     if (cartItems?.length) {
       const allShippingOptions = cartItems.flatMap(item => item.shippingOptions || []);
       const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
-  
+
       setUniqueShipping(uniqueOptions);
     }
   }, [cartItems]);
@@ -75,21 +76,34 @@ const Checkout = () => {
 
   const handleCollapseChange = (key: string | string[]) => {
     setActiveKey(key);
-    const selected = uniqueShipping?.[Number(key)];
-    setSelectedShipping(selected);
+
+    if (Array.isArray(key)) {
+      const selected = uniqueShipping?.[Number(key[0])];
+      setSelectedShipping(selected);
+    } else {
+      const selected = uniqueShipping?.[Number(key)];
+      setSelectedShipping(selected);
+    }
   };
+
   useEffect(() => {
-    if (uniqueShipping) {
-      setSelectedShipping(uniqueShipping[Number(activeKey)]);
+    if (uniqueShipping?.length) {
+      const defaultOption =
+        uniqueShipping.find(option => option.name === "Standard Shipping") ||
+        uniqueShipping.find(option => option.name === "Next-day Shipping") ||
+        uniqueShipping.find(option => option.name === "Lightning Shipping") ||
+        uniqueShipping[0];
+
+      setSelectedShipping(defaultOption);
     }
   }, [uniqueShipping]);
 
   useEffect(() => {
-    if (selectedShipping?.name === 'Next-day Shipping') {
+    if (selectedShipping) {
       const currentTime = new Date();
       const currentHour = currentTime.getHours();
       const currentMinutes = currentTime.getMinutes();
-  
+
       if (selectedShipping?.name === 'Next-day Shipping') {
         if (currentHour < 13 || (currentHour === 13 && currentMinutes === 0)) {
           currentTime.setDate(currentTime.getDate() + 1);
@@ -105,8 +119,29 @@ const Checkout = () => {
           currentTime.setDate(currentTime.getDate() + 1);
           setMinDate(currentTime.toISOString().split('T')[0]);
         }
-      } else {
-        setMinDate(new Date().toISOString().split('T')[0]);
+      } else if (selectedShipping?.name === 'Standard Shipping') {
+        const currentDate = new Date();
+
+        // Move forward by 3 days to disable the next 3 days
+        for (let i = 0; i < 3; i++) {
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        setMinDate(currentDate.toISOString().split('T')[0]); // Set min selectable date
+
+        // Generate next 30 days and filter weekends (Saturday & Sunday)
+        const disabled = [];
+        for (let i = 0; i < 30; i++) {
+          const futureDate = new Date();
+          futureDate.setDate(futureDate.getDate() + i);
+          const dayOfWeek = futureDate.getDay(); // 0 = Sunday, 6 = Saturday
+
+          if (i < 3 || dayOfWeek === 6 || dayOfWeek === 0) {
+            disabled.push(futureDate.toISOString().split('T')[0]); // Store disabled dates
+          }
+        }
+
+        setDisabledDates(disabled);
       }
     }
   }, [selectedShipping]);
@@ -118,10 +153,12 @@ const Checkout = () => {
     country: 'United Arab Emirates',
     address: '',
     postalCode: '',
-    city: '',
+    city: 'Dubai',
     phone_number: '',
     note: '',
-    shippingDate: ''
+    shippingDate: '',
+    shippingTime: '',
+    shipmentMethod: null,
   };
 
   const formik = useFormik({
@@ -137,7 +174,8 @@ const Checkout = () => {
       ) {
         return showToast('warn', 'Please fill required filds😴');
       }
-      const { postalCode, ...submissioValues } = values;
+      const newValues = { ...values, shipmentMethod: selectedShipping }
+      const { postalCode, ...submissioValues } = newValues;
 
       console.log(postalCode, 'values');
 
@@ -157,32 +195,48 @@ const Checkout = () => {
     }
   }, [selectedState]);
 
-    const itemsCollapse = uniqueShipping?.map((shipping, index) => ({
-      key: index.toString(),
-      label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+  const itemsCollapse = [
+    {
+      key: '0',
+      label: <span className="font-bold font-helvetica custom-collapse-active text-main">{selectedShipping?.name || "Select Shipping"}</span>,
       children: (
         <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
-          <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
-          <div>
-            <strong className="text-15 xs:text-20">{shipping.name}</strong>
-            <p className="text-11 xs:text-16">{shipping.description}</p>
-            <p className="text-11 xs:text-16">
-              <span>Delivery Cost: </span>
-              {shipping.shippingFee > 0 ? (
-                <>
-                  <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
-                </>
-              ) : (
-                <strong>Free</strong>
-              )}
-              {shipping.otherEmiratesFee && (
-                <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
-              )}
-            </p>
-          </div>
+          {selectedShipping && (
+            <>
+              <Image
+                src={selectedShipping?.icon?.src || ""}
+                width={50}
+                height={50}
+                alt="icon"
+                className="size-12 xs:size-16"
+              />
+              <div className='font-helvetica'>
+                <strong className="text-14 xs:text-18">{selectedShipping.name}</strong>
+                <p className="text-11 xs:text-15">{selectedShipping.description}</p>
+                <p className="text-11 xs:text-15">
+                  <span>Delivery Cost: </span>
+                  {selectedShipping.shippingFee > 0 ? (
+                    <>
+                      <span>In Dubai </span><strong>AED {selectedShipping.shippingFee}</strong>
+                    </>
+                  ) : (
+                    <strong>Free of charge for all orders.</strong>
+                  )}
+                  {selectedShipping.otherEmiratesFee && (
+                    <>, <span>All Other Emirates</span> <strong>AED {selectedShipping.otherEmiratesFee}</strong>.</>
+                  )}
+                  {selectedShipping.freeShippingFee && (
+                    <div><span>Free shipping for all orders above</span> <strong>AED {selectedShipping.freeShippingFee}</strong>.</div>
+                  )}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       ),
-    }));
+    },
+  ];
+
 
 
   const handlePayment = async (values: any) => {
@@ -339,16 +393,86 @@ const Checkout = () => {
                       onChange={formik.handleChange}
                       value={formik.values.address}
                     />
-                    <LabelInput
-                      label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
-                      id="shippingDate"
-                      name="shippingDate"
-                      type="date"
-                      required={selectedShipping?.name !== 'Standard Shipping'}
-                      onChange={formik.handleChange}
-                      value={formik.values.shippingDate}
-                      min={minDate}
-                    />
+                    <div className='flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2'>
+                      <div className="flex-1">
+                        <LabelInput
+                          label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
+                          id="shippingDate"
+                          name="shippingDate"
+                          type="date"
+                          required={selectedShipping?.name !== 'Standard Shipping'}
+                          onChange={(e) => {
+                            const selectedDate = e.target.value;
+                            
+                            if (disabledDates.includes(selectedDate)) {
+                              const dayOfWeek = new Date(selectedDate).getDay();
+                              const errorMessage = dayOfWeek === 6 || dayOfWeek === 0
+                                ? "Weekend dates (Saturday & Sunday) are not available. Please choose a weekday."
+                                : "Selected date is not available. Please choose another one.";
+                        
+                              toast.error(errorMessage);
+                              formik.setFieldValue("shippingDate", "");
+                            } else {
+                              formik.handleChange(e);
+                            }
+                          }}
+                          value={formik.values.shippingDate}
+                          min={minDate}
+                          
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <Label
+                          htmlFor="country *"
+                          className="mb-1 px-2 text-sm font-semibold text-17 text-[#666666]"
+                        >
+                          Time Slot *
+                        </Label>
+                        <Select
+                          onValueChange={(value: any) => {
+
+                            formik.setFieldValue('shippingTime', value)
+
+                          }
+                          }
+                          defaultValue=" "
+                          required
+                        >
+                          <SelectTrigger className="flex-grow h-[50px] mt-3 rounded-full border-0 bg-[#F6F6F6] pl-8 pr-10 py-2   focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-3xl">
+                            <SelectGroup>
+                              <SelectItem
+                                value=" "
+                                className="rounded-3xl"
+                                disabled
+                              >
+                                Select time slot
+                              </SelectItem>
+                              <SelectItem
+                                value="9 AM  -  12 PM"
+                                className="rounded-3xl"
+                              >
+                                9 AM  -  12 PM
+                              </SelectItem>
+                              <SelectItem
+                                value="12 PM -  3 PM"
+                                className="rounded-3xl"
+                              >
+                                12 PM -  3 PM
+                              </SelectItem>
+                              <SelectItem
+                                value="3 PM  -  6 PM"
+                                className="rounded-3xl"
+                              >
+                                3 PM  -  6 PM
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
                     <div className="flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2">
                       <div className="flex-1">
                         <Label
@@ -612,22 +736,22 @@ const Checkout = () => {
                         account.
                       </p>
                     </div>
-                  
+
                     {uniqueShipping &&
-                              <div className="bg-[#EEEEEE]">
-                    
-                                <Collapse
-                                  accordion
-                                  activeKey={activeKey}
-                                  onChange={handleCollapseChange}
-                                  bordered={false}
-                                  expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
-                                  expandIconPosition="end"
-                                  className="w-full bg-transparent custom-collapse"
-                                  items={itemsCollapse}
-                                />
-                              </div>
-                            }
+                      <div className="bg-[#EEEEEE]">
+
+                        <Collapse
+                          accordion
+                          activeKey={activeKey}
+                          onChange={handleCollapseChange}
+                          bordered={false}
+                          expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+                          expandIconPosition="end"
+                          className="w-full bg-transparent custom-collapse"
+                          items={itemsCollapse}
+                        />
+                      </div>
+                    }
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

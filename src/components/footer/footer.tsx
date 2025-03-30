@@ -101,23 +101,31 @@ const Footer: React.FC = () => {
 
         <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
         {footerItems.map((item, index) => (
-        <div key={index} className="relative w-full h-[200px] xsm:h-[260px] sm:h-[220px] md:h-[240px] rounded-3xl group">
-          <div className={`${item.bgClass} bg-cover bg-no-repeat bg-center h-full w-full rounded-3xl`}>
-            <p className="group-hover:opacity-0 absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-white font-semibold text-20 xl:text-[26px] w-full">
-              {item.text}
-            </p>
+  <div key={index} className="relative w-full h-[200px] xsm:h-[260px] sm:h-[220px] md:h-[240px] rounded-3xl group">
+    <div className={`${item.bgClass} bg-cover bg-no-repeat bg-center h-full w-full rounded-3xl`}>
+      <p className="group-hover:opacity-0 absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-white font-semibold text-20 xl:text-[26px] w-full">
+        {item.text}
+      </p>
+    </div>
+    <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center text-black text-14 lg:text-16 xl:text-xl opacity-0 group-hover:opacity-100 transition duration-300 rounded-3xl text-center space-y-2 px-2">
+      {item.showImage && item.imageSrc ? (
+        index === 2 ? (
+          <Link href={'https://maps.app.goo.gl/4wnLULFAwHMdfBQ99'}>
+            <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
+          </Link>
+        ) : (
+          <div>
+            <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
           </div>
-          <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center text-black text-14 lg:text-16 xl:text-xl opacity-0 group-hover:opacity-100 transition duration-300 rounded-3xl text-center space-y-2 px-2">
-            {item.showImage && item.imageSrc && (
-              <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
-            )}
-            {item.overlayText.map((line, index) => (
-              <div className='leading-4 lg:leading-6' key={index} dangerouslySetInnerHTML={{ __html: line }} />
-            ))}
-            {/* <p className="text-14">*(some exclusions apply)</p> */}
-              </div>
-            </div>
-          ))}
+        )
+      ) : null}
+      {item.overlayText.map((line, idx) => (
+        <div className='leading-4 lg:leading-6' key={idx} dangerouslySetInnerHTML={{ __html: line }} />
+      ))}
+    </div>
+  </div>
+))}
+
     </Container>
       <Container className="flex flex-wrap justify-between gap-10 pt-10 ">
         <div className=" px-2">
@@ -275,21 +283,21 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="mt-2  text-[#686868]">
-            <div className="xs:w-full max-w-56 rounded-sm ">
+            <div className="xs:w-full text-start flex justify-start">
               <Link
-                className='flex gap-2 items-center hover:font-semibold'
+                className='flex gap-2 justify-start pr-5 items-center hover:font-semibold'
                 href="mailto:cs@avenue39.com"
                 rel="noreferrer"
                 target="_blank"
               >
 
-                <MdOutlineEmail size={22} />
+                <MdOutlineEmail size={22}  />
                 cs@avenue39.com
               </Link>
             </div>
           </div>
-          <div className="mt-2 xs:w-full flex max-w-56  text-[#686868]">
-            <div className="xs:w-full max-w-56 rounded-sm py-2">
+         
+            <div className="xs:w-full max-w-full mt-2 py-2 text-[#686868]">
               <Link
                 className='flex gap-2  text-14 hover:font-semibold'
                 href="https://maps.app.goo.gl/v5g7KWR9C3RQL8vh7"
@@ -297,10 +305,9 @@ const Footer: React.FC = () => {
                 target="_blank"
               >
                 <FaMapMarkerAlt size={22} />
-                23 22nd St - Al Quoz <br/> Industrial Area 4 <br/> - Dubai
+                23 22nd St - Al Quoz <br/> Industrial Area 4 - Dubai
               </Link>
             </div>
-          </div>
 
           </div>
         </div>

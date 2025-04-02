@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
-import { IProduct, ProductImage, Sizes } from '@/types/types';
+import { IProduct, ProductImage, Shipping, Sizes } from '@/types/types';
 import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
 
@@ -27,6 +27,8 @@ import { toast } from 'react-toastify';
 import { openDrawer } from '@/redux/slices/drawer';
 import dynamic from 'next/dynamic';
 import { formatPrice } from '@/config/HelperFunctions';
+import { Collapse } from 'antd';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 const TabyTamra = dynamic(() => import('./TabyTamra'))
 
 
@@ -81,9 +83,24 @@ const ProductDetail = ({
     variant?: string;
     size?: string;
   }>({ variant: filterParam, size: sizeParam });
+  const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
+  const [activeKey, setActiveKey] = useState<string | string[]>('0');
   const Navigate = useRouter();
+  const product = params ? params : products?.find((product) => (product.custom_url || product?.name) === slug);
 
-  const product = params? params: products?.find((product) => (product.custom_url || product?.name) === slug);
+
+  const handleCollapseChange = (key: string | string[]) => {
+    setActiveKey(key);
+    const selected = product?.shippingOptions?.[Number(key)];
+      setSelectedShipping(selected);
+  };
+  useEffect(() => {
+    if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
+      setSelectedShipping(product.shippingOptions[Number(activeKey)]);
+    }
+  }, [product?.shippingOptions]);
+
+
   const handleColorClick = (index: any, item: CartSize) => {
     setFilter(item);
     const filterName = generateSlug(item.name);
@@ -269,8 +286,33 @@ const ProductDetail = ({
     }
   }, [product, size, filter, uniqueSizes]);
 
-  
 
+  const itemsCollapse = product?.shippingOptions?.map((shipping, index) => ({
+    key: index.toString(),
+    label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+    children: (
+      <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+        <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+        <div>
+          <strong className="text-15 xs:text-20">{shipping.name}</strong>
+          <p className="text-11 xs:text-16">{shipping.description}</p>
+          <p className="text-11 xs:text-16">
+            <span>Delivery Cost: </span>
+            {shipping.shippingFee > 0 ? (
+              <>
+                <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+              </>
+            ) : (
+              <strong>Free</strong>
+            )}
+            {shipping.otherEmiratesFee && (
+              <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
+            )}
+          </p>
+        </div>
+      </div>
+    ),
+  }));
 
 
   useEffect(() => {
@@ -320,6 +362,7 @@ const ProductDetail = ({
     quantity: count,
     selectedSize: size,
     selectedfilter: filter,
+    selectedShipping: selectedShipping,
   };
 
   useEffect(() => {
@@ -652,56 +695,73 @@ const ProductDetail = ({
             </>
           )}
 
+        <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
+          <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
+            <button
+              onClick={onDecrement}
+              className="px-2 text-gray-600  "
+              disabled={count <= 1}
+            >
+              <HiMinusSm size={20} />
+            </button>
+            <span className="mx-2">{count}</span>
+            <button
+              onClick={onIncrement}
+              className="px-2 text-gray-600 disabled:text-gray-300"
+            >
+              <HiPlusSm size={20} />
+            </button>
+          </div>
+        </div>
 
-            <div className="flex items-center gap-4 justify-between mb-2 max-sm:mx-auto">
-              <div className="flex items-center border border-gray-300 rounded py-1 md:p-2 md:py-3">
-                <button
-                  onClick={onDecrement}
-                  className="px-2 text-gray-600  "
-                  disabled={count <= 1}
-                >
-                  <HiMinusSm size={20} />
-                </button>
-                <span className="mx-2">{count}</span>
-                <button
-                  onClick={onIncrement}
-                  className="px-2 text-gray-600 disabled:text-gray-300"
-                >
-                  <HiPlusSm size={20} />
-                </button>
-              </div>
-            </div>
-            {isOutStock ? null : (
-              <Button
-                className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
-                onClick={(e: any) => handleBuyNow(e)}
-              >
-                <CiShoppingCart size={20} /> BUY IT NOW
-              </Button>
-            )}
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
-              <Button
-                variant={'main'}
-                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: any) =>
-                  isOutStock ? () => { } : handleAddToCard(e)
-                }
-                disable={isOutStock}
-              >
-                {isOutStock ? 'Out of Stock' : 'Add to cart'}
-              </Button>
-              <Button
-                variant="outline"
-                className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
-                  handleAddToWishlist(e)
-                }
-              >
-                Add to Wishlist
-              </Button>
-            </div>
-       
-    
+        {product.shippingOptions &&
+          <div className="bg-[#EEEEEE]">
+
+            <Collapse
+              accordion
+              activeKey={activeKey}
+              onChange={handleCollapseChange} 
+              bordered={false}
+              expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+              expandIconPosition="end"
+              className="w-full bg-transparent custom-collapse"
+              items={itemsCollapse}
+            />
+          </div>
+        }
+
+
+        {isOutStock ? null : (
+          <Button
+            className="bg-primary text-white font-helvetica flex gap-3 justify-center items-center w-full h-12 rounded-2xl mb-3 font-light "
+            onClick={(e: any) => handleBuyNow(e)}
+          >
+            <CiShoppingCart size={20} /> BUY IT NOW
+          </Button>
+        )}
+        <div className="grid grid-cols-1 xs:grid-cols-2 gap-5 xs:gap-2 mb-4 w-full">
+          <Button
+            variant={'main'}
+            className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+            onClick={(e: any) =>
+              isOutStock ? () => { } : handleAddToCard(e)
+            }
+            disable={isOutStock}
+          >
+            {isOutStock ? 'Out of Stock' : 'Add to cart'}
+          </Button>
+          <Button
+            variant="outline"
+            className="font-helvetica w-full h-12 rounded-2xl flex gap-3 uppercase"
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              handleAddToWishlist(e)
+            }
+          >
+            Add to Wishlist
+          </Button>
+        </div>
+
+
         <div className="flex items-center justify-center relative mb-2">
           <span className="absolute left-0 w-1/6 border-t border-gray-300 hidden sm:block"></span>
           <p className="text-center px-3 w-full xsm:w-4/6 font-helvetica whitespace-nowrap font-semibold text-sm xs:text-base lg:text-xs xl:text-base">
@@ -710,7 +770,7 @@ const ProductDetail = ({
           <span className="absolute right-0 w-1/6 border-t border-gray-300 hidden xsm:block"></span>
         </div>
 
-<TabyTamra productPrice={productPrice} productDiscPrice={productDiscPrice} product={product}/>
+        <TabyTamra productPrice={productPrice} productDiscPrice={productDiscPrice} product={product} />
 
 
 
@@ -736,7 +796,7 @@ const ProductDetail = ({
           <p className='font-helvetica'>Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

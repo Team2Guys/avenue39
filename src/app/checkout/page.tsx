@@ -33,36 +33,83 @@ import { ProductPrice } from '@/styles/typo';
 import { product_refactor } from '@/config/HelperFunctions';
 import { Collapse } from 'antd';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import lightImg from '../../../public/assets/icons/light1(traced).png'
-import deliveryImg from '../../../public/assets/icons/delivery-truck 2 (traced).png'
-import locationImg from '../../../public/assets/icons/location 1 (traced).png'
+import { Shipping } from '@/types/types';
 
 
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [shippingfee, setShippingFee] = useState<number>(50);
   const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
-  const [ totalPrice , setTotalPrice ] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0)
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [loading, setloading] = useState<boolean>(false);
   const [paymentkey, setPaymentKey] = useState('');
   const cartItems = useSelector((state: State) => state.cart.items);
   const [product, setProduct] = useState<CartItem>()
   const storedProduct = localStorage.getItem('buyNowProduct');
-  const { Panel } = Collapse;
+  const [uniqueShipping, setUniqueShipping] = useState<Shipping[] | undefined>([]);
+
+  const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
+  const [activeKey, setActiveKey] = useState<string | string[]>('0');
+  const [minDate, setMinDate] = useState(new Date().toISOString().split('T')[0]);
 
 
   useEffect(() => {
     if (storedProduct) {
       const parsedProduct = JSON.parse(storedProduct);
       const price = getItemPrice(parsedProduct);
-        setTotalPrice(price);
-        setProduct(parsedProduct);
+      setTotalPrice(price);
+      setProduct(parsedProduct);
     }
   }, [storedProduct]);
 
+  useEffect(() => {
+    if (cartItems?.length) {
+      const allShippingOptions = cartItems.flatMap(item => item.shippingOptions || []);
+      const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
+  
+      setUniqueShipping(uniqueOptions);
+    }
+  }, [cartItems]);
 
 
+  const handleCollapseChange = (key: string | string[]) => {
+    setActiveKey(key);
+    const selected = uniqueShipping?.[Number(key)];
+    setSelectedShipping(selected);
+  };
+  useEffect(() => {
+    if (uniqueShipping) {
+      setSelectedShipping(uniqueShipping[Number(activeKey)]);
+    }
+  }, [uniqueShipping]);
+
+  useEffect(() => {
+    if (selectedShipping?.name === 'Next-day Shipping') {
+      const currentTime = new Date();
+      const currentHour = currentTime.getHours();
+      const currentMinutes = currentTime.getMinutes();
+  
+      if (selectedShipping?.name === 'Next-day Shipping') {
+        if (currentHour < 13 || (currentHour === 13 && currentMinutes === 0)) {
+          currentTime.setDate(currentTime.getDate() + 1);
+          setMinDate(currentTime.toISOString().split('T')[0]);
+        } else {
+          currentTime.setDate(currentTime.getDate() + 2);
+          setMinDate(currentTime.toISOString().split('T')[0]);
+        }
+      } else if (selectedShipping?.name === 'Lightning Shipping') {
+        if (currentHour < 13 || (currentHour === 13 && currentMinutes === 0)) {
+          setMinDate(new Date().toISOString().split('T')[0]);
+        } else {
+          currentTime.setDate(currentTime.getDate() + 1);
+          setMinDate(currentTime.toISOString().split('T')[0]);
+        }
+      } else {
+        setMinDate(new Date().toISOString().split('T')[0]);
+      }
+    }
+  }, [selectedShipping]);
 
   const initialValues = {
     first_name: '',
@@ -74,6 +121,7 @@ const Checkout = () => {
     city: '',
     phone_number: '',
     note: '',
+    shippingDate: ''
   };
 
   const formik = useFormik({
@@ -84,8 +132,8 @@ const Checkout = () => {
         values.last_name === '' ||
         values.address === '' ||
         values.user_email === '' ||
-        values.country ==="" ||
-        values.city ==="" 
+        values.country === "" ||
+        values.city === ""
       ) {
         return showToast('warn', 'Please fill required filds😴');
       }
@@ -96,8 +144,6 @@ const Checkout = () => {
       handlePayment(submissioValues);
     },
   });
-
-
   const handleCoupon = () => {
     toast.error('coupon is not available.')
   }
@@ -110,6 +156,33 @@ const Checkout = () => {
       setShippingFee(option ? option.fee : 50);
     }
   }, [selectedState]);
+
+    const itemsCollapse = uniqueShipping?.map((shipping, index) => ({
+      key: index.toString(),
+      label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,
+      children: (
+        <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+          <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+          <div>
+            <strong className="text-15 xs:text-20">{shipping.name}</strong>
+            <p className="text-11 xs:text-16">{shipping.description}</p>
+            <p className="text-11 xs:text-16">
+              <span>Delivery Cost: </span>
+              {shipping.shippingFee > 0 ? (
+                <>
+                  <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+                </>
+              ) : (
+                <strong>Free</strong>
+              )}
+              {shipping.otherEmiratesFee && (
+                <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong></>
+              )}
+            </p>
+          </div>
+        </div>
+      ),
+    }));
 
 
   const handlePayment = async (values: any) => {
@@ -132,13 +205,13 @@ const Checkout = () => {
         updatedItem.selectedfilter = updatedFilter as any; // Keep only the properties you want
         console.log(price, discountPrice)
       }
-    
+
       return updatedItem;
     }));
-  
-    
+
+
     const updatedProduct = product && await product_refactor(product);
-    
+
     try {
       let totalPayment = product ? totalPrice : cartPrice + shippingfee;
       console.log(updatedProduct ? updatedProduct : cartItems_refactor)
@@ -155,7 +228,7 @@ const Checkout = () => {
             phone_number: Number(values.phone_number),
           },
         );
-    
+
         if (proceedPayment.status === 201) {
           // showToast('success', 'Order Placed Successfully');
           setPaymentKey(
@@ -171,7 +244,7 @@ const Checkout = () => {
         throw new Error('Something is wrong. Please check the input fields.');
       }
     } catch (error) {
-        return  error;
+      return error;
     } finally {
       setloading(false);
     }
@@ -201,7 +274,7 @@ const Checkout = () => {
           </div>
         ) : (
           <Container>
-            {product || cartItems && cartItems.length >0 ? (
+            {product || cartItems && cartItems.length > 0 ? (
               <form
                 onSubmit={formik.handleSubmit}
                 className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-5 xl:gap-10 mb-10 px-2"
@@ -266,6 +339,16 @@ const Checkout = () => {
                       onChange={formik.handleChange}
                       value={formik.values.address}
                     />
+                    <LabelInput
+                      label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
+                      id="shippingDate"
+                      name="shippingDate"
+                      type="date"
+                      required={selectedShipping?.name !== 'Standard Shipping'}
+                      onChange={formik.handleChange}
+                      value={formik.values.shippingDate}
+                      min={minDate}
+                    />
                     <div className="flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2">
                       <div className="flex-1">
                         <Label
@@ -275,9 +358,8 @@ const Checkout = () => {
                           Country/Region *
                         </Label>
                         <Select
-                          onValueChange={(value: any) =>
-                          {
-           
+                          onValueChange={(value: any) => {
+
                             formik.setFieldValue('country', value)
 
                           }
@@ -422,61 +504,61 @@ const Checkout = () => {
                                     )}
                                 </div>
                               </div>
-                              
+
                               <div className="hidden lg:flex items-center justify-between gap-2 xl:gap-6 w-full">
-                                  <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
-                                    {(product.selectedfilter || product.selectedSize) ?
-                                      <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                        <span>
+                                <div className="w-52 xl:w-64 flex gap-2 xl:gap-4 items-center justify-between">
+                                  {(product.selectedfilter || product.selectedSize) ?
+                                    <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                      <span>
+                                        AED{' '}
+                                        {
+                                          (
+                                            product.selectedSize?.price || product.selectedSize?.discountPrice
+                                              ? Number(product.selectedSize?.discountPrice || product.selectedSize.price)
+                                              : (product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                                ? Number(product.selectedfilter?.discountPrice || product.selectedfilter?.price)
+                                                : (Number(product.selectedfilter?.price) === 0 && product.discountPrice)
+                                                  ? product.discountPrice
+                                                  : product.price
+
+                                                  * product.quantity
+                                          ).toLocaleString()
+
+
+                                        }
+                                      </span>
+                                    </ProductPrice>
+                                    : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
+                                      <>
+                                        <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
                                           AED{' '}
-                                          {
-                                       (
-                                        product.selectedSize?.price || product.selectedSize?.discountPrice 
-                                        ? Number(product.selectedSize?.discountPrice || product.selectedSize.price) 
-                                        : (product.selectedfilter?.discountPrice || product.selectedfilter?.price)
-                                        ? Number(product.selectedfilter?.discountPrice || product.selectedfilter?.price)
-                                       :(Number(product.selectedfilter?.price) === 0 && product.discountPrice)
-                                        ? product.discountPrice 
-                                        : product.price 
-                                        
-                                        * product.quantity
-                                      ).toLocaleString()
-                                      
-                                          
-                                          }
-                                        </span>
-                                      </ProductPrice>
-                                      : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
-                                        <>
-                                          <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
-                                            AED{' '}
-                                            <span>
-                                              {(product?.price * product.quantity).toLocaleString()}
-                                            </span>
-                                          </p>
-                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                                            AED{' '}
-                                            <span>
-                                              {(
-                                                product?.discountPrice * product.quantity
-                                              ).toLocaleString()}
-                                            </span>
-                                          </p>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                            AED{' '}
-                                            <span>
-                                              {(product?.price * product.quantity).toLocaleString()}
-                                            </span>
-                                          </p>
-                                        </>
-                                      )}
-                                    <div>
-                                    </div>
+                                          <span>
+                                            {(product?.price * product.quantity).toLocaleString()}
+                                          </span>
+                                        </p>
+                                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
+                                          AED{' '}
+                                          <span>
+                                            {(
+                                              product?.discountPrice * product.quantity
+                                            ).toLocaleString()}
+                                          </span>
+                                        </p>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
+                                          AED{' '}
+                                          <span>
+                                            {(product?.price * product.quantity).toLocaleString()}
+                                          </span>
+                                        </p>
+                                      </>
+                                    )}
+                                  <div>
                                   </div>
                                 </div>
+                              </div>
                             </div>
                           </div>
                           : <CartItems isCartPage={true} isCheckoutPage={true} />}
@@ -530,52 +612,22 @@ const Checkout = () => {
                         account.
                       </p>
                     </div>
-
-                    <div className="bg-[#EEEEEE]">
-                            <Collapse accordion defaultActiveKey={["1"]} bordered={false} expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)} expandIconPosition="end" className="w-full bg-transparent custom-collapse">
-                                <Panel
-                                    header={<span className="text-slate-500">Shipping Options</span>}
-                                    key="1"
-                                >
-                                    <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
-                                        <Image src={lightImg} alt="icon" className="size-12 xs:size-16" />
-                                        <div>
-                                            <strong className="text-15 xs:text-20">Express Shipping:</strong>
-                                            <p className="text-11 xs:text-16">Receive within <strong>one working day</strong></p>
-                                            <p className="text-11 xs:text-16">
-                                                <span>Delivery Cost:</span> <strong>AED 150</strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
-                                        <Image src={deliveryImg} alt="icon" className="size-12 xs:size-16" />
-                                        <div>
-                                            <strong className="text-15 xs:text-20">Standard Shipping:</strong>
-                                            <p className="text-11 xs:text-16">Receive within <strong>3-4 working days</strong></p>
-                                            <p className="text-11 xs:text-16">
-                                                <span>Delivery Cost:</span> <strong>Free Shipping Over AED 1500  Only In Dubai  </strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
-                                        <Image src={locationImg} alt="icon" className="size-12 xs:size-16" />
-                                        <div>
-                                            <strong className="text-15 xs:text-20">Self-Collect:</strong>
-                                            <p className="text-11 xs:text-16">Collection Monday-Saturday <strong>(10am-6pm)</strong></p>
-                                            <p className="text-11 xs:text-16">
-                                                <span>Location:</span> <strong><a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/place/J1+Warehouses/@24.9871787,55.0799029,13z/data=!4m6!3m5!1s0x3e5f43c5045ac9ab:0xe8fe6b6d3731e2f9!8m2!3d24.9871066!4d55.1211025!16s%2Fg%2F11fsb5fcvx?entry=ttu&amp;g_ep=EgoyMDI1MDIxMi4wIKXMDSoJLDEwMjExNDUzSAFQAw%3D%3D">Agsons, J1 Warehouses, Jebel Ali  Industrial – Dubai</a></strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Panel>
-
-                                <Panel header={<span className="text-slate-500">Return Policy</span>} key="2">
-                                    <p className="text-gray-500">
-                                        This is our example return policy which is everything you need to know about our returns.
-                                    </p>
-                                </Panel>
-                            </Collapse>
-                        </div>
+                  
+                    {uniqueShipping &&
+                              <div className="bg-[#EEEEEE]">
+                    
+                                <Collapse
+                                  accordion
+                                  activeKey={activeKey}
+                                  onChange={handleCollapseChange}
+                                  bordered={false}
+                                  expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+                                  expandIconPosition="end"
+                                  className="w-full bg-transparent custom-collapse"
+                                  items={itemsCollapse}
+                                />
+                              </div>
+                            }
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

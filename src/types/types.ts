@@ -105,7 +105,8 @@ export interface IProduct {
   displayName?: string;
   sizeName?: string;
   colorName?: string;
-  custom_url?:string
+  custom_url?:string;
+  shippingOptions?: Shipping[];
 }
 interface Filter {
   heading: string;
@@ -323,7 +324,9 @@ export interface RECORDS {
 }
 
 export interface Shipping {
+  icon: StaticImageData;
   name: string;
   description: string;
   shippingFee: number;
+  otherEmiratesFee?: number;
 }

@@ -157,6 +157,7 @@ const Checkout = () => {
     }
   }, [selectedState]);
 
+
     const itemsCollapse = uniqueShipping?.map((shipping, index) => ({
       key: index.toString(),
       label: <span className={`${selectedShipping?.name === shipping.name ? 'font-bold' : 'font-normal'}`}>{shipping.name}</span>,

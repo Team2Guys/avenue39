@@ -166,6 +166,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       };
       setloading(true);
 
+
+      
       let updateFlag = EditProductValue && EditInitialValues ? true : false;
       let addProductUrl = updateFlag ? `/api/product/update-product` : null;
 

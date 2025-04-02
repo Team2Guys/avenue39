@@ -19,6 +19,9 @@ interface SlugPageProps {
 }
 
 
+
+
+
 export async function generateMetadata({ params, searchParams }: SlugPageProps): Promise<Metadata> {
   const urls = await params
   const { slug, subcat } = urls

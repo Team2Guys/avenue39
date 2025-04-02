@@ -44,6 +44,15 @@ export class CreateSalesRecordDto {
   @IsNumber()
   shippment_Fee: number | string;
 
+  @IsString()
+  @IsOptional()
+  shippingDate: any;
+
+  @IsString()
+  shippingTime: string;
+
+  shipmentMethod: any
+
   orderedProductDetails: any[];
 }
 

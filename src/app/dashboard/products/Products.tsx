@@ -2,12 +2,12 @@
 
 import Breadcrumb from '@components/Dashboard/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
-import ViewProduct from '@components/Dashboard/Tables/ViewProduct';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
 import { useEffect, useState } from 'react';
 import { ICategory, IProduct } from '@/types/types';
 import dynamic from 'next/dynamic';
 const FormElements = dynamic(() => import('@components/Dashboard/FormElements'))
+const ViewProduct = dynamic(() => import('@components/Dashboard/Tables/ViewProduct'))
 
 const Product = ({cetagories,productsData}: {
   cetagories: ICategory[];

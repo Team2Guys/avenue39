@@ -31,8 +31,9 @@ export class SalesRecordService {
         orderedProductDetails: updatedProducts,
         user_email,
         address,
-
+        shippingDate,
         ...extractedData
+        
       } = data;
       let orderId = generateUniqueString();
 
@@ -126,12 +127,14 @@ export class SalesRecordService {
           }
         }
 
-        console.log("============ DATA after order =============", data)
         let newSalesRecord = await prisma.sales_record.create({
           data: {
             firstName: data.first_name,
             lastName: data.last_name,
             user_email: data.user_email,
+            shippingDate: shippingDate, 
+            shippingTime: data.shippingTime,
+            shipmentMethod: data.shipmentMethod,
             products: {
               create: data.orderedProductDetails.map((product) => ({
                 quantity: product.quantity,

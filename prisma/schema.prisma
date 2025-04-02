@@ -145,6 +145,9 @@ model sales_record {
   phoneNumber   String?
   products      sales_record_products[]
   orderNote     String?
+  shipmentMethod Json?
+shippingDate  String?
+  shippingTime  String?
 }
 
 model sales_record_products {

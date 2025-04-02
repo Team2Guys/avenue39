@@ -164,10 +164,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
               ? values.sale_counter
               : EditInitialValues.sale_counter,
       };
-      setloading(true);
-
-
-      
+      setloading(true);      
       let updateFlag = EditProductValue && EditInitialValues ? true : false;
       let addProductUrl = updateFlag ? `/api/product/update-product` : null;
 
@@ -183,6 +180,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       });
 
 
+
+      
       revalidateTag('products');
       Toaster('success', updateFlag
         ? 'Product has been sucessufully Updated !'

@@ -7,6 +7,8 @@ import { Skeleton } from 'antd';
 
 interface ChartThreeState {
   series: number[];
+
+
 }
 
 const options: ApexOptions = {
@@ -51,6 +53,9 @@ const options: ApexOptions = {
   ],
 };
 
+
+
+
 const ChartThree: React.FC = () => {
   const [state, setState] = useState<ChartThreeState>({
     series: [65, 34, 12, 56],
@@ -64,6 +69,8 @@ const ChartThree: React.FC = () => {
       setLoading(false);
     }, 2000);
   }, []);
+
+
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke dark:border-strokedark dark:bg-boxdark dark:bg-black dark:text-white dark:bg-boxdark dark:drop-shadow-none dark:border-blue-50 px-5 pb-5 pt-7 shadow-default  dark:bg-boxdark sm:px-7 xl:col-span-5">
@@ -80,6 +87,8 @@ const ChartThree: React.FC = () => {
               id=""
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none text-primary dark:text-white"
             >
+
+              
               <option value="" className="dark:bg-boxdark text-primary ">
                 Monthly
               </option>

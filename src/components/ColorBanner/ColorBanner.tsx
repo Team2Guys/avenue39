@@ -13,9 +13,12 @@ interface IPROPS {
   Bannerclas?: any
 }
 
+
+
 const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
   const [isWide, setIsWide] = useState<number>(window.innerWidth);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  
   const isMobile = windowWidth < 770 ? true : false
   useEffect(() => {
     const handleResize = () => {

@@ -39,6 +39,8 @@ const Services: React.FC<servicesProps> = ({ className }) => {
               </div>
             </div>
           ))}
+
+
         </div>
         <Modal title={selectedItem?.title} open={isModalOpen} onCancel={handleCancel} footer={null}>
           <div className="flex flex-col items-center">
@@ -52,3 +54,7 @@ const Services: React.FC<servicesProps> = ({ className }) => {
 };
 
 export default Services;
+
+
+
+

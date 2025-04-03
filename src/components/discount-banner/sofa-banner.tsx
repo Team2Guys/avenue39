@@ -4,14 +4,14 @@ import Image from 'next/image';
 import Chroma from '@assets/images/banners/Chroma.webp';
 import Marlin from '@assets/images/banners/Marlin.webp';
 import rafael from '@assets/images/banners/rafael.webp';
-import Calda from '@assets/images/banners/Calda.webp';
+import chair from '@assets/images/banners/chair.png';
 import Magia from '@assets/images/banners/Magia.webp';
 import Moderno from '@assets/images/banners/Moderno.webp';
-import Bergen from '@assets/images/banners/Bergen.webp';
-import Moblie_Calda from '@assets/images/banners/Calda_m.webp';
+import sofa from '@assets/images/banners/sofa.png';
+// import Moblie_Calda from '@assets/images/banners/Calda_m.webp';
 import Moblie_Magia from '@assets/images/banners/Magia_m.webp';
 import Moblie_Moderno from '@assets/images/banners/Moderno_m.webp';
-import Moblie_Bergen from '@assets/images/banners/Bergen_m.webp';
+// import Moblie_Bergen from '@assets/images/banners/Bergen_m.webp';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -75,8 +75,8 @@ const sliderDataa_sofa_initial = [
     id: 2,
     slides: [
       {
-        backgroundImage: Calda.src,
-        mobileImage: Moblie_Calda.src,
+        backgroundImage: chair.src,
+        mobileImage: chair.src,
         pro_price: '',
         subtitle: 'Shop our exclusive sale now',
         subPara: 'Up to 70% discount',
@@ -85,8 +85,8 @@ const sliderDataa_sofa_initial = [
         ImagePosition: 'top',
       },
       {
-        backgroundImage: Bergen.src,
-        mobileImage: Moblie_Bergen.src,
+        backgroundImage: sofa.src,
+        mobileImage: sofa.src,
         pro_price: '',
         subtitle: 'Shop our exclusive sale now',
         subPara: 'Up to 70% discount',
@@ -191,7 +191,7 @@ const SofaBanner: React.FC = () => {
               <SwiperSlide key={index}>
                 <div className={`h-44 xsm:h-[200px] xs:h-[290px] sofa-slider`}>
                   <Link href={slide.link}
-                    className="w-full h-full rounded-2xl block"
+                    className="w-full h-full rounded-2xl block max-sm:!bg-right"
                     style={{
                       backgroundImage: `url(${slide.backgroundImage})`,
                       backgroundSize: 'cover',

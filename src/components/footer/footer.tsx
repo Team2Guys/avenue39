@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
     <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center text-black text-14 lg:text-16 xl:text-xl opacity-0 group-hover:opacity-100 transition duration-300 rounded-3xl text-center space-y-2 px-2">
       {item.showImage && item.imageSrc ? (
         index === 2 ? (
-          <Link href={'https://maps.app.goo.gl/4wnLULFAwHMdfBQ99'}>
+          <Link target="_blank" href={'https://maps.app.goo.gl/4wnLULFAwHMdfBQ99'}>
             <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
           </Link>
         ) : (

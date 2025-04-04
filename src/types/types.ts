@@ -107,6 +107,7 @@ export interface IProduct {
   colorName?: string;
   custom_url?:string;
   shippingOptions?: Shipping[];
+  selectedShipping?: Shipping;
 }
 interface Filter {
   heading: string;

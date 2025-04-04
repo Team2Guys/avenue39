@@ -418,6 +418,7 @@ const ProductDetail = ({
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
+    console.log(itemToAdd,'itemToAdd',selectedShipping)
   };
 
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {

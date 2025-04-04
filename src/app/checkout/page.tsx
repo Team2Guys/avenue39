@@ -66,13 +66,13 @@ const Checkout = () => {
 
   useEffect(() => {
     if (cartItems?.length) {
-      const allShippingOptions = cartItems.flatMap(item => item.shippingOptions || []);
+      const allShippingOptions = cartItems.flatMap(item => item.selectedShipping || []);
       const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
 
       setUniqueShipping(uniqueOptions);
     }
   }, [cartItems]);
-
+console.log(uniqueShipping, 'shipping options')
 
   const handleCollapseChange = (key: string | string[]) => {
     setActiveKey(key);

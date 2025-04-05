@@ -36,7 +36,7 @@ model Products {
   spacification         Json[]                  @default([])
   createdAt             DateTime                @default(now())
   sale                  String?                 @default("0")
-  updatedAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
   saleDuration          DateTime                @default(now())
   Canonical_Tag         String?
   Meta_Description      String?
@@ -73,7 +73,7 @@ model Categories {
   meta_description    String?
   canonical_tag       String?
   images_alt_text     String?
-  updatedAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
   last_editedBy       String?
   short_description   String?
   custom_url          String?
@@ -92,7 +92,7 @@ model SubCategories {
   meta_description    String?
   canonical_tag       String?
   images_alt_text     String?
-  updatedAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
   last_editedBy       String?
   short_description   String?
   custom_url          String?

@@ -65,14 +65,17 @@ const Checkout = () => {
   }, [storedProduct]);
 
   useEffect(() => {
-    if (cartItems?.length) {
+    if(product) {
+      const findShipping = product.selectedShipping;
+      setUniqueShipping(findShipping ? [findShipping] : undefined);
+    }
+    else if (cartItems?.length) {
       const allShippingOptions = cartItems.flatMap(item => item.selectedShipping || []);
       const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
 
       setUniqueShipping(uniqueOptions);
     }
-  }, [cartItems]);
-console.log(uniqueShipping, 'shipping options')
+  }, [cartItems,product]);
 
   const handleCollapseChange = (key: string | string[]) => {
     setActiveKey(key);

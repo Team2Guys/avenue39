@@ -399,19 +399,11 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     setCroppedImage(null);
   };
 
+
   console.log(selectedShippingOption, 'shipping')
 
   return (
     <>
-      <p
-        className="text-lg font-black mb-4 flex items-center justify-center gap-2 hover:bg-gray-200 w-fit p-2 cursor-pointer text-black dark:bg-black dark:text-white"
-        onClick={() => {
-          setselecteMenu('Add All Products');
-          setEditProduct(undefined);
-        }}
-      >
-        <IoMdArrowRoundBack /> Back
-      </p>
 
       <Formik
         enableReinitialize
@@ -424,6 +416,24 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         {(formik) => {
           return (
             <Form onSubmit={formik.handleSubmit}>
+              <div className='flex justify-between items-center mb-4 sticky top-20 bg-white z-10 py-2'>
+                <p
+                  className="text-lg font-black flex items-center justify-center gap-2 hover:bg-gray-200 w-fit p-2 cursor-pointer text-black dark:bg-black dark:text-white"
+                  onClick={() => {
+                    setselecteMenu('Add All Products');
+                    setEditProduct(undefined);
+                  }}
+                >
+                  <IoMdArrowRoundBack /> Back
+                </p>
+                <button
+                  type="submit"
+                  className="px-10 py-2 mt-2 bg-black text-white rounded-md shadow-md dark:bg-main dark:border-0"
+                  disabled={loading}
+                >
+                  {loading ? <Loader color="white" /> : EditInitialValues ? 'Save' : 'Submit'}
+                </button>
+              </div>
               <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
                 <div className="flex flex-col gap-9 ">
                   <div className="rounded-sm border border-stroke bg-white dark:bg-black py-4 px-6">
@@ -1259,17 +1269,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                     </div>
                   </div>
 
-                  <div className="rounded-sm border border-stroke bg-white  dark:bg-black">
-                    <div className="border-b border-stroke py-4 px-6 dark:border-strokedark">
-                      <h3 className="font-medium text-black dark:text-white">
-                        Add Shipping
-                      </h3>
-                    </div>
-                    <div className="flex flex-col py-4 px-6">
-
-                    </div>
-                  </div>
-
                   <div className="rounded-sm border border-stroke bg-white  dark:bg-black ">
                     <div className="border-b border-stroke py-4 px-4 dark:border-strokedark">
                       <h3 className="font-medium text-black dark:text-white">
@@ -1661,7 +1660,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                 className="px-10 py-2 mt-2 bg-black text-white rounded-md shadow-md dark:bg-main dark:border-0"
                 disabled={loading}
               >
-                {loading ? <Loader color="white" /> : 'Submit'}
+                {loading ? <Loader color="white" /> : EditInitialValues ? 'Save' : 'Submit'}
               </button>
             </Form>
           );

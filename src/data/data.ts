@@ -1,6 +1,6 @@
-import lightImg from '../../public/assets/icons/light1(traced).png'
-import deliveryImg from '../..//public/assets/icons/delivery-truck 2 (traced).png'
-import locationImg from '../..//public/assets/icons/location 1 (traced).png'
+import lightImg from '../../public/assets/icons/delivery-lighting.png'
+import deliveryImg from '../..//public/assets/icons/delivery-truck.png'
+import locationImg from '../..//public/assets/icons/delivery-location.png'
 
 export const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 export const aboutbreadcrumbs = [

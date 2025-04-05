@@ -1658,7 +1658,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
               <button
                 type="submit"
                 className="px-10 py-2 mt-2 bg-black text-white rounded-md shadow-md dark:bg-main dark:border-0"
-                disabled={loading || !formik.dirty}
+                disabled={loading}
               >
                 {loading ? <Loader color="white" /> : EditInitialValues ? 'Save' : 'Submit'}
               </button>

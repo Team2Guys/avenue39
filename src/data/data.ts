@@ -548,7 +548,7 @@ export const footerItems: FooterItem[] = [
   {
     bgClass: "bg-footershowroom",
     text: "Visit Our Showroom",
-    overlayText: ["<a target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'>Experience our collection in person at our sister company, Two Guys Home Furnishing in Al Quoz—see, touch, and feel the quality firsthand.</a>"],
+    overlayText: ["Experience our collection at our sister company, Two Guys Home Furnishing, located at <a class='underline' target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'> 23 22nd St - Al Quoz Industrial Area 4 - Dubai </a> - see, touch and feel the quality first-hand."],
     showImage: true,
     imageSrc: "/assets/images/footer/showroomicon.svg",
   },

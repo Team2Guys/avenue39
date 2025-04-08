@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import Container from '@/components/ui/Container';
 import { IOrder, IOrderProduct } from '@/types/types';
+import OrderSummary from '../OrderSummary';
 
 const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
   let userDetail: IOrder | null = null;
@@ -207,6 +208,7 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
         ))}
     </div>
     <hr/>
+    
     <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-0 mt-3 md:mt-5'>
       <div>
         <h3 className='text-[18px] md:text-[20px] 2xl:text-[24px] font-semibold'>Payment</h3>
@@ -217,6 +219,16 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
           </div> -
           <p>AED <span>{Total}</span></p>
         </div>
+        <div className="flex flex-wrap lg:flex-nowrap gap-5 items-center mt-8">
+                
+        <Link
+                  href="/new-arrivals"
+                  className="bg-main px-6 lg:flex justify-center items-center rounded-md text-white h-[50px] hover:border-[#666666] border border-[#F6F6F6] font-helvetica flex"
+                >
+                  Continue Shopping
+                </Link>
+                <OrderSummary userDetail={userDetail} />
+              </div>
       </div>
       <div>
         <h3 className='text-[18px] md:text-[20px] 2xl:text-[24px] font-semibold'>Delivery</h3>

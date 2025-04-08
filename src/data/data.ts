@@ -1,6 +1,6 @@
-import lightImg from '../../public/assets/icons/light1(traced).png'
-import deliveryImg from '../..//public/assets/icons/delivery-truck 2 (traced).png'
-import locationImg from '../..//public/assets/icons/location 1 (traced).png'
+import lightImg from '../../public/assets/icons/delivery-lighting.png'
+import deliveryImg from '../..//public/assets/icons/delivery-truck.png'
+import locationImg from '../..//public/assets/icons/delivery-location.png'
 
 export const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 export const aboutbreadcrumbs = [
@@ -548,7 +548,7 @@ export const footerItems: FooterItem[] = [
   {
     bgClass: "bg-footershowroom",
     text: "Visit Our Showroom",
-    overlayText: ["<a href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'>Experience our collection in person at our sister company, Two Guys Home Furnishing in Al Quoz—see, touch, and feel the quality firsthand.</a>"],
+    overlayText: ["Experience our collection at our sister company, Two Guys Home Furnishing, located at <a class='underline' target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'> 23 22nd St - Al Quoz Industrial Area 4 - Dubai </a> - see, touch and feel the quality first-hand."],
     showImage: true,
     imageSrc: "/assets/images/footer/showroomicon.svg",
   },
@@ -568,6 +568,6 @@ export   const selectOption = [
 
 export const shippingOption: Shipping[] = [
   {icon: locationImg, name: 'Standard Shipping' , description: 'Within 3-4 days delivery after placing the order.' , shippingFee: 0},
-  {icon: deliveryImg, name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150},
-  {icon: lightImg, name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150}
+  {icon: deliveryImg, name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150, freeShippingFee: 1000},
+  {icon: lightImg, name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150, freeShippingFee: 1000}
 ]

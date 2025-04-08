@@ -314,7 +314,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
   return (
     <div>
       <>
-        <div className="flex justify-between gap-2 mb-4 items-center flex-nowrap text-black dark:text-white">
+      <div className="sticky top-20 z-50 bg-white dark:bg-boxdark flex justify-between gap-2 mb-4 items-center flex-nowrap text-black dark:text-white p-2">
           <input
             className="peer lg:p-3 p-2 block outline-none border rounded-md border-gray-200 dark:bg-boxdark dark:bg-transparent dark:border-white text-11 xs:text-sm dark:focus:border-primary focus:border-dark focus:ring-dark-500 disabled:opacity-50 disabled:pointer-events-none dark:text-black"
             type="search"

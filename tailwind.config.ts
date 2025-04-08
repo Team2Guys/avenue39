@@ -21,7 +21,7 @@ const config = {
     extend: {
       backgroundImage: {
         footerbuy: 'url("/assets/images/footer/buy.png")',
-        footerdeliver: 'url("/assets/images/footer/deliver.png")',
+        footerdeliver: 'url("/assets/images/footer/footervan.webp")',
         footershowroom: 'url("/assets/images/footer/showroom.png")',
       },
       fontSize: {

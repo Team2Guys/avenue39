@@ -367,9 +367,11 @@ const Card: React.FC<CardProps> = ({
                       <Dialog >
                         <DialogTrigger className="w-full" asChild>
                           <button
-                            aria-haspopup="dialog"
-                            aria-expanded="false"
-                            className={`my-1 h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
+                       aria-haspopup="dialog"
+                       aria-expanded="false"
+                       aria-controls="radix-:r6:"
+                       data-state="closed"
+                            className={`my-1 h-8 quick-view-btn whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? 'px-2' : 'px-6' : 'px-2'}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -565,9 +567,11 @@ const Card: React.FC<CardProps> = ({
                     <Dialog>
                       <DialogTrigger className="w-fit align-middle" asChild>
                         <button
-                          aria-haspopup="dialog"
-                          aria-expanded="false"
-                          className={`my-1  h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                         aria-haspopup="dialog"
+                         aria-expanded="false"
+                         aria-controls="radix-:r6:"
+                         data-state="closed"
+                          className={`my-1 quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

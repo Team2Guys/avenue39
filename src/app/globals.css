@@ -541,7 +541,16 @@ body[data-scroll-locked] {
 }
 
 
+.quick-view-btn {
+  position: relative;
+}
 
-.custom-collapse{
-
+.quick-view-btn::before {
+  content: '';
+  position: absolute;
+  top: -12px; /* Extends 12px above */
+  left: -12px; /* Extends 12px left */
+  right: -12px; /* Extends 12px right */
+  bottom: -12px; /* Extends 12px below */
+  z-index: -1; /* Behind the button */
 }

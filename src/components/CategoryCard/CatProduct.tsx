@@ -1,10 +1,10 @@
 import React from 'react';
 import Container from '../ui/Container';
 import ProductGrid from './ProductGrid';
-import { IProduct } from '@/types/types';
 import ProductSkeleton from '../Skaleton/productSkeleton';
 import Link from 'next/link';
 import { homeProducts } from '@/data/products';
+import { IProduct } from '@/types/prod';
 interface ICatProduct {
   reverse?: boolean;
   CategoryName: string;
@@ -82,7 +82,6 @@ const CatProduct = ({
                 products={products.slice(5, 7)}
                 productImages={productImages?.products || []}
                 slider={true}
-                // sliderNumber={1}
                 isLandscape={false}
                 portSpace={portSpace}
                 redirect={redirect}

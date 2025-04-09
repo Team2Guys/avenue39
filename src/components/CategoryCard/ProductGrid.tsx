@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import Card from '../ui/card';

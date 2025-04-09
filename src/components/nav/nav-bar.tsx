@@ -1,5 +1,4 @@
 'use client';
-import { ICategory, IProduct } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
@@ -45,6 +44,8 @@ import { generateSlug, getAllStock, variationProducts } from '@/config';
 import MenuLink from '../menu-link';
 import { variationProductImage } from '@/redux/slices/cart';
 import { CartItem } from '@/redux/slices/cart/types';
+import { ICategory } from '@/types/cat';
+import { IProduct } from '@/types/prod';
 
 const Navbar = ({ categories }: { categories: ICategory[] }) => {
   const [open, setOpen] = useState(false);
@@ -149,8 +150,8 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
       Navigate.push('/login');
       setOpen(false);
-    } catch (err) {
-      console.log(err);
+    } catch  {
+        return ;
     }
   };
   useEffect(() => {

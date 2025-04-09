@@ -1,18 +1,17 @@
 
 import React from 'react';
 import CatProduct from './CatProduct';
-import { IProduct } from '@/types/types';
-import CatProduct1 from './CatProduct1';
+const CatProduct1 =  dynamic(() => import('./CatProduct1'), { ssr: false });
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
 import { generateSlug } from '@/config';
+import dynamic from 'next/dynamic';
+import { IProduct } from '@/types/prod';
 
 const AllCategory = ({ products }: { products: IProduct[] }) => {
+
   const filterByCategoryAndTitle = (products: IProduct[], titles: string[]) => {
     const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
-
-  
-
-    const filteredProducts = products.filter((prod) => {
+   const filteredProducts = products.filter((prod) => {
       return titleIndexMap.has(prod.name);
     });
     return filteredProducts.sort((a, b) => {
@@ -28,28 +27,24 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
   const filterAccessories = (products: IProduct[], titles: string[]) => {
     const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
     const matchingProducts = products.filter((prod) =>
-        titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
+      titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
     );
-    const nonMatchingProducts = products.filter((prod) =>
-        !titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
+    const nonMatchingProducts = products.filter((prod) =>!titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
     );
     const sortedMatchingProducts = matchingProducts.sort((a, b) => {
-        const aIndex = titleIndexMap.get(a.name);
-        const bIndex = titleIndexMap.get(b.name);
-        return aIndex !== undefined && bIndex !== undefined ? aIndex - bIndex : 0;
+      const aIndex = titleIndexMap.get(a.name);
+      const bIndex = titleIndexMap.get(b.name);
+      return aIndex !== undefined && bIndex !== undefined ? aIndex - bIndex : 0;
     });
     return [...sortedMatchingProducts, ...nonMatchingProducts];
-};
-
-
-
+  };
   const getCategoryDescription = (categoryName: string) => {
-    const matchedCategory = products.flatMap((product) => product.categories || []).find((category) =>generateSlug(category.name) === generateSlug(categoryName));
+    const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));
     return matchedCategory?.short_description || '';
   };
 
-  
-    return (
+
+  return (
     <div className="pt-1">
       <CatProduct
         products={filterByCategoryAndTitle(products, Dining)}

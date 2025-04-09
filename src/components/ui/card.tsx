@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Image from 'next/image';
-import { ICategory, IProduct, Sizes } from '@/types/types';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { addItem } from '@cartSlice/index';
@@ -30,6 +30,8 @@ import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { BsCartX } from 'react-icons/bs';
 import { cardProductTags } from '@/data/products';
+import { IProduct, Sizes } from '@/types/prod';
+import { ICategory } from '@/types/cat';
 interface CardProps {
   card?: IProduct;
   isModel?: boolean;

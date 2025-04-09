@@ -17,7 +17,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton'; // Adjust the path as necessary
-import { IProduct, IReview } from '@/types/types';
+import { IReview } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeUrlHandler, fetchReviews } from '@/config/fetch';
 import { calculateRatingsPercentage, renderStars } from '@/config';
@@ -27,6 +27,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { State } from '@/redux/store';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { IProduct } from '@/types/prod';
 
 interface CardProps {
   card: IProduct;
@@ -85,7 +86,6 @@ const FeatureCard: React.FC<CardProps> = ({
 
    const handleAddToWishlist = (product: IProduct) => {
   
-      console.log("Wishlist:", itemToAdd);
       let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
       const existingItemIndex = existingWishlist.findIndex(
         (item: any) => item.id === itemToAdd.id,

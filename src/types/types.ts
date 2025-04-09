@@ -1,22 +1,13 @@
 import { StaticImageData } from 'next/image';
 import React, { FormEventHandler, ReactNode, SetStateAction } from 'react';
-export type TPolicySections = TPolicySection[];
+import { IProduct } from './prod';
 export type TReturnPolicy = TReturnPolicy[];
 export type TShippingPolicy = TShippingPolicy[];
-export type TTermsCondition = TTermsCondition[];
-export type TTimeRemainingArray = TTimeRemaining[];
-
-export interface IHome {}
-export interface INav {}
 
 export interface ITypo {
   children: any;
   className?: string;
   onClick?: () => void;
-}
-export interface TPolicySection {
-  title: string;
-  description: any | any[];
 }
 
 export interface ITextIcon {
@@ -41,13 +32,6 @@ export type BRAND = {
 };
 
 
-export type TTimeRemaining = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-};
-
 export interface IServiceItem {
   id: number;
   icon: StaticImageData;
@@ -62,97 +46,6 @@ export interface MenuItem {
 
 export interface MenuData {
   [key: string]: MenuItem[];
-}
-
-export interface ProductImage {
-  imageUrl: string;
-  public_id: string;
-  altText?: string;
-  imageIndex?: number;
-  index?: string;
-
-  size?: string;
-
-  color?: string;
-}
-export interface IProduct {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  stock: number;
-  discountPrice: number;
-  sale?: string;
-  colors?: [];
-  spacification?: specsDetails[];
-  posterImageUrl: string | StaticImageData;
-  posterImagePublicId: string;
-  posterImageAltText?: string;
-  hoverImageUrl: string;
-  hoverImagePublicId: string;
-  productImages: ProductImage[];
-  additionalInformation: AdditionalInformation[];
-  categoriesId: number;
-  categories?: ICategory[];
-  subcategories?: ICategory[];
-  sections?: [];
-  createdAt?: string;
-  sale_counter?: string;
-  sortedSubcategories?: ICategory[];
-  sizes?: Sizes[];
-  filter?: Filter[];
-  reviews?:any[]
-  displayName?: string;
-  sizeName?: string;
-  colorName?: string;
-  custom_url?:string;
-  shippingOptions?: Shipping[];
-  selectedShipping?: Shipping;
-}
-interface Filter {
-  heading: string;
-  additionalInformation: {
-    name: string;
-    price: string;
-    discountPrice: string;
-    stock?: number;
-  }[];
-}
-export interface Sizes {
-    name: string;
-    filterName?: string;
-    price: string;
-    discountPrice: string;
-    stock?: string;
-}
-export interface specsDetails {
-  id: number;
-  specsDetails: string;
-}
-export interface IProductAdd {
-  name: string;
-  price: number;
-  description: string;
-  stock: number;
-  discountPrice: number;
-  posterImageUrl: string;
-  posterImagePublicId: string;
-  hoverImageUrl: string;
-  hoverImagePublicId: string;
-  productImages: ProductImage[];
-  spacification: Array<{ specsDetails: string; _id: string }>;
-  sizes?: string[];
-  additionalInformation: AdditionalInformation[];
-  categories: number[];
-  subcategories: number[];
-  Meta_Title: string;
-  Canonical_Tag: string;
-  Meta_Description: string;
-  Images_Alt_Text: string;
-  sale_counter?: string;
-  filters?: any[];
-  custom_url?:string;
-  shippingOptions: Shipping[]
 }
 
 export interface ISaleItems {
@@ -209,34 +102,7 @@ export interface IMAGE_INTERFACE {
   name?: string;
 }
 
-export interface ICategory {
-  id: number;
-  name: string;
-  createdAt?: string;
-  posterImageUrl?: string;
-  posterImagePublicId?: string;
-  categories?: any;
-  description?: string;
-  short_description?: string;
-  Images_Alt_Text?: string;
-  Meta_Title?: string;
-  Meta_Description?: string;
-  Canonical_Tag?: string;
-  subcategories?: ICategory[];
-  custom_url?:string
-}
-// Timer slider data type
-export type TSliderItem = {
-  id: number;
-  imageUrl: StaticImageData;
-  productName: string;
-  price: string;
-  discountText: string;
-  dealText: string;
-  timer: string;
-  productId: number;
-  buttonText: string;
-};
+
 export interface USRPROPS {
   handleSubmit: FormEventHandler<HTMLFormElement>;
   error: string | null | undefined;
@@ -264,22 +130,6 @@ export interface IReview {
   productId: number;
   userProfileImg?: string;
 }
-
-export type IProductWithoutId = Omit<IProduct, 'id'>;
-
-export interface AdditionalInformation {
-  key?: string;
-  value?: string;
-  colors?: string[];
-  dimension?: string[];
-}
-
-export interface IProductCategories {
-  id: string;
-  name: string;
-  subcategories?: ICategory[];
-}
-
 export interface IOrder {
   id: number;
   orderId: string;
@@ -322,13 +172,4 @@ export interface RECORDS {
   totalRevenue: string;
   total_sub_categories: string;
   Total_abandant_order: string;
-}
-
-export interface Shipping {
-  icon: string;
-  name: string;
-  description: string;
-  shippingFee: number;
-  otherEmiratesFee?: number;
-  freeShippingFee?: number;
 }

@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import DetailTabs from '@/components/detail-tabs/detail-tabs';
 import Container from '@/components/ui/Container';
 import Services from '@/components/services/services';
-import { IProduct, IProductDetail, IReview } from '@/types/types';
+import { IProductDetail, IReview } from '@/types/types';
 import ProductDetail from '@/components/product-detail/product-detail';
 import TopHero from '@/components/top-hero';
 import { Table } from 'antd';
 import { Skeleton } from '@/components/ui/skeleton';
 import NoProduct from '@/components/ui/no-product';
 import FeatureSlider from '../card-slider/feature-slider';
+import { IProduct } from '@/types/prod';
 
 const Product = ({ similarProducts, product, products, subslug, mainslug, filterParam, sizeParam , uniqueSizes }: {
   params?: IProductDetail;

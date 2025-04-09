@@ -15,10 +15,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Card from '@/components/ui/card';
-import { ICategory, IProduct } from '@/types/types';
+import { ICategory} from '@/types/cat';
 import SubCategoriesRow from './subcategories-row';
 import { variationProducts } from '@/config';
 import { CartSize } from '@/redux/slices/cart/types';
+import { IProduct } from '@/types/prod';
 
 interface ProductPageProps {
   layout: string;

@@ -17,7 +17,7 @@ import RedCross from '@assets/icons/remove.webp';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 import { fetchProducts } from '@/config/fetch';
 import FeatureSlider from '@/components/card-slider/feature-slider';
 interface PaymentQueryParams {

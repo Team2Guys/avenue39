@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { Scrollbar } from 'swiper/modules';
 import { useQuery } from '@tanstack/react-query';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 import { fetchProducts } from '@/config/fetch';
 import { generateSlug } from '@/config';
 import React from 'react';

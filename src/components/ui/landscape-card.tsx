@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { IProduct, IReview } from '@/types/types';
+import { IReview } from '@/types/types';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +28,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { message } from 'antd';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { toast } from 'react-toastify';
+import { IProduct } from '@/types/prod';
 interface CardProps {
   card: IProduct;
   isLoading?: boolean;
@@ -46,8 +47,6 @@ const LandscapeCard: React.FC<CardProps> = ({ card, isLoading }) => {
   }, [isLoading]);
 
  const handleAddToWishlist = (product: IProduct) => {
-
-    console.log("Wishlist:", itemToAdd);
     let existingWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const existingItemIndex = existingWishlist.findIndex(
       (item: any) => item.id === itemToAdd.id,

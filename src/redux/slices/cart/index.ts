@@ -58,8 +58,6 @@ const cartSlice = createSlice({
             return value;
           }
         });
-
-        console.log(updatedArray, "cartItems")
         state.items = updatedArray;
 
 

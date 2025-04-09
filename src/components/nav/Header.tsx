@@ -3,7 +3,7 @@ import TopNav from './top-nav';
 import MenuBar from './menu-bar';
 import BottomBar from './bottom-bar';
 import { fetchCategories } from '@/config/fetch';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import { useQuery } from '@tanstack/react-query';
 import { menuData } from '@/data/menu';
 import Navbar from './nav-bar';

@@ -17,7 +17,6 @@ const Coupan = ({ label, handleCoupon }: any) => {
 
   const handleCouponApply = (e: React.MouseEvent) => {
     e.stopPropagation(); 
-    console.log("Coupon applied:", coupon);
     handleCoupon(coupon);
   };
 

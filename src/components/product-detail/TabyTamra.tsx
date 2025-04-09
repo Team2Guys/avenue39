@@ -19,7 +19,7 @@ import {
     DialogTrigger,
   } from '../ui/dialog';
 import Image from 'next/image';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 
 
   interface TabyTamraPROPS{

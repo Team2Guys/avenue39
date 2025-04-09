@@ -13,7 +13,7 @@ import {
   subcategoryInitialValues,
 } from '@/data/data';
 import Loader from '@components/Loader/Loader';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import { Checkbox } from '../ui/checkbox';
 import showToast from '@components/Toaster/Toaster';
 import revalidateTag from '../ServerActons/ServerAction';
@@ -125,7 +125,7 @@ const FormLayout = ({
         updateFlag ? addProductUrl : '/api/subcategories/add-subcategory'
       }`;
 
-      const response = await axios.post(
+       await axios.post(
         url,
         updateFlag ? { ...newValue, id: editCategory.id } : newValue,
         {
@@ -134,7 +134,6 @@ const FormLayout = ({
           },
         },
       );
-      console.log(response,"response")
       revalidateTag('subcategories');
       setloading(false);
       showToast(
@@ -148,8 +147,8 @@ const FormLayout = ({
       resetForm();
       setMenuType('Sub Categories');
     } catch (err) {
-      console.log('error occurred', err);
       setloading(false);
+      throw err;
     }
   };
 
@@ -202,8 +201,8 @@ const FormLayout = ({
         setIsCropModalVisible(false);
         setCroppedImage(null);
       } catch (error) {
-        console.error('Error uploading cropped image:', error);
         showToast('error', 'Failed to upload cropped image');
+        throw error;
       }
     }
   };

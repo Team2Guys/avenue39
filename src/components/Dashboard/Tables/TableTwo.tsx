@@ -7,7 +7,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios';
 import { LiaEdit } from 'react-icons/lia';
 import { Category } from '@/types/interfaces';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import revalidateTag from '@/components/ServerActons/ServerAction';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
@@ -53,7 +53,6 @@ const TableTwo = ({
           return dateB - dateA;
         })) ||
     [];
-  console.log(filteredCategories, 'Filter Cetagories');
 
   const canDeleteCategory = true;
   // const canDeleteCategory =
@@ -103,12 +102,12 @@ const TableTwo = ({
         placement: 'topRight',
       });
     } catch (err) {
-      console.log(err, 'err');
       notification.error({
         message: 'Deletion Failed',
         description: 'There was an error deleting the category.',
         placement: 'topRight',
       });
+      throw err;
     }
   };
 

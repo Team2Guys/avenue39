@@ -1,6 +1,7 @@
 import { calculateRatingsPercentage, renderStars } from '@/config';
 import { fetchReviews } from '@/config/fetch';
-import { IProduct, IReview } from '@/types/types';
+import { IProduct } from '@/types/prod';
+import { IReview } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 interface starProps {

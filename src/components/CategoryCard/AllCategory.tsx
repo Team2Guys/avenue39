@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CatProduct from './CatProduct';
-const CatProduct1 =  dynamic(() => import('./CatProduct1'), { ssr: false });
+const CatProduct1 =  dynamic(() => import('./CatProduct1'));
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
 import { generateSlug } from '@/config';
 import dynamic from 'next/dynamic';

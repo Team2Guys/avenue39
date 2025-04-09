@@ -1,7 +1,9 @@
 import { re_Calling_products } from '@/data/Re_call_prod';
-import { ICategory, IProduct, IReview } from '@/types/types';
+import { IProduct, } from '@/types/prod';
 import axios from 'axios';
 import { generateSlug } from '.';
+import { ICategory } from '@/types/cat';
+import { IReview } from '@/types/types';
 
 export const fetchProducts = async () => {
   try {
@@ -17,8 +19,8 @@ export const fetchProducts = async () => {
     const response = await result.json();
 
     return response;
-  } catch (error) {
-    console.log(error, 'error');
+  } catch  {
+ return "error";
   }
 };
 
@@ -38,7 +40,7 @@ export const DashboardfetchProducts = async () => {
 
     return response;
   } catch (error) {
-    console.log(error, 'error');
+    return error
   }
 };
 
@@ -52,8 +54,8 @@ export const fetchCategories = async (): Promise<ICategory[] | any> => {
     );
     const response = await result.json();
     return response;
-  } catch (error) {
-    console.log(error, 'error');
+  } catch  {
+return "error"
   }
 };
 
@@ -142,8 +144,7 @@ export const get_all_records = async (token: any) => {
 
     const record = await response.json();
     return record;
-  } catch (err) {
-    console.error("Error fetching records:", err);
+  } catch  {
     return null;
   }
 };

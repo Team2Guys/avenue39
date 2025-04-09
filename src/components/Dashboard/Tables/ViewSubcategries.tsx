@@ -83,8 +83,8 @@ const ViewSubcategries = ({
         description: 'The category has been successfully deleted.',
         placement: 'topRight',
       });
-    } catch (err) {
-      console.log(err, 'err');
+    } catch  {
+
       notification.error({
         message: 'Deletion Failed',
         description: 'There was an error deleting the category.',

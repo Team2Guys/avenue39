@@ -2,9 +2,10 @@ import { selectTotalPrice, totalProductsInCart } from '@/redux/slices/cart';
 import { State } from '@/redux/store';
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import { IProduct, IReview } from '@/types/types';
 import { MdStar, MdStarBorder } from 'react-icons/md';
 import { CartItem } from '@/redux/slices/cart/types';
+import { IReview } from '@/types/types';
+import { IProduct } from '@/types/prod';
 
 export const SubTotal = () => {
   const totalPrice = useSelector((state: State) =>
@@ -199,10 +200,6 @@ export const variationName = ({ product }: { product: IProduct }) => {
 }
 
 export const getProductStock = ({ product }: { product: CartItem }) => {
-  if (!product.selectedSize && product.selectedfilter) {
-    console.log(product, "productHeader")
-  }
-
   if (product.selectedSize && product.selectedfilter) {
     const findSize = product.sizes?.find(
       (prod) => (prod.name === product.selectedSize?.name) && (prod.filterName ? prod.filterName === product.selectedfilter?.name : true)

@@ -7,7 +7,7 @@ import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
 import { cartbredcrumbs } from '@/data/data';
 import { State } from '@/redux/store';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 import Link from 'next/link';
 import React from 'react';
 import { IoBagOutline } from 'react-icons/io5';

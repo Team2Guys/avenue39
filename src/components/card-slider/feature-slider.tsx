@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 import CardSkaleton from '../Skaleton/productscard';
 import Card from '../ui/card';
 import { getAllStock, variationProducts } from '@/config';
@@ -79,8 +79,6 @@ const FeatureSlider: React.FC<FeatureProps> = ({ similarProducts, title, isBestS
     };
   }, []);
   useEffect(() => {
-    console.log(width, 'width :');
-
     if (width > 1500) {
       setIsLenght(processedProducts.length > 5);
     } else if (width > 1050) {

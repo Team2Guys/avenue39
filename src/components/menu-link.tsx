@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { generateSlug } from '@/config';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import { menuData } from '@/data/menu';
 import { re_Calling_products } from '@/data/Re_call_prod';
 import { TrimUrlHandler } from '@/config/fetch';

@@ -26,14 +26,11 @@ export const uploadPhotosToBackend = async (files: File[]): Promise<any[]> => {
         },
       );
 
-      console.log(response.data, 'response.data');
       Response_data.push(response.data);
-      console.log('Response_data', Response_data);
     }
 
     return Response_data;
   } catch (error) {
-    console.log('Error:', error);
     throw error;
   }
 };
@@ -45,10 +42,9 @@ export const ImageRemoveHandler = async (
   try {
     // Only call the API if public_id is not empty (i.e., it's not a cropped image without a public_id)
     if (imagePublicId) {
-      const response = await axios.delete(
+       await axios.delete(
         `${process.env.NEXT_PUBLIC_PRODUCT_IMAGE}/api/file-upload/DelImage/${imagePublicId}`,
       );
-      console.log('Image removed successfully:', response.data);
     }
 
     // Remove the image from the state regardless of whether it has a public_id
@@ -56,7 +52,7 @@ export const ImageRemoveHandler = async (
       prev.filter((item: any) => item.public_id !== imagePublicId),
     );
   } catch (error) {
-    console.error('Failed to remove image:', error);
+    throw error;
   }
 };
 
@@ -102,7 +98,6 @@ export let getPRODUCTS = async (
     setTotalPage && setTotalPage(totalPages);
     setTotalProductscount && setTotalProductscount(totalProducts);
   } catch (err: any) {
-    console.log(err, 'err');
     if (err.response && err.response.data && err.response.data.message) {
       setError(err.response.data.message);
     } else if (err.message) {

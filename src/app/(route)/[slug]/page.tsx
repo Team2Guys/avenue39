@@ -5,7 +5,7 @@ import { fetchCategories, fetchProducts } from '@/config/fetch';
 import { Meta_handler } from '@/config/metaHanlder';
 import { menuData } from '@/data/menu';
 import { Product, Subcategory } from '@/data/new_Arrival';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import React from 'react';

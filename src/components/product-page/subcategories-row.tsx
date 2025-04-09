@@ -9,7 +9,7 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { re_Calling_products, recallingTypes } from '@/data/Re_call_prod';
 import { usePathname } from 'next/navigation';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import { menuData } from '@/data/menu';
 
 const SubCategoriesRow = ({ category }: any) => {

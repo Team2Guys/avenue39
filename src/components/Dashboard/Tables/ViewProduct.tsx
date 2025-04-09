@@ -127,7 +127,7 @@ const ViewProduct: React.FC<CategoryProps> = ({
 
   const handleDelete = async (key: string) => {
     try {
-      const response = await axios.delete(
+   await axios.delete(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/product/delete-product`,
         {
           headers: {
@@ -137,7 +137,6 @@ const ViewProduct: React.FC<CategoryProps> = ({
         },
       );
       revalidateTag('products');
-      console.log(response);
       setCategory((prev: Product[]) => prev.filter((item) => item.id !== key));
       notification.success({
         message: 'Product Deleted',
@@ -145,12 +144,12 @@ const ViewProduct: React.FC<CategoryProps> = ({
         placement: 'topRight',
       });
     } catch (err) {
-      console.log(err);
       notification.error({
         message: 'Deletion Failed',
         description: 'There was an error deleting the product.',
         placement: 'topRight',
       });
+      throw err;
     }
   };
 
@@ -189,9 +188,6 @@ const ViewProduct: React.FC<CategoryProps> = ({
             : record.filter && record.filter.length > 0
               ? record.filter[0]
               : [];
-
-        console.log(sizes, "sizes");
-
         return (
           <>
             {sizes.length > 0 ? (

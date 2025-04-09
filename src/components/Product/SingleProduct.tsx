@@ -4,7 +4,7 @@ import {
 } from '@/config/fetch';
 import { generateSlug } from '@/config';
 import NotFound from '@/app/not-found';
-import { IProduct, Sizes } from '@/types/types';
+import { IProduct, Sizes } from '@/types/prod';
 import Product from '@/components/Product/product';
 import { ProductDetailSkeleton } from '../product-detail/skelton';
 

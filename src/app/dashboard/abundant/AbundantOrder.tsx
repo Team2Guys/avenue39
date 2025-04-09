@@ -4,8 +4,9 @@ import DefaultLayout from '@/components/Dashboard/Layouts/DefaultLayout';
 import React, { useState } from 'react';
 import { formatDate } from '@/config';
 import { LuView } from 'react-icons/lu';
-import { IOrder, IProduct } from '@/types/types';
 import dynamic from 'next/dynamic';
+import { IOrder } from '@/types/types';
+import { IProduct } from '@/types/prod';
 const OrderList = dynamic(() => import('@/components/Orders/orders'))
 
 const AbundantOrder = ({

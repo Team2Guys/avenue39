@@ -1,4 +1,4 @@
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 
 export interface MainState {
   dummy: string;

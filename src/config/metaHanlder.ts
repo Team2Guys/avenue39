@@ -21,7 +21,6 @@ export const Meta_handler = async (categoryName: string, url: string) => {
     },
   ];
 
-  console.log()
   let title = findCategory?.meta_title || 'Avenue39';
   let description =
     findCategory?.meta_description || 'Welcome to blindsandcurtains';
@@ -115,7 +114,6 @@ fullurl += queryString;
     },
   ];
 
-  console.log(findProduct?.Meta_Title, "meta title")
   let title = findProduct?.Meta_Title || 'Avenue39';
   let description = findProduct?.Meta_Description || 'Welcome to Avenue39';
   let canonical = findProduct?.Canonical_Tag;
@@ -172,8 +170,6 @@ export const subCategory = async (slug: string[], url: string,newparams?:any) =>
 
 
   let fullurl = url+category+"/"+subcategoryName;
-
-  console.log(fullurl, "full urls")
 
   let images = findSubCategory.posterImageUrl || 'images';
   let alttext = findSubCategory.Images_Alt_Text || 'Alternative Text';

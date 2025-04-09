@@ -5,8 +5,8 @@ import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
 import { useState } from 'react';
 import { Category as Categorytype } from '@/types/interfaces';
-import { ICategory } from '@/types/types';
 import dynamic from 'next/dynamic';
+import { ICategory } from '@/types/cat';
 const Addcategory = dynamic(() => import('@components/AddCategory/Addcategory'))
 const TableTwo = dynamic(() => import('@components/Dashboard/Tables/TableTwo'))
 

@@ -7,7 +7,7 @@ import { generateSlug } from '@/config';
 import Link from 'next/link';
 import { State } from '@/redux/store';
 import { useSelector } from 'react-redux';
-import { ICategory } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import { staticHeaderCategories } from '@/data/menu';
 
 const MenuBar = ({ categories }: { categories?: ICategory[] }) => {

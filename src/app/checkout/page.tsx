@@ -33,7 +33,7 @@ import { ProductPrice } from '@/styles/typo';
 import { product_refactor } from '@/config/HelperFunctions';
 import { Collapse } from 'antd';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { Shipping } from '@/types/types';
+import { Shipping } from '@/types/prod';
 
 
 const Checkout = () => {
@@ -51,7 +51,6 @@ const Checkout = () => {
 
   const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
-  const [borderActiveKey, setborderActiveKey] = useState<number>(0);
   const [minDate, setMinDate] = useState(new Date().toISOString().split('T')[0]);
   const [disabledDates, setDisabledDates] = useState<string[]>([]);
 
@@ -110,7 +109,6 @@ const Checkout = () => {
 
         const isAllSame = normalized.every(val => val === normalized[0]);
         if (isAllSame && (shippingMethods.length > 0)) {
-          console.log(isAllSame, "shippingOption", shippingMethods)
           const sameShipping = cartItems[0].shippingOptions || [];
           setUniqueShipping(sameShipping);
 
@@ -136,13 +134,10 @@ const Checkout = () => {
     setActiveKey(key);
     if (Array.isArray(key)) {
       const selected = uniqueShipping?.[Number(key[0])];
-      const [ActiveKey] = key
-      setborderActiveKey(Number(ActiveKey))
       setSelectedShipping(selected);
     } else {
       const selected = uniqueShipping?.[Number(key)];
       setSelectedShipping(selected);
-      setborderActiveKey(Number(key))
     }
   };
   // console.log(selectedShipping, "selectedShipping", uniqueShipping)
@@ -411,7 +406,6 @@ const Checkout = () => {
     }
   };
 
-  console.log(itemsCollapse[borderActiveKey], "itemsCollapse[borderActiveKey]")
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />

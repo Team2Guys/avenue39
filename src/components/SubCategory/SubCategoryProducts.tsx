@@ -2,10 +2,11 @@ import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
 import { generateSlug } from '@/config';
 import { fetchCategories, fetchProducts, fetchSubCategories } from '@/config/fetch';
-import { ICategory, IProduct, Sizes } from '@/types/types';
+import { IProduct, Sizes } from '@/types/prod';
 import React from 'react';
 import Product from '../Product/product';
 import { re_Calling_products } from '@/data/Re_call_prod';
+import { ICategory } from '@/types/cat';
 
 const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: { slug: string[], mainslug: string, filterParam?: string, sizeParam?: string }) => {
   let subcategoryName = slug[1];

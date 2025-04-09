@@ -4,8 +4,9 @@ import Breadcrumb from '@/components/Dashboard/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@/components/Dashboard/Layouts/DefaultLayout';
 import { formatDate } from '@/config';
 import { LuView } from 'react-icons/lu';
-import { IOrder, IProduct } from '@/types/types';
+import { IOrder} from '@/types/types';
 import dynamic from 'next/dynamic';
+import { IProduct } from '@/types/prod';
 const OrderList = dynamic(() => import('@/components/Orders/orders'))
 
 const Orders = ({ orderData }: { orderData: IOrder[] }) => {

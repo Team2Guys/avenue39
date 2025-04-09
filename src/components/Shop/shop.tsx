@@ -1,7 +1,8 @@
 'use client';
 import ProductPage from '@/components/product-page/product';
 import React, { useState } from 'react';
-import { ICategory, IProduct } from '@/types/types';
+import { ICategory } from '@/types/cat';
+import { IProduct } from '@/types/prod';
 
 const Shop = ({
   categories,

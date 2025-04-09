@@ -34,17 +34,13 @@ function ProfileComponent() {
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      console.log(file);
       let imageUrl: any = await uploadPhotosToBackend([file]);
-      console.log(file);
-      console.log('response from image updload');
-      console.log(imageUrl, 'imageUrlimageUrl');
+
       imageUrl ? setProfilePhoto(() => imageUrl) : null;
     }
   };
 
   useEffect(() => {
-    console.log('function logged');
     if (loggedInUser) {
       setProfilePhoto({
         imageUrl: loggedInUser?.userImageUrl,
@@ -94,7 +90,6 @@ function ProfileComponent() {
       userImagePublicId: profilePhoto.public_id || '',
     };
 
-    console.log(userDetails);
 
     try {
       const res = await axios.post(
@@ -104,8 +99,7 @@ function ProfileComponent() {
 
       showToast('success', res.data.message);
       dispatch(loggedInUserAction(res.data.user));
-    } catch (err) {
-      console.log(err);
+    } catch  {
       showToast('error', 'Their is something wrong!');
     }
   };
@@ -115,8 +109,8 @@ function ProfileComponent() {
       Cookies.remove('user_token', { path: '/' });
       router.push('/login');
       dispatch(loggedInUserAction(null));
-    } catch (err) {
-      console.log(err);
+    } catch  {
+      return "Their is something wrong!";
     }
   };
 
@@ -125,7 +119,6 @@ function ProfileComponent() {
       await ImageRemoveHandler(loggedInUser.userImagePublicId, profilePhoto);
       setProfilePhoto({});
       showToast('success', 'Image removed successfully🎉');
-      console.log(profilePhoto);
     } catch (err: any) {
       showToast(
         'error',

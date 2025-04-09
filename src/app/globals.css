@@ -560,3 +560,12 @@ body[data-scroll-locked] {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
 }
 
+
+
+video::-webkit-media-text-track-display {
+  display: none; /* Hides captions in Webkit browsers (Chrome, Safari) */
+}
+
+video::cue {
+  display: none; /* Hides captions in other browsers (Firefox, etc.) */
+}

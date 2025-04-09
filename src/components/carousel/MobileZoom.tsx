@@ -17,7 +17,6 @@ const ImageZoomDialog = ({
     const index = allImage.findIndex((img) => img.imageUrl === clickedImageUrl);
     setCurrentIndex(index); // Set the index of the clicked image
     setPreviewVisible(true); // Open preview modal
-    console.log(index, "setCurrentIndex", clickedImageUrl);
   };
 
   // Use `useEffect` to update the initial index when the `imageUrl` prop changes

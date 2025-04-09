@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from '../ui/Container';
 import ProductGrid from './ProductGrid';
-import { IProduct } from '@/types/types';
+import { IProduct } from '@/types/prod';
 import ProductSkeleton from '../Skaleton/productSkeleton';
 import Link from 'next/link';
 import { homeProducts } from '@/data/products';

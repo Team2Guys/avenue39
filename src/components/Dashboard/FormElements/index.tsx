@@ -19,12 +19,13 @@ import {
 import { Checkbox, Modal, Select } from 'antd';
 import showToast from '@components/Toaster/Toaster';
 import revalidateTag from '@/components/ServerActons/ServerAction';
-import { ICategory, Shipping } from '@/types/types';
+import { ICategory } from '@/types/cat';
 import Cookies from 'js-cookie';
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
 import { FaCropSimple } from 'react-icons/fa6';
+import { Shipping } from '@/types/prod';
 
 function centerAspectCrop(
   mediaWidth: number,
@@ -119,7 +120,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         setProductInitialValue(EditProductValue)
 
       } catch (err) {
-        console.log(err, 'err');
+        throw err;
       }
     };
 
@@ -323,7 +324,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     setIsCropModalVisible(false);
     setCroppedImage(null);
   };
-  
+
   const onSubmit = async (values: any, { resetForm }: any) => {
     values.categories = selectedCategoryIds;
     values.subcategories = selectedSubcategoryIds;
@@ -872,8 +873,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                               key={index}
                               className="flex items-center space-x-2"
                             >
-                      
-                    
+
+
                               <Checkbox
                                 checked={!!selectedShippingOption.find((item) => item.name === shipping.name)}
                                 className="custom-checkbox"

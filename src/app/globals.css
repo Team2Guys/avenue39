@@ -548,9 +548,9 @@ body[data-scroll-locked] {
 .quick-view-btn::before {
   content: '';
   position: absolute;
-  top: -12px; /* Extends 12px above */
-  left: -12px; /* Extends 12px left */
-  right: -12px; /* Extends 12px right */
-  bottom: -12px; /* Extends 12px below */
-  z-index: -1; /* Behind the button */
+  top: -12px; 
+  left: -12px; 
+  right: -12px; 
+  bottom: -12px; 
+  z-index: -1; 
 }

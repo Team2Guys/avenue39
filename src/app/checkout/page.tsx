@@ -37,7 +37,7 @@ import { Shipping } from '@/types/prod';
 
 
 const Checkout = () => {
-  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const [selectedState, setSelectedState] = useState<string | null>(selectOption[0].title);
   const [shippingfee, setShippingFee] = useState<number>(0);
     const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
   const [totalPrice, setTotalPrice] = useState(0)
@@ -83,7 +83,6 @@ const Checkout = () => {
 
   useEffect(() => {
     if (product) {
-      // If a single product exists, set all its shipping options
       console.log(product.shippingOptions, "findShipping")
       const findShipping = product.shippingOptions;
 
@@ -254,7 +253,7 @@ const Checkout = () => {
       const productPrice = product ? totalPrice : cartPrice;
       let totalPricesFlag = productPrice  > 1000  ?  true : false
       
-      console.log(option && option[state], "findShipping", state)
+      console.log(option && option[state], "findShipping", state, selectedState)
       setShippingFee(totalPricesFlag ? 0 : (option ? option[state] ?? 0 : 50));
 
     }

@@ -131,81 +131,6 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   const superAdminToken = Cookies.get('superAdminToken');
   let finalToken = token ? token : superAdminToken;
 
-  const onSubmit = async (values: any, { resetForm }: any) => {
-    values.categories = selectedCategoryIds;
-    values.subcategories = selectedSubcategoryIds;
-    values.shippingOptions = selectedShippingOption;
-    console.log(values, 'values')
-    try {
-      setError(null);
-      let posterImageUrl = posterimageUrl && posterimageUrl[0];
-      let hoverImageUrl = hoverImage && hoverImage[0];
-      if (!posterImageUrl || !(imagesUrl.length > 0)) {
-        return showToast('warn', 'Please select relevant Images');
-      }
-      let newValues = {
-        ...values,
-        posterImageUrl: posterImageUrl.imageUrl,
-        posterImagePublicId: posterImageUrl.public_id,
-        posterImageAltText: posterImageUrl.altText,
-        posterImageIndex: posterImageUrl.Index,
-        hoverImageUrl: hoverImageUrl.imageUrl,
-        hoverImagePublicId: hoverImageUrl.public_id,
-        hoverImageAltText: posterImageUrl.altText,
-        productImages: imagesUrl,
-        sale_counter:
-          values.sale_counter === '' || EditInitialValues.sale_counter == null
-            ? ''
-            : values.sale_counter
-              ? values.sale_counter
-              : EditInitialValues.sale_counter,
-      };
-      setloading(true);
-
-      let updateFlag = EditProductValue && EditInitialValues ? true : false;
-      let addProductUrl = updateFlag ? `/api/product/update-product` : null;
-
-      let url = `${process.env.NEXT_PUBLIC_BASE_URL}${updateFlag ? addProductUrl : '/api/product/add-product'}`;
-
-      if (updateFlag && EditInitialValues?.id) {
-        newValues = { id: EditInitialValues.id, ...newValues };
-      }
-      const response = await axios.post(url, newValues, {
-        headers: {
-          token: finalToken,
-        },
-      });
-
-
-      revalidateTag('products');
-      Toaster('success', updateFlag
-        ? 'Product has been sucessufully Updated !'
-        : response.data.message,
-      );
-      setProductInitialValue(AddproductsinitialValues);
-      resetForm();
-      setloading(false);
-      sethoverImage(null);
-      setposterimageUrl(undefined);
-      setImagesUrl([]);
-      setSelectedSubcategoryIds([]);
-      setSelectedCategoryIds([]);
-      setselecteMenu('Add All Products');
-      updateFlag ? setEditProduct && setEditProduct(undefined) : null;
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.message);
-      } else {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('An unexpected error occurred');
-        }
-      }
-    } finally {
-      setloading(false);
-    }
-  };
   const [selectedShippingOption, setSelectedShippingOption] = useState<Shipping[]>([]);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
   const [selectedSubcategoryIds, setSelectedSubcategoryIds] = useState<number[]>([]);
@@ -398,9 +323,81 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     setIsCropModalVisible(false);
     setCroppedImage(null);
   };
+  
+  const onSubmit = async (values: any, { resetForm }: any) => {
+    values.categories = selectedCategoryIds;
+    values.subcategories = selectedSubcategoryIds;
+    values.shippingOptions = selectedShippingOption;
+    try {
+      setError(null);
+      let posterImageUrl = posterimageUrl && posterimageUrl[0];
+      let hoverImageUrl = hoverImage && hoverImage[0];
+      if (!posterImageUrl || !(imagesUrl.length > 0)) {
+        return showToast('warn', 'Please select relevant Images');
+      }
+      let newValues = {
+        ...values,
+        posterImageUrl: posterImageUrl.imageUrl,
+        posterImagePublicId: posterImageUrl.public_id,
+        posterImageAltText: posterImageUrl.altText,
+        posterImageIndex: posterImageUrl.Index,
+        hoverImageUrl: hoverImageUrl.imageUrl,
+        hoverImagePublicId: hoverImageUrl.public_id,
+        hoverImageAltText: posterImageUrl.altText,
+        productImages: imagesUrl,
+        sale_counter:
+          values.sale_counter === '' || EditInitialValues.sale_counter == null
+            ? ''
+            : values.sale_counter
+              ? values.sale_counter
+              : EditInitialValues.sale_counter,
+      };
+      setloading(true);
+
+      let updateFlag = EditProductValue && EditInitialValues ? true : false;
+      let addProductUrl = updateFlag ? `/api/product/update-product` : null;
+
+      let url = `${process.env.NEXT_PUBLIC_BASE_URL}${updateFlag ? addProductUrl : '/api/product/add-product'}`;
+
+      if (updateFlag && EditInitialValues?.id) {
+        newValues = { id: EditInitialValues.id, ...newValues };
+      }
+      const response = await axios.post(url, newValues, {
+        headers: {
+          token: finalToken,
+        },
+      });
 
 
-  console.log(selectedShippingOption, 'shipping')
+      revalidateTag('products');
+      Toaster('success', updateFlag
+        ? 'Product has been sucessufully Updated !'
+        : response.data.message,
+      );
+      setProductInitialValue(AddproductsinitialValues);
+      resetForm();
+      setloading(false);
+      sethoverImage(null);
+      setposterimageUrl(undefined);
+      setImagesUrl([]);
+      setSelectedSubcategoryIds([]);
+      setSelectedCategoryIds([]);
+      setselecteMenu('Add All Products');
+      updateFlag ? setEditProduct && setEditProduct(undefined) : null;
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.message);
+      } else {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
+      }
+    } finally {
+      setloading(false);
+    }
+  };
 
   return (
     <>
@@ -875,6 +872,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                               key={index}
                               className="flex items-center space-x-2"
                             >
+                      
+                    
                               <Checkbox
                                 checked={!!selectedShippingOption.find((item) => item.name === shipping.name)}
                                 className="custom-checkbox"

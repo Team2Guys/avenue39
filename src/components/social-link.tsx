@@ -26,10 +26,15 @@ const SocialLink: React.FC<LinkSocial> = ({
           href="https://facebook.com/avenue39home"
           target="_blank"
           className={`${linkClass}`}
+          rel="noopener noreferrer"
+          aria-label="Follow us on Facebook"
         >
           <FaFacebookF
             className={`text-[16px] md:text-[25px] ${socialSize} ${iconColor ? iconColor : 'text-white'}`}
             style={{ strokeWidth: 1 }}
+            aria-hidden="true" // Icon is decorative
+
+
           />
         </Link>
       </div>
@@ -38,10 +43,14 @@ const SocialLink: React.FC<LinkSocial> = ({
           href="https://instagram.com/avenue39home"
           target="_blank"
           className={`${linkClass}`}
+          rel="noopener noreferrer"
+          aria-label="Follow us on Instagram"
+
         >
           <FaInstagram
             className={`text-[16px] md:text-[23px] ${socialSize} ${iconColor ? iconColor : 'text-white'}`}
             style={{ strokeWidth: 2 }}
+            aria-hidden="true" // Icon is decorative
           />
         </Link>
       </div>
@@ -50,10 +59,13 @@ const SocialLink: React.FC<LinkSocial> = ({
           href="https://www.pinterest.com/avenue39home"
           target="_blank"
           className={`${linkClass}`}
+          aria-label="Follow us on Pinterest"
         >
           <FaPinterestP
             className={`text-[16px] md:text-[23px] ${socialSize} ${iconColor ? iconColor : 'text-white'}`}
             style={{ strokeWidth: 2 }}
+            aria-hidden="true" // Icon is decorative
+
           />
         </Link>
       </div>

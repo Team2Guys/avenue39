@@ -365,7 +365,7 @@ const Card: React.FC<CardProps> = ({
                       </button>
 
                       <Dialog >
-                        <DialogTrigger className="w-full">
+                        <DialogTrigger className="w-full" asChild>
                           <button
                             aria-haspopup="dialog"
                             aria-expanded="false"
@@ -533,7 +533,8 @@ const Card: React.FC<CardProps> = ({
                     {renderStars({ star: averageRating })}
                   </div>
                 )}
-                {isModel ? null : isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
+                {isModel ? null : isOutStock ? 
+                <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                   <BsCartX size={18} /> Out of Stock</button> : (
                   <div
                     className={`text-center w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
@@ -562,7 +563,7 @@ const Card: React.FC<CardProps> = ({
                     </button>
 
                     <Dialog>
-                      <DialogTrigger className="w-fit align-middle">
+                      <DialogTrigger className="w-fit align-middle" asChild>
                         <button
                           aria-haspopup="dialog"
                           aria-expanded="false"

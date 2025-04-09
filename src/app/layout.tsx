@@ -30,7 +30,7 @@ export default function RootLayout({
     >
 
       <Head>
-      <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />
+        <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />
         <noscript><Image alt='facebook' height="1" width="1" style={{ display: 'none' }}
           src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1"
         /></noscript>
@@ -43,7 +43,13 @@ export default function RootLayout({
         id="clarity-script"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html: `function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=gtm2";y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","mgy3jsx4mu");`
+          __html: `
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=gtm2";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,"clarity","script","mgy3jsx4mu");
+    `,
         }}
       />
 
@@ -61,7 +67,7 @@ export default function RootLayout({
 
             `,
         }}
-      /> 
+      />
 
       {/* Google Analytics Script */}
       <Script
@@ -106,12 +112,12 @@ export default function RootLayout({
           height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
 
         {/* <!-- End Google Tag Manager (noscript) → */}
-     {/* NoScript Fallback */}
-     
-     <noscript>
-        <Image  height="1"  width="1"  style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1" alt="Facebook Pixel" />
-      </noscript>
+        {/* NoScript Fallback */}
+
+        <noscript>
+          <Image height="1" width="1" style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1" alt="Facebook Pixel" />
+        </noscript>
 
         <Providers>
           <PathnameWrapper>

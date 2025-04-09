@@ -202,23 +202,25 @@ const SofaBanner: React.FC = () => {
                     <div className="flex justify-center items-center bg-[#0000004d] w-full h-full rounded-2xl">
                       <div className="text-center">
                         {slide.buttonPosition === 'top' && (
-                          <h3>
-                            <Link
+                          <h3
+                            className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
+                          >
+                            {/* <Link
                               href={slide.link}
-                              className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                            >
+                            > */}
                               Shop <span className="text-red-600">New Arrivals</span>
-                            </Link>
+                            {/* </Link> */}
                           </h3>
                         )}
                         {slide.buttonPosition === 'bottom' && (
-                          <h3>
-                            <Link
-                              href={slide.link}
-                              className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight"
-                            >
+                          <h3
+                          className="bg-white py-1 px-3 text-base md:text-3xl rounded-2xl text-black hover:bg-main font-Helveticalight">
+                            {/* <Link
+                              href={slide.link} */}
+{/*                              
+                            > */}
                               Shop <span className="text-red-600">Sale</span>
-                            </Link>
+                            {/* </Link> */}
                           </h3>
                         )}
 

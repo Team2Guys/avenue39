@@ -1,6 +1,3 @@
-import lightImg from '../../public/assets/icons/delivery-lighting.png'
-import deliveryImg from '../..//public/assets/icons/delivery-truck.png'
-import locationImg from '../..//public/assets/icons/delivery-location.png'
 
 export const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 export const aboutbreadcrumbs = [
@@ -139,7 +136,7 @@ export const categoryInitialValues: Category = {
   meta_title: '',
   canonical_tag: '',
   images_alt_text: '',
-  custom_url : ""
+  custom_url: ""
 };
 export const subcategoryInitialValues: SubCategory = {
   name: '',
@@ -149,7 +146,7 @@ export const subcategoryInitialValues: SubCategory = {
   canonical_tag: '',
   images_alt_text: '',
   categoriesId: [],
-  custom_url : ""
+  custom_url: ""
 };
 
 export const loginInitialValue = {
@@ -193,7 +190,7 @@ export const AddproductsinitialValues: IProductAdd = {
   Images_Alt_Text: '',
   sale_counter: '',
   filters: [],
-  custom_url:"",
+  custom_url: "",
   shippingOptions: []
 };
 
@@ -556,18 +553,18 @@ export const footerItems: FooterItem[] = [
 
 
 
-export   const selectOption = [
-    { title: 'Dubai', fee: 50 },
-    { title: 'Abu Dhabi', fee: 100 },
-    { title: 'Sharjah', fee: 100 },
-    { title: 'Ajman', fee: 100 },
-    { title: 'Ras Al Khaima', fee: 100 },
-    { title: 'Umm Al Quwain', fee: 100 },
-    { title: 'Fujairah', fee: 100 },
-  ];
+export const selectOption = [
+  { title: 'Dubai', fee: 50 },
+  { title: 'Abu Dhabi', fee: 100 },
+  { title: 'Sharjah', fee: 100 },
+  { title: 'Ajman', fee: 100 },
+  { title: 'Ras Al Khaima', fee: 100 },
+  { title: 'Umm Al Quwain', fee: 100 },
+  { title: 'Fujairah', fee: 100 },
+];
 
 export const shippingOption: Shipping[] = [
-  {icon: locationImg, name: 'Standard Shipping' , description: 'Within 3-4 days delivery after placing the order.' , shippingFee: 0},
-  {icon: deliveryImg, name: 'Next-day Shipping' , description: 'Next day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150, freeShippingFee: 1000},
-  {icon: lightImg, name: 'Lightning Shipping' , description: 'Same day delivery for orders placed before 1pm.' , shippingFee: 100 , otherEmiratesFee: 150, freeShippingFee: 1000}
+  { icon: "https://res.cloudinary.com/dckxfl2yn/image/upload/v1744109358/delivery-location_ds2rrt.png", name: 'Standard Shipping', description: 'Within 3-4 days delivery after placing the order.', shippingFee: 0 },
+  { icon: "https://res.cloudinary.com/dckxfl2yn/image/upload/v1744109277/delivery-truck_ahxlfz.png", name: 'Next-day Shipping', description: 'Next day delivery for orders placed before 1pm.', shippingFee: 100, otherEmiratesFee: 150, freeShippingFee: 1000 },
+  { icon: "https://res.cloudinary.com/dckxfl2yn/image/upload/v1744109241/delivery-lighting_g34a3u.png", name: 'Lightning Shipping', description: 'Same day delivery for orders placed before 1pm.', shippingFee: 100, otherEmiratesFee: 150, freeShippingFee: 1000 }
 ]

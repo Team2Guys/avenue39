@@ -1,7 +1,7 @@
 'use client';
 import TopHero from '@/components/top-hero';
 import Container from '@/components/ui/Container';
-import { checkout, selectOption } from '@/data/data';
+import { checkout, selectOption, shippingOption } from '@/data/data';
 import React, { Fragment, useEffect, useState } from 'react';
 import Coupan from '@/components/coupan-code';
 import CartItems from '@/components/cart/items';
@@ -51,9 +51,9 @@ const Checkout = () => {
 
   const [selectedShipping, setSelectedShipping] = useState<Shipping | undefined>();
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
+  const [borderActiveKey, setborderActiveKey] = useState<number>(0);
   const [minDate, setMinDate] = useState(new Date().toISOString().split('T')[0]);
   const [disabledDates, setDisabledDates] = useState<string[]>([]);
-
 
   useEffect(() => {
     if (storedProduct) {
@@ -64,42 +64,101 @@ const Checkout = () => {
     }
   }, [storedProduct]);
 
-  useEffect(() => {
-    if(product) {
-      const findShipping = product.selectedShipping;
-      setUniqueShipping(findShipping ? [findShipping] : undefined);
-    }
-    else if (cartItems?.length) {
-      const allShippingOptions = cartItems.flatMap(item => item.selectedShipping || []);
-      const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
 
-      setUniqueShipping(uniqueOptions);
+
+  // useEffect(() => {
+  //   if(product) {
+  //     const findShipping = product.shippingOptions;
+  //     setUniqueShipping(findShipping ? findShipping : undefined);
+  //   }
+  //   else if (cartItems?.length) {
+  //     const allShippingOptions = cartItems.flatMap(item => item.selectedShipping || []);
+
+  //     const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
+
+  //     setUniqueShipping(uniqueOptions);
+  //   }
+  // }, [cartItems,product, selectedShipping]);
+
+
+
+  useEffect(() => {
+    if (product) {
+      // If a single product exists, set all its shipping options
+      const findShipping = product.shippingOptions;
+      setUniqueShipping(findShipping ?? undefined);
+    } else if (cartItems?.length) {
+      // If only one product in cart
+      if (cartItems.length === 1) {
+        const singleItemShipping = cartItems[0].shippingOptions || [];
+        setUniqueShipping(singleItemShipping);
+      } else {
+        // If multiple products, check if all have the same shipping options
+        type ShippingOption = {
+          name: string;
+          [key: string]: any;
+        };
+
+        const allShippingArrays: ShippingOption[][] = cartItems.map(
+          item => item.shippingOptions || []
+        );
+        const shippingMethods = cartItems.map(item => item.selectedShipping).filter((value)=>value);
+
+        const normalized = allShippingArrays.map(arr =>
+          JSON.stringify(arr.map(opt => opt.name).sort())
+        );
+
+        const isAllSame = normalized.every(val => val === normalized[0]);
+        if (isAllSame && (shippingMethods.length > 0)) {
+          console.log(isAllSame, "shippingOption", shippingMethods)
+          const sameShipping = cartItems[0].shippingOptions || [];
+          setUniqueShipping(sameShipping);
+
+
+        } else {
+
+          const shippingMethods = cartItems.map(item => item.selectedShipping);
+
+          const defaultOption =
+            shippingMethods?.find(option => option?.name === "Standard Shipping") ||
+            shippingMethods?.find(option => option?.name === "Next-day Shipping") ||
+            shippingMethods?.find(option => option?.name === "Lightning Shipping") ||
+            shippingOption[0]
+          
+          setUniqueShipping(defaultOption ? [defaultOption] : []);
+        }
+      }
     }
-  }, [cartItems,product]);
+  }, [cartItems, product, selectedShipping]);
+
 
   const handleCollapseChange = (key: string | string[]) => {
     setActiveKey(key);
-
     if (Array.isArray(key)) {
       const selected = uniqueShipping?.[Number(key[0])];
+      const [ActiveKey] = key
+      setborderActiveKey(Number(ActiveKey))
       setSelectedShipping(selected);
     } else {
       const selected = uniqueShipping?.[Number(key)];
       setSelectedShipping(selected);
+      setborderActiveKey(Number(key))
     }
   };
+  // console.log(selectedShipping, "selectedShipping", uniqueShipping)
 
-  useEffect(() => {
-    if (uniqueShipping?.length) {
-      const defaultOption =
-        uniqueShipping.find(option => option.name === "Standard Shipping") ||
-        uniqueShipping.find(option => option.name === "Next-day Shipping") ||
-        uniqueShipping.find(option => option.name === "Lightning Shipping") ||
-        uniqueShipping[0];
 
-      setSelectedShipping(defaultOption);
-    }
-  }, [uniqueShipping]);
+  // useEffect(() => {
+  //   if (uniqueShipping?.length) {
+  //     const defaultOption =
+  //       uniqueShipping.find(option => option.name === "Standard Shipping") ||
+  //       uniqueShipping.find(option => option.name === "Next-day Shipping") ||
+  //       uniqueShipping.find(option => option.name === "Lightning Shipping") ||
+  //       uniqueShipping[0];
+
+  //     setSelectedShipping(defaultOption);
+  //   }
+  // }, [uniqueShipping]);
 
   useEffect(() => {
     if (selectedShipping) {
@@ -198,16 +257,16 @@ const Checkout = () => {
     }
   }, [selectedState]);
 
-  const itemsCollapse = [
-    {
-      key: '0',
+  let shipingOptionsArray = uniqueShipping?.map((selectedShipping, index) => {
+    return ({
+      key: index,
       label: <span className="font-bold font-helvetica custom-collapse-active text-main">{selectedShipping?.name || "Select Shipping"}</span>,
       children: (
         <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
           {selectedShipping && (
             <>
               <Image
-                src={selectedShipping?.icon?.src || ""}
+                src={selectedShipping?.icon || ""}
                 width={50}
                 height={50}
                 alt="icon"
@@ -237,8 +296,53 @@ const Checkout = () => {
           )}
         </div>
       ),
-    },
-  ];
+    })
+  })
+
+  const itemsCollapse = shipingOptionsArray || []
+
+
+  // [
+  //   {
+  //     key: '0',
+  //     label: <span className="font-bold font-helvetica custom-collapse-active text-main">{selectedShipping?.name || "Select Shipping"}</span>,
+  //     children: (
+  //       <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+  //         {selectedShipping && (
+  //           <>
+  //             <Image
+  //               src={selectedShipping?.icon || ""}
+  //               width={50}
+  //               height={50}
+  //               alt="icon"
+  //               className="size-12 xs:size-16"
+  //             />
+  //             <div className='font-helvetica'>
+  //               <strong className="text-14 xs:text-18">{selectedShipping.name}</strong>
+  //               <p className="text-11 xs:text-15">{selectedShipping.description}</p>
+  //               <p className="text-11 xs:text-15">
+  //                 <span>Delivery Cost: </span>
+  //                 {selectedShipping.shippingFee > 0 ? (
+  //                   <>
+  //                     <span>In Dubai </span><strong>AED {selectedShipping.shippingFee}</strong>
+  //                   </>
+  //                 ) : (
+  //                   <strong>Free of charge for all orders.</strong>
+  //                 )}
+  //                 {selectedShipping.otherEmiratesFee && (
+  //                   <>, <span>All Other Emirates</span> <strong>AED {selectedShipping.otherEmiratesFee}</strong>.</>
+  //                 )}
+  //                 {selectedShipping.freeShippingFee && (
+  //                   <div><span>Free shipping for all orders above</span> <strong>AED {selectedShipping.freeShippingFee}</strong>.</div>
+  //                 )}
+  //               </p>
+  //             </div>
+  //           </>
+  //         )}
+  //       </div>
+  //     ),
+  //   },
+  // ];
 
 
 
@@ -307,9 +411,7 @@ const Checkout = () => {
     }
   };
 
-  console.log(product, "product")
-
-
+  console.log(itemsCollapse[borderActiveKey], "itemsCollapse[borderActiveKey]")
   return (
     <Fragment>
       <TopHero breadcrumbs={checkout} />
@@ -406,13 +508,13 @@ const Checkout = () => {
                           required={selectedShipping?.name !== 'Standard Shipping'}
                           onChange={(e) => {
                             const selectedDate = e.target.value;
-                            
+
                             if (disabledDates.includes(selectedDate)) {
                               const dayOfWeek = new Date(selectedDate).getDay();
                               const errorMessage = dayOfWeek === 6 || dayOfWeek === 0
                                 ? "Weekend dates (Saturday & Sunday) are not available. Please choose a weekday."
                                 : "Selected date is not available. Please choose another one.";
-                        
+
                               toast.error(errorMessage);
                               formik.setFieldValue("shippingDate", "");
                             } else {
@@ -421,7 +523,7 @@ const Checkout = () => {
                           }}
                           value={formik.values.shippingDate}
                           min={minDate}
-                          
+
                         />
                       </div>
                       <div className="flex-1">
@@ -747,6 +849,7 @@ const Checkout = () => {
                           accordion
                           activeKey={activeKey}
                           onChange={handleCollapseChange}
+
                           bordered={false}
                           expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
                           expandIconPosition="end"

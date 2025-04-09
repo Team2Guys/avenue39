@@ -53,14 +53,6 @@ const Product = ({cetagories,productsData}: {
     setProducts(productsData)
 
   }, [productsData])
-  
-
-  
-
-
-
-
-  console.log(editProduct, "EditInitialProductValues")
 
   let productFlag: boolean = selecteMenu === 'Add All Products' ? true : false;
 

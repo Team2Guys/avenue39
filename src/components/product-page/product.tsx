@@ -118,7 +118,6 @@ const ProductPage = ({
   let Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards.length
 
   const filteredCards = [...filteredSortedCards].slice(0, Arraylenght);
-  console.log(filteredCards,"filteredCards")
   return (
     <>
       {

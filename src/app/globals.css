@@ -183,13 +183,14 @@ body[data-scroll-locked] {
 }
 
 
-.custom-collapse .ant-collapse-header:has(.custom-collapse-active) {
-  border: 1px solid var(--main) !important;
-}
-
 .custom-collapse .ant-collapse-header:has(.custom-collapse-active) .ant-collapse-expand-icon {
   color:  var(--main) !important;
 }
+
+.custom-collapse .ant-collapse-item-active .ant-collapse-header{
+  border: 1px solid var(--main) !important;
+}
+
 
 .dark .custom-input-bg {
   background-color: #f6f6f6 !important;
@@ -537,4 +538,10 @@ body[data-scroll-locked] {
 
 .Dialog_parent{
   border: 1px solid blue !important;
+}
+
+
+
+.custom-collapse{
+
 }

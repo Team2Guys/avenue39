@@ -325,7 +325,7 @@ export interface RECORDS {
 }
 
 export interface Shipping {
-  icon: StaticImageData;
+  icon: string;
   name: string;
   description: string;
   shippingFee: number;

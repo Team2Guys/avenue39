@@ -15,6 +15,12 @@ const HeroVideo: React.FC = () => {
         >
           <source src="https://res.cloudinary.com/dckxfl2yn/video/upload/v1740735817/A39_Homepage_Final_6_calirp.mp4" type="video/mp4" />
           Your browser does not support the video tag.
+          <track
+            kind="captions"
+            src="/captions/silent-video.vtt"
+            label="English Captions"
+            default
+          />
         </video>
 
         <Container className="relative">

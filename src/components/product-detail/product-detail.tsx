@@ -286,13 +286,12 @@ const ProductDetail = ({
     }
   }, [product, size, filter, uniqueSizes]);
 
-
   const itemsCollapse = product?.shippingOptions?.map((shipping, index) => ({
     key: index.toString(),
     label: <span className={`font-helvetica ${selectedShipping?.name === shipping.name ? 'font-bold custom-collapse-active text-main' : 'font-normal'}`}>{shipping.name}</span>,
     children: (
       <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
-        <Image src={shipping.icon.src} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+        <Image src={shipping.icon} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
         <div className='font-helvetica'>
           <strong className="text-14 xs:text-18">{shipping.name}</strong>
           <p className="text-11 xs:text-15">{shipping.description}</p>
@@ -418,7 +417,6 @@ const ProductDetail = ({
     }
     dispatch(addItem(itemToAdd));
     dispatch(openDrawer());
-    console.log(itemToAdd,'itemToAdd',selectedShipping)
   };
 
   const handleBuyNow = (e: React.MouseEvent<HTMLElement>) => {

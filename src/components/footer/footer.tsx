@@ -129,9 +129,9 @@ const Footer: React.FC = () => {
     </Container>
       <Container className="flex flex-wrap justify-between gap-10 pt-10 ">
         <div className=" px-2">
-          <h5 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
+          <h3 className="font-extralight  font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Rooms
-          </h5>
+          </h3>
           <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15 mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
@@ -160,9 +160,9 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className="  px-2">
-          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
+          <h3 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Shop by Item
-          </h5>
+          </h3>
           <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 capitalize text-[#686868]">
             {Object.keys(menuData)
               .filter((menu) =>
@@ -191,9 +191,9 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div className="  px-2">
-          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
+          <h3 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Terms & Policies
-          </h5>
+          </h3>
           <ul className=" leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15  mt-6 text-[#686868]">
             <li>
               <Link href="/terms-and-conditions" className="hover:underline  hover:font-semibold">
@@ -219,9 +219,9 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="min-w-[108px] ">
-          <h5 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
+          <h3 className="font-extralight font-helvetica sm:text-lg xl:text-xl text=[#121A25]">
             Quick Links
-          </h5>
+          </h3>
           <ul className="leading-8 xl:leading-[38px] tracking-wide font-helvetica text-13 lg:text-15 mt-6 capitalize text-[#686868]">
             <li>
               <Link href="/profile" target="_self" className="hover:underline  hover:font-semibold ">
@@ -251,9 +251,9 @@ const Footer: React.FC = () => {
         </div>
         <div className="flex flex-col md:items-center items-center xs:items-start text-center xs:text-start w-full xs:w-fit lg:pr-14">
           <div className='flex flex-col md:items-center w-fit'>
-          <h5 className="font-extralight font-helvetica w-full sm:text-lg xl:text-xl text=[#121A25]">
+          <h3 className="font-extralight font-helvetica w-full sm:text-lg xl:text-xl text=[#121A25]">
             Get in Touch
-          </h5>
+          </h3>
           <div className="mt-6 xs:w-full flex max-w-56  text-[#686868]">
             <Link href="tel:+971505974495" target="_blank" rel="noreferrer">
               <div className=" w-full rounded-sm">

@@ -38,8 +38,8 @@ import { Shipping } from '@/types/prod';
 
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [shippingfee, setShippingFee] = useState<number>(50);
-  const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
+  const [shippingfee, setShippingFee] = useState<number>(0);
+    const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
   const [totalPrice, setTotalPrice] = useState(0)
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [loading, setloading] = useState<boolean>(false);
@@ -84,15 +84,17 @@ const Checkout = () => {
   useEffect(() => {
     if (product) {
       // If a single product exists, set all its shipping options
+      console.log(product.shippingOptions, "findShipping")
       const findShipping = product.shippingOptions;
+
       setUniqueShipping(findShipping ?? undefined);
+   
     } else if (cartItems?.length) {
-      // If only one product in cart
       if (cartItems.length === 1) {
-        const singleItemShipping = cartItems[0].shippingOptions || [];
-        setUniqueShipping(singleItemShipping);
+        const singleItemShipping = cartItems[0].shippingOptions;
+        console.log(singleItemShipping, "findShipping")
+        setUniqueShipping(singleItemShipping && singleItemShipping.length > 0 ? singleItemShipping : [shippingOption[0]] );
       } else {
-        // If multiple products, check if all have the same shipping options
         type ShippingOption = {
           name: string;
           [key: string]: any;
@@ -244,13 +246,19 @@ const Checkout = () => {
   }
 
   useEffect(() => {
-    if (selectedState) {
-      const option = selectOption.find(
-        (option) => option.title === selectedState,
-      );
-      setShippingFee(option ? option.fee : 50);
+    if (selectedShipping) {
+      const option = shippingOption.find((option) => option.name === selectedShipping.name);
+      type FeeKey = 'shippingFee' | 'otherEmiratesFee';
+      let state: FeeKey = selectedState === "Dubai" ? "shippingFee" : "otherEmiratesFee";
+
+      const productPrice = product ? totalPrice : cartPrice;
+      let totalPricesFlag = productPrice  > 1000  ?  true : false
+      
+      console.log(option && option[state], "findShipping", state)
+      setShippingFee(totalPricesFlag ? 0 : (option ? option[state] ?? 0 : 50));
+
     }
-  }, [selectedState]);
+  }, [selectedShipping]);
 
   let shipingOptionsArray = uniqueShipping?.map((selectedShipping, index) => {
     return ({

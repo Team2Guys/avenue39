@@ -225,10 +225,12 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
               <button
                 type="submit"
                 className="absolute inset-y-0 left-0 flex items-center z-20 pl-4 cursor-pointer"
+                    aria-label='Search'
               >
                 <IoSearchOutline
                   className="cursor-pointer font-extralight text-black"
                   size={18}
+                 aria-hidden="true"
                 />
               </button>
 
@@ -394,7 +396,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 {!isLoading && !error && filteredProducts.length > 0 && (
                   <div className=" p-2 max-h-[600px] overflow-y-auto w-full custom-scrollbar ">
                     <div className="flex flex-wrap justify-center gap-2 -m-2">
-                      {filteredProducts.map((product: any, index:number) => {
+                      {filteredProducts.map((product: any, index: number) => {
 
                         return (
                           <DrawerTrigger asChild key={index}>

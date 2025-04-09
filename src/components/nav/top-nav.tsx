@@ -17,7 +17,7 @@ const TopNav = () => {
           <div className=" gap-2 flex items-center">
             <Image className="" src={ramadan2} alt="ramadan1" />
             <p className="uppercase tracking-[0.8px] 2xl:tracking-[1.6px] font-medium text-11 2xl:text-13 xl:whitespace-nowrap ml-2">
-              This Ramadan elevate your home’s style with the best offers.{' '}
+              <span className='text-shadow'>This Ramadan elevate your home’s style with the best offers.{' '}</span>
               <Link
                 className="text-red-600 border-b border-red-600 hover:text-red-800"
                 href={'/sale'}

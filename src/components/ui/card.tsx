@@ -340,7 +340,7 @@ const Card: React.FC<CardProps> = ({
                   )}
                   {isModel ? null : isOutStock ? "Out of stock" : (
                     <div
-                      className={`text-center flex justify-center gap-1 md:space-y-0 ${slider ? accessoriesSlider ? 'pb-2 w-full flex-wrap xl:flex-nowrap' : 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full'}`}
+                      className={`text-center items-center flex justify-center gap-1 md:space-y-0  ${slider ? accessoriesSlider ? 'pb-2 w-full flex-wrap xl:flex-nowrap' : 'w-fit mx-auto flex-wrap md:flex-nowrap' : 'w-full'}`}
                       onClick={(e) => handleEventProbation(e)}
                     >
                       <button
@@ -541,7 +541,7 @@ const Card: React.FC<CardProps> = ({
                   <button className='bg-red-500 text-white text-12 font-medium uppercase w-full bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                     <BsCartX size={18} /> Out of Stock</button> : (
                     <div
-                      className={`text-center w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
+                      className={`text-center items-center  w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
                       onClick={(e) => handleEventProbation(e)}
                     >
 
@@ -573,7 +573,7 @@ const Card: React.FC<CardProps> = ({
                             aria-expanded="false"
                             aria-controls="radix-:r6:"
                             data-state="closed"
-                            className={`my-1 quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
+                            className={`my-1    quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

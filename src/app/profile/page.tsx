@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import ProfileComponent from './ProfileComponent';
+import dynamic from 'next/dynamic';
+const ProfileComponent = dynamic(() => import('./ProfileComponent'));
 
 export const metadata: Metadata = {
   title: 'Profile Avenue39',

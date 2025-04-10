@@ -1,7 +1,8 @@
 'use client';
-import { LoginForm } from '@/components/register/login-form';
+const LoginForm = dynamic(() => import('@/components/register/login-form'))
 import Services from '@/components/services/services';
 import UseAuth from '@/hooks/useAuth';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 

@@ -24,7 +24,7 @@ interface TabsProps {
 }
 /* eslint-enable */
 
-export function LoginForm({ onTabChange, activeTab }: TabsProps) {
+export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
   const [terms, setterms] = useState<CheckedState>(false);
 
   const Navigate = useRouter();

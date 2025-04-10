@@ -7,7 +7,7 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 
 import { cn } from '@/lib/utils';
 
-export interface InputProps
+interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(

@@ -8,14 +8,6 @@ export const paymentIcons = [
   { src: '/images/paymentIcons/googlepay-logo.webp', alt: 'googlepay' },
 ];
 
-
-export const bannerData = {
-  imageUrl: '/images/catalogue/sofa.webp',
-  title: 'CATALOGUE',
-  buttonText: 'DOWNLOAD ',
-  fileUrl:
-    'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-};
 export const ColorBannerData = [
   {
     imageUrl: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp',
@@ -34,13 +26,6 @@ export const ColorBannerData = [
       link: "/dining/chairs"  
   },
 ];
-
-export interface AdditionalInformation {
-  key?: string;
-  value?: string;
-  colors?: string[];
-  dimension?: string[];
-}
 
 export const homeProducts: IHomeProducts[] = [
   {

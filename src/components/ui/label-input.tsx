@@ -4,7 +4,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { cn } from '@/lib/utils';
 import { Label } from '@radix-ui/react-label';
 
-export interface InputProps
+interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   labelClass?: string;

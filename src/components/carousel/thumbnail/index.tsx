@@ -17,8 +17,7 @@ import SideBySideMagnifier from '../SideBySideMagnifier';
 import CustomThumbnailSlickSlider from './thumbnailSlider';
 import Image from 'next/image';
 import ImageZoomDialog from '../MobileZoom';
-
-export interface IMAGE_INTERFACE {
+ interface IMAGE_INTERFACE {
   public_id?: string;
   imageUrl?: string;
   name?: string;

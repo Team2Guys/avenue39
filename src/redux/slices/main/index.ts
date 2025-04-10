@@ -22,8 +22,5 @@ const ProductSlice = createSlice({
   },
 });
 
-export const { setDummy } = MainSlice.actions;
-export const { setProducts } = ProductSlice.actions;
-
 export default MainSlice.reducer;
 export const productReducer = ProductSlice.reducer;

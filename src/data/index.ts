@@ -1,7 +1,6 @@
 import {
   IServiceItem,
   City,
-  ISaleItems,
   ITabbyPayList,
   ITabbyList,
   ITamaraList,
@@ -10,8 +9,6 @@ import palette from '@icons/palette.png';
 import delivery from '@icons/delivery-fast.png';
 import privacy from '@icons/privacy.png';
 import support from '@icons/chat-46.png';
-import saleimage1 from '@icons/EN0-full-logo-black.png';
-import saleimage2 from '@icons/tabby-logo-charcoal.png';
 import masterCard from '@icons/business.png';
 import viseCard from '@icons/card.png';
 import gPayCard from '@icons/pngwing.png';
@@ -36,24 +33,6 @@ export const serviceItems: IServiceItem[] = [
     id: 4,
     icon: support,
     title: 'Customer Support',
-  },
-];
-
-
-export const saleitems: ISaleItems[] = [
-  {
-    id: 1,
-    imageUrl: saleimage1,
-    para: 'Availble at checkout',
-    btnText: 'Show Now',
-    btnUrl: '',
-  },
-  {
-    id: 2,
-    imageUrl: saleimage2,
-    para: 'Availble at checkout',
-    btnText: 'Show Now',
-    btnUrl: '',
   },
 ];
 

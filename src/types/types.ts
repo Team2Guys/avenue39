@@ -1,8 +1,6 @@
 import { StaticImageData } from 'next/image';
 import React, { FormEventHandler, ReactNode, SetStateAction } from 'react';
 import { IProduct } from './prod';
-export type TReturnPolicy = TReturnPolicy[];
-export type TShippingPolicy = TShippingPolicy[];
 
 export interface ITypo {
   children: any;
@@ -10,27 +8,11 @@ export interface ITypo {
   onClick?: () => void;
 }
 
-export interface ITextIcon {
-  //TODO: change Icon type
-  Icon: any;
-  Title: string;
-  link: string;
-}
 
 export interface IContainer {
   children: ReactNode;
   className?: string;
 }
-
-export type BRAND = {
-  logo: string;
-  name: string;
-  visitors: number;
-  revenues: string;
-  sales: number;
-  conversion: number;
-};
-
 
 export interface IServiceItem {
   id: number;
@@ -38,7 +20,7 @@ export interface IServiceItem {
   title: string;
   description?: string
 }
-export interface MenuItem {
+interface MenuItem {
   categoryId?: number;
   title: string;
   link: string;
@@ -48,33 +30,9 @@ export interface MenuData {
   [key: string]: MenuItem[];
 }
 
-export interface ISaleItems {
-  id: number;
-  imageUrl: StaticImageData;
-  para: string;
-  btnText: string;
-  btnUrl: string;
-}
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
-
-export interface MissionData {
-  title: string;
-  description: string;
-  icon: any;
-}
 export interface City {
   country: string;
   name: string;
-}
-
-
-export interface IProductCategory {
-  id: string;
-  name: string;
-  totalItems?: number;
 }
 
 export interface IProductDetail {
@@ -95,13 +53,6 @@ export interface ITamaraList {
   title?: string;
   para: string;
 }
-
-export interface IMAGE_INTERFACE {
-  public_id?: string;
-  imageUrl?: string;
-  name?: string;
-}
-
 
 export interface USRPROPS {
   handleSubmit: FormEventHandler<HTMLFormElement>;

@@ -1,12 +1,4 @@
-export const ArrivalCategories = [
-    "chairs", 
-    "accessories", 
-    "tables", 
-    "bedroom", 
-    "office-furniture", 
-    "dining"
-  ]
-  
+
   export const Subcategory = [
     "accent-chairs", 
     "barstools", 

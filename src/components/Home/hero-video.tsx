@@ -11,7 +11,7 @@ const HeroVideo: React.FC = () => {
           muted
           autoPlay
           playsInline
-          preload="metadata"
+          preload="auto"
         >
           <source src="https://res.cloudinary.com/dckxfl2yn/video/upload/v1740735817/A39_Homepage_Final_6_calirp.mp4" type="video/mp4" />
           Your browser does not support the video tag.

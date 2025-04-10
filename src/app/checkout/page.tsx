@@ -83,15 +83,13 @@ const Checkout = () => {
 
   useEffect(() => {
     if (product) {
-      console.log(product.shippingOptions, "findShipping")
-      const findShipping = product.shippingOptions;
+      const findShipping =  (product?.shippingOptions && product?.shippingOptions?.length > 0) ?   product?.shippingOptions  :   [shippingOption[0]]  ;
 
       setUniqueShipping(findShipping ?? undefined);
    
     } else if (cartItems?.length) {
       if (cartItems.length === 1) {
         const singleItemShipping = cartItems[0].shippingOptions;
-        console.log(singleItemShipping, "findShipping")
         setUniqueShipping(singleItemShipping && singleItemShipping.length > 0 ? singleItemShipping : [shippingOption[0]] );
       } else {
         type ShippingOption = {
@@ -249,15 +247,19 @@ const Checkout = () => {
       const option = shippingOption.find((option) => option.name === selectedShipping.name);
       type FeeKey = 'shippingFee' | 'otherEmiratesFee';
       let state: FeeKey = selectedState === "Dubai" ? "shippingFee" : "otherEmiratesFee";
+      const onlyAccessoriesInCart = cartItems.flatMap((product) => product.categories || []).every((category) => category.name.toLowerCase().trim() === "accessories");
+      const onlyAccessoriesInProduct = product?.categories?.every((category) => category.name.toLowerCase().trim() === "accessories");
 
       const productPrice = product ? totalPrice : cartPrice;
       let totalPricesFlag = productPrice  > 1000  ?  true : false
-      
-      console.log(option && option[state], "findShipping", state, selectedState)
-      setShippingFee(totalPricesFlag ? 0 : (option ? option[state] ?? 0 : 50));
+
+      const shippingMethod = selectedShipping.name === "Lightning Shipping" ||  selectedShipping.name === "Next-day Shipping";
+
+      const accessoryFlag = product ? onlyAccessoriesInProduct : onlyAccessoriesInCart;
+      setShippingFee(totalPricesFlag ? 0 : accessoryFlag &&  shippingMethod ? 30  : (option ? option[state] ?? 0 : 50));
 
     }
-  }, [selectedShipping]);
+  }, [selectedShipping, selectedState]);
 
   let shipingOptionsArray = uniqueShipping?.map((selectedShipping, index) => {
     return ({
@@ -349,6 +351,10 @@ const Checkout = () => {
 
 
   const handlePayment = async (values: any) => {
+    if(!selectedShipping){
+      toast.error("Please select shipping method")
+      return ;
+    }
 
     const cartItems_refactor = await Promise.all(cartItems.map((item) => {
       // Create a shallow copy of the item
@@ -377,7 +383,6 @@ const Checkout = () => {
 
     try {
       let totalPayment = product ? totalPrice : cartPrice + shippingfee;
-      console.log(updatedProduct ? updatedProduct : cartItems_refactor)
       setloading(true);
 
       try {

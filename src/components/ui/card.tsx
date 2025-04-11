@@ -371,7 +371,9 @@ const Card: React.FC<CardProps> = ({
 
                       <Dialog >
                         <DialogTrigger className="w-full" asChild>
-                          <QuickViewbtn ClassName={`my-1  h-8 quick-view-btn whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? ' w-full px-2' : 'px-6' : 'px-2'}`} />
+                          <button>
+                            <QuickViewbtn ClassName={`my-1  h-8 quick-view-btn whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? ' w-full px-2' : 'px-6' : 'px-2'}`} />
+                          </button>
                         </DialogTrigger>
                         <DialogOverlay />
                         <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl shadow-none gap-0 pb-0">
@@ -514,7 +516,7 @@ const Card: React.FC<CardProps> = ({
                       <Dialog>
                         <DialogTrigger className="w-fit align-middle" asChild>
 
-                          <QuickViewbtn ClassName={`my-1    quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`} />
+                          <button> <QuickViewbtn ClassName={`my-1    quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`} /></button>
                         </DialogTrigger>
                         <DialogOverlay />
 

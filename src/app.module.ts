@@ -23,13 +23,13 @@ import { redisStore } from 'cache-manager-redis-store';
 
 @Module({
   imports: [
-  
+
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'src', 'newsletters', 'templates'),
       serveRoot: '/templates',
-      
+
     }),
- 
+
     UsersModule,
     PrismaModule,
     ProductsModule,
@@ -52,14 +52,18 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware).exclude(
-        {path: "sales-record/trackorder/:id", method:RequestMethod.GET},
-        {path: "sales-record/add_sales", method:RequestMethod.POST},
-        {path: "sales-record/update-payment-status", method:RequestMethod.PATCH},
-        {path: "category/get-all", method:RequestMethod.GET},
-        {path: "subcategories/get-all", method:RequestMethod.GET},
-        {path: "product/get-all", method:RequestMethod.GET},
-        
+        { path: "sales-record/trackorder/:id", method: RequestMethod.GET },
+        { path: "sales-record/add_sales", method: RequestMethod.POST },
+        { path: "sales-record/update-payment-status", method: RequestMethod.PATCH },
+        { path: "category/get-all", method: RequestMethod.GET },
+        { path: 'category/:category', method: RequestMethod.GET },
+        { path: "subcategories/get-all", method: RequestMethod.GET },
+        { path: "product/get-all", method: RequestMethod.GET },
+        { path: "product/:product", method: RequestMethod.GET },
+        {path: 'subcategories/:category/:subcategory',method: RequestMethod.GET,
+        }
+
       )
-      .forRoutes('sales-record','category','subcategories','product');
+      .forRoutes('sales-record', 'category', 'subcategories', 'product');
   }
 }

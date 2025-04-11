@@ -25,7 +25,7 @@ interface ProductPageProps {
   layout: string;
   Setlayout: React.Dispatch<React.SetStateAction<string>>;
   fullUrl?: string;
-  category: ICategory[] | undefined;
+  category?: ICategory[] | undefined;
   ProductData: IProduct[];
   isCategory: boolean | undefined;
   findCategory?: string;
@@ -52,10 +52,9 @@ const ProductPage = ({
   const pathname = usePathname();
   const handleSortChange = (sort: string) => setSortOption(sort);
   const handleshowResult = (showProd: string) => setshowProd(showProd);
+const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
 
 
-
-  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 640);
   useEffect(() => {
     const description = SubcategoryName?.description || info?.description || "";
     setDesc(description);
@@ -69,10 +68,11 @@ const ProductPage = ({
 
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
+  console.log(ProductData, "products")
+
   const processedProducts = variationProducts({ products: productsToFilter });
 
-  const filteredSortedCards = processedProducts
-    .filter((card) => {
+  const filteredSortedCards = processedProducts?.filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
       }
@@ -116,9 +116,9 @@ const ProductPage = ({
 
     })
 
-  let Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards.length
+  let Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards?.length
 
-  const filteredCards = [...filteredSortedCards].slice(0, Arraylenght);
+  const filteredCards = [...filteredSortedCards]?.slice(0, Arraylenght);
   return (
     <>
       {
@@ -144,7 +144,7 @@ const ProductPage = ({
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <h1 className={`text-[35px] xs:text-[45px] font-Helveticalight font-bold capitalize ${info?.name.toLowerCase() === 'living' ? 'tracking-widest' :'tracking-[1px]'}`}>
+              <h1 className={`text-[35px] xs:text-[45px] font-Helveticalight font-bold capitalize ${info?.name?.toLowerCase() === 'living' ? 'tracking-widest' :'tracking-[1px]'}`}>
                 {SubcategoryName?.name ? SubcategoryName?.name.toLowerCase() : info?.name.toLowerCase()}
               </h1>
               <Container>

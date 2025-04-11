@@ -33,8 +33,7 @@ const SubCategoriesRow = ({ category }: any) => {
   useEffect(() => {
     if (!category) return;
 
-    const categoryName =
-      category.name.toLowerCase() === 'lighting'
+    const categoryName =category.name.toLowerCase() === 'lighting'
         ? 'Lighting'
         : category.name.toLowerCase() === 'home office'
           ? 'homeOffice'

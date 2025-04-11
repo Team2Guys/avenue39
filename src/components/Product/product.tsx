@@ -28,7 +28,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
   const additional_columns_handler = () => {
     const section = product?.sections;
     if (section && section.length > 0) {
-      const dynamicTabs = section.map((sec: any) => ({
+      const dynamicTabs = section?.map((sec: any) => ({
         label: sec.heading,
         content: (
           <div className="space-y-2">
@@ -54,7 +54,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
     }
   };
 
-  const dataSource = product?.additionalInformation.map((info, index) => ({
+  const dataSource = product?.additionalInformation?.map((info, index) => ({
     key: index,
     ...info,
   }));

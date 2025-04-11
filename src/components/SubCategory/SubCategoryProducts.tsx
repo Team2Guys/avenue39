@@ -1,7 +1,7 @@
 import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
 import { generateSlug } from '@/config';
-import { fetchCategories, fetchProducts, fetchSubCategories } from '@/config/fetch';
+import {fetchCategories, fetchProducts, fetchSubCategories } from '@/config/fetch';
 import { IProduct, Sizes } from '@/types/prod';
 import React from 'react';
 import Product from '../Product/product';
@@ -13,10 +13,11 @@ const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: {
   let category = slug[0];
   let newCategory: string | undefined;
   let newsubCat: string | undefined;
-
   const [AllProduct, subCategories, categories] = await Promise.all([fetchProducts(), fetchSubCategories(), fetchCategories()]);
 
   const findCategory = categories.find((cat: ICategory) => generateSlug(cat.custom_url || cat.name) === category);
+
+
   const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === category && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcategoryName,
   );
 
@@ -67,9 +68,11 @@ const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: {
       />
     );
   }
+
+  console.log(findSubCategory.products)
   return (
-    <Shop ProductData={findSubCategory.products}
-      categories={findSubCategory.categories}
+    <Shop
+     ProductData={findSubCategory.products}
       AllProduct={AllProduct}
       isCategory={false}
       mainslug={mainslug}

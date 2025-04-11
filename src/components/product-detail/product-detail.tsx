@@ -266,11 +266,11 @@ const ProductDetail = ({
         const uniqueColors = [
           ...new Set(product?.productImages?.map((img) => img.color)),
         ];
-        const filters = uniqueColors.map((item) => {
+        const filters = uniqueColors?.map((item) => {
           return additionalInfo?.find((filterItem) => filterItem.name === item);
         });
         setAvailableFilters(filters);
-        const variationImages = product?.productImages.filter(
+        const variationImages = product?.productImages?.filter(
           (img) => img.color === filter?.name,
         );
         setProductImage(variationImages);

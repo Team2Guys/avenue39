@@ -34,6 +34,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const { slug } = await params;
   const categories = await fetchCategories();
   const AllProduct = await fetchProducts();
+
   const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.custom_url || item.name) === slug);
   if (!findCategory) {
     return <NotFound />;
@@ -41,19 +42,21 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
   const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'office-furniture' ? 'homeOffice' : slug;
   const subcategory = menuData[categoryName] || [];
   let sortProducts;
+
+
   if (slug === "new-arrivals") {
     const ProductSet = new Set(Product.map(generateSlug));
     const SubcategorySet = new Set(Subcategory.map(generateSlug));
     const CategorySet = new Set(categories.map(generateSlug));
-    const filterProds = AllProduct.map((prods: any) => {
+    const filterProds = AllProduct?.map((prods: any) => {
       const productSlug = generateSlug(prods.name);
       if (!ProductSet.has(productSlug)) {
         return null;
       }
-
+console.log(prods.subcategories, "subcategories",)
       const filteredSubcategories = prods.subcategories.filter((subcat: any) =>
         SubcategorySet.has(generateSlug(subcat.name)) &&
-        subcat.categories.some((value: any) => CategorySet.has(generateSlug(value.name)))
+        subcat.categories?.some((value: any) => CategorySet.has(generateSlug(value.name)))
       );
 
       return {
@@ -64,7 +67,7 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
     sortProducts = filterProds
   } else {
     sortProducts = AllProduct.filter((product: any) => {
-      let hasSubCate = product.subcategories.some((productSubcategory: any) =>
+      let hasSubCate = product.subcategories?.some((productSubcategory: any) =>
         findCategory.subcategories.some((findSubcategory: any) =>
           productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
         )
@@ -73,9 +76,6 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
       if (!hasSubCate) {
         hasMainCategory = product.categories.some((category: ICategory) => generateSlug(category.custom_url || category.name) == slug)
       }
-
-
-
       return hasSubCate ? hasSubCate : hasMainCategory
     }
 
@@ -94,13 +94,12 @@ const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
         return indexA - indexB;
       });
   }
-
+  
   return <Shop
     ProductData={sortProducts}
     AllProduct={AllProduct}
     isCategory={true}
     mainslug={slug}
-    categories={categories}
     info={findCategory}
   />
 }

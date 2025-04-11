@@ -5,20 +5,68 @@ import { AddSubCategoryDto, UpdateSubCategoryDto } from './dto/subcategory.dto';
 
 @Injectable()
 export class SubcategoriesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getSubCategories() {
     try {
       return await this.prisma.subCategories.findMany({
-        include: {
-          categories: { include:{subcategories: true,products: true}},
+        // include: {
+        //   categories: { include:{subcategories: true,products: true}},
+        //   products: {
+        //     include: {
+        //       subcategories: true, 
+        //       categories: true,
+        //     },
+        //   }
+        // },
+        select: {
+          id: true,
+          name: true,
+          custom_url: true,
           products: {
-            include: {
-              subcategories: true, 
-              categories: true,
-            },
+            select: {
+              name: true,
+              custom_url: true,
+              price: true,
+              discountPrice: true,
+              posterImageUrl: true,
+              hoverImageUrl: true,
+              filter:true,
+              sizes:true,
+              stock:true
+            }
+          },
+          categories: {
+            select: {
+              name: true,
+              custom_url: true,
+              subcategories: {
+
+                select: {
+                  custom_url: true,
+                  name: true,
+                }
+              },
+
+              products: {
+                select: {
+                  name: true,
+                  custom_url: true,
+                  price: true,
+                  discountPrice: true,
+                  posterImageUrl: true,
+                  hoverImageUrl: true,
+                  subcategories: {
+                    select: {
+                      custom_url: true,
+                      name: true,
+                    }
+                  },
+                }
+              }
+            }
           }
-        },
+        }
       });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
@@ -29,7 +77,7 @@ export class SubcategoriesService {
 
     try {
       const { name, posterImageUrl } = categoryData;
-      const {  categories, categoriesId, ...Data } = categoryData;
+      const { categories, categoriesId, ...Data } = categoryData;
 
       const existingSubCategory = await this.prisma.subCategories.findFirst({
         where: { name },
@@ -71,7 +119,7 @@ export class SubcategoriesService {
             connect: categoriesId.map((id) => ({ id })),
           },
           last_editedBy: userEmail,
-          
+
         },
       });
 
@@ -95,7 +143,7 @@ export class SubcategoriesService {
     }
   }
 
-  async updateSubCategory(subCategoryData: UpdateSubCategoryDto,userEmail: string) {
+  async updateSubCategory(subCategoryData: UpdateSubCategoryDto, userEmail: string) {
     try {
       const { id, name, categoriesId, posterImageUrl, ...Data } =
         subCategoryData;
@@ -198,43 +246,43 @@ export class SubcategoriesService {
   }
 
 
-  async getSingeSubCategory(category: string, subcategoryName:string) {
-      try {
-        const subCategories = await this.prisma.subCategories.findMany({
-          select: {
-            meta_title: true,
-            meta_description: true,
-            posterImageUrl: true,
-            canonical_tag: true,
-            images_alt_text: true,
-            name: true,
-            custom_url: true,
-            categories: {
-              select: {
-                name: true,
-                custom_url: true,
-              },
+  async getSingeSubCategory(category: string, subcategoryName: string) {
+    try {
+      const subCategories = await this.prisma.subCategories.findMany({
+        select: {
+          meta_title: true,
+          meta_description: true,
+          posterImageUrl: true,
+          canonical_tag: true,
+          images_alt_text: true,
+          name: true,
+          custom_url: true,
+          categories: {
+            select: {
+              name: true,
+              custom_url: true,
             },
           },
-        })
-  
-        const matchedProduct: any = subCategories?.find((item: any) => {
-          const isNameMatch = generateSlug(item.custom_url || item.name) === subcategoryName;
-          const belongsToCategory = item.categories.some((value: any) =>
-            generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === category,
-          );
-          return isNameMatch && belongsToCategory;
-        });
-      
-  
-        if (!matchedProduct) {
-          return customHttpException('Product Not Found!', 'NOT_FOUND');
-        }
-  
-        return matchedProduct;
-      } catch (error) {
-        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+        },
+      })
+
+      const matchedProduct: any = subCategories?.find((item: any) => {
+        const isNameMatch = generateSlug(item.custom_url || item.name) === subcategoryName;
+        const belongsToCategory = item.categories.some((value: any) =>
+          generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === category,
+        );
+        return isNameMatch && belongsToCategory;
+      });
+
+
+      if (!matchedProduct) {
+        return customHttpException('Product Not Found!', 'NOT_FOUND');
       }
+
+      return matchedProduct;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
-  
+  }
+
 }

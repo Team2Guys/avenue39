@@ -24,16 +24,55 @@ export class CategoriesService {
       }
 
       let categories = await this.prisma.categories.findMany({
-        include: {
-          subcategories: { include: { categories: true, products: true } },
-          products: {
-            include: {
-              subcategories: true,
-              categories: true,
-            },
+        // include: {
+        //   subcategories: { include: { categories: true, products: true } },
+        //   products: {
+        //     include: {
+        //       subcategories: true,
+        //       categories: true,
+        //     },
+        //   }
+        // },
+        select:{
+          id:true,
+          name:true,
+          description:true,
+          posterImageUrl:true,
+          subcategories:{
+            select:{
+              name:true,
+              custom_url:true,
+              products:{
+                select:{
+                  name:true,
+                  custom_url:true
+                }
+              }
+            }
+          },
+          products:{
+            select:{
+              name:true,
+              posterImageUrl:true,
+              custom_url:true,
+              stock:true,
+              price:true,
+              hoverImageUrl:true,
+              categories:{
+                select:{
+                  custom_url:true,
+                  name:true
+                }
+              },
+              subcategories:{
+                select:{
+                  custom_url:true,
+                  name:true
+                }
+              }
+            }
           }
-        },
-
+        }
 
       });
 

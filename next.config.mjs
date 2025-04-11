@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
-import bundleAnalyzer from '@next/bundle-analyzer';
+// import bundleAnalyzer from '@next/bundle-analyzer';
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true', 
-});
+// const withBundleAnalyzer = bundleAnalyzer({
+//   enabled: process.env.ANALYZE === 'true', 
+// });
 const nextConfig = {
   productionBrowserSourceMaps: true,
   images: {
@@ -36,4 +36,5 @@ const nextConfig = {
  
 };
 
-export default withBundleAnalyzer(nextConfig);
+// export default withBundleAnalyzer(nextConfig);
+export default nextConfig;

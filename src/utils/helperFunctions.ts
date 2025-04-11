@@ -35,7 +35,7 @@ export const ImageRemoveHandler = async (
   try {
     // Only call the API if public_id is not empty (i.e., it's not a cropped image without a public_id)
     if (imagePublicId) {
-       await axios.delete(
+      await axios.delete(
         `${process.env.NEXT_PUBLIC_PRODUCT_IMAGE}/api/file-upload/DelImage/${imagePublicId}`,
       );
     }

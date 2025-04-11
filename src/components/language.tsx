@@ -21,6 +21,7 @@ export const Helveticalight = localFont({
   ],
   variable: '--font-helvetica-light',
   display: 'swap', 
+  fallback: ['sans-serif'], 
 });
 export const belgium = localFont({
   src: [
@@ -32,6 +33,7 @@ export const belgium = localFont({
   ],
   variable: '--font-belgium',
   display: 'swap', 
+  fallback: ['sans-serif'], 
 });
 
 
@@ -45,4 +47,5 @@ export const jadyn = localFont({
   ],
   variable: '--font-jadyn',
   display: 'swap', 
+  fallback: ['sans-serif'], 
 });

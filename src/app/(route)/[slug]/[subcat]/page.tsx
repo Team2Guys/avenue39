@@ -32,7 +32,6 @@ export async function generateMetadata({ params, searchParams }: SlugPageProps):
 
   const isRedirect = redirects.find((value) => value.url == url)
   if (isRedirect) {
-    console.log(isRedirect, "isredirect", url, `/${isRedirect.redirect}`)
     return permanentRedirect(`/${isRedirect.redirect}`, "replace" as RedirectType)
 
   }
@@ -59,7 +58,6 @@ const Subcat: React.FC<SlugPageProps> = async ({ params , searchParams}) => {
   }
 
   const SubCategoriesFinder = re_Calling_products.find((value) => generateSlug(value.mainCategory).trim().toLocaleLowerCase() === slug && generateSlug(value.subCategory).trim().toLocaleLowerCase() == subcat);
-console.log(SubCategoriesFinder, "SubCategoriesFinder", categorylist)
   if (SubCategoriesFinder) {
     if (SubCategoriesFinder.redirect_main_cat.trim().toLocaleLowerCase() !== slug && subcat == SubCategoriesFinder.redirectsubCat.trim().toLocaleLowerCase() )
       return notFound()

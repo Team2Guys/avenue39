@@ -23,6 +23,24 @@ export const fetchProducts = async () => {
  return "error";
   }
 };
+export const fetchSingleProducts = async (ProductName:string) => {
+  try {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/${ProductName}`,
+      {
+        next: { tags: ['products'] },
+      },
+    );
+    if (!result.ok) {
+
+      return [];
+    }
+    const response = await result.json();
+
+    return response;
+  } catch  {
+ return "error";
+  }
+};
 
 export const DashboardfetchProducts = async () => {
   try {
@@ -59,9 +77,36 @@ return "error"
   }
 };
 
+export const fetchSignleCategories = async (categoryName:string): Promise<ICategory[] | any> => {
+  try {
+    const result = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/category/${categoryName}`,
+      {
+        next: { tags: ['categories'] },
+      },
+    );
+    const response = await result.json();
+    return response;
+  } catch  {
+return "error"
+  }
+};
+
 export const fetchSubCategories = async (): Promise<ICategory[]> => {
   const result = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/subcategories/get-all`,
+    {
+      next: { tags: ['subcategories'] },
+    },
+  );
+  const response = await result.json();
+  return response;
+};
+
+
+export const fetchsingleSubCategories = async (category:string, subCategory:string) => {
+  const result = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/subcategories/${category}/${subCategory}`,
     {
       next: { tags: ['subcategories'] },
     },

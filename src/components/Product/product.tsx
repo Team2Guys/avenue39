@@ -139,7 +139,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
     <div>
       <TopHero breadcrumbs={cartpageBreadcrumbs}
         categoryName={mainslug ? mainslug : subslug}
-        subCategorName={subslug}
+        subCategoryName={subslug}
         productName={product?.name}
       />
       <Container className='overflow-hidden'>

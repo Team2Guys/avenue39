@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { customHttpException } from '../utils/helper';
+import { customHttpException, generateSlug } from '../utils/helper';
 import { AddSubCategoryDto, UpdateSubCategoryDto } from './dto/subcategory.dto';
 
 @Injectable()
@@ -196,5 +196,45 @@ export class SubcategoriesService {
       customHttpException(error.message, 'BAD_REQUEST');
     }
   }
+
+
+  async getSingeSubCategory(category: string, subcategoryName:string) {
+      try {
+        const subCategories = await this.prisma.subCategories.findMany({
+          select: {
+            meta_title: true,
+            meta_description: true,
+            posterImageUrl: true,
+            canonical_tag: true,
+            images_alt_text: true,
+            name: true,
+            custom_url: true,
+            categories: {
+              select: {
+                name: true,
+                custom_url: true,
+              },
+            },
+          },
+        })
+  
+        const matchedProduct: any = subCategories?.find((item: any) => {
+          const isNameMatch = generateSlug(item.custom_url || item.name) === subcategoryName;
+          const belongsToCategory = item.categories.some((value: any) =>
+            generateSlug(value.custom_url || value.name).trim().toLocaleLowerCase() === category,
+          );
+          return isNameMatch && belongsToCategory;
+        });
+      
+  
+        if (!matchedProduct) {
+          return customHttpException('Product Not Found!', 'NOT_FOUND');
+        }
+  
+        return matchedProduct;
+      } catch (error) {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+    }
   
 }

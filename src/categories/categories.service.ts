@@ -10,19 +10,18 @@ import { CHACHE_CATEGORY_KEY } from '../../src/utils/CacheKeys';
 export class CategoriesService {
   constructor(
     private prisma: PrismaService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    // @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) { }
 
 
 
   async getCategories() {
     try {
-      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
-console.log(cachedCategories, "cachec categories")
-      if (cachedCategories) {
-        console.log('Returning categories from cache')
-        return cachedCategories;
-      }
+      // const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
+      // if (cachedCategories) {
+      //   console.log('Returning categories from cache')
+      //   return cachedCategories;
+      // }
 
       let categories = await this.prisma.categories.findMany({
         include: {
@@ -38,8 +37,8 @@ console.log(cachedCategories, "cachec categories")
 
       });
 
-      // @ts-ignore
-      await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+      // // @ts-ignore
+      // await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
 
       return categories;
 
@@ -153,6 +152,45 @@ console.log(cachedCategories, "cachec categories")
       };
     } catch (error) {
       customHttpException(error.message, 'BAD_REQUEST');
+    }
+  }
+
+
+  async getSingleCategory(categoryName:string) {
+    try {
+      console.log(categoryName, "category name")
+      // const cachedCategories = await this.cacheManager.get("signleCategory");
+      // if (cachedCategories) {
+      //   console.log('Returning categories from cache')
+      //   return cachedCategories;
+      // }
+
+      let categories = await this.prisma.categories.findFirst({
+        where: {
+          OR: [
+            { custom_url: categoryName },
+            { name: categoryName }
+          ]
+        },
+        select: {
+          meta_title: true,
+          meta_description: true,
+          posterImageUrl: true,
+          canonical_tag:true,
+          images_alt_text:true
+    
+        }
+    
+      });
+
+      // @ts-ignore
+      // await this.cacheManager.set(CHACHE_CATEGORY_KEY, signleCategory, { ttl: 3600 }); // Set expiration to 1 hour
+
+      return categories;
+
+
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
 }

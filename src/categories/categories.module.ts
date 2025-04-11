@@ -10,17 +10,17 @@ import { redisStore } from 'cache-manager-redis-store';
   controllers: [CategoriesController],
   providers: [CategoriesService],
   imports: [PrismaModule, ConfigModule, 
-    CacheModule.registerAsync({
-      useFactory: async () => ({
-        store: await redisStore({
-          socket: {
-            host: 'localhost',
-            port: 6379,
-          },
-          ttl: 3600,
-        }),
-      }),
-    }),
+    // CacheModule.registerAsync({
+    //   useFactory: async () => ({
+    //     store: await redisStore({
+    //       socket: {
+    //         host: 'localhost',
+    //         port: 6379,
+    //       },
+    //       ttl: 3600,
+    //     }),
+    //   }),
+    // }),
       ],
 })
 export class CategoriesModule {}

@@ -22,6 +22,11 @@ export class ProductsController {
     return await this.productsService.getProducts();
   }
 
+  @Get(':product')
+  async getSingleCategory(@Param('product') product: string) {
+    return this.productsService.getSingeProduct(product);
+  }
+
   @Post('add-product')
   addProduct(@Body() addProductData: AddProductDto, @Req() req:Request) {
     const user=req['user'];
@@ -43,4 +48,7 @@ export class ProductsController {
 
     return this.productsService.removeProduct(id);
   }
+
+
+
 }

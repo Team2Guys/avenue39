@@ -1,27 +1,28 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { customHttpException } from '../utils/helper';
+import { customHttpException, generateSlug } from '../utils/helper';
 import { AddProductDto, UpdateProductDto } from './dto/product.dto';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
- async getProducts() {
+  constructor(private prisma: PrismaService) { }
+  async getProducts() {
     try {
-  let products = await this.prisma.products.findMany({
+      let products = await this.prisma.products.findMany({
         include: {
-          reviews:true,
+          reviews: true,
           categories: {
             include: {
               subcategories: true,
-  
+
             },
           },
-          subcategories: { 
+          subcategories: {
             include: {
               categories: true,
-          },},
+            },
+          },
         },
       });
       return products
@@ -35,8 +36,8 @@ export class ProductsService {
       const existingProduct = await this.prisma.products.findFirst({
         where: { name: productData.name },
       });
-       //@ts-expect-error
-       const { id,imagesUrl,OgUrl,Og_Image,Og_title,...Data } = productData;
+      //@ts-expect-error
+      const { id, imagesUrl, OgUrl, Og_Image, Og_title, ...Data } = productData;
 
       if (existingProduct) {
         return {
@@ -45,7 +46,7 @@ export class ProductsService {
         };
       }
       //@ts-expect-error
-      const {  filters,filtere, ...filteredData } = Data;
+      const { filters, filtere, ...filteredData } = Data;
 
       await this.prisma.products.create({
         data: {
@@ -77,10 +78,10 @@ export class ProductsService {
       const existingProduct: any = await this.prisma.products.findFirst({
         where: { id: productData.id },
       });
-      
-      
+
+
       //@ts-expect-error
-      const { id,imagesUrl,OgUrl,Og_Image,Og_title,...Data } = productData;
+      const { id, imagesUrl, OgUrl, Og_Image, Og_title, ...Data } = productData;
 
       if (!existingProduct) {
         return {
@@ -94,8 +95,8 @@ export class ProductsService {
           (color: { colorName: string }) => color.colorName,
         ) ?? [];
 
-        //@ts-expect-error
-      const {  filters, ...filteredData } = Data;
+      //@ts-expect-error
+      const { filters, ...filteredData } = Data;
 
       await this.prisma.products.update({
         where: { id: productData.id },
@@ -110,8 +111,8 @@ export class ProductsService {
           },
           last_editedBy: userEmail,
         },
-       
-        
+
+
       });
 
       return {
@@ -149,4 +150,43 @@ export class ProductsService {
       customHttpException(error.message, 'BAD_REQUEST');
     }
   }
+
+  async getSingeProduct(productSlug: string) {
+    try {
+      const products = await this.prisma.products.findMany({
+        select: {
+          Meta_Title: true,
+          Meta_Description: true,
+          posterImageUrl: true,
+          Canonical_Tag: true,
+          Images_Alt_Text: true,
+          posterImageAltText: true,
+          name: true,
+          custom_url: true,
+        },
+      });
+
+      const matchedProduct = products.find((product) => {
+        const nameSlug = generateSlug(product.name.trim());
+        const customUrlSlug = product.custom_url
+          ? generateSlug(product.custom_url.trim())
+          : null;
+
+        return (
+          nameSlug.toLowerCase() === productSlug.toLowerCase() ||
+          customUrlSlug === productSlug.toLowerCase()
+        );
+      });
+
+      console.log(matchedProduct, "matchedProduct")
+      if (!matchedProduct) {
+        return customHttpException('Product Not Found!', 'NOT_FOUND');
+      }
+
+      return matchedProduct;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
 }

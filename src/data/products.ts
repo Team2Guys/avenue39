@@ -43,10 +43,6 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Parisio Dining Chair',
         posterImageUrl: '/images/HomeProducts/Dining/Parisio.webp',
       },
-      // {
-      //   name: 'Savio Dining Chair',
-      //   posterImageUrl: '/images/HomeProducts/Dining/Savio.webp',
-      // },
       {
         name: 'Asana Dining Chair',
         posterImageUrl: '/images/HomeProducts/Dining/Asana.webp',
@@ -145,10 +141,6 @@ export const homeProducts: IHomeProducts[] = [
         name: 'Tavola Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Tavola.webp',
       },
-      // {
-      //   name: 'Moderno Bedside Table',
-      //   posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
-      // },
       {
         name: 'Ombra Bedside Table',
         posterImageUrl: '/images/HomeProducts/Bedroom/Ombra.webp',
@@ -186,26 +178,6 @@ export const homeProducts: IHomeProducts[] = [
   {
     name: 'accessories',
     products: [
-      // {
-      //   name: 'Droplet Stand ',
-      //   posterImageUrl: '/images/HomeProducts/Accessories/Droplet.webp',
-      // },
-      // {
-      //   name: 'Layered Elegance',
-      //   posterImageUrl: '/images/HomeProducts/Accessories/Layered.webp',
-      // },
-      // {
-      //   name: 'Abstract Vase',
-      //   posterImageUrl: '/images/HomeProducts/Accessories/Abstract.webp',
-      // },
-      // {
-      //   name: 'Monolith Sphere Towers',
-      //   posterImageUrl: '/images/HomeProducts/Accessories/Monolith.webp',
-      // },
-      // {
-      //   name: 'Rooted Egg Stands',
-      //   posterImageUrl: '/images/HomeProducts/Accessories/Rooted.webp',
-      // },
     ],
   },
 ];

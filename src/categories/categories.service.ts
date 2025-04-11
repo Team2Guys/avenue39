@@ -10,18 +10,18 @@ import { CHACHE_CATEGORY_KEY } from '../../src/utils/CacheKeys';
 export class CategoriesService {
   constructor(
     private prisma: PrismaService,
-    // @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) { }
 
 
 
   async getCategories() {
     try {
-      // const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
-      // if (cachedCategories) {
-      //   console.log('Returning categories from cache')
-      //   return cachedCategories;
-      // }
+      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
 
       let categories = await this.prisma.categories.findMany({
         include: {
@@ -37,8 +37,8 @@ export class CategoriesService {
 
       });
 
-      // // @ts-ignore
-      // await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+      // @ts-ignore
+      await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
 
       return categories;
 
@@ -159,11 +159,11 @@ export class CategoriesService {
   async getSingleCategory(categoryName:string) {
     try {
       console.log(categoryName, "category name")
-      // const cachedCategories = await this.cacheManager.get("signleCategory");
-      // if (cachedCategories) {
-      //   console.log('Returning categories from cache')
-      //   return cachedCategories;
-      // }
+      const cachedCategories = await this.cacheManager.get("signleCategory");
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
 
       let categories = await this.prisma.categories.findFirst({
         where: {
@@ -184,7 +184,7 @@ export class CategoriesService {
       });
 
       // @ts-ignore
-      // await this.cacheManager.set(CHACHE_CATEGORY_KEY, signleCategory, { ttl: 3600 }); // Set expiration to 1 hour
+      await this.cacheManager.set(CHACHE_CATEGORY_KEY, signleCategory, { ttl: 3600 }); // Set expiration to 1 hour
 
       return categories;
 

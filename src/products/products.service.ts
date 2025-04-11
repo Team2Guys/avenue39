@@ -10,20 +10,36 @@ export class ProductsService {
   async getProducts() {
     try {
       let products = await this.prisma.products.findMany({
-        include: {
-          reviews: true,
-          categories: {
-            include: {
-              subcategories: true,
+        select:{
+          id:true,
+          posterImageUrl:true,
+          name:true,
+          custom_url:true,
+          reviews:true,
+          description:true,
+          stock:true,
+          hoverImageUrl:true,
+          price:true,
+          discountPrice:true,
+          sizes:true,
+          filter:true,
+          additionalInformation:true, 
+          productImages:true,
 
-            },
+          categories:{
+            select:{
+              name:true,
+              custom_url:true
+            }
           },
-          subcategories: {
-            include: {
-              categories: true,
-            },
-          },
-        },
+          subcategories:{
+            select:{
+              name:true,
+              custom_url:true
+            }
+          }
+        }
+
       });
       return products
     } catch (error) {

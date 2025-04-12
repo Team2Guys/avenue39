@@ -125,7 +125,7 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
         <TopHero
           breadcrumbs={productsbredcrumbs}
           categoryName={mainslug ? mainslug : SubcategoryName?.name}
-          subCategorName={SubcategoryName?.name || undefined}
+          subCategoryName={SubcategoryName?.name || undefined}
         />
 
       }

@@ -270,7 +270,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                 <div className="flex items-center gap-1 xs:gap-4">
                                   {product.discountPrice > 0 ? (
                                     <>
-                                      <p className="text-15 font-semibold text-[#FF0000]">
+                                      <p className="text-15 font-semibold text-red-700">
                                         AED <span>{product.discountPrice}</span>
                                       </p>
                                       <p className="text-[12px] text-primary-foreground font-bold line-through">
@@ -418,7 +418,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                 </p>
 
                                 <div className="flex justify-center items-center gap-2 xs:gap-4">
-                                  <p className={`text-14 xs:text-15 font-semibold  ${product.discountPrice ? "text-[#FF0000]" : ""}`}>
+                                  <p className={`text-14 xs:text-15 font-semibold  ${product.discountPrice ? "text-red-700" : ""}`}>
                                     AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
                                   </p>
                                   {(product.discountPrice && product.discountPrice > 0) ?

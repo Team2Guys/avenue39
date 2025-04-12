@@ -42,7 +42,7 @@ const CartOrder: React.FC = () => {
     totalPrice > 1000 ? 100 : (totalPrice / 1000) * 100;
   const remainingAmount = 1000 - totalPrice;
   return (
-    <div className="shadow border border-[#EEEEEE] rounded-md p-2 md:p-4 w-full space-y-5 mt-5 md:mt-0">
+    <div className="shadow border border-gray-200 rounded-md p-2 md:p-4 w-full space-y-5 mt-5 md:mt-0">
       <p className="text-center text-[26px]">Cart</p>
       <div className="flex justify-between items-center pt-4">
         <p className="text-[#666666] font-bold text-20">Total</p>

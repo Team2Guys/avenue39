@@ -675,7 +675,7 @@ const Checkout = () => {
                   <h2 className="text-[33px] mb-10">Promotional Code</h2>
                   <Coupan label="Have a coupon?" handleCoupon={handleCoupon} />
                   <div className="mt-10 space-y-6">
-                    <div className="bg-[#EEEEEE] px-4 py-4 space-y-3">
+                    <div className="bg-gray-200 px-4 py-4 space-y-3">
                       <p className="text-center text-2xl font-extrabold">
                         Your Order
                       </p>
@@ -839,7 +839,7 @@ const Checkout = () => {
                       Direct Bank Transfer
                     </label>
                   </div> */}
-                    <div className="bg-[#EEEEEE] px-4 py-1 space-y-5">
+                    <div className="bg-gray-200 px-4 py-1 space-y-5">
                       <p className="text-12">
                         Make your payment directly into our bank account. Please
                         use your Order ID as the payment reference. Your order
@@ -849,7 +849,7 @@ const Checkout = () => {
                     </div>
 
                     {uniqueShipping &&
-                      <div className="bg-[#EEEEEE]">
+                      <div className="bg-gray-200">
 
                         <Collapse
                           accordion

@@ -33,7 +33,22 @@ export class SubcategoriesService {
               hoverImageUrl: true,
               filter:true,
               sizes:true,
-              stock:true
+              stock:true,
+              productImages:true,
+              categories:{
+                select:{
+                  name:true,
+                  custom_url:true,
+                  id:true,
+                }
+              },
+              subcategories:{
+                select:{
+                  name:true,
+                  custom_url:true,
+                  id:true
+                }
+              }
             }
           },
           categories: {

@@ -40,8 +40,6 @@ const redirects: Record<string, string> = {
 
 
 export function middleware(request: NextRequest) {
-
-  console.log(request, "request")
   const { nextUrl } = request;
   const redirectTo = redirects[nextUrl.pathname];
   console.log(redirectTo, "redirect")

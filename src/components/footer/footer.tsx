@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
   // };
 
   return (
-    <section className="pt-10 border-t border-[#EEEEEE] bg-[#D5D5D5]   dark:text-black font-helvetica">
+<section className="pt-10 border-t border-gray-200 bg-gray-300 text-black font-helvetica">
 
       {/* Newsletter Section start */}
 

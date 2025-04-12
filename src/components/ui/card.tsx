@@ -303,7 +303,7 @@ const Card: React.FC<CardProps> = ({
                 )}
 
                 {card.discountPrice > 1 && (
-                  <p className="text-shadow absolute top-1 -left-9 px-7  transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
+                  <p className="text-shadow absolute top-1 -left-9 px-7  transform -rotate-45 bg-red-700 text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
                     {Math.round(
                       ((card.price - card.discountPrice) / card.price) * 100,
                     )}
@@ -326,7 +326,7 @@ const Card: React.FC<CardProps> = ({
                         <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
                           AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                         </p>
-                        <p className="text-sm md:text-18 font-bold text-[#FF0000]">
+                        <p className="text-sm md:text-18 font-bold text-red-700">
                           AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                         </p>
                       </div>
@@ -402,7 +402,7 @@ const Card: React.FC<CardProps> = ({
               <div className="bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main">
                 {/* <span className='pb-10'>{card.subcategories?.map((item) => item.name)}</span> */}
                 {card.discountPrice > 0 && (
-                  <p className="z-[1] absolute top-1 -left-9 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
+                  <p className="z-[1] absolute top-1 -left-9 px-7 transform -rotate-45 bg-red-700 text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
                     {Math.round(
                       ((card.price - card.discountPrice) / card.price) * 100,
                     )}
@@ -468,7 +468,7 @@ const Card: React.FC<CardProps> = ({
                       <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
                         AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                       </p>
-                      <p className="text-sm md:text-18 font-bold text-[#FF0000]">
+                      <p className="text-sm md:text-18 font-bold text-red-700">
                         AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                       </p>
                     </div>
@@ -522,7 +522,7 @@ const Card: React.FC<CardProps> = ({
 
 
                         <DialogContent className="max-w-[1400px]  w-11/12 bg-white px-0 sm:rounded-3xl   shadow-none gap-0 pb-0" >
-                          <DialogTitle>Diagloge</DialogTitle>
+                          {/* <DialogTitle>Diagloge</DialogTitle> */}
                           <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                             <ProductDetail
                               params={card}
@@ -573,7 +573,7 @@ const Card: React.FC<CardProps> = ({
             </Link>
 
             {card.discountPrice > 0 && (
-              <span className="absolute -top-1 -left-11 px-7 transform -rotate-45 bg-[#FF0000] text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
+              <span className="absolute -top-1 -left-11 px-7 transform -rotate-45 bg-red-700 text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
                 {Math.round(((card.price - card.discountPrice) / card.price) * 100)}
                 %
               </span>

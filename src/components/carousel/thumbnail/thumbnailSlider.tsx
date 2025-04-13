@@ -79,12 +79,12 @@ const CustomThumbnailSlickSlider = ({
       <Slider
         ref={slickRef}
         {...settings}
-        className={`product-slider custom-Slick ${!isZoom && 'isZoom'}`}
+        className={`product-slider custom-Slick overflow-hidden ${!isZoom && 'isZoom'}`}
       >
         {thumbs.map((thumb, index) => (
           <div
             key={index}
-            className="column-swiper-slider swiper-slide xsm:mx-0 mx-2"
+            className="column-swiper-slider swiper-slide xsm:mx-0 mx-2 "
             onClick={() => setActiveSlickSlide(index)}
           >
             <Image

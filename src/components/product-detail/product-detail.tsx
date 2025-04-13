@@ -717,7 +717,7 @@ const ProductDetail = ({
         </div>
 
         {product.shippingOptions &&
-          <div className="bg-[#EEEEEE]">
+          <div className="bg-gray-200">
 
             <Collapse
               accordion

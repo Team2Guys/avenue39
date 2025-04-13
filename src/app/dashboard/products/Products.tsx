@@ -58,6 +58,8 @@ const Product = ({cetagories,productsData}: {
   let productFlag: boolean = selecteMenu === 'Add All Products' ? true : false;
 
   
+
+  console.log(productsData[0], "productsData")
   return (
     <DefaultLayout>
       <Breadcrumb pageName={productFlag ? 'Products' : 'Add Products'} />

@@ -83,7 +83,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
   }
   useEffect(() => {
     const CategoryHandler = async () => {
-      try {
+
         if (!EditInitialValues) return;
         const {
           posterImageUrl,
@@ -105,8 +105,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
           'EditInitialValues',
         );
         const shipping = EditInitialValues.shippingOptions?.map((category: any) => category) || shippingOption[0];
-        setSelectedShippingOption(shipping);
         console.log(shipping, 'shipping')
+        setSelectedShippingOption(shipping);
         const categoryIds = EditInitialValues.categories?.map((category: any) => category.id) || [];
         setSelectedCategoryIds(categoryIds);
 
@@ -119,9 +119,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         sethoverImage(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],)
         setProductInitialValue(EditProductValue)
 
-      } catch (err) {
-        throw err;
-      }
+      
     };
 
     CategoryHandler();
@@ -876,7 +874,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
 
 
                               <Checkbox
-                                checked={!!selectedShippingOption.find((item) => item.name === shipping.name)}
+                                checked={!!selectedShippingOption?.find((item) => item.name === shipping.name)}
                                 className="custom-checkbox"
                                 onChange={(e) => {
                                   const checked = e.target.checked;
@@ -1279,7 +1277,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       <FieldArray name="spacification">
                         {({ push, remove }) => (
                           <div className="flex flex-col gap-2">
-                            {formik.values.spacification.map(
+                            {formik.values.spacification?.map(
                               (spec: any, index: any) => (
                                 <div key={index} className="flex items-center">
                                   <input
@@ -1339,7 +1337,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       <FieldArray name="sizes">
                         {({ push, remove }) => (
                           <div className="flex flex-col gap-2">
-                            {formik.values.sizes.map(
+                            {formik.values?.sizes?.map(
                               (model: any, modelIndex: any) => {
                                 console.log('model', model);
                                 return (

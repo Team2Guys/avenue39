@@ -44,7 +44,8 @@ export const fetchSingleProducts = async (ProductName:string) => {
 
 export const DashboardfetchProducts = async () => {
   try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
+    console.log(process.env.NEXT_PUBLIC_BASE_URL, "NEXT_PUBLIC_BASE_URL")
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all-products`,
       {
         cache: 'no-store',
         next: { tags: ['products'] },
@@ -55,7 +56,6 @@ export const DashboardfetchProducts = async () => {
       return [];
     }
     const response = await result.json();
-
     return response;
   } catch (error) {
     return error
@@ -66,6 +66,20 @@ export const fetchCategories = async (): Promise<ICategory[] | any> => {
   try {
     const result = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/category/get-all`,
+      {
+        next: { tags: ['categories'] },
+      },
+    );
+    const response = await result.json();
+    return response;
+  } catch  {
+return "error"
+  }
+};
+export const dashboardCategories = async (): Promise<ICategory[] | any> => {
+  try {
+    const result = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/category/getAllCategories`,
       {
         next: { tags: ['categories'] },
       },
@@ -95,6 +109,16 @@ return "error"
 export const fetchSubCategories = async (): Promise<ICategory[]> => {
   const result = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/subcategories/get-all`,
+    {
+      next: { tags: ['subcategories'] },
+    },
+  );
+  const response = await result.json();
+  return response;
+};
+export const dashboardfetchSubCategories = async (): Promise<ICategory[]> => {
+  const result = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/subcategories/getAllSubCategories`,
     {
       next: { tags: ['subcategories'] },
     },

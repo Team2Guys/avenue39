@@ -21,6 +21,10 @@ export class ProductsController {
   async getProducts() {
     return await this.productsService.getProducts();
   }
+  @Get('get-all-products')
+  async getAllProducts() {
+    return await this.productsService.getAllProducts();
+  }
 
   @Get(':product')
   async getSingleCategory(@Param('product') product: string) {

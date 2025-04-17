@@ -29,7 +29,8 @@ export class ProductsService {
           categories: {
             select: {
               name: true,
-              custom_url: true
+              custom_url: true,
+              short_description: true
             }
           },
           subcategories: {

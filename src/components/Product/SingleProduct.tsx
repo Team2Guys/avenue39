@@ -26,7 +26,6 @@ const SingleProduct = async ({ slug ,subslug,mainslug, sizeParam , filterParam}:
 
 );
 
-console.log(findProduct, "findProduct")
   if (!findProduct) {
     return <NotFound />;
   }

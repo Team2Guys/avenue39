@@ -67,7 +67,6 @@ const WishlistPage = () => {
 
 
   const handleAddToCart = (product: any) => {
-    console.log(product, 'product');
     const itemToAdd: any = {
       ...product,
       quantity: product.quantity,
@@ -121,7 +120,6 @@ const WishlistPage = () => {
     toast.success('Product moved to Cart successfully!');
   };
 
-  console.log(wishlist, 'wishlist');
   return (
     <>
       <TopHero breadcrumbs={wishbredcrumbs} />

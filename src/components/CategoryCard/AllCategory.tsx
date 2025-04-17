@@ -1,59 +1,38 @@
 
-import React from 'react';
-import CatProduct from './CatProduct';
+import React, { useCallback, useMemo } from 'react';
+const CatProduct =  dynamic(() => import('./CatProduct'));
 const CatProduct1 =  dynamic(() => import('./CatProduct1'));
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
 import { generateSlug } from '@/config';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
+import { filterAccessories, filterByCategoryAndTitle } from '@/config/HelperFunctions';
 
 const AllCategory = ({ products }: { products: IProduct[] }) => {
 
-  const filterByCategoryAndTitle = (products: IProduct[], titles: string[]) => {
-    const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
-   const filteredProducts = products.filter((prod) => {
-      return titleIndexMap.has(prod.name);
-    });
-    return filteredProducts.sort((a, b) => {
-      const aIndex = titleIndexMap.get(a.name);
-      const bIndex = titleIndexMap.get(b.name);
-      if (aIndex !== undefined && bIndex !== undefined) {
-        return aIndex - bIndex;
-      }
-      return 0;
-    });
-  };
+  const diningProducts = useMemo(() => filterByCategoryAndTitle(products, Dining), [products]);
+  const livingProducts = useMemo(() => filterByCategoryAndTitle(products, Living), [products]);
+  const bedroomProducts = useMemo(() => filterByCategoryAndTitle(products, Bedroom), [products]);
+  const accessoryProducts = useMemo(() => filterAccessories(products, Accessories), [products]);
 
-  const filterAccessories = (products: IProduct[], titles: string[]) => {
-    const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
-    const matchingProducts = products.filter((prod) =>
-      titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
-    );
-    const nonMatchingProducts = products.filter((prod) =>!titleIndexMap.has(prod.name) && prod.categories?.some((cat) => cat.name.toLowerCase() === 'accessories')
-    );
-    const sortedMatchingProducts = matchingProducts.sort((a, b) => {
-      const aIndex = titleIndexMap.get(a.name);
-      const bIndex = titleIndexMap.get(b.name);
-      return aIndex !== undefined && bIndex !== undefined ? aIndex - bIndex : 0;
-    });
-    return [...sortedMatchingProducts, ...nonMatchingProducts];
-  };
-  const getCategoryDescription = (categoryName: string) => {
-    const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));
+
+  const getCategoryDescription = useCallback((categoryName: string) => {
+    const matchedCategory = products.flatMap((product) => product.categories || [])
+      .find((category) => generateSlug(category.name) === generateSlug(categoryName));
     return matchedCategory?.short_description || '';
-  };
+  }, [products]);
 
 
   return (
     <div className="pt-1">
       <CatProduct
-        products={filterByCategoryAndTitle(products, Dining)}
+        products={diningProducts}
         CategoryDescription={getCategoryDescription('Dining')}
         CategoryName="Shop Your Dining"
         redirect="dining"
       />
       <CatProduct
-        products={filterByCategoryAndTitle(products, Living)}
+        products={livingProducts}
         CategoryDescription={getCategoryDescription('Living')}
         CategoryName="Shop Your Living"
         reverse
@@ -64,13 +43,13 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         redirect="living"
       />
       <CatProduct1
-        products={filterByCategoryAndTitle(products, Bedroom)}
+        products={bedroomProducts}
         CategoryDescription={getCategoryDescription('Bedroom')}
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
       />
       <CatProduct1
-        products={filterAccessories(products, Accessories)}
+        products={accessoryProducts}
         CategoryDescription={getCategoryDescription('Accessories')}
         CategoryName="Complement your design with accessories"
         reverse

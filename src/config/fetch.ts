@@ -44,7 +44,6 @@ export const fetchSingleProducts = async (ProductName:string) => {
 
 export const DashboardfetchProducts = async () => {
   try {
-    console.log(process.env.NEXT_PUBLIC_BASE_URL, "NEXT_PUBLIC_BASE_URL")
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all-products`,
       {
         cache: 'no-store',

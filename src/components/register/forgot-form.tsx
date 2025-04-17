@@ -35,7 +35,7 @@ const ForgotForm = () => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/forget-password`,
         { email },
       );
-      console.log('Email sent:', email);
+
       showToast('success', `Email sent: ${response.data.message}`);
     } catch (err: any) {
       console.error(

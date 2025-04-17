@@ -39,8 +39,7 @@ export default async function Home() {
         <ColorBanner Bannerclas="Bannerclas" />
         <SofaBanner />
         <NewArrival />
-      <AllCategory products={products} />
-    
+        <AllCategory products={products} />
     </>
   );
 }

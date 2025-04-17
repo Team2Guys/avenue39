@@ -1,10 +1,11 @@
-"use client"
-import React from 'react';
+'use client';
+
+import React, { useMemo } from 'react';
 import { IProduct } from '@/types/prod';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import Card from '../ui/card';
-
+import dynamic from 'next/dynamic';
+const Card = dynamic(() => import('../ui/card'))
 
 interface ProductGridProps {
   products: IProduct[];
@@ -17,53 +18,42 @@ interface ProductGridProps {
   productImages: any[];
   redirect?: string;
   accessoriesSlider?: boolean;
-  // sliderNumber?: number
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({
   products,
   productImages,
   imageHeight,
-  slider,
-  isHomepage,
+  slider = false,
+  isHomepage = false,
   calculateHeight,
   portSpace,
-  isLandscape,
+  isLandscape = false,
   redirect,
-  accessoriesSlider
-  // sliderNumber
+  accessoriesSlider = false,
 }) => {
 
-  const breakpoints = accessoriesSlider
-    ? {
-      280: {
-        slidesPerView: 1,
-      },
-      480: {
-        slidesPerView: 2,
-      },
-      640: {
-        slidesPerView: 3,
-      },
-      980: {
-        slidesPerView: 4,
-      },
-      1280: {
-        slidesPerView: 5,
-      },
-    }
-    : undefined;
+  const breakpoints = useMemo(() => {
+    if (!accessoriesSlider) return undefined;
+    return {
+      280: { slidesPerView: 1 },
+      480: { slidesPerView: 2 },
+      640: { slidesPerView: 3 },
+      980: { slidesPerView: 4 },
+      1280: { slidesPerView: 5 },
+    };
+  }, [accessoriesSlider]);
 
-  return (
-    <>
-      {!slider ? (
-        products.map((product, index) => (
+  if (!slider) {
+    return (
+      <>
+        {products.map((product) => (
           <Card
-            key={index}
+            key={product.id}
             card={product}
-            category={true}
+            category
             isLoading={false}
-            slider={slider}
+            slider={false}
             cardImageHeight={imageHeight}
             isHomepage={isHomepage}
             isLandscape={isLandscape}
@@ -71,49 +61,54 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             portSpace={portSpace}
             productImages={productImages}
             redirect={redirect}
-            cardLayout='grid'
+            cardLayout="grid"
           />
-        ))
-      ) : (
-        <Swiper
-          className={`mySwiper card-slider-home w-full ${accessoriesSlider && 'accessories-Slider mb-2'}`}
-          pagination={{
-            dynamicBullets: true,
-            clickable: true,
-          }}
-          slidesPerView={accessoriesSlider ? 5 : 1}
-          loop={true}
-          modules={[Pagination]}
-          // autoplay={{
-          //   delay: sliderNumber === 1 ? 2700 : 2050,
-          //   disableOnInteraction: false,
-          // }}
-          speed={1500}
-          breakpoints={breakpoints}
-        >
-          {products.map((product) => (
-            <SwiperSlide className={`w-full ${accessoriesSlider && 'sm:px-4'}`} key={product.id}>
-              <Card
-                card={product}
-                category={true}
-                isLoading={false}
-                slider={slider}
-                accessoriesSlider={accessoriesSlider}
-                cardImageHeight={imageHeight}
-                isHomepage={isHomepage}
-                isLandscape={isLandscape}
-                calculateHeight={calculateHeight}
-                portSpace={portSpace}
-                productImages={productImages}
-                redirect={redirect}
-                cardLayout='grid'
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper >
-      )}
-    </>
+        ))}
+      </>
+    );
+  }
+
+  return (
+    <Swiper
+      className={`mySwiper card-slider-home w-full ${accessoriesSlider ? 'accessories-Slider mb-2' : ''}`}
+      pagination={{ dynamicBullets: true, clickable: true }}
+      slidesPerView={accessoriesSlider ? 5 : 1}
+      loop
+      modules={[Pagination]}
+      speed={1500}
+      breakpoints={breakpoints}
+    >
+      {products.map((product) => (
+        <SwiperSlide className={`w-full ${accessoriesSlider ? 'sm:px-4' : ''}`} key={product.id}>
+          <Card
+            card={product}
+            category
+            isLoading={false}
+            slider
+            accessoriesSlider={accessoriesSlider}
+            cardImageHeight={imageHeight}
+            isHomepage={isHomepage}
+            isLandscape={isLandscape}
+            calculateHeight={calculateHeight}
+            portSpace={portSpace}
+            productImages={productImages}
+            redirect={redirect}
+            cardLayout="grid"
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 
-export default ProductGrid;
+// Custom comparison for memo
+function areEqual(prevProps: ProductGridProps, nextProps: ProductGridProps) {
+  return (
+    prevProps.products === nextProps.products &&
+    prevProps.imageHeight === nextProps.imageHeight &&
+    prevProps.slider === nextProps.slider &&
+    prevProps.accessoriesSlider === nextProps.accessoriesSlider
+  );
+}
+
+export default React.memo(ProductGrid, areEqual);

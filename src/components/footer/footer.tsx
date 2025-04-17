@@ -14,7 +14,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import SocialLink from '../social-link';
 import Image from 'next/image';
 
-const Footer: React.FC = () => {
+const Footer = () => {
 
   //Newsletter APi  
 
@@ -111,11 +111,11 @@ const Footer: React.FC = () => {
       {item.showImage && item.imageSrc ? (
         index === 2 ? (
           <Link target="_blank" href={'https://maps.app.goo.gl/4wnLULFAwHMdfBQ99'}>
-            <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
+            <Image width={80} height={80} src={item.imageSrc} alt={item.text} loading='lazy' />
           </Link>
         ) : (
           <div>
-            <Image width={80} height={80} src={item.imageSrc} alt={item.text} />
+            <Image width={80} height={80} src={item.imageSrc} alt={item.text} loading='lazy' />
           </div>
         )
       ) : null}

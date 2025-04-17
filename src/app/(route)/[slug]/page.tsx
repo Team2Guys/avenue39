@@ -1,4 +1,3 @@
-import NotFound from '@/app/not-found';
 import Shop from '@/components/Shop/shop';
 import { generateSlug } from '@/config';
 import { fetchCategories, fetchProducts } from '@/config/fetch';
@@ -8,6 +7,7 @@ import { Product, Subcategory } from '@/data/new_Arrival';
 import { ICategory } from '@/types/cat';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
+import { notFound } from 'next/navigation';
 import React from 'react';
 
 interface SlugPageProps {
@@ -30,78 +30,84 @@ export async function generateMetadata({
   return metaObject;
 }
 
-const SlugPage: React.FC<SlugPageProps> = async ({ params }) => {
+const SlugPage = async ({ params }: SlugPageProps) => {
   const { slug } = await params;
-  const categories = await fetchCategories();
-  const AllProduct = await fetchProducts();
 
-  const findCategory = categories && categories?.find((item: ICategory) => generateSlug(item.custom_url || item.name) === slug);
-  if (!findCategory) {
-    return <NotFound />;
+  const [categories, allProducts] = await Promise.all([
+    fetchCategories(),
+    fetchProducts(),
+  ]);
+
+  const findCategory = categories.find((item: ICategory) =>
+    generateSlug(item.custom_url || item.name) === slug
+  );
+
+  if (!findCategory && slug !== 'new-arrivals') {
+    return notFound();
   }
-  const categoryName = slug === 'lighting' ? 'Lighting' : slug === 'office-furniture' ? 'homeOffice' : slug;
-  const subcategory = menuData[categoryName] || [];
-  let sortProducts;
 
+  const categoryName =
+    slug === 'lighting' ? 'Lighting' :
+    slug === 'office-furniture' ? 'homeOffice' :
+    slug;
 
-  if (slug === "new-arrivals") {
-    const ProductSet = new Set(Product.map(generateSlug));
-    const SubcategorySet = new Set(Subcategory.map(generateSlug));
-    const CategorySet = new Set(categories.map(generateSlug));
-    const filterProds = AllProduct?.map((prods: any) => {
-      const productSlug = generateSlug(prods.name);
-      if (!ProductSet.has(productSlug)) {
-        return null;
-      }
-console.log(prods.subcategories, "subcategories",)
-      const filteredSubcategories = prods.subcategories.filter((subcat: any) =>
-        SubcategorySet.has(generateSlug(subcat.name)) &&
-        subcat.categories?.some((value: any) => CategorySet.has(generateSlug(value.name)))
-      );
+  const subcategoryList = menuData[categoryName] || [];
+  let filteredProducts = [];
 
-      return {
-        ...prods,
-        subcategory: filteredSubcategories
-      };
-    }).filter(Boolean);
-    sortProducts = filterProds
+  if (slug === 'new-arrivals') {
+    const productSet = new Set(Product.map(generateSlug));
+    const subcategorySet = new Set(Subcategory.map(generateSlug));
+    const categorySet = new Set(categories.map(generateSlug));
+
+    filteredProducts = allProducts
+      .filter((product: any) => productSet.has(generateSlug(product.name)))
+      .map((product: any) => {
+        const subcategoryMatch = product.subcategories.filter((sub: any) =>
+          subcategorySet.has(generateSlug(sub.name)) &&
+          sub.categories?.some((cat: any) =>
+            categorySet.has(generateSlug(cat.name))
+          )
+        );
+
+        return { ...product, subcategory: subcategoryMatch };
+      })
+      .filter((p: any) => p.subcategory?.length);
   } else {
-    sortProducts = AllProduct.filter((product: any) => {
-      let hasSubCate = product.subcategories?.some((productSubcategory: any) =>
-        findCategory.subcategories.some((findSubcategory: any) =>
-          productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
-        )
-      );
-      let hasMainCategory: any;
-      if (!hasSubCate) {
-        hasMainCategory = product.categories.some((category: ICategory) => generateSlug(category.custom_url || category.name) == slug)
-      }
-      return hasSubCate ? hasSubCate : hasMainCategory
-    }
+    filteredProducts = allProducts
+      .filter((product: any) => {
+        const subMatch = product.subcategories?.some((psub: any) =>
+          findCategory?.subcategories?.some(
+            (fsub: any) =>
+              psub.name.trim().toLowerCase() === fsub.name.trim().toLowerCase()
+          )
+        );
 
-    )
+        const catMatch = product.categories?.some(
+          (cat: any) => generateSlug(cat.custom_url || cat.name) === slug
+        );
 
+        return subMatch || catMatch;
+      })
       .sort((a: any, b: any) => {
-        if (!a.subcategories || a.subcategories.length === 0) return 1;
-        if (!b.subcategories || b.subcategories.length === 0) return -1;
+        const aSub = a.subcategories?.[0]?.name || '';
+        const bSub = b.subcategories?.[0]?.name || '';
 
-        const subcategoryA = a.subcategories?.[0]?.name || '';
-        const subcategoryB = b.subcategories?.[0]?.name || '';
-
-        const indexA = subcategory.findIndex((item) => item.title === subcategoryA);
-        const indexB = subcategory.findIndex((item) => item.title === subcategoryB);
+        const indexA = subcategoryList.findIndex((item) => item.title === aSub);
+        const indexB = subcategoryList.findIndex((item) => item.title === bSub);
 
         return indexA - indexB;
       });
   }
-  
-  return <Shop
-    ProductData={sortProducts}
-    AllProduct={AllProduct}
-    isCategory={true}
-    mainslug={slug}
-    info={findCategory}
-  />
-}
+
+  return (
+    <Shop
+      ProductData={filteredProducts}
+      AllProduct={allProducts}
+      isCategory
+      mainslug={slug}
+      info={findCategory}
+    />
+  );
+};
 
 export default SlugPage;

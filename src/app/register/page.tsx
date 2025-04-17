@@ -12,7 +12,6 @@ const Register = () => {
   const router = useRouter();
   const handleTabChange = (value: string) => {
     router.push(`/${value}`);
-    console.log(value, 'activeTab');
   };
   return (
     <>

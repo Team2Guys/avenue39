@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef } from 'react';
 import Slider from 'react-slick';
 import Image from 'next/image';

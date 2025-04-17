@@ -59,8 +59,6 @@ const CreateAdmin = ({
   const [formData, setFormData] = useState<formDataTypes>(
     !updateFlag ? intitalValues : EditAdminValue,
   );
-  console.log('FOrm Data');
-  console.log(formData);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined | null>();
 

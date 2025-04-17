@@ -100,15 +100,6 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
     initialValues: SignupInitialValues,
     onSubmit: (values) => {
       const { first_name, last_name, confirm_password, ...rest } = values;
-      console.log(
-        first_name,
-        last_name,
-        confirm_password,
-        'values',
-        values,
-        values.email,
-      );
-
       if (
         !first_name ||
         !last_name ||

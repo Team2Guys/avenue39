@@ -68,7 +68,6 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
 
   const productsToFilter = pathname === '/sale' ? AllProduct : ProductData;
 
-  console.log(ProductData, "products")
 
   const processedProducts = variationProducts({ products: productsToFilter });
 

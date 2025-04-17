@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';

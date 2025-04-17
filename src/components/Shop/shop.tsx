@@ -25,7 +25,6 @@ const Shop = ({
 }) => {
   const [layout, Setlayout] = useState<string>('grid');
 
-  console.log(ProductData, "ProductData")
   return (
     <>
       <ProductPage

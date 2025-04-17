@@ -27,7 +27,6 @@ function Admins({ setselecteMenu, setEditAdmin }: any) {
         );
 
         const admins = await response.json();
-        console.log(admins, 'admins');
         setAdmins(admins);
         setloading(false);
       } catch (err) {

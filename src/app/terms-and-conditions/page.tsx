@@ -64,7 +64,7 @@ const TermsAndConitions: React.FC = () => {
                               } else if 
                               (part === '[[EMAIL_LINK]]') {
 
-                                console.log(idx, "idx")
+              
                                 return (
                                   <Link
                                     key={idx}

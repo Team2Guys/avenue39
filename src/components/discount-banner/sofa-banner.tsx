@@ -13,10 +13,10 @@ import 'swiper/css/pagination';
 import Chroma from '@assets/images/banners/Chroma.webp';
 import Marlin from '@assets/images/banners/Marlin.webp';
 import rafael from '@assets/images/banners/rafael.webp';
-import chair from '@assets/images/banners/chair.png';
+import chair from '@assets/images/banners/chair.webp';
 import Magia from '@assets/images/banners/Magia.webp';
 import Moderno from '@assets/images/banners/Moderno.webp';
-import sofa from '@assets/images/banners/sofa.png';
+import sofa from '@assets/images/banners/sofa.webp';
 import MobileMagia from '@assets/images/banners/Magia_m.webp';
 import MobileModerno from '@assets/images/banners/Moderno_m.webp';
 
@@ -129,7 +129,7 @@ const SofaBanner: React.FC = () => {
                 <div className="w-full lg:w-1/3 text-center lg:text-left max-xs:pt-5">
                   <Link
                     href={slide.link}
-                    className="py-1 px-3 bg-white text-[14px] md:text-2xl lg:text-sm xl:text-xl 2xl:text-3xl rounded-2xl text-black border border-gray-500 hover:bg-main font-Helveticalight block mx-auto lg:mx-0 w-fit"
+                    className="py-1 px-3 block w-fit bg-white text-[14px] md:text-2xl lg:text-sm xl:text-xl 2xl:text-3xl rounded-2xl text-black border border-gray-500 hover:bg-main font-Helveticalight 2xl:whitespace-nowrap mx-auto lg:mx-0"
                   >
                     Shop Best Sellers
                   </Link>

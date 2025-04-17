@@ -22,6 +22,11 @@ export class SubcategoriesController {
   getSubCategories() {
     return this.subcategoriesService.getSubCategories();
   }
+  
+  @Get('getAllSubCategories')
+  getAllSubCategories() {
+    return this.subcategoriesService.getAllSubCategories();
+  }
   @Get(':category/:subcategory')
   getSingleSubCategories(
     @Param('category') category: string,

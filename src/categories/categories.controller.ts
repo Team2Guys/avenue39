@@ -21,6 +21,11 @@ export class CategoriesController {
     return this.categoriesService.getCategories();
   }
 
+  @Get('getAllCategories')
+  getAllCategories() {
+    return this.categoriesService.getAllCategories();
+  }
+
   @Post('add-category')
   addCategory(@Body() addCategoryData: AddCategoryDto,@Req() req:Request) {
     const user=req['user'];

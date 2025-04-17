@@ -10,36 +10,62 @@ export class ProductsService {
   async getProducts() {
     try {
       let products = await this.prisma.products.findMany({
-        select:{
-          id:true,
-          posterImageUrl:true,
-          name:true,
-          custom_url:true,
-          reviews:true,
-          description:true,
-          stock:true,
-          hoverImageUrl:true,
-          price:true,
-          discountPrice:true,
-          sizes:true,
-          filter:true,
-          additionalInformation:true, 
-          productImages:true,
+        select: {
+          id: true,
+          posterImageUrl: true,
+          name: true,
+          custom_url: true,
+          reviews: true,
+          description: true,
+          stock: true,
+          hoverImageUrl: true,
+          price: true,
+          discountPrice: true,
+          sizes: true,
+          filter: true,
+          additionalInformation: true,
+          productImages: true,
 
-          categories:{
-            select:{
-              name:true,
-              custom_url:true
+          categories: {
+            select: {
+              name: true,
+              custom_url: true
             }
           },
-          subcategories:{
-            select:{
-              name:true,
-              custom_url:true
+          subcategories: {
+            select: {
+              name: true,
+              custom_url: true
             }
           }
         }
 
+      });
+      return products
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
+
+  async getAllProducts() {
+    try {
+      console.log("product function Called")
+      let products = await this.prisma.products.findMany({
+        include: {
+          reviews: true,
+          categories: {
+            include: {
+              subcategories: true,
+
+            },
+          },
+          subcategories: {
+            include: {
+              categories: true,
+            },
+          },
+        },
       });
       return products
     } catch (error) {

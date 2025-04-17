@@ -88,6 +88,25 @@ export class SubcategoriesService {
     }
   }
 
+
+  async getAllSubCategories() {
+    try {
+      return await this.prisma.subCategories.findMany({
+        include: {
+          categories: { include:{subcategories: true,products: true}},
+          products: {
+            include: {
+              subcategories: true, 
+              categories: true,
+            },
+          }
+        },
+      });
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
   async addSubCategory(categoryData: AddSubCategoryDto, userEmail: string) {
 
     try {

@@ -56,9 +56,12 @@ export class AppModule implements NestModule {
         { path: "sales-record/add_sales", method: RequestMethod.POST },
         { path: "sales-record/update-payment-status", method: RequestMethod.PATCH },
         { path: "category/get-all", method: RequestMethod.GET },
+        { path: "category/getAllCategories", method: RequestMethod.GET },
         { path: 'category/:category', method: RequestMethod.GET },
         { path: "subcategories/get-all", method: RequestMethod.GET },
+        { path: "subcategories/getAllSubCategories", method: RequestMethod.GET },
         { path: "product/get-all", method: RequestMethod.GET },
+        { path: "product/get-all-products", method: RequestMethod.GET },
         { path: "product/:product", method: RequestMethod.GET },
         {path: 'subcategories/:category/:subcategory',method: RequestMethod.GET,
         }

@@ -87,6 +87,40 @@ export class CategoriesService {
     }
   }
 
+  async getAllCategories() {
+    try {
+      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
+console.log(cachedCategories, "cachec categories")
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
+
+      let categories = await this.prisma.categories.findMany({
+        include: {
+          subcategories: { include: { categories: true, products: true } },
+          products: {
+            include: {
+              subcategories: true,
+              categories: true,
+            },
+          }
+        },
+
+
+      });
+
+      // @ts-ignore
+      await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+
+      return categories;
+
+
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
   async addCategory(categoryData: AddCategoryDto, userEmail: string) {
     console.log('Update category triggered');
     console.log(categoryData);

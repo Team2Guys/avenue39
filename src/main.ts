@@ -1,3 +1,4 @@
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -14,8 +15,8 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://localhost:3001',
       "https://avenue39.com",
-      "https://www.avenue39.com",
-      "https://www.avenue39.com/",
+"https://www.avenue39.com",
+"https://www.avenue39.com/",
       'https://avenue39-eight.vercel.app/',
       'http://192.168.1.18:3000',
       'http://185.151.51.28:5004'
@@ -45,3 +46,4 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3300);
 }
 bootstrap();
+

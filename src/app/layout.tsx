@@ -30,34 +30,6 @@ export default function RootLayout({
     >
 
       <Head>
-      <link
-          rel="preload"
-          href="/font/HelveticaNeueRoman.otf"
-          as="font"
-          type="font/otf"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/font/HelveticaNeueRegular.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/font/belgium/Fonts/Belgium.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/font/jadyn/Jadyn Maria.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
         
         <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />
         <noscript><Image alt='facebook' height="1" width="1" style={{ display: 'none' }}

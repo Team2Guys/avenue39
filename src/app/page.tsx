@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import SofaBanner from '@/components/discount-banner/sofa-banner';
-import AllCategory from '@/components/CategoryCard/AllCategory';
 import NewArrival from '@/components/newarrival';
 import ColorBanner from '@/components/ColorBanner/ColorBanner';
 import { fetchProducts } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
 const HeroVideo = dynamic(() => import('@/components/Home/hero-video'),)
+const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'),)
 
 
 import { Metadata } from 'next';
@@ -35,11 +35,13 @@ export default async function Home() {
   const products = await fetchProducts();
   return (
     <>
-        <HeroVideo />
-        <ColorBanner Bannerclas="Bannerclas" />
-        <SofaBanner />
-        <NewArrival />
+      <HeroVideo />
+      <ColorBanner Bannerclas="Bannerclas" />
+      <SofaBanner />
+      <NewArrival />
+      <Suspense fallback='loading'>
         <AllCategory products={products} />
+      </Suspense>
     </>
   );
 }

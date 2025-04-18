@@ -1,5 +1,7 @@
 import React, { FormEventHandler, SetStateAction } from 'react';
 import { ICategory, Shipping } from './types';
+import { CartItem } from '@/redux/slices/cart/types';
+import { IProduct } from './prod';
 
 React.FormEvent<HTMLFormElement>;
 export interface USRPROPS {
@@ -250,4 +252,51 @@ export interface FooterItem {
   overlayText: string[];
   showImage: boolean;
   imageSrc?: string;
+}
+
+export interface PotraitCardProps {
+    card: IProduct,
+    finalUrl: string,
+    handleAddToWishlist: any,
+    displayName: string | undefined,
+    averageRating: number | undefined,
+    handleEventProbation: any,
+    handleAddToCard: any,
+    itemToAdd: CartItem | any,
+    uniqueSizes: any,
+    slider: boolean | undefined,
+    isLandscape: boolean | undefined,
+    cardImageHeight: string | undefined,
+    cardStaticData: IProduct | undefined,
+    displayTag: any,
+    isOutStock: boolean,
+    isModel: boolean | undefined,
+    className: string | undefined,
+    skeletonHeight: string | undefined,
+    isHomepage: boolean | undefined,
+    calculateHeight: string | undefined,
+    portSpace: string | undefined,
+    accessoriesSlider: boolean | undefined,
+
+}
+
+export interface CardProps {
+  card: IProduct;
+  isModel?: boolean;
+  className?: string;
+  skeletonHeight?: string;
+  isLoading?: boolean;
+  category?: boolean;
+  cardImageHeight?: string;
+  slider?: boolean;
+  isHomepage?: boolean;
+  isLandscape?: boolean;
+  calculateHeight?: string;
+  portSpace?: string;
+  productImages?: IProduct[];
+  redirect?: string;
+  SubcategoryName?: ICategory;
+  mainCatgory?: string;
+  cardLayout?: string;
+  accessoriesSlider?: boolean;
 }

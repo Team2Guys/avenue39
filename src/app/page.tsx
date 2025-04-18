@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react';
-import SofaBanner from '@/components/discount-banner/sofa-banner';
-import NewArrival from '@/components/newarrival';
-import ColorBanner from '@/components/ColorBanner/ColorBanner';
 import { fetchProducts } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
-const HeroVideo = dynamic(() => import('@/components/Home/hero-video'),)
-const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'),)
+const HeroVideo = dynamic(() => import('@/components/Home/hero-video'))
+const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'))
+const SofaBanner = dynamic(() => import('@/components/discount-banner/sofa-banner'))
+const NewArrival = dynamic(() => import('@/components/newarrival'))
+const ColorBanner = dynamic(() => import('@/components/ColorBanner/ColorBanner'))
 
 
 import { Metadata } from 'next';

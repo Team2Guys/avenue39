@@ -47,7 +47,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   if (!slider) {
     return (
       <>
-        {products.map((product) => (
+        {products.length > 0 && products.map((product) => (
           <Card
             key={product.id}
             card={product}
@@ -78,7 +78,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       speed={1500}
       breakpoints={breakpoints}
     >
-      {products.map((product) => (
+      {products.length > 0 && products.map((product) => (
         <SwiperSlide className={`w-full ${accessoriesSlider ? 'sm:px-4' : ''}`} key={product.id}>
           <Card
             card={product}

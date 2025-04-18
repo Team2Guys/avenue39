@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import logo from '@icons/logo_nav.png';
 import {
   IoCloseOutline,
@@ -91,7 +91,8 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     }
   }, [loggedInUser]);
 
-  const products = variationProducts({ products: productsData || [] });
+  const products = useMemo(() => variationProducts({ products: productsData || [] }), [productsData]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
   };
@@ -102,32 +103,37 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     setIsProductListOpen(false);
   };
 
-  const filteredProducts = products?.filter((product: IProduct) => {
-
-    const searchTerm = searchText.trim().toLowerCase();
-    if (searchTerm === '') {
-      const stock = getAllStock(product)
-      return Number(stock) > 0 ? true : false;
-    }
-    return (
-      product.name.toLowerCase().includes(searchTerm) ||
-      // product.description.toLowerCase().includes(searchTerm) ||
-      product.price.toString().includes(searchTerm) ||
-      product.discountPrice.toString().includes(searchTerm) ||
-      product.colorName?.toLowerCase().includes(searchTerm) ||
-      product.sizeName?.toLowerCase().includes(searchTerm)
-    );
-  }).sort((a: IProduct, b: IProduct) => {
-    const searchTerm = searchText.trim().toLowerCase();
-
-    const aStartsWith = a.name.toLowerCase().startsWith(searchTerm) ? -1 : 1;
-    const bStartsWith = b.name.toLowerCase().startsWith(searchTerm) ? -1 : 1;
-
-    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-
-    return aStartsWith - bStartsWith || dateB - dateA;
-  }) || [];
+  const filteredProducts = useMemo(() => {
+    const normalizedSearch = searchText.trim().toLowerCase();
+  
+    return (products || [])
+      .filter((product) => {
+        const hasStock = Number(getAllStock(product)) > 0;
+        if (!normalizedSearch) return hasStock;
+  
+        return (
+          product.name?.toLowerCase().includes(normalizedSearch) ||
+          product.price?.toString().includes(normalizedSearch) ||
+          product.discountPrice?.toString().includes(normalizedSearch) ||
+          product.colorName?.toLowerCase().includes(normalizedSearch) ||
+          product.sizeName?.toLowerCase().includes(normalizedSearch)
+        );
+      })
+      .sort((a, b) => {
+        const aName = a.name?.toLowerCase();
+        const bName = b.name?.toLowerCase();
+  
+        const aStarts = aName.startsWith(normalizedSearch);
+        const bStarts = bName.startsWith(normalizedSearch);
+  
+        if (aStarts !== bStarts) return aStarts ? -1 : 1;
+  
+        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+  
+        return dateB - dateA;
+      });
+  }, [products, searchText]);
 
   useEffect(() => {
     if (drawerInputRef.current) {
@@ -177,17 +183,18 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
   const productUrl = (product: CartItem) => {
     const baseUrl = ChangeUrlHandler(product);
-
-    let filterParams = '';
+    const params = new URLSearchParams();
+  
     if (product.colorName) {
-      filterParams += `?filter=${generateSlug(product.colorName)}`;
+      params.set('filter', generateSlug(product.colorName));
     }
-
+  
     if (product.sizeName) {
-      filterParams += `${filterParams ? '&' : '?'}size=${generateSlug(product.sizeName)}`;
+      params.set('size', generateSlug(product.sizeName));
     }
-    return `${baseUrl}${filterParams}`;
-  }
+  
+    return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+  };
 
   return (
     <div

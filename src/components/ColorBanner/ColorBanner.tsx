@@ -40,9 +40,8 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
 
   return (
     <ContainerFluid
-      className={`mx-auto py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${
-        Bannerclas && isMobile ? 'main_container' : ''
-      }`}
+      className={`mx-auto py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? 'main_container' : ''
+        }`}
     >
       <Swiper
         modules={[Pagination]}
@@ -59,7 +58,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
               <div className="flex flex-col justify-center items-center lg:w-[30%] w-full pb-2 text-center mx-auto">
                 <div style={{ width: `${isWide}px` }}>
                   <div className="font-Helveticalight">
-                  {index === 0 ? <h1 className="text-2xl pb-1 uppercase font-semibold">
+                    {index === 0 ? <h1 className="text-2xl pb-1 uppercase font-semibold">
                       {slide.Heading}
                     </h1> : <h2 className="text-2xl pb-1 uppercase font-semibold">
                       {slide.Heading}
@@ -78,6 +77,8 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                       quality={75}
                       loading={index === 0 ? 'eager' : 'lazy'}
                       priority={index === 0}
+                      placeholder="blur"
+                      blurDataURL="/placeholder.jpg"
                     />
                   </div>
                 </div>
@@ -93,6 +94,9 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                     quality={75}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     priority={index === 0}
+                    placeholder="blur"
+                    blurDataURL="/placeholder.jpg"
+                    sizes="(max-width: 768px) 100vw, 1200px"
                   />
                 </Link>
               </div>

@@ -5,9 +5,9 @@ import { generateSlug } from '.';
 import { ICategory } from '@/types/cat';
 import { IReview } from '@/types/types';
 
-export const fetchProducts = async (endpointType?:string) => {
+export const fetchProducts = async () => {
   try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/${endpointType ? endpointType : "get-all"}`,
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
       {
         next: { tags: ['products'] },
       },

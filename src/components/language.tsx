@@ -57,5 +57,6 @@ export const currency = localFont({ src: [
     style: 'normal',
   }
 ],
- variable: '--font-currency'
+ variable: '--font-currency',
+ display: 'swap',
 });

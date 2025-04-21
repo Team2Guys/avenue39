@@ -18,10 +18,10 @@ export class SalesRecordService {
     port: 587,
     secure: false,
     auth: {
-      user: process.env.ADMIN_MAIL,
-      pass: process.env.ADMIN_PASSWORD,
+        user: `${process.env.ADMIN_MAIL}`,
+        pass: `${process.env.ADMIN_PASSWORD}`,
     },
-  });
+});
   async Add_sales_record(data: CreateSalesRecordDto) {
 
     try {
@@ -972,7 +972,7 @@ export class SalesRecordService {
                         </div>
                      </td>
                      <td class="table-font" style="text-align:center; padding: 10px 2px;">${productData.quantity}</td>
-                     <td class="table-font" style="text-align:center; padding: 10px 2px;">AED ${productData.discountPrice ? productData.discountPrice : productData.price}</td>
+                     <td class="table-font" style="text-align:center; padding: 10px 2px;"><img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1745233698/dirham_izkz2q_ijkefr.jpg" alt="currency icon" width="11" height="11" /> ${productData.discountPrice ? productData.discountPrice : productData.price}</td>
                   </tr>
                   `).join('')}
 
@@ -1020,23 +1020,38 @@ export class SalesRecordService {
                         </table>
                      </td>
 
-                     <td style="width: 35%;  padding: 10px 5px;" class="total-wrapper">
-                        <table style="border-collapse: collapse;">
-                           <tr>
-                              <td colspan="5" style="padding: 8px;" class="table-font">Subtotal</td>
-                              <td style="padding: 8px 2px; text-align: end;" class="table-font">${TotalProductsPrice}</td>
-                           </tr>
-                           <tr style="border-bottom: 2px solid #ccc;">
-                              <td colspan="5" style="padding: 8px;" class="table-font">Shipment</td>
-                              <td style="padding: 8px 2px; text-align: end;" class="table-font ">${TotalProductsPrice > 1000 ? "Free" : "AED 20"}
-                              </td>
-                           </tr>
-                           <tr>
-                              <td colspan="5" style="padding: 8px; font-weight: bold; " class="table-font">Total</td>
-                              <td style="padding: 8px 2px; font-weight: bold; text-align: end;" class="table-font">${TotalProductsPrice > 250 ? "AED " + TotalProductsPrice : 20 + "AED " + TotalProductsPrice}</td>
-                           </tr>
-                        </table>
-                     </td>
+                   <td style="width: 35%; padding: 10px 5px;" class="total-wrapper">
+                      <table style="border-collapse: collapse;">
+                        <tr>
+                          <td colspan="5" style="padding: 8px;" class="table-font">Subtotal</td>
+                          <td style="padding: 8px 2px; text-align: end;" class="table-font">
+                            <img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1745233698/dirham_izkz2q_ijkefr.jpg" alt="currency icon" width="11" height="11" />
+                            ${TotalProductsPrice}
+                          </td>
+                        </tr>
+                        <tr style="border-bottom: 2px solid #ccc;">
+                          <td colspan="5" style="padding: 8px;" class="table-font">Shipment</td>
+                          <td style="padding: 8px 2px; text-align: end;" class="table-font">
+                            ${
+                              TotalProductsPrice > 1000
+                                ? "Free"
+                                : `<img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1745233698/dirham_izkz2q_ijkefr.jpg" alt="currency icon" width="11" height="11" /> 20`
+                            }
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="5" style="padding: 8px; font-weight: bold;" class="table-font">Total</td>
+                          <td style="padding: 8px 2px; font-weight: bold; text-align: end;" class="table-font">
+                            ${
+                              TotalProductsPrice > 250
+                                ? `<img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1745233698/dirham_izkz2q_ijkefr.jpg" alt="currency icon" width="11" height="11" /> ${TotalProductsPrice}`
+                                : `<img src="https://res.cloudinary.com/dckxfl2yn/image/upload/v1745233698/dirham_izkz2q_ijkefr.jpg" alt="currency icon" width="11" height="11" /> ${TotalProductsPrice + 20}`
+                            }
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+
                   </tr>
                </table>
                </td>

@@ -1,3 +1,4 @@
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -13,9 +14,12 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
-      'https://avenue39-eight.vercel.app',
+      "https://avenue39.com",
+"https://www.avenue39.com",
+"https://www.avenue39.com/",
       'https://avenue39-eight.vercel.app/',
       'http://192.168.1.18:3000',
+      'http://185.151.51.28:5004'
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     preflightContinue: false,
@@ -25,7 +29,7 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('backend/api');
 
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
@@ -42,3 +46,4 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3300);
 }
 bootstrap();
+

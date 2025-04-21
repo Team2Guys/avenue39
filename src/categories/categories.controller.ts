@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  Param,
   Post,
   Query,
   Req,
@@ -18,6 +19,11 @@ export class CategoriesController {
   @Get('/get-all')
   getCategories() {
     return this.categoriesService.getCategories();
+  }
+
+  @Get('getAllCategories')
+  getAllCategories() {
+    return this.categoriesService.getAllCategories();
   }
 
   @Post('add-category')
@@ -42,4 +48,13 @@ export class CategoriesController {
 
     return this.categoriesService.removeCategory(id);
   }
+
+  @Get(':category')
+  async getSingleCategory(@Param('category') category: string) {
+    return this.categoriesService.getSingleCategory(category);
+  }
+
+
 }
+
+

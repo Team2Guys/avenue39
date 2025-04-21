@@ -18,6 +18,78 @@ export class CategoriesService {
   async getCategories() {
     try {
       const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
+
+      let categories = await this.prisma.categories.findMany({
+        // include: {
+        //   subcategories: { include: { categories: true, products: true } },
+        //   products: {
+        //     include: {
+        //       subcategories: true,
+        //       categories: true,
+        //     },
+        //   }
+        // },
+        select:{
+          id:true,
+          name:true,
+          description:true,
+          posterImageUrl:true,
+          subcategories:{
+            select:{
+              name:true,
+              custom_url:true,
+              products:{
+                select:{
+                  name:true,
+                  custom_url:true
+                }
+              }
+            }
+          },
+          products:{
+            select:{
+              name:true,
+              posterImageUrl:true,
+              custom_url:true,
+              stock:true,
+              price:true,
+              hoverImageUrl:true,
+              categories:{
+                select:{
+                  custom_url:true,
+                  name:true
+                }
+              },
+              subcategories:{
+                select:{
+                  custom_url:true,
+                  name:true
+                }
+              }
+            }
+          }
+        }
+
+      });
+
+      // @ts-ignore
+      await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+
+      return categories;
+
+
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async getAllCategories() {
+    try {
+      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
 console.log(cachedCategories, "cachec categories")
       if (cachedCategories) {
         console.log('Returning categories from cache')
@@ -153,6 +225,45 @@ console.log(cachedCategories, "cachec categories")
       };
     } catch (error) {
       customHttpException(error.message, 'BAD_REQUEST');
+    }
+  }
+
+
+  async getSingleCategory(categoryName:string) {
+    try {
+      console.log(categoryName, "category name")
+      const cachedCategories = await this.cacheManager.get("signleCategory");
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
+
+      let categories = await this.prisma.categories.findFirst({
+        where: {
+          OR: [
+            { custom_url: categoryName },
+            { name: categoryName }
+          ]
+        },
+        select: {
+          meta_title: true,
+          meta_description: true,
+          posterImageUrl: true,
+          canonical_tag:true,
+          images_alt_text:true
+    
+        }
+    
+      });
+
+      // @ts-ignore
+      await this.cacheManager.set(CHACHE_CATEGORY_KEY, signleCategory, { ttl: 3600 }); // Set expiration to 1 hour
+
+      return categories;
+
+
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
 }

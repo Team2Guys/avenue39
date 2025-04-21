@@ -64,7 +64,6 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
       }
     }
   };
-  console.log(cartItems, 'cartItems')
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
     document.body.classList.remove('no-scroll'); // Remove the no-scroll class
@@ -113,7 +112,6 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
     };
   }, [dispatch]);
   useEffect(() => {
-    console.log('Drawer State:', drawerState);
     if (drawerState) {
       document.body.classList.add('no-scroll');
     } else {
@@ -219,7 +217,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                             {(item.selectedfilter || item.selectedSize) ?
                               <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                 <span>
-                                  AED{' '}
+                                <span className="font-currency font-normal"></span>{' '}
                                   {(
                                     (Number(item.selectedSize?.price) || (Number(item.selectedfilter?.price) === 0) && item.discountPrice ? item.discountPrice : item.price) * item.quantity
                                   ).toLocaleString()}
@@ -228,13 +226,13 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                               : (item.discountPrice !== item.price) && item.discountPrice > 0 ? (
                                 <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                   <span>
-                                    AED{' '}
+                                  <span className="font-currency font-normal"></span>{' '}
                                     {(
                                       item?.discountPrice * item.quantity
                                     ).toLocaleString()}
                                   </span>
                                   <NormalText className="text-slate-400 line-through w-[70px] text-end text-nowrap !text-[13px]">
-                                    AED{' '}
+                                  <span className="font-currency font-normal"></span>{' '}
                                     {(
                                       item?.price * item.quantity
                                     ).toLocaleString()}
@@ -243,7 +241,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                               ) : (
                                 <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                   <span>
-                                    AED{' '}
+                                  <span className="font-currency font-normal"></span>{' '}
                                     {(
                                       item?.price * item.quantity
                                     ).toLocaleString()}
@@ -277,8 +275,8 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                   <div className="flex flex-col gap-2 w-full">
                     <NormalText className="text-slate-400 flex justify-between">
                       Total
-                      <ProductPrice className={`flex gap-2 ${isMoblie ? 'mb-0' : 'mb-4'}`}>
-                        AED {totalPrice.toLocaleString()}
+                      <ProductPrice className={`flex gap-1 ${isMoblie ? 'mb-0' : 'mb-4'}`}>
+                      <span className="font-currency font-normal"></span>{totalPrice.toLocaleString()}
                       </ProductPrice>
                     </NormalText>
                     {isMoblie ? <div className="flex gap-2">
@@ -377,7 +375,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                     {(item.selectedfilter || item.selectedSize) ?
                       <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                         <span>
-                          AED{' '}
+                        <span className="font-currency font-normal"></span>{' '}
                           {(
                             (Number(item.selectedSize?.price) || (Number(item.selectedfilter?.price) === 0) && item.discountPrice ? item.discountPrice : item.price) * item.quantity
                           ).toLocaleString()}
@@ -386,16 +384,16 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                       (item.discountPrice !== item.price) && item.discountPrice > 0 ? (
                         <>
                           <p className="text-16 xs:text-18 font-bold text-nowrap">
-                            AED <span>{item?.discountPrice * item.quantity}</span>
+                          <span className="font-currency font-normal"></span>{' '}<span>{item?.discountPrice * item.quantity}</span>
                           </p>
                           <p className="text-14 font-normal text-nowrap line-through text-[#A5A5A5] w-16">
-                            AED <span>{item?.price * item.quantity}</span>
+                          <span className="font-currency font-normal"></span>{' '}<span>{item?.price * item.quantity}</span>
                           </p>
                         </>
                       ) : (
                         <>
                           <p className="text-16 xs:text-18 font-bold text-nowrap">
-                            AED <span>{item?.price * item.quantity}</span>
+                          <span className="font-currency font-normal"></span>{' '}<span>{item?.price * item.quantity}</span>
                           </p>
                           <p className="text-[18px] font-bold w-16"></p>
                         </>
@@ -457,7 +455,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                   {(item.selectedfilter || item.selectedSize) ?
                     <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
                       <span>
-                        AED{' '}
+                      <span className="font-currency font-bold"></span>{' '}
                         {(
                           (Number(item.selectedSize?.price) || (Number(item.selectedfilter?.price) === 0) && item.discountPrice ? item.discountPrice : item.price) * item.quantity
                         ).toLocaleString()}
@@ -466,13 +464,13 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                     : (item.discountPrice !== item.price) && item.discountPrice > 0 ? (
                       <>
                         <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
-                          AED{' '}
+                        <span className="font-currency font-bold"></span>{' '}
                           <span>
                             {(item?.price * item.quantity).toLocaleString()}
                           </span>
                         </p>
                         <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                          AED{' '}
+                        <span className="font-currency font-bold"></span>{' '}
                           <span>
                             {(
                               item?.discountPrice * item.quantity
@@ -483,7 +481,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                     ) : (
                       <>
                         <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                          AED{' '}
+                        <span className="font-currency font-bold"></span>{' '}
                           <span>
                             {(item?.price * item.quantity).toLocaleString()}
                           </span>

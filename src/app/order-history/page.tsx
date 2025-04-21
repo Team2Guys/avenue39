@@ -223,7 +223,7 @@ const OrderHistory: React.FC = () => {
                       Qt: <span>{product.quantity}</span>
                     </p>
                     <p className="font-semibold md:text-14">
-                      Price: AED{' '}
+                      Price: <span className="font-currency font-normal"></span>{' '}
                       <span>
                         {product.productData?.discountPrice > 0
                           ? product.productData?.discountPrice

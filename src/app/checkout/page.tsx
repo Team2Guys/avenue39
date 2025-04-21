@@ -283,16 +283,16 @@ const Checkout = () => {
                   <span>Delivery Cost: </span>
                   {selectedShipping.shippingFee > 0 ? (
                     <>
-                      <span>In Dubai </span><strong>AED {selectedShipping.shippingFee}</strong>
+                      <span>In Dubai </span><strong><span className="font-currency font-normal"></span> {selectedShipping.shippingFee}</strong>
                     </>
                   ) : (
                     <strong>Free of charge for all orders.</strong>
                   )}
                   {selectedShipping.otherEmiratesFee && (
-                    <>, <span>All Other Emirates</span> <strong>AED {selectedShipping.otherEmiratesFee}</strong>.</>
+                    <>, <span>All Other Emirates</span> <strong><span className="font-currency font-normal"></span> {selectedShipping.otherEmiratesFee}</strong>.</>
                   )}
                   {selectedShipping.freeShippingFee && (
-                    <div><span>Free shipping for all orders above</span> <strong>AED {selectedShipping.freeShippingFee}</strong>.</div>
+                    <div><span>Free shipping for all orders above</span> <strong><span className="font-currency font-normal"></span> {selectedShipping.freeShippingFee}</strong>.</div>
                   )}
                 </p>
               </div>
@@ -714,7 +714,7 @@ const Checkout = () => {
                                   {(product.selectedfilter || product.selectedSize) ?
                                     <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                       <span>
-                                        AED{' '}
+                                      <span className="font-currency font-normal"></span>{' '}
                                         {(
                                           (Number(product.selectedSize?.price) || (Number(product.selectedfilter?.price) === 0) && product.discountPrice ? product.discountPrice : product.price) * product.quantity
                                         ).toLocaleString()}
@@ -723,16 +723,16 @@ const Checkout = () => {
                                     (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
                                       <>
                                         <p className="text-16 xs:text-18 font-bold text-nowrap">
-                                          AED <span>{product?.discountPrice * product.quantity}</span>
+                                        <span className="font-currency font-normal"></span> <span>{product?.discountPrice * product.quantity}</span>
                                         </p>
                                         <p className="text-14 font-normal text-nowrap line-through text-[#A5A5A5] w-16">
-                                          AED <span>{product?.price * product.quantity}</span>
+                                        <span className="font-currency font-normal"></span> <span>{product?.price * product.quantity}</span>
                                         </p>
                                       </>
                                     ) : (
                                       <>
                                         <p className="text-16 xs:text-18 font-bold text-nowrap">
-                                          AED <span>{product?.price * product.quantity}</span>
+                                        <span className="font-currency font-normal"></span> <span>{product?.price * product.quantity}</span>
                                         </p>
                                         <p className="text-[18px] font-bold w-16"></p>
                                       </>
@@ -745,7 +745,7 @@ const Checkout = () => {
                                   {(product.selectedfilter || product.selectedSize) ?
                                     <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
                                       <span>
-                                        AED{' '}
+                                      <span className="font-currency font-normal"></span>{' '}
                                         {
                                           (
                                             product.selectedSize?.price || product.selectedSize?.discountPrice
@@ -766,13 +766,13 @@ const Checkout = () => {
                                     : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
                                       <>
                                         <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
-                                          AED{' '}
+                                        <span className="font-currency font-normal"></span>{' '}
                                           <span>
                                             {(product?.price * product.quantity).toLocaleString()}
                                           </span>
                                         </p>
                                         <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                                          AED{' '}
+                                        <span className="font-currency font-normal"></span>{' '}
                                           <span>
                                             {(
                                               product?.discountPrice * product.quantity
@@ -783,7 +783,7 @@ const Checkout = () => {
                                     ) : (
                                       <>
                                         <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                          AED{' '}
+                                        <span className="font-currency font-normal"></span>{' '}
                                           <span>
                                             {(product?.price * product.quantity).toLocaleString()}
                                           </span>
@@ -803,7 +803,7 @@ const Checkout = () => {
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-sm">
                         <p>Subtotal</p>
                         <p>
-                          AED <span>{product ? totalPrice.toLocaleString() : cartPrice.toLocaleString()}</span>
+                        <span className="font-currency font-normal"></span> <span>{product ? totalPrice.toLocaleString() : cartPrice.toLocaleString()}</span>
                         </p>
                       </div>
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-sm">
@@ -812,15 +812,14 @@ const Checkout = () => {
                           <span>
                             {(product ? totalPrice : cartPrice) > 1000 || shippingfee === 0
                               ? 'Free'
-                              : `AED ${shippingfee}`}
+                              : <><span className="font-currency font-normal"></span> {shippingfee}</>}
                           </span>
                         </p>
                       </div>
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-18 font-bold">
                         <p>Total</p>
                         <p className="text-black text-[25px]">
-                          {' '}
-                          AED{' '}
+                        <span className="font-currency font-bold"></span>{' '}
                           <span>
                             {((product ? totalPrice : cartPrice) > 1000
                               ? product ? totalPrice : cartPrice

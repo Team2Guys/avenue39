@@ -196,7 +196,7 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
 
             {/* Price & Quantity */}
             <div className="text-right">
-              <p className="text-14 md:text-[16px] xl:text-[18px] 2xl:text-[24px] font-bold"> AED{' '}
+              <p className="text-14 md:text-[16px] xl:text-[18px] 2xl:text-[24px] font-bold"> <span className="font-currency font-bold"></span>{' '}
                   <span>
                     {product.productData?.discountPrice > 0
                       ? product.productData?.discountPrice
@@ -217,7 +217,7 @@ const ViewOrder = async ({ params }: { params: Promise<{ name: string }> }) => {
             <Image width={50} height={50} className='shadow' src={"/images/paymentIcons/visacard-logo.webp"} alt='paymetn'/>
             <p>ending with 1234</p>
           </div> -
-          <p>AED <span>{Total}</span></p>
+          <p><span className="font-currency font-bold"></span> <span>{Total}</span></p>
         </div>
         <div className="flex flex-wrap lg:flex-nowrap gap-5 items-center mt-8">
                 

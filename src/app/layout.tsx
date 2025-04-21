@@ -7,6 +7,7 @@ import PathnameWrapper from '@/components/PathnameWrapper';
 import { ToastContainer } from 'react-toastify';
 import {
   belgium,
+  currency,
   Helvetica,
   Helveticalight,
   jadyn,
@@ -26,7 +27,7 @@ export default function RootLayout({
 
     <html
       lang="en"
-      className={` ${Helveticalight.variable} ${Helvetica.variable}  ${belgium.variable} ${jadyn.variable}`}
+      className={` ${Helveticalight.variable} ${Helvetica.variable}  ${belgium.variable} ${jadyn.variable} ${currency.variable}`}
     >
 
       <Head>

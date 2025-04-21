@@ -278,15 +278,15 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                   {product.discountPrice > 0 ? (
                                     <>
                                       <p className="text-15 font-semibold text-red-700">
-                                        AED <span>{product.discountPrice}</span>
+                                      <span className="font-currency font-normal"></span> <span>{product.discountPrice}</span>
                                       </p>
                                       <p className="text-[12px] text-primary-foreground font-bold line-through">
-                                        AED <span>{product.price}</span>
+                                      <span className="font-currency font-normal"></span> <span>{product.price}</span>
                                       </p>
                                     </>
                                   ) : (
                                     <p className="text-15 font-semibold">
-                                      AED <span>{product.price}</span>
+                                      <span className="font-currency font-normal"></span> <span>{product.price}</span>
                                     </p>
                                   )}
                                 </div>
@@ -426,12 +426,12 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
 
                                 <div className="flex justify-center items-center gap-2 xs:gap-4">
                                   <p className={`text-14 xs:text-15 font-semibold  ${product.discountPrice ? "text-red-700" : ""}`}>
-                                    AED <span>{product.discountPrice ? product.discountPrice : product.price}</span>
+                                  <span className="font-currency font-normal"></span> <span>{product.discountPrice ? product.discountPrice : product.price}</span>
                                   </p>
                                   {(product.discountPrice && product.discountPrice > 0) ?
 
                                     <p className="text-11 xs:text-[12px] text-primary-foreground font-bold line-through ">
-                                      AED {product.price}
+                                      <span className="font-currency font-normal"></span> {product.price}
                                     </p> : ''
                                   }
 

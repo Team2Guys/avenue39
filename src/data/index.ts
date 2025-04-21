@@ -161,7 +161,7 @@ export const TermsCondition = [
   {
     title: "Pricing & Payment",
     description: [
-      "All prices are mentioned with products in AED (United Arab Emirates Dirham) and include VAT.",
+      "All prices are mentioned with products in <span class='font-currency font-normal'></span> (United Arab Emirates Dirham) and include VAT.",
       "Prices can change at any time without prior notice or announcement, but confirmed purchases won't be impacted.",
       "The full amount for products must be paid before orders can be shipped.",
       "As mentioned at checkout, we accept bank transfers via credit/debit cards."
@@ -336,7 +336,7 @@ export const ShippingPolicy = [
   {
     title: 'Additional Services and Charges',
     description: [
-      "1. Our team will assemble your items during the delivery. Should you require assembly on a date other than the delivery date, an additional charge of AED 150 will apply. ",
+      "1. Our team will assemble your items during the delivery. Should you require assembly on a date other than the delivery date, an additional charge of <span class='font-currency font-normal'></span> 150 will apply. ",
       '2. For items that are eligible under our "Try Before You Buy" offer, we will assemble the item and then give you 20 minutes to decide whether you will keep your purchase.',
       "3. If you decide not to buy, the item will be disassembled and repackaged. A full refund will also be initiated on our end within 24 hours, given the bank processing time."
     ],

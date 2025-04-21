@@ -299,16 +299,16 @@ const ProductDetail = ({
             <span>Delivery Cost: </span>
             {shipping.shippingFee > 0 ? (
               <>
-                <span>In Dubai </span><strong>AED {shipping.shippingFee}</strong>
+                <span>In Dubai </span><strong><span className="font-currency font-normal"></span> {shipping.shippingFee}</strong>
               </>
             ) : (
               <strong>Free of charge for all orders.</strong>
             )}
             {shipping.otherEmiratesFee && (
-              <>, <span>All Other Emirates</span> <strong>AED {shipping.otherEmiratesFee}</strong>.</>
+              <>, <span>All Other Emirates</span> <strong><span className="font-currency font-normal"></span> {shipping.otherEmiratesFee}</strong>.</>
             )}
             {shipping.freeShippingFee && (
-                    <div><span>Free shipping for all orders above</span> <strong>AED {shipping.freeShippingFee}</strong>.</div>
+                    <div><span>Free shipping for all orders above</span> <strong><span className="font-currency font-normal"></span> {shipping.freeShippingFee}</strong>.</div>
                   )}
           </p>
         </div>
@@ -555,12 +555,12 @@ const ProductDetail = ({
         {product?.discountPrice > 0 || productDiscPrice > 0 ? (
           <ProductPrice className="flex items-center gap-2">
             <NormalText className="font-normal text-base text-slate-400 line-through">
-              AED{' '}
+            <span className="font-currency font-normal"></span>{' '}
               {productPrice > 0
                 ? formatPrice(productPrice)
                 : `${formatPrice(product?.price)}`}
             </NormalText>
-            AED{' '}
+            <span className="font-currency font-normal"></span>{' '}
             {productDiscPrice > 0
               ? productDiscPrice > 1000
                 ? formatPrice(productDiscPrice.toLocaleString())
@@ -571,7 +571,7 @@ const ProductDetail = ({
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">
-            AED{' '}
+            <span className="font-currency font-normal"></span>{' '}
             {productPrice > 0
               ? formatPrice(productPrice)
               : formatPrice(product?.price)}
@@ -795,7 +795,7 @@ const ProductDetail = ({
         </div>
         <div className='flex gap-2 items-center'>
           <Image src={Icondelivery} alt='time icon' width={40} height={40} />
-          <p className='font-helvetica'>Free delivery on orders above AED 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
+          <p className='font-helvetica'>Free delivery on orders above <span className="font-currency font-normal"></span> 1000 in Dubai- no hidden charges, just doorstep convenience.</p>
         </div>
       </div>
     </div >

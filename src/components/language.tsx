@@ -49,3 +49,14 @@ export const jadyn = localFont({
   display: 'swap', 
   fallback: ['sans-serif'], 
 });
+
+export const currency = localFont({ src: [
+  {
+    path: '../../public/font/currency-symbol-v2.otf',
+    weight: '400',
+    style: 'normal',
+  }
+],
+ variable: '--font-currency',
+ display: 'swap',
+});

@@ -121,14 +121,14 @@ export const SaleBannerData = [
     title: 'Shop Featured Products',
     link: '/tables/coffee-tables/lucius-coffee-table-set',
     productName: 'Lucius Coffee Table Set',
-    price: 'AED 3,500',
+    price: '3,500',
     imageSrc: '/images/salebanner/lucis.webp',
   },
   {
     title: 'Shop Best Sellers',
     link: '/chairs/armchairs/trent-luxury-armchair',
     productName: 'Trent Luxury Armchair',
-    price: 'AED 2,400',
+    price: '2,400',
     imageSrc: '/images/salebanner/trent.webp',
   },
 ];

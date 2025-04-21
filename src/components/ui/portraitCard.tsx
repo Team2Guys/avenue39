@@ -136,15 +136,15 @@ const PortraitCard = ({
                                     {card.discountPrice > 0 ? (
                                         <div className="flex gap-2 justify-center">
                                             <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                                                AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+                                            <span className="font-currency font-normal"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                             </p>
                                             <p className="text-sm md:text-18 font-bold text-red-700">
-                                                AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
+                                            <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                                             </p>
                                         </div>
                                     ) : (
                                         <p className="text-sm md:text-18 font-bold">
-                                            AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+                                            <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                         </p>
                                     )}
                                 </div>
@@ -278,15 +278,15 @@ const PortraitCard = ({
                                 {card.discountPrice ? (
                                     <div className="flex gap-2 justify-center">
                                         <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
-                                            AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+                                        <span className="font-currency font-normal"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                         </p>
                                         <p className="text-sm md:text-18 font-bold text-red-700">
-                                            AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
+                                        <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
                                         </p>
                                     </div>
                                 ) : (
                                     <p className="text-sm md:text-18 font-bold">
-                                        AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+                                        <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                     </p>
                                 )}
                                 <p>{ }</p>

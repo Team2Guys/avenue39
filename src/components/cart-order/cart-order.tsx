@@ -47,7 +47,7 @@ const CartOrder: React.FC = () => {
       <div className="flex justify-between items-center pt-4">
         <p className="text-[#666666] font-bold text-20">Total</p>
         <p className="font-medium text-[26px]">
-          AED{' '}
+        <span className="font-currency font-normal"></span>{' '}
           <span>
             <SubTotal />
           </span>
@@ -56,7 +56,7 @@ const CartOrder: React.FC = () => {
       <div className="mt-4 space-y-3">
         <p className="text-xs xl:text-14">
           We offer FREE NEXT DAY delivery throughout Dubai city for any orders
-          above AED 1,000. For all other areas of mainland UAE, your order will
+          above <span className="font-currency font-normal"></span> 1,000. For all other areas of mainland UAE, your order will
           reach you within 2 working days.
         </p>
         {totalPrice >= 1000 ? (
@@ -74,7 +74,7 @@ const CartOrder: React.FC = () => {
         ) : (
           <>
             <p className="text-[#666666] text-xs font-medium">
-              AED {remainingAmount} away from free delivery
+            <span className="font-currency font-normal"></span> {remainingAmount} away from free delivery
             </p>
             <div className="w-full bg-gray-200 h-10 rounded-full ">
               <div

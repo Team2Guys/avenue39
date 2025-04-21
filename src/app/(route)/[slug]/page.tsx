@@ -51,57 +51,67 @@ const SlugPage = async ({ params }: SlugPageProps) => {
     slug === 'office-furniture' ? 'homeOffice' :
     slug;
 
-  const subcategoryList = menuData[categoryName] || [];
-  let filteredProducts = [];
-
-  if (slug === 'new-arrivals') {
-    const productSet = new Set(Product.map(generateSlug));
-    const subcategorySet = new Set(Subcategory.map(generateSlug));
-    const categorySet = new Set(categories.map(generateSlug));
-
-    filteredProducts = allProducts
-      .filter((product: any) => productSet.has(generateSlug(product.name)))
-      .map((product: any) => {
-        const subcategoryMatch = product.subcategories.filter((sub: any) =>
-          subcategorySet.has(generateSlug(sub.name)) &&
-          sub.categories?.some((cat: any) =>
-            categorySet.has(generateSlug(cat.name))
+    const subcategory = menuData[categoryName] || [];
+    let sortProducts;
+  
+  
+    if (slug === "new-arrivals") {
+      const ProductSet = new Set(Product.map(generateSlug));
+      const SubcategorySet = new Set(Subcategory.map(generateSlug));
+      const CategorySet = new Set(categories.map(generateSlug));
+      const filterProds = allProducts?.map((prods: any) => {
+        const productSlug = generateSlug(prods.name);
+        if (!ProductSet.has(productSlug)) {
+          return null;
+        }
+        const filteredSubcategories = prods.subcategories.filter((subcat: any) =>
+          SubcategorySet.has(generateSlug(subcat.name)) &&
+          subcat.categories?.some((value: any) => CategorySet.has(generateSlug(value.name)))
+        );
+  
+        return {
+          ...prods,
+          subcategory: filteredSubcategories
+        };
+      }).filter(Boolean);
+      sortProducts = filterProds
+  
+    } else {
+      sortProducts = allProducts.filter((product: any) => {
+        let hasSubCate = product.subcategories?.some((productSubcategory: any) =>
+          findCategory.subcategories.some((findSubcategory: any) =>
+            productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
           )
         );
-
-        return { ...product, subcategory: subcategoryMatch };
-      })
-      .filter((p: any) => p.subcategory?.length);
-  } else {
-    filteredProducts = allProducts
-      .filter((product: any) => {
-        const subMatch = product.subcategories?.some((psub: any) =>
-          findCategory?.subcategories?.some(
-            (fsub: any) =>
-              psub.name.trim().toLowerCase() === fsub.name.trim().toLowerCase()
-          )
-        );
-
-        const catMatch = product.categories?.some(
-          (cat: any) => generateSlug(cat.custom_url || cat.name) === slug
-        );
-
-        return subMatch || catMatch;
-      })
-      .sort((a: any, b: any) => {
-        const aSub = a.subcategories?.[0]?.name || '';
-        const bSub = b.subcategories?.[0]?.name || '';
-
-        const indexA = subcategoryList.findIndex((item) => item.title === aSub);
-        const indexB = subcategoryList.findIndex((item) => item.title === bSub);
-
-        return indexA - indexB;
-      });
+        let hasMainCategory: any;
+        if (!hasSubCate) {
+          hasMainCategory = product.categories.some((category: ICategory) => generateSlug(category.custom_url || category.name) == slug)
+        }
+        return hasSubCate ? hasSubCate : hasMainCategory
+      }
+  
+      )
+  
+        .sort((a: any, b: any) => {
+          if (!a.subcategories || a.subcategories.length === 0) return 1;
+          if (!b.subcategories || b.subcategories.length === 0) return -1;
+  
+          const subcategoryA = a.subcategories?.[0]?.name || '';
+          const subcategoryB = b.subcategories?.[0]?.name || '';
+  
+  
+  
+  
+          const indexA = subcategory.findIndex((item) => item.title === subcategoryA);
+          const indexB = subcategory.findIndex((item) => item.title === subcategoryB);
+  
+          return indexA - indexB;
+        });
   }
 
   return (
     <Shop
-      ProductData={filteredProducts}
+      ProductData={sortProducts}
       AllProduct={allProducts}
       isCategory
       mainslug={slug}

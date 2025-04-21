@@ -47,7 +47,7 @@ function TabyTamra({productPrice, productDiscPrice, product}:TabyTamraPROPS) {
         tabby
       </span>
       <p className="text-10 xsm:text-12 font-helvetica">
-        Pay 4 interest-free payments of AED { }
+        Pay 4 interest-free payments of <span className="font-currency font-normal"></span> { }
         {productPrice > 0 || productDiscPrice > 0
           ? productDiscPrice > 0
             ? productDiscPrice / 4
@@ -128,7 +128,7 @@ function TabyTamra({productPrice, productDiscPrice, product}:TabyTamraPROPS) {
             key={index}
             className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#00FFBC]"
           >
-            <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
+            <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12"><span className="font-currency font-normal"></span> {installmentAmount}</p>
             <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
           </div>
         ))}
@@ -139,7 +139,7 @@ function TabyTamra({productPrice, productDiscPrice, product}:TabyTamraPROPS) {
         tamara
       </span>
       <p className="text-10 xsm:text-12 font-helvetica">
-        Pay 4 interest-free payments of AED{' '}
+        Pay 4 interest-free payments of <span className="font-currency font-normal"></span>{' '}
         {productPrice > 0 || productDiscPrice > 0
           ? productDiscPrice > 0
             ? productDiscPrice / 4
@@ -231,7 +231,7 @@ function TabyTamra({productPrice, productDiscPrice, product}:TabyTamraPROPS) {
             key={index}
             className="text-black font-medium 2xl:font-semibold pb-1 text-center border-b-2 border-[#D47C84]"
           >
-            <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12">AED {installmentAmount}</p>
+            <p className=" text-[7px] xsm:text-[8px] xl:text-10 2xl:text-12"><span className="font-currency font-normal"></span> {installmentAmount}</p>
             <p className="text-[6px] xsm:text-[7px] xltext-[8px] 2xl:text-10 text-nowrap">{label}</p>
           </div>
         ))}

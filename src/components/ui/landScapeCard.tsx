@@ -63,13 +63,13 @@ const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , aver
       </p>
       {card.discountPrice > 0 ? (
         <p className="text-md font-semibold mt-2">
-          AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
+          <span className="font-currency font-semibold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
           <span className="line-through text-secondary-foreground ms-2">
-            AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+          <span className="font-currency font-semibold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
           </span>
         </p>
       ) : (
-        <p className="text-md font-semibold  pt-2">AED {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}</p>
+        <p className="text-md font-semibold  pt-2"><span className="font-currency font-semibold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}</p>
       )}
       <div className="flex gap-1 mt-2 items-center justify-center sm:justify-start h-8">
         {averageRating && averageRating > 1 && renderStars({ star: averageRating })}

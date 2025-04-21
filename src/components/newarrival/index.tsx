@@ -40,7 +40,7 @@ const NewArrival = () => {
                       {item.productName}
                     </h3>
                     <p className="font-extrabold text-sm sm:text-lg lg:text-xl">
-                      {item.price}
+                    <span className="font-currency font-bold"></span> {item.price}
                     </p>
                   </div>
                 </div>

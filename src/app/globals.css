@@ -39,6 +39,7 @@
     --red: #ff000029;
     --warning: #feb53e;
     --light-dark: #666666;
+    --font-currency: 'currency', 'currency Fallback';
   }
 }
 
@@ -70,6 +71,10 @@ body[data-scroll-locked] {
 .font-jadyn {
   font-family: var(--font-jadyn);
   font-display: swap;
+}
+
+.font-currency {
+  font-family: var(--font-currency);
 }
 
 .triangle-shape {

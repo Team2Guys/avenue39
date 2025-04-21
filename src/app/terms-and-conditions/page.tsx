@@ -76,7 +76,7 @@ const TermsAndConitions: React.FC = () => {
                                   </Link>
                                 );
                               } else {
-                                return <span key={idx}>{part}</span>;
+                                return <span key={idx} dangerouslySetInnerHTML={{__html : part}}></span>;
                               }
 
 
@@ -90,7 +90,7 @@ const TermsAndConitions: React.FC = () => {
                     return (
                       <ol key={lineIndex} className="list-decimal pl-6">
                       <li className=" list-disc text-base">
-                      <strong >{description.heading}</strong> <span>{description.descrip}</span>
+                      <strong >{description.heading}</strong> <span dangerouslySetInnerHTML={{ __html : description.descrip}}></span>
 
                       </li>
                     </ol>

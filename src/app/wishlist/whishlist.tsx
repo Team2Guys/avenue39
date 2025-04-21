@@ -158,7 +158,7 @@ const WishlistPage = () => {
                   <div className="block md:hidden space-y-2">
                     <div className=" flex items-center gap-4 ">
                       <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
-                        AED{' '}
+                      <span className="font-currency font-medium md:font-boldl"></span>{' '}
                         <span>
                           {product.selectedSize ? product.selectedSize?.discountPrice > 0 ? product.selectedSize?.discountPrice : product.selectedSize.price : product.selectedfilter ? product.selectedfilter?.discountPrice > 0 ? product.selectedfilter?.discountPrice : product.selectedfilter.price : product.discountPrice > 0 ? product.discountPrice : product.price}
                         </span>
@@ -166,7 +166,7 @@ const WishlistPage = () => {
                       {(product.selectedSize?.discountPrice > 0 || product.selectedfilter?.discountPrice > 0 ||
                         product.discountPrice > 0) ? (
                         <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                          AED{' '}
+                          <span className="font-currency font-normal md:font-bold"></span>{' '}
                           <span>
                             {product.selectedSize ? product.selectedSize.price : product.selectedfilter ? product.selectedfilter.price : product.price}
                           </span>
@@ -226,7 +226,7 @@ const WishlistPage = () => {
                 <div className="flex items-center  gap-1 lg:gap-4">
                   <p className="font-medium md:font-bold text-12 lg:text-xl xl:text-2xl">
                     <span>
-                      AED{' '}
+                    <span className="font-currency font-medium md:font-bold"></span>{' '}
                       {
                         product.selectedSize ? product.selectedSize?.discountPrice > 0 ? product.selectedSize?.discountPrice : product.selectedSize.price : product.selectedfilter ? product.selectedfilter?.discountPrice > 0 ? product.selectedfilter?.discountPrice : product.selectedfilter.price : product.discountPrice > 0 ? product.discountPrice : product.price
                       }
@@ -236,7 +236,7 @@ const WishlistPage = () => {
                   {(product.selectedSize?.discountPrice > 0 || product.selectedfilter?.discountPrice > 0 ||
                     product.discountPrice > 0) && (
                       <p className="font-normal md:font-bold text-10 lg:text-md xl:text-lg line-through text-lightforeground">
-                        AED{' '}
+                        <span className="font-currency font-normal md:font-bold"></span>{' '}
                         <span>
                           {product.selectedSize ? product.selectedSize.price : product.selectedfilter ? product.selectedfilter.price : product.price}
                         </span>

@@ -24,21 +24,21 @@ const sofaDataSlides = [
   {
     id: 1,
     title: 'Marlin Tub Swivel Chair',
-    product_price: 'AED 1,800',
+    product_price: '1,800',
     image: Marlin,
     link: '/chairs/accent-chairs/marlin-tub-swivel-chair',
   },
   {
     id: 2,
     title: 'Rafael Office Desk',
-    product_price: 'AED 5,500',
+    product_price: '5,500',
     image: rafael,
     link: '/office-furniture/desks/rafael-office-desk',
   },
   {
     id: 3,
     title: 'Chroma Petal Pod Chair',
-    product_price: 'AED 4,500',
+    product_price: '4,500',
     image: Chroma,
     link: '/chairs/accent-chairs/chroma-petal-pod-chair',
   },
@@ -134,7 +134,7 @@ const SofaBanner: React.FC = () => {
                     Shop Best Sellers
                   </Link>
                   <p className="font-bold text-lg mt-3">{slide.title}</p>
-                  <p className="text-lg font-bold text-black mt-1">{slide.product_price}</p>
+                  <p className="text-lg font-bold text-black mt-1"><span className="font-currency font-bold"></span> {slide.product_price}</p>
                 </div>
 
                 <div className="w-full lg:w-2/3 relative flex justify-center xl:h-[500px]">

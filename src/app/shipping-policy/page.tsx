@@ -86,7 +86,7 @@ const ShippingPolicy: React.FC = () => {
                                 </Link>
                               );
                             } else {
-                              return <span key={idx}>{part}</span>;
+                              return <span key={idx} dangerouslySetInnerHTML={{__html : part}}></span>;
                             }
                           })}
                       </p>

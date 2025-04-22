@@ -325,6 +325,21 @@ useEffect(() => {
 
 
                       })
+                    ) : !isPending || !isLoading ? (
+                      <div className="grid grid-cols-1 gap-1">
+                        {Array(4)
+                          .fill(null)
+                          .map((_, index) => (
+                            <div className="flex border p-3 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 mt-2 items-center" key={index}>
+                            <Skeleton className="w-[100px] h-[100px]"></Skeleton>
+                            <div className="pt-1 flex flex-col gap-3">
+                              <Skeleton className="w-40 h-6 rounded-none"></Skeleton>
+                              <Skeleton className="w-40 h-4 rounded-none"></Skeleton>
+                              <Skeleton className="w-40 h-4 rounded-none"></Skeleton>
+                            </div>
+                          </div>
+                        ))}                    
+                      </div>
                     ) : (
                       <div>No product is found</div>
                     )}
@@ -400,15 +415,19 @@ useEffect(() => {
                   </button>
                 </div>
                 {isPending && (
-                  <div className="border p-2">
-                    <div className="flex border p-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 mt-2 items-center">
-                      <Skeleton className="w-[100px] h-[100px]"></Skeleton>
-                      <div className="pt-1 flex flex-col gap-3">
-                        <Skeleton className="w-40 h-6 rounded-none"></Skeleton>
-                        <Skeleton className="w-40 h-4 rounded-none"></Skeleton>
-                        <Skeleton className="w-40 h-4 rounded-none"></Skeleton>
+                  <div className="grid grid-cols-2 gap-2">
+                    {Array(4)
+                      .fill(null)
+                      .map((_, index) => (
+                        <div className="flex flex-col border p-3 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 mt-2 items-center" key={index}>
+                        <Skeleton className="w-[100px] h-[100px]"></Skeleton>
+                        <div className="pt-1 flex flex-col gap-3">
+                          <Skeleton className="w-40 h-6 rounded-none"></Skeleton>
+                          <Skeleton className="w-40 h-4 rounded-none"></Skeleton>
+                          <Skeleton className="w-40 h-4 rounded-none"></Skeleton>
+                        </div>
                       </div>
-                    </div>
+                    ))}                    
                   </div>
                 )}
                 {error && (

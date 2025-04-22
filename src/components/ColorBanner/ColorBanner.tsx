@@ -90,8 +90,8 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                     width={1100}
                     height={450}
                     quality={70}
-                    priority={index === 0}
-                    loading={index === 0 ? 'eager' : 'lazy'}
+                    priority
+                    layout="responsive"
                     placeholder="blur"
                     blurDataURL="/placeholder.jpg"
                   />

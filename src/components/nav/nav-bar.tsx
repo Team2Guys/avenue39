@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import logo from '@icons/logo_nav.png';
 import {
   IoCloseOutline,
@@ -60,6 +60,12 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [isProductListOpen, setIsProductListOpen] = useState(false);
+  const [products, setProducts] = useState<CartItem[]>([]);
+  const { loggedInUser } = useSelector((state: State) => state.usrSlice);
+  const [profilePhoto, setProfilePhoto] = useState<any>([]);
+  const [isPending, startTransition] = useTransition();
+
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 20);
@@ -76,12 +82,19 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
   } = useQuery<IProduct[], Error>({
     queryKey: ['products'],
     queryFn: () => fetchProducts('getHeaderProducts'),
+    enabled: isProductListOpen,
   });
-  const [isProductListOpen, setIsProductListOpen] = useState(false);
+ 
+useEffect(() => {
+  if (productsData) {
+    startTransition(() => {
+      const transformed = variationProducts({ products: productsData });
+      setProducts(transformed);
+    });
+  }
+}, [productsData]);
 
-  const { loggedInUser } = useSelector((state: State) => state.usrSlice);
 
-  const [profilePhoto, setProfilePhoto] = useState<any>([]);
   useEffect(() => {
     if (loggedInUser) {
       setProfilePhoto({
@@ -91,7 +104,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     }
   }, [loggedInUser]);
 
-  const products = useMemo(() => variationProducts({ products: productsData || [] }), [productsData]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
@@ -386,7 +399,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                     <IoSearchSharp className="cursor-pointer" size={30} />
                   </button>
                 </div>
-                {isLoading && (
+                {isPending && (
                   <div className="border p-2">
                     <div className="flex border p-2 rounded-md bg-white hover:shadow-md transition duration-300 gap-2 mt-2 items-center">
                       <Skeleton className="w-[100px] h-[100px]"></Skeleton>
@@ -401,7 +414,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                 {error && (
                   <div>Error fetching products: {error.message}</div>
                 )}
-                {!isLoading && !error && filteredProducts.length > 0 && (
+                {!isLoading && !isPending && !error && filteredProducts.length > 0 && (
                   <div className=" p-2 max-h-[600px] overflow-y-auto w-full custom-scrollbar ">
                     <div className="flex flex-wrap justify-center gap-2 -m-2">
                       {filteredProducts.map((product: any, index: number) => {

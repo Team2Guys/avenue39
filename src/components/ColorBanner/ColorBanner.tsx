@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import Link from 'next/link';
 import ContainerFluid from '../ui/ContainerFluid';
 
 interface IPROPS {
@@ -81,7 +80,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                   </div>
                 </div>
               </div>
-              <div className="lg:w-[70%]">
+              {/* <div className="lg:w-[70%]">
                 <Link href={slide.link} className="block w-full h-full">
                   <Image
                     src={slide.imageUrl}
@@ -96,7 +95,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                     blurDataURL="/placeholder.jpg"
                   />
                 </Link>
-              </div>
+              </div> */}
 
             </div>
           </SwiperSlide>

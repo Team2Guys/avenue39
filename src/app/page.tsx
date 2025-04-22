@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { fetchProducts } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
 const HeroVideo = dynamic(() => import('@/components/Home/hero-video'))
-const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'))
+// const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'))
 const SofaBanner = dynamic(() => import('@/components/discount-banner/sofa-banner'))
 const NewArrival = dynamic(() => import('@/components/newarrival'))
 const ColorBanner = dynamic(() => import('@/components/ColorBanner/ColorBanner'))
@@ -33,15 +33,16 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const products = await fetchProducts();
+  console.log(products)
   return (
     <>
       <HeroVideo />
       <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
-      <Suspense fallback='loading'>
+      {/* <Suspense fallback='loading'>
         <AllCategory products={products} />
-      </Suspense>
+      </Suspense> */}
     </>
   );
 }

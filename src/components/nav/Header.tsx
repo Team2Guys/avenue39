@@ -12,7 +12,7 @@ const Header = () => {
   const [sortedCategories, setSortedCategories] = useState<ICategory[]>([]);
   const { data: categories = [] } = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
-    queryFn: fetchCategories,
+    queryFn: () => fetchCategories('getHeaderCategories'),
   });
   useEffect(() => {
     if (categories.length > 0) {

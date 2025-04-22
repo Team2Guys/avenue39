@@ -41,7 +41,7 @@ const ThankYouPage = () => {
 
   const { data: products = [] } = useQuery<IProduct[], Error>({
     queryKey: ['products'],
-    queryFn: fetchProducts,
+    queryFn: () => fetchProducts(),
   });
 
   useEffect(() => {

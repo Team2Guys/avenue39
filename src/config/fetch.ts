@@ -5,9 +5,10 @@ import { generateSlug } from '.';
 import { ICategory } from '@/types/cat';
 import { IReview } from '@/types/types';
 
-export const fetchProducts = async () => {
+export const fetchProducts = async (endpointType?: string) => {
   try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-all`,
+     const endpoint = endpointType ? endpointType : 'get-all'
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/${endpoint}`,
       {
         next: { tags: ['products'] },
       },
@@ -61,10 +62,11 @@ export const DashboardfetchProducts = async () => {
   }
 };
 
-export const fetchCategories = async (): Promise<ICategory[] | any> => {
+export const fetchCategories = async (endpointType?: string): Promise<ICategory[] | any> => {
   try {
+    const endpoint = endpointType ? endpointType : 'get-all'
     const result = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/category/get-all`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/category/${endpoint}`,
       {
         next: { tags: ['categories'] },
       },

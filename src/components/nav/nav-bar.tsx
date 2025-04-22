@@ -75,7 +75,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     isLoading,
   } = useQuery<IProduct[], Error>({
     queryKey: ['products'],
-    queryFn: fetchProducts,
+    queryFn: () => fetchProducts('getHeaderProducts'),
   });
   const [isProductListOpen, setIsProductListOpen] = useState(false);
 
@@ -278,15 +278,15 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
                                   {product.discountPrice > 0 ? (
                                     <>
                                       <p className="text-15 font-semibold text-red-700">
-                                      <span className="font-currency font-normal"></span> <span>{product.discountPrice}</span>
+                                      <span className="font-currency font-semibold"></span> <span>{product.discountPrice}</span>
                                       </p>
                                       <p className="text-[12px] text-primary-foreground font-bold line-through">
-                                      <span className="font-currency font-normal"></span> <span>{product.price}</span>
+                                      <span className="font-currency font-semibold"></span> <span>{product.price}</span>
                                       </p>
                                     </>
                                   ) : (
                                     <p className="text-15 font-semibold">
-                                      <span className="font-currency font-normal"></span> <span>{product.price}</span>
+                                      <span className="font-currency font-semibold"></span> <span>{product.price}</span>
                                     </p>
                                   )}
                                 </div>

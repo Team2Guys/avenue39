@@ -23,6 +23,7 @@ export class SubcategoriesService {
           id: true,
           name: true,
           custom_url: true,
+          description: true,
           products: {
             select: {
               name: true,

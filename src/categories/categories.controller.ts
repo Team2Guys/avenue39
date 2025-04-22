@@ -21,6 +21,11 @@ export class CategoriesController {
     return this.categoriesService.getCategories();
   }
 
+  @Get('getHeaderCategories')
+  getHeaderCategories() {
+    return this.categoriesService.getHeaderCategories();
+  }
+
   @Get('getAllCategories')
   getAllCategories() {
     return this.categoriesService.getAllCategories();

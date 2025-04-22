@@ -48,6 +48,41 @@ export class ProductsService {
     }
   }
 
+  async getHeaderProducts() {
+    try {
+      let products = await this.prisma.products.findMany({
+        select: {
+          id: true,
+          posterImageUrl: true,
+          name: true,
+          custom_url: true,
+          stock: true,
+          price: true,
+          discountPrice: true,
+          sizes: true,
+          filter: true,
+          productImages: true,
+          categories: {
+            select: {
+              name: true,
+              custom_url: true,
+            }
+          },
+          subcategories: {
+            select: {
+              name: true,
+              custom_url: true
+            }
+          }
+        }
+
+      });
+      return products
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
 
   async getAllProducts() {
     try {

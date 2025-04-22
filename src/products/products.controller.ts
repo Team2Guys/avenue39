@@ -21,6 +21,12 @@ export class ProductsController {
   async getProducts() {
     return await this.productsService.getProducts();
   }
+
+  @Get('/getHeaderProducts')
+  async getHeaderProducts() {
+    return await this.productsService.getHeaderProducts();
+  }
+
   @Get('get-all-products')
   async getAllProducts() {
     return await this.productsService.getAllProducts();

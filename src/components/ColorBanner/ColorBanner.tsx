@@ -72,7 +72,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                       alt="Left Image"
                       width={1200}
                       height={1200}
-                      quality={75}
+                      quality={50}
                       loading={index === 0 ? 'eager' : 'lazy'}
                       priority={index === 0}
                       placeholder="blur"
@@ -86,12 +86,12 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                   <Image
                     src={slide.imageUrl}
                     alt="Right Image"
-                    className="object-cover"
+                    className="w-full"
                     width={1100}
                     height={450}
-                    quality={70}
-                    priority
-                    layout="responsive"
+                    quality={60}
+                    // priority
+                    loading='lazy'
                     placeholder="blur"
                     blurDataURL="/placeholder.jpg"
                   />

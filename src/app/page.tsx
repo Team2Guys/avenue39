@@ -1,8 +1,7 @@
-import React, { Suspense } from 'react';
 import { fetchProducts } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
 const HeroVideo = dynamic(() => import('@/components/Home/hero-video'))
-const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'))
+const MainProducts = dynamic(() => import('@/components/CategoryCard/mainProduct'));
 const SofaBanner = dynamic(() => import('@/components/discount-banner/sofa-banner'))
 const NewArrival = dynamic(() => import('@/components/newarrival'))
 const ColorBanner = dynamic(() => import('@/components/ColorBanner/ColorBanner'))
@@ -39,9 +38,7 @@ export default async function Home() {
       <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
-      <Suspense fallback='loading'>
-        <AllCategory products={products} />
-      </Suspense>
+      <MainProducts products={products} />
     </>
   );
 }

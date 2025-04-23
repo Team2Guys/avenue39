@@ -103,8 +103,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                       height={160}
                       loading='eager'
                       placeholder="blur"
-                      blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp
-"
+                      blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp"
                     />
                   </Link>
                 {/* ) : (

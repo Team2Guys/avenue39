@@ -11,7 +11,7 @@ export const paymentIcons = [
 export const ColorBannerData = [
   {
     imageUrl: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp',
-    mobileImage: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1745394465/Untitled-2htgfhgf_efbiix.webp',
+    mobileImage: 'https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,q_auto,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp',
     imageUrl2: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771764/c2wiqthukzvonbdcrwx9_vgdwum.webp',
     Heading: 'luxury furniture',
     Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",

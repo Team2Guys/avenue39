@@ -218,7 +218,6 @@ useEffect(() => {
           <div className="w-fit">
             <Link className="relative" href={'/'}>
               <Image
-                className="object-contain"
                 width={180}
                 height={180}
                 src={logo}

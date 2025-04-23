@@ -5,7 +5,7 @@ const HeroVideo: React.FC = () => {
   return (
     <div className="relative">
       <video
-        className="w-full object-fill h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]"
+        className="w-full object-fill xsm:h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]"
         loop
         muted
         autoPlay

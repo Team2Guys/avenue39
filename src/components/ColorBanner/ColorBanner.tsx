@@ -86,7 +86,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                   <Image
                     src={slide.imageUrl}
                     alt="Right Image"
-                    className="object-cover"
+                    className="w-full"
                     width={1100}
                     height={450}
                     quality={70}

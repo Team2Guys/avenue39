@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useCallback, useMemo } from 'react';
 const CatProduct = dynamic(() => import('./CatProduct'),{ssr: false});
 const CatProduct1 = dynamic(() => import('./CatProduct1'),{ssr: false});

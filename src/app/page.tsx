@@ -39,7 +39,7 @@ export default async function Home() {
       <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
-      <Suspense>
+      <Suspense fallback={'loading.....'}>
         <MainProducts products={products} />
       </Suspense>
     </>

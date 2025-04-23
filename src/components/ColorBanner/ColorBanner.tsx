@@ -8,6 +8,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
 import ContainerFluid from '../ui/ContainerFluid';
+import { Skeleton } from '../ui/skeleton';
 
 interface IPROPS {
   Bannerclas?: any;
@@ -44,6 +45,8 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     if (windowWidth < 400) {
       const timer = setTimeout(() => setShowImage(true), 2000);
       return () => clearTimeout(timer);
+    } else {
+      setShowImage(true);
     }
   }, [windowWidth]);
 
@@ -70,7 +73,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                     <h2 className="text-2xl pb-1 uppercase font-semibold">
                       {slide.Heading}
                     </h2>
-                    <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
+                    <p className="text-18 h-28 xs:h-[170px] sm:h-32">
                       {slide.Description}
                     </p>
                   </div>
@@ -104,7 +107,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                       blurDataURL="/placeholder.jpg"
                     />
                   ) : (
-                    <div className="animate-pulse bg-gray-300 w-full" style={{ aspectRatio: '400 / 160' }} />
+                    <Skeleton className="animate-pulse bg-gray-300 w-full" style={{ aspectRatio: '400 / 160' }} />
                   )}
                 </Link>
               </div>

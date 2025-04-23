@@ -12,10 +12,11 @@ import { Dialog, DialogContent, DialogOverlay, DialogTrigger } from './dialog';
 import { BsCartX } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
 import { PotraitCardProps } from '@/types/interfaces';
-const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false })
+import { ProductDetailSkeleton } from '../product-detail/skelton';
+const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false, loading: () => <ProductDetailSkeleton /> })
 const QuickViewbtn = dynamic(() => import('./QuickViewbtn'), { ssr: false })
 
-const PortraitCard = ({ 
+const PortraitCard = ({
     card,
     finalUrl,
     handleAddToWishlist,
@@ -38,7 +39,7 @@ const PortraitCard = ({
     accessoriesSlider,
     displayTag,
     isOutStock
-}: PotraitCardProps ) => {
+}: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
     return (
         <div
@@ -123,31 +124,27 @@ const PortraitCard = ({
                                 </p>
                             )}
                             <div className="space-y-3">
-                                <p className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
-                                    <Link
-                                        className="cursor-pointer"
-                                        href={finalUrl}
-                                    >
-                                        {' '}
-                                        {displayName ? displayName : card.name}
-                                    </Link>
-                                </p>
-                                <div>
-                                    {card.discountPrice > 0 ? (
-                                        <div className="flex gap-2 justify-center">
-                                            <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
+                                <Link
+                                    href={finalUrl}
+                                    className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black cursor-pointer inline-block"
+                                >
+                                    {displayName ? displayName : card.name}
+                                </Link>
+
+                                {card.discountPrice > 0 ? (
+                                    <div className="flex gap-2 justify-center">
+                                        <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
                                             <span className="font-currency font-normal"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
-                                            </p>
-                                            <p className="text-sm md:text-18 font-bold text-red-700">
-                                            <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <p className="text-sm md:text-18 font-bold">
-                                            <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                         </p>
-                                    )}
-                                </div>
+                                        <p className="text-sm md:text-18 font-bold text-red-700">
+                                            <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm md:text-18 font-bold">
+                                        <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+                                    </p>
+                                )}
                                 {averageRating && averageRating > 0 && (
                                     <div className="flex gap-1 items-center justify-center mt-1 h-5">
                                         {renderStars({ star: averageRating })}
@@ -183,9 +180,7 @@ const PortraitCard = ({
 
                                         <Dialog >
                                             <DialogTrigger className="w-full" asChild>
-                                                <button>
-                                                    <QuickViewbtn ClassName={`my-1  h-8 quick-view-btn whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? ' w-full px-2' : 'px-6' : 'px-2'}`} />
-                                                </button>
+                                                <QuickViewbtn ClassName={`my-1  h-8 quick-view-btn whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? accessoriesSlider ? ' w-full px-2' : 'px-6' : 'px-2'}`} />
                                             </DialogTrigger>
                                             <DialogOverlay />
                                             <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl shadow-none gap-0 pb-0">
@@ -269,28 +264,27 @@ const PortraitCard = ({
                             )}
                         </div>
                         <div className="space-y-3">
-                            <p className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black">
-                                <Link className="cursor-pointer" href={finalUrl}>
-                                    {displayName ? displayName : card.name}
-                                </Link>
-                            </p>
-                            <div>
-                                {card.discountPrice ? (
-                                    <div className="flex gap-2 justify-center">
-                                        <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
+                            <Link
+                                href={finalUrl}
+                                className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black cursor-pointer inline-block"
+                            >
+                                {displayName ? displayName : card.name}
+                            </Link>
+
+                            {card.discountPrice ? (
+                                <div className="flex gap-2 justify-center">
+                                    <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
                                         <span className="font-currency font-normal"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
-                                        </p>
-                                        <p className="text-sm md:text-18 font-bold text-red-700">
-                                        <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
-                                        </p>
-                                    </div>
-                                ) : (
-                                    <p className="text-sm md:text-18 font-bold">
-                                        <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                     </p>
-                                )}
-                                <p>{ }</p>
-                            </div>
+                                    <p className="text-sm md:text-18 font-bold text-red-700">
+                                        <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.discountPrice)}
+                                    </p>
+                                </div>
+                            ) : (
+                                <p className="text-sm md:text-18 font-bold">
+                                    <span className="font-currency font-bold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
+                                </p>
+                            )}
                             {averageRating && averageRating > 0 && (
                                 <div className="flex gap-1 items-center justify-center mt-1 h-5">
                                     {renderStars({ star: averageRating })}
@@ -327,8 +321,7 @@ const PortraitCard = ({
 
                                         <Dialog>
                                             <DialogTrigger className="w-fit align-middle" asChild>
-
-                                                <button> <QuickViewbtn ClassName={`my-1    quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`} /></button>
+                                                <QuickViewbtn ClassName={`my-1    quick-view-btn h-8 whitespace-nowrap text-12 font-medium text-secondary border border-primary cardBtn-quick-view bg-primary rounded-full flex items-center justify-center gap-2 hover:bg-secondary hover:text-primary ${slider ? 'px-6' : 'px-2'}`} />
                                             </DialogTrigger>
                                             <DialogOverlay />
 

@@ -97,17 +97,19 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                 <Link href={slide.link} className="block w-full h-full">
                   {showImage ? (
                     <Image
-                      src={slide.imageUrl}
+                      src={windowWidth > 420 ? slide.imageUrl : slide.mobileImage}
                       alt="Right Image"
                       layout="responsive"
                       width={400}
                       height={160}
                       quality={70}
+                      priority
+                      loading='eager'
                       placeholder="blur"
                       blurDataURL="/placeholder.jpg"
                     />
                   ) : (
-                    <Skeleton className="animate-pulse bg-gray-300 w-full" style={{ aspectRatio: '400 / 160' }} />
+                    <Skeleton className="w-full" style={{ aspectRatio: '400 / 160' }} />
                   )}
                 </Link>
               </div>

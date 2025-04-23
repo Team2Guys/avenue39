@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { homeProducts } from '@/data/products';
 import { IProduct } from '@/types/prod';
 
-const ProductGrid = dynamic(() => import('./ProductGrid'));
+const ProductGrid = dynamic(() => import('./ProductGrid'), { ssr: false });
 
 interface ICatProduct {
   reverse?: boolean;

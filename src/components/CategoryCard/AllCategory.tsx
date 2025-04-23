@@ -1,7 +1,7 @@
 
 import React, { useCallback, useMemo } from 'react';
-const CatProduct = dynamic(() => import('./CatProduct'));
-const CatProduct1 = dynamic(() => import('./CatProduct1'));
+const CatProduct = dynamic(() => import('./CatProduct'),{ssr: false});
+const CatProduct1 = dynamic(() => import('./CatProduct1'),{ssr: false});
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
 import { generateSlug } from '@/config';
 import dynamic from 'next/dynamic';

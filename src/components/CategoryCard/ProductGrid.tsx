@@ -5,7 +5,7 @@ import { IProduct } from '@/types/prod';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import dynamic from 'next/dynamic';
-const Card = dynamic(() => import('../ui/card'))
+const Card = dynamic(() => import('../ui/card'), { ssr: false })
 
 interface ProductGridProps {
   products: IProduct[];

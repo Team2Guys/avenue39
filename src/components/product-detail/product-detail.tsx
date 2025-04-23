@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Thumbnail from '../carousel/thumbnail';
 import { CiShoppingCart } from 'react-icons/ci';
 import { NormalText, ProductPrice } from '@/styles/typo';
 import { Button } from '../ui/button';
@@ -29,7 +28,8 @@ import { formatPrice } from '@/config/HelperFunctions';
 import { Collapse } from 'antd';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { IProduct, ProductImage, Shipping, Sizes } from '@/types/prod';
-const TabyTamra = dynamic(() => import('./TabyTamra'))
+const TabyTamra = dynamic(() => import('./TabyTamra'), {ssr: false})
+const Thumbnail = dynamic(() => import('../carousel/thumbnail'), {ssr: false})
 
 
 const ProductDetail = ({

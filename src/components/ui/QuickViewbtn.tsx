@@ -1,4 +1,5 @@
 import React from 'react'
+import { IoEyeOutline } from 'react-icons/io5'
 interface IQuickView {
     // slider: boolean
     ClassName:string
@@ -14,7 +15,7 @@ function QuickViewbtn({ClassName }: IQuickView) {
     data-state="closed"
     className={ClassName}
   >
-    <svg
+    {/* <svg
       xmlns="http://www.w3.org/2000/svg"
       width="17.41"
       height="9.475"
@@ -63,7 +64,8 @@ function QuickViewbtn({ClassName }: IQuickView) {
           />
         </g>
       </g>
-    </svg>
+    </svg> */}
+    <IoEyeOutline size={15} />
     Quick View
   </button>
   )

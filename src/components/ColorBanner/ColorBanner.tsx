@@ -39,15 +39,15 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     return windowWidth - 10;
   }, [windowWidth]);
 
-  const [showImage, setShowImage] = useState(false);
-
-  useEffect(() => {
-    if (windowWidth < 40) {
-      setShowImage(true);
-    } else {
-      setShowImage(true);
-    }
-  }, [windowWidth]);
+  const [showImage, setShowImage] = useState(true);
+console.log(setShowImage)
+  // useEffect(() => {
+  //   if (windowWidth < 40) {
+  //     setShowImage(true);
+  //   } else {
+  //     setShowImage(true);
+  //   }
+  // }, [windowWidth]);
 
   return (
     <ContainerFluid

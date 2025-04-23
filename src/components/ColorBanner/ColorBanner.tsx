@@ -8,7 +8,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link';
 import ContainerFluid from '../ui/ContainerFluid';
-import { Skeleton } from '../ui/skeleton';
 
 interface IPROPS {
   Bannerclas?: any;
@@ -39,16 +38,15 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     return windowWidth - 10;
   }, [windowWidth]);
 
-  const [showImage, setShowImage] = useState(false);
+  // const [showImage, setShowImage] = useState(false);
 
-  useEffect(() => {
-    if (windowWidth < 400) {
-      const timer = setTimeout(() => setShowImage(true), 2000);
-      return () => clearTimeout(timer);
-    } else {
-      setShowImage(true);
-    }
-  }, [windowWidth]);
+  // useEffect(() => {
+  //   if (windowWidth < 400) {
+  //     setShowImage(true);
+  //   } else {
+  //     setShowImage(true);
+  //   }
+  // }, [windowWidth]);
 
   return (
     <ContainerFluid
@@ -94,24 +92,25 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                 </div>
               </div>
               <div className="w-full lg:w-[70%]">
-                <Link href={slide.link} className="block w-full h-full">
-                  {showImage ? (
+
+                {/* {showImage ? ( */}
+                  <Link href={slide.link} className="block w-full h-full">
                     <Image
                       src={windowWidth > 420 ? slide.imageUrl : slide.mobileImage}
                       alt="Right Image"
                       layout="responsive"
                       width={400}
                       height={160}
-                      quality={70}
-                      priority
                       loading='eager'
                       placeholder="blur"
-                      blurDataURL="/placeholder.jpg"
+                      blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp
+"
                     />
-                  ) : (
-                    <Skeleton className="w-full" style={{ aspectRatio: '400 / 160' }} />
-                  )}
-                </Link>
+                  </Link>
+                {/* ) : (
+                  <Skeleton className="w-full" style={{ aspectRatio: '400 / 160' }} />
+                )} */}
+
               </div>
 
             </div>

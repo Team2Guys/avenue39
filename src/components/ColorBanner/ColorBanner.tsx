@@ -97,7 +97,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                 <Link href={slide.link} className="block w-full h-full">
                   {showImage ? (
                     <Image
-                      src={slide.imageUrl}
+                      src={windowWidth > 420 ? slide.imageUrl : slide.mobileImage}
                       alt="Right Image"
                       layout="responsive"
                       width={400}

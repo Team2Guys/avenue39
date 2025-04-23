@@ -96,12 +96,12 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                 {/* {showImage ? ( */}
                   <Link href={slide.link} className="block w-full h-full">
                     <Image
-                      src={windowWidth > 420 ? slide.imageUrl : slide.mobileImage}
+                      src={slide.imageUrl}
                       alt="Right Image"
                       layout="responsive"
                       width={400}
                       height={160}
-                      loading='eager'
+                      priority={index === 0}
                       placeholder="blur"
                       blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp"
                     />

@@ -9,7 +9,6 @@ const ColorBanner = dynamic(() => import('@/components/ColorBanner/ColorBanner')
 
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.avenue39.com"),
@@ -33,15 +32,16 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const products = await fetchProducts();
+  console.log(products)
   return (
     <>
       <HeroVideo />
       <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
-      <Suspense fallback={'loading.....'}>
+      {/* <Suspense fallback={'loading.....'}>
         <MainProducts products={products} />
-      </Suspense>
+      </Suspense> */}
     </>
   );
 }

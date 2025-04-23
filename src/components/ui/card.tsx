@@ -19,7 +19,10 @@ import { handleAddToCartCard, handleAddToWishlistCard } from '@/utils/productAct
 
 // Lazy load cards
 const LandScapeCard = dynamic(() => import('./landScapeCard'), { ssr: false });
-const PortraitCard = dynamic(() => import('./portraitCard'), { ssr: false });
+const PortraitCard = dynamic(() => import('./portraitCard'), {
+  ssr: false
+});
+
 
 
 const Card: React.FC<CardProps> = ({

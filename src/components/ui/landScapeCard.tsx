@@ -9,7 +9,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import dynamic from 'next/dynamic'
 import { IProduct } from '@/types/prod'
 import { CartItem } from '@/redux/slices/cart/types'
-const ProductDetail = dynamic(() => import('../product-detail/product-detail'))
+const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false })
 
 const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , averageRating , handleEventProbation , handleAddToCard , itemToAdd , uniqueSizes}: {
     card: IProduct,

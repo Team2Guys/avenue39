@@ -12,8 +12,8 @@ import { Dialog, DialogContent, DialogOverlay, DialogTrigger } from './dialog';
 import { BsCartX } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
 import { PotraitCardProps } from '@/types/interfaces';
-const ProductDetail = dynamic(() => import('../product-detail/product-detail'))
-const QuickViewbtn = dynamic(() => import('./QuickViewbtn'))
+const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false })
+const QuickViewbtn = dynamic(() => import('./QuickViewbtn'), { ssr: false })
 
 const PortraitCard = ({ 
     card,

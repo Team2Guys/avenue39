@@ -1,11 +1,13 @@
-'use client';
-
-import React, { useMemo } from 'react';
+'use client'
 import { IProduct } from '@/types/prod';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import dynamic from 'next/dynamic';
-const Card = dynamic(() => import('../ui/card'), { ssr: false })
+import CardSkeleton from '../cardSkelton';
+const Card = dynamic(() => import('../ui/card'), {
+  ssr: false,
+  loading: () => <CardSkeleton />,
+})
 
 interface ProductGridProps {
   products: IProduct[];
@@ -20,29 +22,38 @@ interface ProductGridProps {
   accessoriesSlider?: boolean;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({
+const ProductGrid = ({
   products,
   productImages,
   imageHeight,
-  slider = false,
-  isHomepage = false,
+  slider,
+  isHomepage,
   calculateHeight,
   portSpace,
-  isLandscape = false,
+  isLandscape,
   redirect,
-  accessoriesSlider = false,
-}) => {
+  accessoriesSlider,
+}: ProductGridProps) => {
 
-  const breakpoints = useMemo(() => {
-    if (!accessoriesSlider) return undefined;
-    return {
-      280: { slidesPerView: 1 },
-      480: { slidesPerView: 2 },
-      640: { slidesPerView: 3 },
-      980: { slidesPerView: 4 },
-      1280: { slidesPerView: 5 },
-    };
-  }, [accessoriesSlider]);
+  const breakpoints = accessoriesSlider
+    ? {
+      280: {
+        slidesPerView: 1,
+      },
+      480: {
+        slidesPerView: 2,
+      },
+      640: {
+        slidesPerView: 3,
+      },
+      980: {
+        slidesPerView: 4,
+      },
+      1280: {
+        slidesPerView: 5,
+      },
+    }
+    : undefined;
 
   if (!slider) {
     return (
@@ -101,14 +112,4 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   );
 };
 
-// Custom comparison for memo
-function areEqual(prevProps: ProductGridProps, nextProps: ProductGridProps) {
-  return (
-    prevProps.products === nextProps.products &&
-    prevProps.imageHeight === nextProps.imageHeight &&
-    prevProps.slider === nextProps.slider &&
-    prevProps.accessoriesSlider === nextProps.accessoriesSlider
-  );
-}
-
-export default React.memo(ProductGrid, areEqual);
+export default ProductGrid;

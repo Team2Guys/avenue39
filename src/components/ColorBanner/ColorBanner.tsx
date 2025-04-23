@@ -38,6 +38,15 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     return windowWidth - 10;
   }, [windowWidth]);
 
+  const [showImage, setShowImage] = useState(false);
+
+  useEffect(() => {
+    if (windowWidth < 400) {
+      const timer = setTimeout(() => setShowImage(true), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [windowWidth]);
+
   return (
     <ContainerFluid
       className={`mx-auto py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? 'main_container' : ''
@@ -54,11 +63,11 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
       >
         {ColorBannerData.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="flex flex-col lg:flex-row items-center justify-center w-full">
+            <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 items-center justify-center w-full mt-2 lg:mt-0">
               <div className="flex flex-col justify-center items-center lg:w-[30%] w-full pb-2 text-center mx-auto">
                 <div style={{ width: isWide ? `${isWide}px` : '250px' }}>
                   <div className="font-Helveticalight">
-                     <h2 className="text-2xl pb-1 uppercase font-semibold">
+                    <h2 className="text-2xl pb-1 uppercase font-semibold">
                       {slide.Heading}
                     </h2>
                     <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
@@ -83,19 +92,20 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
               </div>
               <div className="w-full lg:w-[70%]">
                 <Link href={slide.link} className="block w-full h-full">
-                  <Image
-                    src={slide.imageUrl}
-                    alt="Right Image"
-                    layout="responsive"
-                    width={1100}
-                    height={450}
-                    quality={70}
-                    priority
-                    loading='eager'
-                    placeholder="blur"
-                    blurDataURL="/placeholder.jpg"
-                    sizes="(max-width: 1024px) 100%, 1100px"
-                  />
+                  {showImage ? (
+                    <Image
+                      src={slide.imageUrl}
+                      alt="Right Image"
+                      layout="responsive"
+                      width={400}
+                      height={160}
+                      quality={70}
+                      placeholder="blur"
+                      blurDataURL="/placeholder.jpg"
+                    />
+                  ) : (
+                    <div className="animate-pulse bg-gray-300 w-full" style={{ aspectRatio: '400 / 160' }} />
+                  )}
                 </Link>
               </div>
 

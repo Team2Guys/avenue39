@@ -2,18 +2,18 @@
 import React, { useCallback, useMemo } from 'react';
 const CatProduct = dynamic(() => import('./CatProduct'),{ssr: false});
 const CatProduct1 = dynamic(() => import('./CatProduct1'),{ssr: false});
-import { Accessories, Bedroom, Dining, Living } from '@/data/data';
+import { Bedroom, Dining, Living } from '@/data/data';
 import { generateSlug } from '@/config';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
-import { filterAccessories, filterByCategoryAndTitle } from '@/config/HelperFunctions';
+import { filterByCategoryAndTitle } from '@/config/HelperFunctions';
 
 const AllCategory = ({ products }: { products: IProduct[] }) => {
 
   const diningProducts = useMemo(() => filterByCategoryAndTitle(products, Dining), [products]);
   const livingProducts = useMemo(() => filterByCategoryAndTitle(products, Living), [products]);
   const bedroomProducts = useMemo(() => filterByCategoryAndTitle(products, Bedroom), [products]);
-  const accessoryProducts = useMemo(() => filterAccessories(products, Accessories), [products]);
+  // const accessoryProducts = useMemo(() => filterAccessories(products, Accessories), [products]);
 
 
   const descriptionMap = useMemo(() => {
@@ -58,14 +58,14 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
       />
-      <CatProduct1
+      {/* <CatProduct1
         products={accessoryProducts}
         CategoryDescription={getCategoryDescription('Accessories')}
         CategoryName="Complement your design with accessories"
         reverse
         redirect="accessories"
         accessoriesSlider={true}
-      />
+      /> */}
     </div>
   );
 };

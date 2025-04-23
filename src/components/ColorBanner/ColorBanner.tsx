@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import Link from 'next/link';
 import ContainerFluid from '../ui/ContainerFluid';
 import { Skeleton } from '../ui/skeleton';
 
@@ -39,8 +38,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     return windowWidth - 10;
   }, [windowWidth]);
 
-  const [showImage, setShowImage] = useState(true);
-console.log(setShowImage)
+  // const [showImage, setShowImage] = useState(true);
   // useEffect(() => {
   //   if (windowWidth < 40) {
   //     setShowImage(true);
@@ -94,20 +92,22 @@ console.log(setShowImage)
               </div>
               <div className="w-full lg:w-[70%]">
 
-                {showImage ? (
-                  <Link href={slide.link} className="block w-full h-full">
-                    <Image
-                      src={slide.imageUrl}
-                      alt="Right Image"
-                      layout="responsive"
-                      width={400}
-                      height={160}
-                      priority={index === 0}
-                      placeholder="blur"
-                      blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp"
-                    />
-                  </Link>
-                ) : (
+                {
+                // showImage ? (
+                //   <Link href={slide.link} className="block w-full h-full">
+                //     <Image
+                //       src={slide.imageUrl}
+                //       alt="Right Image"
+                //       layout="responsive"
+                //       width={400}
+                //       height={160}
+                //       priority={index === 0}
+                //       placeholder="blur"
+                //       blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp"
+                //     />
+                //   </Link>
+                // ) :
+                 (
                   <Skeleton className="w-full" style={{ aspectRatio: '400 / 160' }} />
                 )}
 

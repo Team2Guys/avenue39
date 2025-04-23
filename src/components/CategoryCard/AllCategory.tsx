@@ -1,8 +1,8 @@
 'use client'
 import React, { useCallback, useMemo } from 'react';
 const CatProduct = dynamic(() => import('./CatProduct'),{ssr: false});
-const CatProduct1 = dynamic(() => import('./CatProduct1'),{ssr: false});
-import { Bedroom, Dining, Living } from '@/data/data';
+// const CatProduct1 = dynamic(() => import('./CatProduct1'),{ssr: false});
+import { Dining } from '@/data/data';
 import { generateSlug } from '@/config';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
@@ -11,8 +11,8 @@ import { filterByCategoryAndTitle } from '@/config/HelperFunctions';
 const AllCategory = ({ products }: { products: IProduct[] }) => {
 
   const diningProducts = useMemo(() => filterByCategoryAndTitle(products, Dining), [products]);
-  const livingProducts = useMemo(() => filterByCategoryAndTitle(products, Living), [products]);
-  const bedroomProducts = useMemo(() => filterByCategoryAndTitle(products, Bedroom), [products]);
+  // const livingProducts = useMemo(() => filterByCategoryAndTitle(products, Living), [products]);
+  // const bedroomProducts = useMemo(() => filterByCategoryAndTitle(products, Bedroom), [products]);
   // const accessoryProducts = useMemo(() => filterAccessories(products, Accessories), [products]);
 
 
@@ -41,7 +41,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryName="Shop Your Dining"
         redirect="dining"
       />
-      <CatProduct
+      {/* <CatProduct
         products={livingProducts}
         CategoryDescription={getCategoryDescription('Living')}
         CategoryName="Shop Your Living"
@@ -57,7 +57,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryDescription={getCategoryDescription('Bedroom')}
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
-      />
+      /> */}
       {/* <CatProduct1
         products={accessoryProducts}
         CategoryDescription={getCategoryDescription('Accessories')}

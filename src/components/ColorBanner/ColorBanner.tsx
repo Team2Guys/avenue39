@@ -6,8 +6,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Link from 'next/link';
 import ContainerFluid from '../ui/ContainerFluid';
-import { Skeleton } from '../ui/skeleton';
 
 interface IPROPS {
   Bannerclas?: any;
@@ -38,15 +38,6 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
     return windowWidth - 10;
   }, [windowWidth]);
 
-  // const [showImage, setShowImage] = useState(true);
-  // useEffect(() => {
-  //   if (windowWidth < 40) {
-  //     setShowImage(true);
-  //   } else {
-  //     setShowImage(true);
-  //   }
-  // }, [windowWidth]);
-
   return (
     <ContainerFluid
       className={`mx-auto py-3 xs:py-5 md:pt-10 md:pb-6 w-full bg-white sofa_swiper ${Bannerclas && isMobile ? 'main_container' : ''
@@ -63,14 +54,14 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
       >
         {ColorBannerData.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 items-center justify-center w-full mt-2 lg:mt-0">
+            <div className="flex flex-col lg:flex-row items-center justify-center w-full">
               <div className="flex flex-col justify-center items-center lg:w-[30%] w-full pb-2 text-center mx-auto">
                 <div style={{ width: isWide ? `${isWide}px` : '250px' }}>
                   <div className="font-Helveticalight">
-                    <h2 className="text-2xl pb-1 uppercase font-semibold">
+                     <h2 className="text-2xl pb-1 uppercase font-semibold">
                       {slide.Heading}
                     </h2>
-                    <p className="text-18 h-28 xs:h-[170px] sm:h-32">
+                    <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
                       {slide.Description}
                     </p>
                   </div>
@@ -90,27 +81,21 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
                   </div>
                 </div>
               </div>
-              <div className="w-full lg:w-[70%]">
-
-                {
-                // showImage ? (
-                //   <Link href={slide.link} className="block w-full h-full">
-                //     <Image
-                //       src={slide.imageUrl}
-                //       alt="Right Image"
-                //       layout="responsive"
-                //       width={400}
-                //       height={160}
-                //       priority={index === 0}
-                //       placeholder="blur"
-                //       blurDataURL="https://res.cloudinary.com/dckxfl2yn/image/upload/w_400,10,f_auto/v1745394465/Untitled-2htgfhgf_efbiix.webp"
-                //     />
-                //   </Link>
-                // ) :
-                 (
-                  <Skeleton className="w-full" style={{ aspectRatio: '400 / 160' }} />
-                )}
-
+              <div className="lg:w-[70%]">
+                <Link href={slide.link} className="block w-full h-full">
+                  <Image
+                    src={slide.imageUrl}
+                    alt="Right Image"
+                    className="object-cover"
+                    width={1100}
+                    height={450}
+                    quality={70}
+                    priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    placeholder="blur"
+                    blurDataURL="/placeholder.jpg"
+                  />
+                </Link>
               </div>
 
             </div>

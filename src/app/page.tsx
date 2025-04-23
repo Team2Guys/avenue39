@@ -1,4 +1,3 @@
-import React, { Suspense } from 'react';
 import { fetchProducts } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
 const HeroVideo = dynamic(() => import('@/components/Home/hero-video'))
@@ -39,9 +38,9 @@ export default async function Home() {
       <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
-      <Suspense fallback='loading....'>
+      {/* <Suspense fallback='loading....'> */}
         {/* <AllCategory products={products} /> */}
-      </Suspense>
+      {/* </Suspense> */}
     </>
   );
 }

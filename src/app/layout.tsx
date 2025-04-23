@@ -31,7 +31,6 @@ export default function RootLayout({
     >
 
       <Head>
-      <link rel="preload" href="../../public/font/HelveticaNeueRegular.ttf" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link
           rel="preload"
           as="image"

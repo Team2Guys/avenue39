@@ -4,10 +4,6 @@
 
 @layer base {
   :root {
-    --font-helvetica: 'Helvetica', sans-serif;
-    --font-helvetica-light: 'HelveticaLight', sans-serif;
-    --font-belgium: 'Belgium', serif;
-    --font-jadyn: 'Jadyn', serif;
     --main: #afa183;
     --background: #fbfbfb;
     --foreground: #e2e3e5;

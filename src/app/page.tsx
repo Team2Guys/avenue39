@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { fetchProducts } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
 const HeroVideo = dynamic(() => import('@/components/Home/hero-video'))
@@ -10,6 +10,7 @@ const ColorBanner = dynamic(() => import('@/components/ColorBanner/ColorBanner')
 
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import AllCategory from '@/components/CategoryCard/AllCategory';
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.avenue39.com"),
@@ -33,16 +34,16 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const products = await fetchProducts();
-  console.log(products)
+  // console.log(products)
   return (
     <>
       <HeroVideo />
       <ColorBanner Bannerclas="Bannerclas" />
       <SofaBanner />
       <NewArrival />
-      {/* <Suspense fallback='loading....'>
+      <Suspense fallback='loading....'>
         <AllCategory products={products} />
-      </Suspense> */}
+      </Suspense>
     </>
   );
 }

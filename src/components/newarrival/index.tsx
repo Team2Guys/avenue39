@@ -52,7 +52,7 @@ const NewArrival = () => {
                   <Image
                     src={item.imageSrc}
                     alt={item.productName || 'Product Image'}
-                    className="w-full h-full object-contain md:h-[400px]"
+                    className="mx-auto md:mx-0 h-[200px] sm:h-[300px] object-contain md:h-[400px]"
                     width={600}
                     height={600}
                     loading={index === 0 ? 'eager' : 'lazy'}

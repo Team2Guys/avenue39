@@ -25,8 +25,8 @@ const HeroVideo: React.FC = () => {
       <Container className="relative">
         <div className="absolute bottom-2 sm:bottom-8 right-4 sm:right-8 bg-black bg-opacity-40 text-white px-4 py-3 rounded-xl shadow-lg">
           <div className="relative flex flex-nowrap">
-            <p className="text-[20px] sm:text-[40px] md:text-[50px] lg:text-[53px] leading-tight font-Helveticalight self-center">
-              Discover The Luxury{' '}
+            <p className="font-Helveticalight text-[20px] sm:text-[40px] md:text-[50px] lg:text-[53px] leading-tight self-center">
+              Discover The Luxury
             </p>
             <p className="font-jadyn text-[30px] sm:text-[90px] md:text-[80px] lg:text-[101px] relative right-3 sm:right-10 lg:right-12 top-2">
               Style

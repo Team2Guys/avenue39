@@ -20,9 +20,9 @@ const config = {
     },
     extend: {
       backgroundImage: {
-        footerbuy: 'url("/assets/images/footer/buy.png")',
+        footerbuy: 'url("/assets/images/footer/buy.webp")',
         footerdeliver: 'url("/assets/images/footer/footervan.webp")',
-        footershowroom: 'url("/assets/images/footer/showroom.png")',
+        footershowroom: 'url("/assets/images/footer/showroom.webp")',
       },
       fontSize: {
         9: '9px',

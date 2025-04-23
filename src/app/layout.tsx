@@ -31,11 +31,12 @@ export default function RootLayout({
     >
 
       <Head>
+      <link rel="preload" href="../../public/font/HelveticaNeueRegular.ttf" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link
           rel="preload"
           as="image"
-          href="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771764/c2wiqthukzvonbdcrwx9_vgdwum.webp"
-          imageSrcSet="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771764/c2wiqthukzvonbdcrwx9_vgdwum.webp"
+          href="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp"
+          imageSrcSet="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp"
           fetchPriority="high"
         />
         <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />

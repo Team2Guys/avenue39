@@ -7,13 +7,12 @@ import 'swiper/css/pagination';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { generateSlug, renderStars } from '@/config';
+import { renderStars } from '@/config';
 import { Dialog, DialogContent, DialogOverlay, DialogTrigger } from './dialog';
 import { BsCartX } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
 import { PotraitCardProps } from '@/types/interfaces';
-import { ProductDetailSkeleton } from '../product-detail/skelton';
-const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false, loading: () => <ProductDetailSkeleton /> })
+// const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false, loading: () => <ProductDetailSkeleton /> })
 const QuickViewbtn = dynamic(() => import('./QuickViewbtn'), { ssr: false })
 
 const PortraitCard = ({
@@ -41,6 +40,7 @@ const PortraitCard = ({
     isOutStock
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
+    console.log(itemToAdd,uniqueSizes)
     return (
         <div
             className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
@@ -186,7 +186,7 @@ const PortraitCard = ({
                                             <DialogContent className="max-w-[1400px] w-11/12  bg-white px-0 sm:rounded-3xl shadow-none gap-0 pb-0">
 
                                                 <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
-                                                    <ProductDetail
+                                                    {/* <ProductDetail
                                                         params={card}
                                                         isZoom={false}
                                                         gap="gap-10 md:gap-20"
@@ -195,7 +195,7 @@ const PortraitCard = ({
                                                         filterParam={generateSlug(itemToAdd.selectedfilter && itemToAdd.selectedfilter.name)}
                                                         sizeParam={generateSlug(itemToAdd.selectedSize && itemToAdd.selectedSize.name)}
                                                         uniqueSizes={uniqueSizes}
-                                                    />
+                                                    /> */}
                                                 </div>
                                             </DialogContent>
                                         </Dialog>
@@ -329,7 +329,7 @@ const PortraitCard = ({
                                             <DialogContent className="max-w-[1400px]  w-11/12 bg-white px-0 sm:rounded-3xl   shadow-none gap-0 pb-0" >
                                                 {/* <DialogTitle>Diagloge</DialogTitle> */}
                                                 <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
-                                                    <ProductDetail
+                                                    {/* <ProductDetail
                                                         params={card}
                                                         isZoom={false}
                                                         gap="gap-10 md:gap-20"
@@ -338,7 +338,7 @@ const PortraitCard = ({
                                                         filterParam={generateSlug(itemToAdd.selectedfilter && itemToAdd.selectedfilter.name)}
                                                         sizeParam={generateSlug(itemToAdd.selectedSize && itemToAdd.selectedSize.name)}
                                                         uniqueSizes={uniqueSizes}
-                                                    />
+                                                    /> */}
                                                 </div>
                                             </DialogContent>
                                         </Dialog>

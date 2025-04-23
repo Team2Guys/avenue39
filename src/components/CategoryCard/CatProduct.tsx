@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Container from '../ui/Container';
 import ProductSkeleton from '../Skaleton/productSkeleton';
@@ -6,7 +5,7 @@ import Link from 'next/link';
 import { homeProducts } from '@/data/products';
 import { IProduct } from '@/types/prod';
 
-const ProductGrid = dynamic(() => import('./ProductGrid'), { ssr: false });
+const ProductGrid = dynamic(() => import('./ProductGrid'));
 
 interface ICatProduct {
   reverse?: boolean;
@@ -32,9 +31,7 @@ const CatProduct = ({
   CategoryDescription,
 }: ICatProduct) => {
   
-    const categoryImages = useMemo(() => {
-      return homeProducts.find((item) => item.name === redirect)?.products || [];
-    }, [redirect]);
+    const categoryImages =  homeProducts.find((item) => item.name === redirect)?.products || [];
 
   if (!products || products.length === 0) {
     return (

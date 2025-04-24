@@ -54,7 +54,7 @@ const CatProduct1 = ({
         {/* Description */}
         <div className="max-w-screen-xl mx-auto mt-10 text-center font-Helveticalight px-2 sm:px-4 lg:px-0">
           {CategoryDescription ? (
-            <p className="text-14 lg:text-[22px]">{CategoryDescription}</p>
+            <p className="text-14 lg:text-[22px] mt-6 sm:mb-8">{CategoryDescription}</p>
           ) : (
             <div className="animate-pulse">
               <div className="h-5 lg:h-6 bg-gray-300 rounded-md w-3/4 mx-auto mb-2"></div>
@@ -62,9 +62,6 @@ const CatProduct1 = ({
             </div>
           )}
         </div>
-
-        <div className="mt-6 sm:my-8 md:mt-8 md:mb-0">
-
           {/* Top Section */}
           {!reverse && (
             <div className="grid grid-cols-12 sm:gap-8">
@@ -124,7 +121,6 @@ const CatProduct1 = ({
                 />
               )}
           </div>
-        </div>
       </div>
     </Container>
   );

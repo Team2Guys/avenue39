@@ -56,5 +56,5 @@ export const filterAccessories = (products: IProduct[], titles: string[]): IProd
     (titleIndexMap.get(a.name) ?? 0) - (titleIndexMap.get(b.name) ?? 0)
   );
 
-  return [...matching, ...nonMatching].slice(0, 15);
+  return [...matching, ...nonMatching].slice(0, 10);
 };

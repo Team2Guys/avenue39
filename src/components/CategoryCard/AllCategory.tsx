@@ -1,37 +1,25 @@
 const CatProduct = dynamic(() => import('./CatProduct'));
 const CatProduct1 = dynamic(() => import('./CatProduct1'));
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
-import { generateSlug } from '@/config';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
-import { filterAccessories, filterByCategoryAndTitle } from '@/config/HelperFunctions';
+import { filterAccessories, filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
+import { Suspense } from 'react';
 
 const AllCategory = ({ products }: { products: IProduct[] }) => {
 
-  const diningProducts =  filterByCategoryAndTitle(products, Dining);
-  const livingProducts =  filterByCategoryAndTitle(products, Living);
-  const bedroomProducts = filterByCategoryAndTitle(products, Bedroom);
-  const accessoryProducts = filterAccessories(products, Accessories);
-
-
-  const getCategoryDescription = (categoryName: string) => {
-    const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));
-    return matchedCategory?.short_description || '';
-  };
-
-
   return (
-    <>
+    <Suspense>
       <CatProduct
-        products={diningProducts}
-        CategoryDescription={getCategoryDescription('Dining')}
+        products={filterByCategoryAndTitle(products, Dining)}
+        CategoryDescription={getCategoryDescription('Dining', products)}
         CategoryName="Shop Your Dining"
         redirect="dining"
         portSpace="px-4 sm:px-8"
       />
       <CatProduct
-        products={livingProducts}
-        CategoryDescription={getCategoryDescription('Living')}
+        products={filterByCategoryAndTitle(products, Living)}
+        CategoryDescription={getCategoryDescription('Living',products)}
         CategoryName="Shop Your Living"
         reverse
         landHeight={'calc(100% - 80px)'}
@@ -42,20 +30,20 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         fill={true}
       />
       <CatProduct1
-        products={bedroomProducts}
-        CategoryDescription={getCategoryDescription('Bedroom')}
+        products={filterByCategoryAndTitle(products, Bedroom)}
+        CategoryDescription={getCategoryDescription('Bedroom',products)}
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
       />
       <CatProduct1
-        products={accessoryProducts}
-        CategoryDescription={getCategoryDescription('Accessories')}
+        products={filterAccessories(products, Accessories)}
+        CategoryDescription={getCategoryDescription('Accessories',products)}
         CategoryName="Complement your design with accessories"
         reverse
         redirect="accessories"
         accessoriesSlider={true}
       />
-    </>
+    </Suspense>
   );
 };
 

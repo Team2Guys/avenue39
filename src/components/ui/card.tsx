@@ -137,7 +137,7 @@ const Card: React.FC<CardProps> = ({
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
 
-  return cardLayout === 'grid' ? (
+  return itemToAdd ? cardLayout === 'grid' ? (
     <PortraitCard
       accessoriesSlider={accessoriesSlider}
       averageRating={0}
@@ -175,7 +175,7 @@ const Card: React.FC<CardProps> = ({
       itemToAdd={itemToAdd}
       uniqueSizes={displayInfo.uniqueSizes}
     />
-  );
+  ) : ''
 };
 
 export default React.memo(Card);

@@ -9,7 +9,6 @@ import {
   belgium,
   currency,
   Helvetica,
-  Helveticalight,
   jadyn,
 } from '@/components/language';
 import WhatsIcon from '@/components/Icons/Whatsapp';
@@ -25,7 +24,7 @@ export default function RootLayout({
 
     <html
       lang="en"
-      className={` ${Helveticalight.variable} ${Helvetica.variable}  ${belgium.variable} ${jadyn.variable} ${currency.variable}`}
+      className={` ${Helvetica.variable}  ${belgium.variable} ${jadyn.variable} ${currency.variable}`}
     >
 
       <Head>

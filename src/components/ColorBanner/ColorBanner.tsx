@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ColorBannerData } from '@/data/products';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -9,11 +8,8 @@ import 'swiper/css/pagination';
 import Link from 'next/link';
 import ContainerFluid from '../ui/ContainerFluid';
 
-interface IPROPS {
-  Bannerclas?: any;
-}
 
-const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
+const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
   // SSR-safe mount
@@ -52,7 +48,7 @@ const ColorBanner: React.FC<IPROPS> = ({ Bannerclas }) => {
         loop={false}
         className={`custom-swiper ${Bannerclas && isMobile ? Bannerclas : ''}`}
       >
-        {ColorBannerData.map((slide, index) => (
+        {ColorBannerData.map((slide: any, index: number) => (
           <SwiperSlide key={index}>
             <div className="flex flex-col lg:flex-row items-center justify-center w-full">
               <div className="flex flex-col justify-center items-center lg:w-[30%] w-full pb-2 text-center mx-auto">

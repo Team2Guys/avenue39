@@ -32,6 +32,11 @@ export default function RootLayout({
 
       <Head>
         <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />
+        <link
+          rel="preload"
+          as="image"
+          href="https://res.cloudinary.com/dckxfl2yn/image/upload/w_auto,q_auto,f_auto/v1745480634/video-poster_flovfz.webp"
+        />
         <noscript><Image alt='facebook' height="1" width="1" style={{ display: 'none' }}
           src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1"
         /></noscript>

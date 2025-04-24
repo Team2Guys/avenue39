@@ -40,22 +40,18 @@ html {
 
 .font-helvetica {
   font-family: var(--font-helvetica);
-  font-display: swap;
 }
 
 .font-Helveticalight {
   font-family: var(--font-helvetica-light);
-  font-display: swap;
 }
 
 .font-belgium {
   font-family: var(--font-belgium);
-  font-display: swap;
 }
 
 .font-jadyn {
   font-family: var(--font-jadyn);
-  font-display: swap;
 }
 
 .font-currency {

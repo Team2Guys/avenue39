@@ -1,8 +1,9 @@
 import Container from '../ui/Container';
+import ContainerFluid from '../ui/ContainerFluid';
 
 const HeroVideo = () => {
   return (
-    <div className="relative">
+    <ContainerFluid className="relative px-0">
       <video
         className="w-full object-fill xsm:h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]"
         loop
@@ -40,7 +41,7 @@ const HeroVideo = () => {
           </p>
         </div>
       </Container>
-    </div>
+    </ContainerFluid>
   );
 };
 

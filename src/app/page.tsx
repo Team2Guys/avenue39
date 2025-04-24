@@ -8,6 +8,7 @@ const SofaBanner = dynamic(() => import('@/components/discount-banner/sofa-banne
 const NewArrival = dynamic(() => import('@/components/newarrival'))
 const ColorBanner = dynamic(() => import('@/components/ColorBanner/ColorBanner'))
 const AllCategory = dynamic(() => import('@/components/CategoryCard/AllCategory'))
+import { ColorBannerData } from '@/data/products';
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.avenue39.com"),
@@ -34,7 +35,7 @@ export default async function Home() {
   return (
     <>
       <HeroVideo />
-      <ColorBanner Bannerclas="Bannerclas" />
+      <ColorBanner Bannerclas="Bannerclas" ColorBannerData={ColorBannerData} />
       <SofaBanner />
       <NewArrival />
       <Suspense fallback='loading....'>

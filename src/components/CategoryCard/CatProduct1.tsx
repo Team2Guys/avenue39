@@ -89,6 +89,7 @@ const CatProduct1 = ({
                     products={midProducts}
                     productImages={productImages}
                     slider
+                    isHomepage
                     redirect={redirect}
                     imageHeight="h-[310px] xl:h-[496.5px] w-full"
                     portSpace="px-10"

@@ -41,6 +41,7 @@ const Card: React.FC<CardProps> = ({
   mainCatgory,
   cardLayout,
   accessoriesSlider,
+  fill
 }) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
@@ -132,6 +133,7 @@ const Card: React.FC<CardProps> = ({
       skeletonHeight={skeletonHeight}
       slider={slider}
       uniqueSizes={uniqueSizes}
+      fill={fill}
     />
   ) : (
     <LandScapeCard

@@ -27,6 +27,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryDescription={getCategoryDescription('Dining')}
         CategoryName="Shop Your Dining"
         redirect="dining"
+        portSpace="px-4 sm:px-8"
       />
       <CatProduct
         products={livingProducts}
@@ -38,6 +39,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         sofaHeight={'calc(100% - 60px)'}
         sideTableHeight={'calc(100% - 20px)'}
         redirect="living"
+        fill={true}
       />
       <CatProduct1
         products={bedroomProducts}

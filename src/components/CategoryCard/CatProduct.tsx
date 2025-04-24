@@ -17,6 +17,7 @@ interface ICatProduct {
   sideTableHeight?: string;
   redirect?: string;
   CategoryDescription?: string;
+  fill?: boolean
 }
 
 const CatProduct = ({
@@ -29,6 +30,7 @@ const CatProduct = ({
   sideTableHeight,
   redirect,
   CategoryDescription,
+  fill
 }: ICatProduct) => {
   
     const categoryImages =  homeProducts.find((item) => item.name === redirect)?.products || [];
@@ -102,6 +104,7 @@ const CatProduct = ({
                 products={midProducts}
                 productImages={categoryImages}
                 slider
+                isHomepage
                 isLandscape={false}
                 portSpace={portSpace}
                 redirect={redirect}
@@ -118,6 +121,9 @@ const CatProduct = ({
                 productImages={categoryImages}
                 slider
                 isLandscape
+                isHomepage
+                portSpace='px-0'
+                fill={fill}
                 imageHeight="h-[200px] xl:h-[345.15px]"
                 calculateHeight={landHeight}
                 redirect={redirect}

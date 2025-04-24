@@ -20,6 +20,7 @@ interface ProductGridProps {
   productImages: any[];
   redirect?: string;
   accessoriesSlider?: boolean;
+  fill?: boolean
 }
 
 const ProductGrid = ({
@@ -33,6 +34,7 @@ const ProductGrid = ({
   isLandscape,
   redirect,
   accessoriesSlider,
+  fill
 }: ProductGridProps) => {
 
   const breakpoints = accessoriesSlider
@@ -105,6 +107,7 @@ const ProductGrid = ({
             productImages={productImages}
             redirect={redirect}
             cardLayout="grid"
+            fill={fill}
           />
         </SwiperSlide>
       ))}

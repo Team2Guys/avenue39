@@ -9,7 +9,7 @@ const HeroVideo = () => {
         muted
         autoPlay
         playsInline
-        preload="auto"
+        preload="none"
         poster="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp"
       >
         <source

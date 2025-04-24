@@ -14,8 +14,6 @@ import {
 } from '@/components/language';
 import WhatsIcon from '@/components/Icons/Whatsapp';
 import Head from 'next/head';
-import Script from 'next/script';
-import Image from 'next/image';
 import GoToTop from '@/components/GoToTop/go-to-top';
 
 export default function RootLayout({
@@ -32,15 +30,15 @@ export default function RootLayout({
 
       <Head>
         <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />
-        <noscript><Image alt='facebook' height="1" width="1" style={{ display: 'none' }}
+        {/* <noscript><Image alt='facebook' height="1" width="1" style={{ display: 'none' }}
           src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1"
-        /></noscript>
+        /></noscript> */}
         {/* <!-- End Meta Pixel Code --> */}
 
       </Head>
 
       {/* Microsoft Clarity Code: */}
-      <Script
+      {/* <Script
         id="clarity-script"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -52,10 +50,10 @@ export default function RootLayout({
       })(window,document,"clarity","script","mgy3jsx4mu");
     `,
         }}
-      />
+      /> */}
 
       {/* Google Tag Manager Script */}
-      <Script
+      {/* <Script
         strategy='afterInteractive'
         id="google-tag-manager"
 
@@ -69,10 +67,10 @@ export default function RootLayout({
 
             `,
         }}
-      />
+      /> */}
 
       {/* Google Analytics Script */}
-      <Script
+      {/* <Script
         strategy="afterInteractive"
         src="https://www.googletagmanager.com/gtag/js?id=G-GNDWCH8Z6E"
       />
@@ -86,10 +84,10 @@ export default function RootLayout({
   gtag('config', 'G-GNDWCH8Z6E')
 
         `}
-      </Script>
+      </Script> */}
 
       {/* Meta Pixel */}
-      <Script
+      {/* <Script
         id="meta-pixel"
         strategy='afterInteractive'
         dangerouslySetInnerHTML={{
@@ -106,20 +104,20 @@ export default function RootLayout({
             fbq('track', 'PageView');
             `,
         }}
-      />
+      /> */}
       <body>
 
         {/* <!-- Google Tag Manager (noscript) --> */}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCNZZ8XP"
-          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        {/* <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCNZZ8XP"
+          height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript> */}
 
         {/* <!-- End Google Tag Manager (noscript) → */}
         {/* NoScript Fallback */}
 
-        <noscript>
+        {/* <noscript>
           <Image height="1" width="1" style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1" alt="Facebook Pixel" />
-        </noscript>
+        </noscript> */}
 
         <Providers>
           <PathnameWrapper>

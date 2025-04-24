@@ -313,11 +313,11 @@ html {
 
 
 .card-slider-home .swiper-pagination {
-  bottom: 150px !important;
+  bottom: 155px !important;
 }
 
 .accessories-Slider.card-slider-home .swiper-pagination {
-  bottom: 2px !important;
+  bottom: 0px !important;
 }
 
 .cardBtn-quick-view:hover svg {
@@ -457,10 +457,6 @@ video::cue {
 
   .product-slider-wrapper .custom-slick-next-arrow svg {
     transform: rotate(-90deg);
-  }
-
-  .card-slider-home .swiper-pagination {
-    bottom: 190px !important;
   }
 
   .custom-swiper-pagination {

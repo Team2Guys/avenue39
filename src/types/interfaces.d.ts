@@ -277,7 +277,7 @@ export interface PotraitCardProps {
     calculateHeight: string | undefined,
     portSpace: string | undefined,
     accessoriesSlider: boolean | undefined,
-
+    fill?: boolean
 }
 
 export interface CardProps {
@@ -299,4 +299,5 @@ export interface CardProps {
   mainCatgory?: string;
   cardLayout?: string;
   accessoriesSlider?: boolean;
+  fill?: boolean
 }

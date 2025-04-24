@@ -10,7 +10,7 @@ const HeroVideo = () => {
         autoPlay
         playsInline
         preload="none"
-        poster="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp"
+        poster="https://res.cloudinary.com/dckxfl2yn/image/upload/w_auto,q_auto,f_auto/v1745480634/video-poster_flovfz.webp"
       >
         <source
           src="https://res.cloudinary.com/dckxfl2yn/video/upload/q_auto,f_auto/v1740735817/A39_Homepage_Final_6_calirp.mp4"

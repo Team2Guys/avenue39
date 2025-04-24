@@ -40,7 +40,6 @@ const PortraitCard = ({
     fill
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false);
-    console.log(isLandscape, portSpace, displayTag)
     return (
         <div
             className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
@@ -76,15 +75,19 @@ const PortraitCard = ({
                                                 ? calculateHeight
                                                 : 'calc(100% - 20px)',
                                         }}
-                                        className={`${isLandscape && 'w-full'}`}
+                                        className={`${isLandscape && 'w-full'} ${displayTag && 'flex flex-col justify-center gap-0 xsm:gap-10'}`}
                                     >
+                                        {displayTag && <div className='flex flex-col gap-0 items-center sm:leading-tight'>
+                                            <div className='bg-black text-white rounded-lg px-4 xs:px-6 py-2 font-Helveticalight text-12 xsm:text-13 xs:text-18 font-semibold tracking-widest capitalize'>{displayTag.tagPara}</div>
+                                            <p className='font-jadyn text-[30px] sm:text-[90px] md:text-[60px] xl:text-[101px]'>{displayTag.displayName}</p>
+                                        </div>}
                                         <Image
                                             src={cardStaticData?.posterImageUrl || card.posterImageUrl}
                                             alt={card.posterImageAltText || card.name}
                                             width={600}
                                             height={600}
                                             className={
-                                                `h-full w-full ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer` 
+                                                `${!displayTag && 'h-full'} w-full ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer` 
                                             }
                                         />
                                     </Link>

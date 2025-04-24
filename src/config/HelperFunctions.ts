@@ -1,5 +1,6 @@
 import { CartItem } from "@/redux/slices/cart/types";
 import { IProduct } from "@/types/prod";
+import { generateSlug } from ".";
 
   export const product_refactor = async (product: CartItem) => {
       const { sizes, filter, ...updatedProduct } = product;
@@ -57,4 +58,9 @@ export const filterAccessories = (products: IProduct[], titles: string[]): IProd
   );
 
   return [...matching, ...nonMatching].slice(0, 10);
+};
+
+export const getCategoryDescription = (categoryName: string, products: IProduct[]) => {
+  const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));
+  return matchedCategory?.short_description || '';
 };

@@ -5,11 +5,13 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
+const compression = require('compression');
 
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(compression());
   app.enableCors({
     origin: [
       'http://localhost:3000',

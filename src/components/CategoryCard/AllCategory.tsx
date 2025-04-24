@@ -21,7 +21,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
 
 
   return (
-    <div className="pt-1">
+    <>
       <CatProduct
         products={diningProducts}
         CategoryDescription={getCategoryDescription('Dining')}
@@ -53,7 +53,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         redirect="accessories"
         accessoriesSlider={true}
       />
-    </div>
+    </>
   );
 };
 

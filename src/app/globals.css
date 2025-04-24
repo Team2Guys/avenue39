@@ -27,26 +27,15 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
     --red: #ff000029;
     --warning: #feb53e;
     --light-dark: #666666;
-    --font-currency: 'currency', 'currency Fallback';
   }
 }
 
 html {
   scroll-behavior: smooth;
   font-family: var(--font-helvetica);
-}
-
-body[data-scroll-locked] {
-  pointer-events: auto !important;
-  margin-right:0% !important;
 }
 
 .font-helvetica {
@@ -72,7 +61,6 @@ body[data-scroll-locked] {
 .font-currency {
   font-family: var(--font-currency);
 }
-
 
 .linkactive {
   position: relative;
@@ -210,10 +198,6 @@ body[data-scroll-locked] {
 .slider-container .slick-next:focus {
   background-color: black;
   color: white;
-}
-
-.family-Helvetica {
-  font-family: 'Helvetica' !important;
 }
 
 .custom-table .ant-spin-nested-loading {

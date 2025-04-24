@@ -1,7 +1,6 @@
-import React, { memo } from 'react';
 import Container from '../ui/Container';
 
-const HeroVideo: React.FC = () => {
+const HeroVideo = () => {
   return (
     <div className="relative">
       <video
@@ -10,9 +9,14 @@ const HeroVideo: React.FC = () => {
         muted
         autoPlay
         playsInline
-        preload="metadata"
+        preload="auto"
+        poster="https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771627/b8tp5qiqyifyp1b8meer_tyxde5.webp"
       >
-        <source src="https://res.cloudinary.com/dckxfl2yn/video/upload/v1740735817/A39_Homepage_Final_6_calirp.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/dckxfl2yn/video/upload/q_auto,f_auto/v1740735817/A39_Homepage_Final_6_calirp.mp4"
+          type="video/mp4"
+        />
+
         Your browser does not support the video tag.
         <track
           kind="captions"
@@ -41,4 +45,4 @@ const HeroVideo: React.FC = () => {
   );
 };
 
-export default memo(HeroVideo);
+export default HeroVideo;

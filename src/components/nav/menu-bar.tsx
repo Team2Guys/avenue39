@@ -89,7 +89,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
               <Link
                 href={`/${generateSlug(item == "Home Office"  ? "office-furniture" : item )}`}
                 key={index}
-                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap ${
+                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide font-helvetica uppercase whitespace-nowrap ${
                   item === 'Sale' ? 'text-red-500' : 'text-black'
                 }`}
               >
@@ -147,7 +147,7 @@ const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
               <Link
                 href="/sale"
                 onClick={() => setActiveMenu(null)}
-                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide family-Helvetica uppercase whitespace-nowrap text-red-600 dark:text-red-600 flex flex-row gap-2 items-center cursor-pointer ${
+                className={`menu-item text-13 lg:text-15 pb-2 tracking-wide font-helvetica uppercase whitespace-nowrap text-red-600 dark:text-red-600 flex flex-row gap-2 items-center cursor-pointer ${
                   isActiveMenu === 'sale' ? 'linkactive' : 'link-underline'
                 }`}
               >

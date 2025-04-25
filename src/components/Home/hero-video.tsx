@@ -1,11 +1,10 @@
 import Container from '../ui/Container';
-import ContainerFluid from '../ui/ContainerFluid';
 
 const HeroVideo = () => {
   return (
-    <ContainerFluid className="relative px-0">
+    <section className="max-w-[2000px] mx-auto relative h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]">
       <video
-        className="w-full object-fill xsm:h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]"
+        className="w-full object-cover h-full"
         loop
         muted
         autoPlay
@@ -41,7 +40,7 @@ const HeroVideo = () => {
           </p>
         </div>
       </Container>
-    </ContainerFluid>
+    </section>
   );
 };
 

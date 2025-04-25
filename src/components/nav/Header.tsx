@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-const TopNav = dynamic(() => import('./top-nav'), { ssr: false });
-const MenuBar = dynamic(() => import('./menu-bar'), { ssr: false });
-const BottomBar = dynamic(() => import('./bottom-bar'), { ssr: false });
-const Navbar = dynamic(() => import('./nav-bar'), { ssr: false });
-
+import React, { useEffect, useState } from 'react';
+import TopNav from './top-nav';
+import MenuBar from './menu-bar';
+import BottomBar from './bottom-bar';
 import { fetchCategories } from '@/config/fetch';
 import { ICategory } from '@/types/cat';
 import { useQuery } from '@tanstack/react-query';
 import { menuData } from '@/data/menu';
-
+import Navbar from './nav-bar';
 
 const Header = () => {
   const [sortedCategories, setSortedCategories] = useState<ICategory[]>([]);

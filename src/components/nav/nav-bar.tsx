@@ -237,6 +237,7 @@ useEffect(() => {
                 height={180}
                 src={logo}
                 alt="Logo"
+                loading='eager'
               />
             </Link>
           </div>

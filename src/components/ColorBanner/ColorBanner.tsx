@@ -88,9 +88,8 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                     width={1100}
                     height={450}
                     quality={70}
-                    fetchPriority='high'
-                    priority
-                    sizes="(max-width: 786px) 100vw, 1100px"
+                    priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
                   />
                 </Link>
               </div>

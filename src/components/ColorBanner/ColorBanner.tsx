@@ -58,17 +58,15 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
       >
         {ColorBannerData.map((slide: any, index: number) => (
           <SwiperSlide key={index}>
-            <div className="flex flex-col lg:flex-row items-center justify-center w-full">
+            <div className="flex flex-col lg:flex-row items-center justify-center w-full py-10 sm:py-0">
               <div className="flex flex-col justify-center items-center lg:w-[30%] w-full pb-2 text-center mx-auto">
                 <div style={{ width: isWide ? `${isWide}px` : '250px' }}>
-                  <div className="font-Helveticalight">
-                     <h2 className="text-2xl pb-1 uppercase font-semibold">
+                     <h2 className="text-2xl pb-1 uppercase font-semibold font-Helveticalight">
                       {slide.Heading}
                     </h2>
-                    <p className="text-18 font-extralight h-28 xs:h-[170px] sm:h-32">
+                    <p className="text-18 font-extralight h-32 xsm:h-28 xs:h-[170px] sm:h-32 font-Helveticalight">
                       {slide.Description}
                     </p>
-                  </div>
                   <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-6 px-2 mx-auto">
                     <Image
                       src={slide.imageUrl2}
@@ -77,15 +75,11 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                       width={1200}
                       height={1200}
                       quality={75}
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      priority={index === 0}
-                      placeholder="blur"
-                      blurDataURL="/placeholder.jpg"
                     />
                   </div>
                 </div>
               </div>
-              <div className="lg:w-[70%]">
+              <div className="w-full lg:w-[70%]">
                 <Link href={slide.link} className="block w-full h-full">
                   <Image
                     src={slide.imageUrl}
@@ -94,8 +88,8 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                     width={1100}
                     height={450}
                     quality={70}
-                    priority={index === 0}
-                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fetchPriority='high'
+                    priority
                     sizes="(max-width: 786px) 100vw, 1100px"
                   />
                 </Link>

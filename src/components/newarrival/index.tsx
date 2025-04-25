@@ -55,8 +55,7 @@ const NewArrival = () => {
                     className="mx-auto md:mx-0 h-[200px] sm:h-[300px] object-contain md:h-[400px]"
                     width={600}
                     height={600}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    priority={index === 0}
+                    loading='lazy'
                   />
                 </Link>
               </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 import { AiOutlineHome } from 'react-icons/ai';
 import { Popover } from 'antd';
 import { useSelector } from 'react-redux';
@@ -9,8 +10,8 @@ import { loggedInUserAction } from '@/redux/slices/user/userSlice';
 import Cookies from 'js-cookie';
 import { useAppDispatch } from '@components/Others/HelperRedux';
 import { useRouter } from 'next/navigation';
-import CartItems from '../cart/items';
-import WishlistCount from '../wishlist/wishlist';
+const CartItems = dynamic(() => import('../cart/items'), { ssr: false });
+const WishlistCount = dynamic(() => import('../wishlist/wishlist'), { ssr: false });
 import { IoPersonOutline } from 'react-icons/io5';
 import { TiArrowSortedUp } from 'react-icons/ti';
 

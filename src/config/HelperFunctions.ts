@@ -1,6 +1,7 @@
 import { CartItem } from "@/redux/slices/cart/types";
 import { IProduct } from "@/types/prod";
 import { generateSlug } from ".";
+import { ChangeUrlHandler } from "./fetch";
 
   export const product_refactor = async (product: CartItem) => {
       const { sizes, filter, ...updatedProduct } = product;
@@ -38,7 +39,7 @@ export const filterByCategoryAndTitle = (products: IProduct[], titles: string[])
 
   
 
-export const filterAccessories = (products: IProduct[], titles: string[]): IProduct[] => {
+export const filterAccessories = (products: IProduct[], titles: string[]) => {
   const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
 
   const matching: IProduct[] = [];
@@ -64,3 +65,19 @@ export const getCategoryDescription = (categoryName: string, products: IProduct[
   const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));
   return matchedCategory?.short_description || '';
 };
+
+ export const generateFinalUrl = (itemToAdd: CartItem, card?: IProduct, SubcategoryName?: any, mainCatgory?: string) => {
+   const baseUrl = card ? ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory) : ChangeUrlHandler(itemToAdd);
+    const params = new URLSearchParams();
+
+    if (!card) {
+      itemToAdd.colorName && params.set('filter', generateSlug(itemToAdd.colorName));
+      itemToAdd.sizeName && params.set('size', generateSlug(itemToAdd.sizeName));
+    } else {
+      itemToAdd.selectedfilter?.name && params.set('variant', generateSlug(itemToAdd.selectedfilter.name));
+      itemToAdd.selectedSize?.name && params.set('size', generateSlug(itemToAdd.selectedSize.name));
+    }
+  
+    const query = params.toString();
+    return query ? `${baseUrl}?${query}` : baseUrl;
+  };

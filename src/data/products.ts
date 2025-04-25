@@ -86,11 +86,11 @@ export const homeProducts: IHomeProducts[] = [
     products: [
       {
         name: 'Lisbon Sofa',
-        posterImageUrl: '/images/HomeProducts/Living/Lisbon.png',
+        posterImageUrl: '/images/HomeProducts/Living/Lisbon.webp',
       },
       {
         name: 'Nordic Coffee Table with the Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/nordic.png',
+        posterImageUrl: '/images/HomeProducts/Living/nordic.webp',
       },
       {
         name: 'Finestra Side Table',
@@ -126,7 +126,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Hallie Sofa',
-        posterImageUrl: '/images/HomeProducts/Living/Hallie.png',
+        posterImageUrl: '/images/HomeProducts/Living/Hallie.webp',
       },
       {
         name: 'Torino Coffee Table',

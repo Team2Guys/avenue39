@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Container from '../ui/Container';
-import MenuLink from '../menu-link';
+const MenuLink = dynamic(() => import('../menu-link'), { ssr: false });
 import { usePathname, useSearchParams } from 'next/navigation';
 import { generateSlug } from '@/config';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { State } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { ICategory } from '@/types/cat';
 import { staticHeaderCategories } from '@/data/menu';
+import dynamic from 'next/dynamic';
 
 const MenuBar = ({ categories }: { categories?: ICategory[] }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);

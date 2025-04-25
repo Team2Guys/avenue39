@@ -1,20 +1,19 @@
 'use client';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
 import { CartItem, CartSize } from '@cartSlice/types';
 import {
-  generateSlug,
   getProductStock,
   variationName,
 } from '@/config';
 import CardSkeleton from '../cardSkelton';
 import { cardProductTags } from '@/data/products';
 import { Sizes } from '@/types/prod';
-import { ChangeUrlHandler } from '@/config/fetch';
 import { CardProps } from '@/types/interfaces';
 import { handleAddToCartCard, handleAddToWishlistCard } from '@/utils/productActions';
+import { generateFinalUrl } from '@/config/HelperFunctions';
 
 // Lazy load cards
 const LandScapeCard = dynamic(() => import('./landScapeCard'), { ssr: false });
@@ -24,7 +23,7 @@ const PortraitCard = dynamic(() => import('./portraitCard'), {
 
 
 
-const Card: React.FC<CardProps> = ({
+const Card = ({
   card,
   isModel,
   className,
@@ -41,7 +40,7 @@ const Card: React.FC<CardProps> = ({
   cardLayout,
   accessoriesSlider,
   fill
-}) => {
+}: CardProps) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
   const [itemToAdd, setItemToAdd] = useState<CartItem | null>(null);
@@ -105,32 +104,19 @@ const Card: React.FC<CardProps> = ({
   //   }
   // }, [card?.reviews]);
 
-  const baseUrl = useMemo(() => ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory), [
-    card,
-    SubcategoryName?.name,
-    mainCatgory,
-  ]);
+  // const baseUrl = useMemo(() => ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory), [
+  //   card,
+  //   SubcategoryName?.name,
+  //   mainCatgory,
+  // ]);
 
-  const generateFinalUrl = useCallback(() => {
-    const params = new URLSearchParams();
-  
-    if (itemToAdd?.selectedfilter?.name) {
-      params.set('variant', generateSlug(itemToAdd.selectedfilter.name));
-    }
-    if (itemToAdd?.selectedSize?.name) {
-      params.set('size', generateSlug(itemToAdd.selectedSize.name));
-    }
-  
-    const query = params.toString();
-    return query ? `${baseUrl}?${query}` : baseUrl;
-  }, [itemToAdd, baseUrl]);
-  
+
   
 
-  const handleAddToCard = (e: React.MouseEvent<HTMLElement>) =>
+  const handleAddToCard = (e: MouseEvent<HTMLElement>) =>
     handleAddToCartCard(e, card, itemToAdd, cartItems, totalStock, dispatch);
 
-  const handleAddToWishlist = (e: React.MouseEvent<HTMLElement>) =>
+  const handleAddToWishlist = (e: MouseEvent<HTMLElement>) =>
     handleAddToWishlistCard(e, card, itemToAdd, totalStock)
 
   if (!card) {
@@ -148,7 +134,7 @@ const Card: React.FC<CardProps> = ({
       className={className}
       displayName={displayInfo.displayName}
       displayTag={displayInfo.displayTag}
-      finalUrl={generateFinalUrl()}
+      finalUrl={generateFinalUrl(itemToAdd, card ,SubcategoryName, mainCatgory)}
       handleAddToCard={handleAddToCard}
       handleAddToWishlist={handleAddToWishlist}
       handleEventProbation={(e: any) => e.stopPropagation()}
@@ -166,7 +152,7 @@ const Card: React.FC<CardProps> = ({
   ) : (
     <LandScapeCard
       card={card}
-      finalUrl={generateFinalUrl()}
+      finalUrl={generateFinalUrl(itemToAdd, card ,SubcategoryName, mainCatgory)}
       handleAddToWishlist={handleAddToWishlist}
       averageRating={0}
       displayName={displayInfo.displayName}
@@ -178,4 +164,4 @@ const Card: React.FC<CardProps> = ({
   ) : ''
 };
 
-export default React.memo(Card);
+export default Card;

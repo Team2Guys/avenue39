@@ -90,6 +90,7 @@ const PortraitCard = ({
                                         className={
                                             `${!displayTag && 'h-full'} w-full ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
                                         }
+                                        loading='lazy'
                                     />
                                 </Link>
                             </div>
@@ -112,6 +113,7 @@ const PortraitCard = ({
                                         )}
                                         onMouseEnter={() => setIsHoverImage(true)}
                                         onMouseLeave={() => setIsHoverImage(false)}
+                                        loading='lazy'
                                     />
                                 </Link>
                             </div>

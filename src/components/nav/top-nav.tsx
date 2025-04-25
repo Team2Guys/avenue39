@@ -1,4 +1,3 @@
-import React from 'react';
 import Container from '../ui/Container';
 import SocialLink from '../social-link';
 import Link from 'next/link';
@@ -15,7 +14,7 @@ const TopNav = () => {
         </div>
         <div className="w-full lg:max-w-[48%] xl:max-w-[50%] 2xl:max-w-[43%] max-sm:pl-1 2xl:mr-6">
           <div className=" gap-2 flex items-center">
-            <Image className="" src={ramadan2} alt="ramadan1" />
+            <Image src={ramadan2} alt="ramadan1" loading='lazy' />
             <p className="uppercase tracking-[0.8px] 2xl:tracking-[1.6px] font-helvetica text-11 2xl:text-13 xl:whitespace-nowrap ml-2">
             <span className="text-shadow">
             This Ramadan elevate your home’s style with the best offers.{' '}</span>

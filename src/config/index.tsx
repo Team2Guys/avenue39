@@ -6,6 +6,7 @@ import { MdStar, MdStarBorder } from 'react-icons/md';
 import { CartItem } from '@/redux/slices/cart/types';
 import { IReview } from '@/types/types';
 import { IProduct } from '@/types/prod';
+import ProductSkeleton from '@/components/Skaleton/productSkeleton';
 
 export const SubTotal = () => {
   const totalPrice = useSelector((state: State) =>
@@ -243,3 +244,9 @@ export const getAllStock = (product: CartItem | any) => {
 
   return totalStock;
 };
+
+
+export const renderProductSkeletons = (count: number, height: string) =>
+  Array(count).fill(null).map((_, index) => (
+    <ProductSkeleton key={index} imageHeight={height} />
+  ));

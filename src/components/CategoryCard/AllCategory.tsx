@@ -3,7 +3,7 @@ const CatProduct1 = dynamic(() => import('./CatProduct1'));
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
-import { filterAccessories, filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
+import { filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
 import { Suspense } from 'react';
 
 const AllCategory = ({ products }: { products: IProduct[] }) => {
@@ -36,7 +36,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         redirect="bedroom"
       />
       <CatProduct1
-        products={filterAccessories(products, Accessories)}
+        products={filterByCategoryAndTitle(products, Accessories)}
         CategoryDescription={getCategoryDescription('Accessories',products)}
         CategoryName="Complement your design with accessories"
         reverse

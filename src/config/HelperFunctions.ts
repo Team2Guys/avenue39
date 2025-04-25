@@ -66,16 +66,15 @@ export const getCategoryDescription = (categoryName: string, products: IProduct[
   return matchedCategory?.short_description || '';
 };
 
- export const generateFinalUrl = (itemToAdd: CartItem, card?: IProduct, SubcategoryName?: any, mainCatgory?: string) => {
-   const baseUrl = card ? ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory) : ChangeUrlHandler(itemToAdd);
+ export const generateFinalUrl = (itemToAdd: CartItem, card: IProduct, SubcategoryName: any, mainCatgory?: string) => {
+   const baseUrl = ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory);
     const params = new URLSearchParams();
-
-    if (!card) {
-      itemToAdd.colorName && params.set('filter', generateSlug(itemToAdd.colorName));
-      itemToAdd.sizeName && params.set('size', generateSlug(itemToAdd.sizeName));
-    } else {
-      itemToAdd.selectedfilter?.name && params.set('variant', generateSlug(itemToAdd.selectedfilter.name));
-      itemToAdd.selectedSize?.name && params.set('size', generateSlug(itemToAdd.selectedSize.name));
+  
+    if (itemToAdd?.selectedfilter?.name) {
+      params.set('variant', generateSlug(itemToAdd.selectedfilter.name));
+    }
+    if (itemToAdd?.selectedSize?.name) {
+      params.set('size', generateSlug(itemToAdd.selectedSize.name));
     }
   
     const query = params.toString();

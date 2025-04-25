@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useRef, useState, useTransition } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import logo from '@icons/logo_nav.png';
 import {
   IoCloseOutline,
@@ -17,13 +17,15 @@ import {
   DrawerClose,
 } from '@/components/ui/drawer';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import CartItems from '../cart/items';
 import { Popover } from 'antd';
 import { useSelector } from 'react-redux';
 import { State } from '@/redux/store';
 import { useQuery } from '@tanstack/react-query';
-import { fetchProducts } from '@/config/fetch';
+import { ChangeUrlHandler, fetchProducts } from '@/config/fetch';
 import RenderStars from '../ui/renderstars';
 import { Skeleton } from '../ui/skeleton';
+import Wishlist from '../wishlist/wishlist';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { loggedInUserAction } from '@redux/slices/user/userSlice';
@@ -44,10 +46,6 @@ import { variationProductImage } from '@/redux/slices/cart';
 import { CartItem } from '@/redux/slices/cart/types';
 import { ICategory } from '@/types/cat';
 import { IProduct } from '@/types/prod';
-import { generateFinalUrl } from '@/config/HelperFunctions';
-import dynamic from 'next/dynamic';
-const CartItems = dynamic(() => import('../cart/items'), { ssr: false });
-const Wishlist = dynamic(() => import('../wishlist/wishlist'), { ssr: false });
 
 const Navbar = ({ categories }: { categories: ICategory[] }) => {
   const [open, setOpen] = useState(false);
@@ -67,8 +65,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
   const { loggedInUser } = useSelector((state: State) => state.usrSlice);
   const [profilePhoto, setProfilePhoto] = useState<any>([]);
   const [isPending, startTransition] = useTransition();
-  const [debouncedSearch, setDebouncedSearch] = useState(searchText);
-  const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsSticky(window.scrollY > 20);
@@ -114,28 +111,15 @@ useEffect(() => {
   };
 
   const handleNavigation = (product: IProduct) => {
-    let url = generateFinalUrl(product as CartItem);
+    let url = productUrl(product as CartItem);
     Navigate.push(url);
     setIsProductListOpen(false);
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebouncedSearch(searchText);
-    }, 300); // adjust delay if needed
+  const filteredProducts = useMemo(() => {
+    const normalizedSearch = searchText.trim().toLowerCase();
   
-    return () => clearTimeout(timeout);
-  }, [searchText]);
-
-  useEffect(() => {
-    if (!isProductListOpen) {
-      setFilteredProducts([]);
-      return;
-    }
-  
-    const normalizedSearch = debouncedSearch.trim().toLowerCase();
-  
-    const result = (products || [])
+    return (products || [])
       .filter((product) => {
         const hasStock = Number(getAllStock(product)) > 0;
         if (!normalizedSearch) return hasStock;
@@ -149,19 +133,20 @@ useEffect(() => {
         );
       })
       .sort((a, b) => {
-        const aName = a.name?.toLowerCase() || '';
-        const bName = b.name?.toLowerCase() || '';
+        const aName = a.name?.toLowerCase();
+        const bName = b.name?.toLowerCase();
+  
         const aStarts = aName.startsWith(normalizedSearch);
         const bStarts = bName.startsWith(normalizedSearch);
+  
         if (aStarts !== bStarts) return aStarts ? -1 : 1;
   
         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+  
         return dateB - dateA;
       });
-  
-    setFilteredProducts(result);
-  }, [isProductListOpen, products, debouncedSearch]);
+  }, [products, searchText]);
 
   useEffect(() => {
     if (drawerInputRef.current) {
@@ -209,20 +194,20 @@ useEffect(() => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // const productUrl = (product: CartItem) => {
-  //   const baseUrl = ChangeUrlHandler(product);
-  //   const params = new URLSearchParams();
+  const productUrl = (product: CartItem) => {
+    const baseUrl = ChangeUrlHandler(product);
+    const params = new URLSearchParams();
   
-  //   if (product.colorName) {
-  //     params.set('filter', generateSlug(product.colorName));
-  //   }
+    if (product.colorName) {
+      params.set('filter', generateSlug(product.colorName));
+    }
   
-  //   if (product.sizeName) {
-  //     params.set('size', generateSlug(product.sizeName));
-  //   }
+    if (product.sizeName) {
+      params.set('size', generateSlug(product.sizeName));
+    }
   
-  //   return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
-  // };
+    return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+  };
 
   return (
     <div
@@ -237,7 +222,6 @@ useEffect(() => {
                 height={180}
                 src={logo}
                 alt="Logo"
-                loading='eager'
               />
             </Link>
           </div>
@@ -285,7 +269,7 @@ useEffect(() => {
                         return (
 
                           <Link key={index} href={
-                            generateFinalUrl(product as CartItem)}
+                            productUrl(product)}
                             onClick={() => setIsProductListOpen(false)}
                           >
                             <div
@@ -294,7 +278,7 @@ useEffect(() => {
                               <Image
                                 width={100}
                                 height={100}
-                                src={variationProductImage(product as CartItem) || product.posterImageUrl}
+                                src={variationProductImage(product) || product.posterImageUrl}
                                 alt={product.name}
                                 className="size-20 md:size-24"
                               />

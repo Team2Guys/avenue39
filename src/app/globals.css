@@ -324,22 +324,6 @@ html {
   fill: white;
 }
 
-.Bannerclas {
-  padding-bottom: 15px !important;
-  position: relative !important;
-  z-index: 30 !important;
-  margin-bottom: 0px !important;
-
-}
-
-.main_container {
-  padding-bottom: 0px !important;
-}
-
-.Bannerclas .swiper-pagination {
-  bottom: -6px !important;
-}
-
 .ant-image-preview-mask {
   background-color: white !important;
 }
@@ -463,7 +447,7 @@ video::cue {
     height: auto !important;
   }
   .Bannerclas .swiper-pagination {
-    bottom: 20px !important;
+    bottom: 10px !important;
   }
 }
 

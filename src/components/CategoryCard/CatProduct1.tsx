@@ -6,6 +6,7 @@ const ProductGrid = dynamic(() => import('./ProductGrid'));
 import Link from 'next/link';
 import { homeProducts } from '@/data/products';
 import dynamic from 'next/dynamic';
+import { renderProductSkeletons } from '@/config';
 
 interface ICatProduct {
   reverse?: boolean;
@@ -22,7 +23,7 @@ const CatProduct1 = ({
   products,
   redirect,
   CategoryDescription,
-  accessoriesSlider = false,
+  accessoriesSlider,
 }: ICatProduct) => {
   const productImages = homeProducts.find((item) => item.name === redirect)?.products || [];
 
@@ -32,12 +33,8 @@ const CatProduct1 = ({
   const midProducts = products.slice(5, 7);
   const extraProducts = products.slice(7, 10);
 
-  const findproduct = shouldShowAccessoriesSlider ? products : mainProducts;
+  // const findproduct = shouldShowAccessoriesSlider ? products : mainProducts;
 
-  const renderSkeletons = (count: number, height: string) =>
-    Array(count).fill(null).map((_, index) => (
-      <ProductSkeleton key={index} imageHeight={height} />
-    ));
 
   return (
     <Container className="my-10">
@@ -68,7 +65,7 @@ const CatProduct1 = ({
               <div className="col-span-12 md:col-span-6 xl:col-span-7">
                 <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 sm:gap-8">
                   {products.length < 1
-                    ? renderSkeletons(3, "h-[210px] xl:h-[496.5px]")
+                    ? renderProductSkeletons(3, "h-[210px] xl:h-[496.5px]")
                     : (
                       <ProductGrid
                         products={extraProducts}
@@ -109,16 +106,16 @@ const CatProduct1 = ({
             }`}
           >
             {products.length < 1
-              ? renderSkeletons(5, "h-[270px] xl:h-[290px]")
+              ? renderProductSkeletons(5, "h-[270px] xl:h-[290px]")
               : (
                 <ProductGrid
-                  products={findproduct}
+                  products={mainProducts}
                   productImages={productImages}
                   isHomepage
                   redirect={redirect}
                   imageHeight="h-[270px] xl:h-[290px]"
-                  accessoriesSlider={accessoriesSlider}
-                  slider={redirect === 'accessories'}
+                  // accessoriesSlider={accessoriesSlider}
+                  // slider={redirect === 'accessories'}
                 />
               )}
           </div>

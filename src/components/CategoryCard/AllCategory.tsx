@@ -41,7 +41,7 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryName="Complement your design with accessories"
         reverse
         redirect="accessories"
-        accessoriesSlider={true}
+        accessoriesSlider={false}
       />
     </Suspense>
   );

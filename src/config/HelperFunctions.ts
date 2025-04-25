@@ -58,7 +58,7 @@ export const filterAccessories = (products: IProduct[], titles: string[]) => {
     (titleIndexMap.get(a.name) ?? 0) - (titleIndexMap.get(b.name) ?? 0)
   );
 
-  return [...matching, ...nonMatching].slice(0, 10);
+  return [...matching, ...nonMatching].slice(0, 5);
 };
 
 export const getCategoryDescription = (categoryName: string, products: IProduct[]) => {

@@ -13,6 +13,7 @@ import { footerItems, WhatsAppInfo } from '@/data/data';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import SocialLink from '../social-link';
 import Image from 'next/image';
+import LazyBackground from './LazyBackground';
 
 const Footer = () => {
 
@@ -102,11 +103,7 @@ const Footer = () => {
         <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
         {footerItems.map((item, index) => (
   <div key={index} className="relative w-full h-[200px] xsm:h-[260px] sm:h-[220px] md:h-[240px] rounded-3xl group">
-    <div className={`${item.bgClass} bg-cover bg-no-repeat bg-center h-full w-full rounded-3xl`}>
-      <p className="group-hover:opacity-0 absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-white font-semibold text-20 xl:text-[26px] w-full">
-        {item.text}
-      </p>
-    </div>
+    <LazyBackground item={item} />
     <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center text-black text-14 lg:text-16 xl:text-xl opacity-0 group-hover:opacity-100 transition duration-300 rounded-3xl text-center space-y-2 px-2">
       {item.showImage && item.imageSrc ? (
         index === 2 ? (

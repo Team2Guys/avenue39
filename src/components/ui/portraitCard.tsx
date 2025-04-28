@@ -40,10 +40,10 @@ const PortraitCard = ({
     fill
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false);
-    console.log(averageRating)
     return (
         <div
             className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
+                <span className='hidden' >{averageRating}</span>
             <div className="relative w-full overflow-hidden rounded-t-[35px] group">
 
                 <div

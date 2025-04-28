@@ -25,8 +25,14 @@ const MoblieSearch = ({searchText , setIsProductListOpen, isPending, error, isLo
        <form
          className="relative w-full bg-white z-[199]"
          onSubmit={(e) => e.preventDefault()}
+         role="search"
+         aria-labelledby="search-form"
        >
+        <label htmlFor="header-search" className="sr-only">
+          Search
+        </label>
          <input
+         id="header-search"
            type="text"
            name="header-search"
            value={searchText}
@@ -39,6 +45,8 @@ const MoblieSearch = ({searchText , setIsProductListOpen, isPending, error, isLo
          <button
            type="submit"
            className="absolute inset-y-0 left-0 flex items-center z-20 pl-3 cursor-pointer"
+           aria-label="Search"
+           aria-hidden={false}
          >
            <IoSearchOutline
              className="cursor-pointer font-extralight text-[#A6A6A6]"

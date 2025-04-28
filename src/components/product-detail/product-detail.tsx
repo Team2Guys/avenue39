@@ -28,8 +28,8 @@ import { formatPrice } from '@/config/HelperFunctions';
 import { Collapse } from 'antd';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { IProduct, ProductImage, Shipping, Sizes } from '@/types/prod';
+import Thumbnail from '../carousel/thumbnail';
 const TabyTamra = dynamic(() => import('./TabyTamra'), {ssr: false})
-const Thumbnail = dynamic(() => import('../carousel/thumbnail'), {ssr: false})
 
 
 const ProductDetail = ({

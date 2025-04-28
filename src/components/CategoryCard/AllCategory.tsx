@@ -3,10 +3,10 @@ const CatProduct1 = dynamic(() => import('./CatProduct1'));
 import { Accessories, Bedroom, Dining, Living } from '@/data/data';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
-import { filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
+import { filterAccessories, filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
 import { Suspense } from 'react';
 
-const AllCategory = ({ products }: { products: IProduct[] }) => {
+const AllCategory = async({ products }: { products: IProduct[] }) => {
 
   return (
     <Suspense>
@@ -35,14 +35,17 @@ const AllCategory = ({ products }: { products: IProduct[] }) => {
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
       />
+
+      {/* <AccessoryProd/> */}
       <CatProduct1
-        products={filterByCategoryAndTitle(products, Accessories)}
+        products={filterAccessories(products, Accessories)}
         CategoryDescription={getCategoryDescription('Accessories',products)}
         CategoryName="Complement your design with accessories"
         reverse
         redirect="accessories"
-        accessoriesSlider={false}
+        accessoriesSlider={true}
       />
+
     </Suspense>
   );
 };

@@ -24,6 +24,36 @@ export const fetchProducts = async (endpointType?: string) => {
  return "error";
   }
 };
+
+export const fetchPaginagedAccessory = async (categoryname:string,page:number, pageSize:number) => {
+  try {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/get-paginated-products`,
+      {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          categoryname: categoryname, 
+          page: page, 
+          pageSize:pageSize, 
+        }),
+        next: { tags: ['products'] },
+      },
+    );
+    if (!result.ok) {
+
+      return [];
+    }
+    const response = await result.json();
+
+    return response;
+  } catch(Error)  {
+    console.log(Error, "Error")
+ return "error";
+  }
+};
+
 export const fetchSingleProducts = async (ProductName:string) => {
   try {
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product/${ProductName}`,

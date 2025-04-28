@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { homeProducts } from '@/data/products';
 import dynamic from 'next/dynamic';
 import { renderProductSkeletons } from '@/config';
+import { fetchPaginagedAccessory } from '@/config/fetch';
+import AccessoryProd from './AccessoryProd';
 
 interface ICatProduct {
   reverse?: boolean;
@@ -17,7 +19,7 @@ interface ICatProduct {
   accessoriesSlider?: boolean;
 }
 
-const CatProduct1 = ({
+const CatProduct1 = async ({
   reverse,
   CategoryName,
   products,
@@ -33,7 +35,12 @@ const CatProduct1 = ({
   const midProducts = products.slice(5, 7);
   const extraProducts = products.slice(7, 10);
 
-  // const findproduct = shouldShowAccessoriesSlider ? products : mainProducts;
+  let findproduct = shouldShowAccessoriesSlider ? products : mainProducts;
+  if (redirect == "accessories") {
+    let accessories = await fetchPaginagedAccessory("ACCESSORIES", 1, 5,)
+    findproduct = accessories.products
+  }
+
 
 
   return (
@@ -59,66 +66,72 @@ const CatProduct1 = ({
             </div>
           )}
         </div>
-          {/* Top Section */}
-          {!reverse && (
-            <div className="grid grid-cols-12 sm:gap-8">
-              <div className="col-span-12 md:col-span-6 xl:col-span-7">
-                <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 sm:gap-8">
-                  {products.length < 1
-                    ? renderProductSkeletons(3, "h-[210px] xl:h-[496.5px]")
-                    : (
-                      <ProductGrid
-                        products={extraProducts}
-                        productImages={productImages}
-                        isHomepage
-                        redirect={redirect}
-                        imageHeight="h-[210px] xl:h-[496.5px] w-full"
-                      />
-                    )}
-                </div>
-              </div>
-
-              <div className="col-span-12 md:col-span-6 xl:col-span-5">
-                {products.length < 1 ? (
-                  <ProductSkeleton imageHeight="h-[310px] xl:h-[496.5px]" />
-                ) : (
-                  <ProductGrid
-                    products={midProducts}
-                    productImages={productImages}
-                    slider
-                    isHomepage
-                    redirect={redirect}
-                    imageHeight="h-[310px] xl:h-[496.5px] w-full"
-                    portSpace="px-10"
-                    calculateHeight="calc(100% - 40px)"
-                  />
-                )}
+        {/* Top Section */}
+        {!reverse && (
+          <div className="grid grid-cols-12 sm:gap-8">
+            <div className="col-span-12 md:col-span-6 xl:col-span-7">
+              <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 sm:gap-8">
+                {products.length < 1
+                  ? renderProductSkeletons(3, "h-[210px] xl:h-[496.5px]")
+                  : (
+                    <ProductGrid
+                      products={extraProducts}
+                      productImages={productImages}
+                      isHomepage
+                      redirect={redirect}
+                      imageHeight="h-[210px] xl:h-[496.5px] w-full"
+                    />
+                  )}
               </div>
             </div>
-          )}
 
-          {/* Bottom Section */}
-          <div
-            className={`grid ${
-              shouldShowAccessoriesSlider
-                ? 'grid-cols-1'
-                : 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8'
-            }`}
-          >
-            {products.length < 1
-              ? renderProductSkeletons(5, "h-[270px] xl:h-[290px]")
-              : (
+            <div className="col-span-12 md:col-span-6 xl:col-span-5">
+              {products.length < 1 ? (
+                <ProductSkeleton imageHeight="h-[310px] xl:h-[496.5px]" />
+              ) : (
                 <ProductGrid
-                  products={mainProducts}
+                  products={midProducts}
+                  productImages={productImages}
+                  slider
+                  isHomepage
+                  redirect={redirect}
+                  imageHeight="h-[310px] xl:h-[496.5px] w-full"
+                  portSpace="px-10"
+                  calculateHeight="calc(100% - 40px)"
+                />
+              )}
+
+            </div>
+          </div>
+        )}
+
+        {/* Bottom Section */}
+        <div
+          className={`grid ${shouldShowAccessoriesSlider
+              ? 'grid-cols-1'
+              : 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8'
+            }`}
+        >
+          {products.length < 1
+            ? renderProductSkeletons(5, "h-[270px] xl:h-[290px]")
+            : (
+    
+              redirect == "accessories" ? <AccessoryProd/>  : 
+
+                <ProductGrid
+                  products={findproduct}
                   productImages={productImages}
                   isHomepage
                   redirect={redirect}
                   imageHeight="h-[270px] xl:h-[290px]"
-                  // accessoriesSlider={accessoriesSlider}
-                  // slider={redirect === 'accessories'}
+                  accessoriesSlider={accessoriesSlider}
+                  slider={redirect === 'accessories'}
                 />
-              )}
-          </div>
+       
+            )}
+
+
+        </div>
       </div>
     </Container>
   );

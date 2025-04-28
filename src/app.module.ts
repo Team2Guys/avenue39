@@ -61,10 +61,10 @@ export class AppModule implements NestModule {
         { path: "subcategories/get-all", method: RequestMethod.GET },
         { path: "subcategories/getAllSubCategories", method: RequestMethod.GET },
         { path: "product/get-all", method: RequestMethod.GET },
+        { path: "product/get-paginated-products", method: RequestMethod.POST },
         { path: "product/get-all-products", method: RequestMethod.GET },
         { path: "product/:product", method: RequestMethod.GET },
-        {path: 'subcategories/:category/:subcategory',method: RequestMethod.GET,
-        }
+        {path: 'subcategories/:category/:subcategory',method: RequestMethod.GET}
 
       )
       .forRoutes('sales-record', 'category', 'subcategories', 'product');

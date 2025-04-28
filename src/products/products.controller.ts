@@ -11,7 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { AddProductDto, UpdateProductDto } from './dto/product.dto';
+import { AddProductDto, PaginatedPrducts, UpdateProductDto } from './dto/product.dto';
 
 @Controller('product')
 export class ProductsController {
@@ -32,10 +32,19 @@ export class ProductsController {
     return await this.productsService.getAllProducts();
   }
 
+  @Post('get-paginated-products')
+  async getPaginatedProducts(@Body() addProductData: PaginatedPrducts,) {
+    console.log('function Called', addProductData)
+    return this.productsService.getPaginatedProducts(addProductData.categoryname, addProductData.page, addProductData.pageSize);
+  }
+
   @Get(':product')
   async getSingleCategory(@Param('product') product: string) {
     return this.productsService.getSingeProduct(product);
   }
+
+
+
 
   @Post('add-product')
   addProduct(@Body() addProductData: AddProductDto, @Req() req:Request) {

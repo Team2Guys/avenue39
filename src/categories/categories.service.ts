@@ -37,6 +37,7 @@ export class CategoriesService {
           id:true,
           name:true,
           description:true,
+          short_description:true,
           posterImageUrl:true,
           subcategories:{
             select:{

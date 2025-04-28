@@ -69,7 +69,7 @@ const BottomBar = () => {
 
   return (
     <div className="flex justify-between items-center px-4 md:hidden py-3 border-t w-full fixed bottom-0 bg-white z-[100]">
-      <Link href={'/'}>
+      <Link href={'/'} aria-label="Home">
         <AiOutlineHome size={25} />
       </Link>
       <WishlistCount />
@@ -80,7 +80,7 @@ const BottomBar = () => {
       )}
       
       {!userDetails ? (
-        <Link href={'/login'}>
+        <Link href={'/login'} aria-label="login" >
           <IoPersonOutline size={22} />
         </Link>
       ) : (

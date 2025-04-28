@@ -58,7 +58,9 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
   useEffect(() => {
     const description = SubcategoryName?.description || info?.description || "";
     setDesc(description);
+    console.log(info,'description', SubcategoryName)
   }, [info, SubcategoryName]);
+  
   useEffect(() => {
     console.log(isMobile)
     const handleResize = () => setIsMobile(window.innerWidth < 640);

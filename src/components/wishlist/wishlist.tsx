@@ -29,6 +29,7 @@ const WishlistCount = () => {
     <Link href={'/wishlist'}
       className={`xl:w-12 w-12 h-10 rounded-3xl relative flex justify-center items-center cursor-pointer ${path === '/wishlist' ? 'bg-main border-main text-white' : 'border-black'
         }`}
+        aria-label="wishlist"
     >
       <IoIosHeartEmpty size={26} className="font-bold" />
       {wishlistCount > 0 && (

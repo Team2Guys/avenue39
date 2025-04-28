@@ -94,7 +94,7 @@ const CustomThumbnailSlickSlider = ({
               height={150}
         
               alt={thumb.altText || 'Thumbnail'}
-              priority={false}
+              priority={true}
             />
           </div>
         ))}

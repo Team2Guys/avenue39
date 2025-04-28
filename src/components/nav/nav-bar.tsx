@@ -256,6 +256,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
               <Link
                 className="gap-2 flex items-center text-14 font-extralight hover:underline text-black dark:text-black"
                 href={'/login'}
+                aria-label="login"
               >
                 <CiUser size={26} />
               </Link>

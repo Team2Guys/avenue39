@@ -312,7 +312,11 @@ export class ProductsService {
           some: {
             name: categoryname,
           },
+          
         },
+        stock:{
+          gt:0
+        }
       },
     });
 

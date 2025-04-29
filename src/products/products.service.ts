@@ -280,6 +280,9 @@ export class ProductsService {
             name: categoryname,
           },
         },
+        stock:{
+          gt:0
+        }
       },
       skip: skip,
       take: pageSize,
@@ -291,7 +294,13 @@ export class ProductsService {
         posterImageAltText: true,
         stock: true,
         price: true,
-        discountPrice: true
+        discountPrice: true,
+        categories:{
+          select:{
+            name:true,
+            custom_url:true
+          }
+        }
       }
     });
 
@@ -312,7 +321,7 @@ export class ProductsService {
     return {
       products: otherProducts,
       totalPages,
-      totalAccessoryProducts:totalProductsCount
+      totalAccessoryProducts: totalProductsCount
     };
   };
 

@@ -1,53 +1,62 @@
 import React from 'react';
-import { IProduct } from '@/types/prod';
 import ProductSkeleton from '../Skaleton/productSkeleton';
 const ProductGrid = dynamic(() => import('./ProductGrid'));
 import { homeProducts } from '@/data/products';
 import dynamic from 'next/dynamic';
 import { renderProductSkeletons } from '@/config';
-import CategoryWrapper from './CategoryWrapper';
+const CategoryWrapper = dynamic(() => import('./CategoryWrapper'));
+import { ICategory } from '@/types/cat';
+import Container from '../ui/Container';
 
 interface ICatProduct {
   CategoryName: string;
-  products: IProduct[];
+  category: ICategory | undefined;
   redirect: string;
-  CategoryDescription?: string;
   accessoriesSlider?: boolean;
 }
 
-const CatProduct1 = async ({
+const FlexLayout = async ({
   CategoryName,
-  products,
+  category,
   redirect,
-  CategoryDescription,
   accessoriesSlider,
 }: ICatProduct) => {
   const productImages = homeProducts.find((item) => item.name === redirect)?.products || [];
 
 
-  const mainProducts = products.slice(0, 5);
-  const midProducts = products.slice(5, 7);
-  const extraProducts = products.slice(7, 10);
+  const mainProducts = category?.home_product?.[0] || [];
+  const midProducts = category?.home_product?.[1] || [];
+  const extraProducts = category?.home_product?.[2] || [];
 
- mainProducts;
+  if (!category?.home_product) {
+   return (
+      <CategoryWrapper redirect={redirect} CategoryName={CategoryName} CategoryDescription={category?.short_description}>
+         <Container className="my-10">
+            <div className="px-2 md:px-8 border-2 border-[#707070] rounded-[40px] sm:rounded-[87px]">
+               <h2 className="text-center py-8 text-lg font-semibold">No products available.</h2>
+            </div>
+         </Container>
+      </CategoryWrapper>
+   );
+}
 
 
   return (
 
 
-    <CategoryWrapper redirect={redirect} CategoryName={CategoryName} CategoryDescription={CategoryDescription}>
+    <CategoryWrapper redirect={redirect} CategoryName={CategoryName} CategoryDescription={category?.short_description}>
 
       {
 
 
-        <div className="grid grid-cols-12 sm:gap-8">
+        <div className="grid grid-cols-12 sm:gap-8 mt-6 mb-0 sm:my-8 md:mt-8 md:mb-0">
           <div className="col-span-12 md:col-span-6 xl:col-span-7">
             <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 sm:gap-8">
-              {products.length < 1
+              {mainProducts && mainProducts?.length < 1
                 ? renderProductSkeletons(3, "h-[210px] xl:h-[496.5px]")
                 : (
                   <ProductGrid
-                    products={extraProducts}
+                    products={mainProducts}
                     productImages={productImages}
                     isHomepage
                     redirect={redirect}
@@ -58,7 +67,7 @@ const CatProduct1 = async ({
           </div>
 
           <div className="col-span-12 md:col-span-6 xl:col-span-5">
-            {products.length < 1 ? (
+            {midProducts && midProducts?.length < 1 ? (
               <ProductSkeleton imageHeight="h-[310px] xl:h-[496.5px]" />
             ) : (
               <ProductGrid
@@ -79,16 +88,14 @@ const CatProduct1 = async ({
 
       {/* Bottom Section */}
       <div
-        className={`grid 
-          : 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8'
-          `}
+        className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-8'
       >
-        {products.length < 1
+        {extraProducts && extraProducts?.length < 1
           ? renderProductSkeletons(5, "h-[270px] xl:h-[290px]")
           : (
 
             <ProductGrid
-              products={mainProducts}
+              products={extraProducts}
               productImages={productImages}
               isHomepage
               redirect={redirect}
@@ -106,4 +113,4 @@ const CatProduct1 = async ({
   );
 };
 
-export default React.memo(CatProduct1);
+export default React.memo(FlexLayout);

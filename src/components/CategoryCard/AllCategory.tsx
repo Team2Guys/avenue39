@@ -1,26 +1,25 @@
-const CatProduct = dynamic(() => import('./CatProduct'));
-const CatProduct1 = dynamic(() => import('./CatProduct1'));
-import { Bedroom, Dining, Living } from '@/data/data';
-import dynamic from 'next/dynamic';
-import { IProduct } from '@/types/prod';
-import { filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
+import { findCategoryProducts } from '@/config/HelperFunctions';
 import { Suspense } from 'react';
-import AccessoryProd from './AccessoryProd';
+import { ICategory } from '@/types/cat';
+import dynamic from 'next/dynamic';
+const AccessoryProd = dynamic(() => import('./AccessoryProd'));
+const GridLayout = dynamic(() => import('./GridLayout'));
+const FlexLayout = dynamic(() => import('./FlexLayout'));
 
-const AllCategory = async ({ products }: { products: IProduct[] }) => {
+
+const AllCategory = async ({ categories }: { categories: ICategory[] }) => {
+
 
   return (
     <Suspense>
-      <CatProduct
-        products={filterByCategoryAndTitle(products, Dining)}
-        CategoryDescription={getCategoryDescription('Dining', products)}
+      <GridLayout
+        category={findCategoryProducts(categories, 'Dining')}
         CategoryName="Shop Your Dining"
         redirect="dining"
         portSpace="px-4 sm:px-8"
       />
-      <CatProduct
-        products={filterByCategoryAndTitle(products, Living)}
-        CategoryDescription={getCategoryDescription('Living', products)}
+      <GridLayout
+        category={findCategoryProducts(categories, 'Living')}
         CategoryName="Shop Your Living"
         reverse
         landHeight={'calc(100% - 80px)'}
@@ -30,15 +29,14 @@ const AllCategory = async ({ products }: { products: IProduct[] }) => {
         redirect="living"
         fill={true}
       />
-      <CatProduct1
-        products={filterByCategoryAndTitle(products, Bedroom)}
-        CategoryDescription={getCategoryDescription('Bedroom', products)}
+      <FlexLayout
+        category={findCategoryProducts(categories, 'Bedroom')}
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
       />
 
       <AccessoryProd
-        CategoryDescription={getCategoryDescription('Accessories', products)}
+        CategoryDescription={findCategoryProducts(categories, 'Bedroom')?.short_description || ''}
         CategoryName="Complement your design with accessories"
         redirect="accessories"
       />

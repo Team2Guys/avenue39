@@ -1,4 +1,4 @@
-import { fetchProducts } from '@/config/fetch';
+import { fetchCategories } from '@/config/fetch';
 import logoimage from '@assets/icons/whitelogo.png';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
@@ -31,8 +31,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [products] = await Promise.all([fetchProducts(),])
-
+  const categories = await fetchCategories('get-home-products');
   return (
     <>
 
@@ -41,8 +40,7 @@ export default async function Home() {
       <SofaBanner />
       <NewArrival />
       <Suspense fallback='loading....'>
-
-        <AllCategory products={products} />
+        <AllCategory categories={categories} />
       </Suspense>
     </>
   );

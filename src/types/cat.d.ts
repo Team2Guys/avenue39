@@ -1,3 +1,5 @@
+import { IProduct } from "./prod";
+
 export interface ICategory {
   id: number;
   name: string;
@@ -13,6 +15,7 @@ export interface ICategory {
   Canonical_Tag?: string;
   subcategories?: ICategory[];
   custom_url?:string
+  home_product?: IProduct[][]
 }
 
 
@@ -31,4 +34,11 @@ export interface ISUBCATEGORY {
   meta_description?: string;
   canonical_tag?: string;
   custom_url?:string
+}
+
+
+export interface IHomeProductsCategory {
+  dining: IProduct[][];
+  living: IProduct[][];
+  bedroom: IProduct[][];
 }

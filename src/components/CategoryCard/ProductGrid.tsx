@@ -37,8 +37,7 @@ const ProductGrid = ({
   fill
 }: ProductGridProps) => {
 
-  const breakpoints = accessoriesSlider
-    ? {
+  const breakpoints = accessoriesSlider? {
       280: {
         slidesPerView: 1,
       },
@@ -54,12 +53,14 @@ const ProductGrid = ({
       1280: {
         slidesPerView: 5,
       },
-    }
+}
     : undefined;
 
   if (!slider) {
     return (
       <>
+
+
         {products.length > 0 && products.map((product) => (
           <Card
             key={product.id}
@@ -82,6 +83,7 @@ const ProductGrid = ({
   }
 
   return (
+    <>
     <Swiper
       className={`mySwiper card-slider-home w-full ${accessoriesSlider ? 'accessories-Slider mb-2' : ''}`}
       pagination={{ dynamicBullets: true, clickable: true }}
@@ -111,7 +113,10 @@ const ProductGrid = ({
           />
         </SwiperSlide>
       ))}
+
+
     </Swiper>
+    </>
   );
 };
 

@@ -63,6 +63,7 @@ const Card = ({
     const sizes = card?.sizes?.find(
       (size) => size.name === card.sizeName
     ) ?? ((isHomepage || slider) ? card?.sizes?.[0] : undefined);
+
     const selectedSize = sizes as CartSize | undefined;
     const selectedfilter = card?.filter?.[0]?.additionalInformation?.find(
       (f) => f.name === card.colorName
@@ -77,7 +78,7 @@ const Card = ({
       selectedfilter,
       selectedShipping
     });
-  }, [card, isHomepage, slider]);
+  }, [ isHomepage, slider]);
 
 
 

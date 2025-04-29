@@ -31,14 +31,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const products = await fetchProducts();
+  const [products] = await Promise.all([fetchProducts(),])
+
   return (
     <>
+
       <HeroVideo />
       <ColorBanner Bannerclas="Bannerclas" ColorBannerData={ColorBannerData} />
       <SofaBanner />
       <NewArrival />
       <Suspense fallback='loading....'>
+
         <AllCategory products={products} />
       </Suspense>
     </>

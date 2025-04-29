@@ -16,9 +16,9 @@ function CategoryWrapper({ redirect, CategoryName, CategoryDescription, children
                     </h2>
                 </Link>
 
-                <div className="max-w-screen-xl mx-auto mt-10 text-center font-Helveticalight px-2 sm:px-4 lg:px-0">
+                <div className="max-w-screen-xl mx-auto mt-10 font-Helveticalight px-2 sm:px-4 lg:px-0">
                     {CategoryDescription ? (
-                        <p className="text-14 lg:text-[22px]">{CategoryDescription}</p>
+                        <p className="text-14 lg:text-[22px] text-center w-fit">{CategoryDescription}</p>
                     ) : (
                         <div className="animate-pulse">
                             <div className="h-5 lg:h-6 bg-gray-300 rounded-md w-3/4 mx-auto mb-2" />

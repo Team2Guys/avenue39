@@ -62,7 +62,7 @@ const Cart = ({ similarProducts }: { similarProducts: IProduct[] }) => {
 
 
       <Container className="my-10">
-        <p className="text-xl  md:text-[40px] font-Helveticalight text-center">
+        <p className="text-xl  md:text-[40px] text-center">
           Similar Products
         </p>
         <FeatureSlider similarProducts={similarProducts} title={false} />

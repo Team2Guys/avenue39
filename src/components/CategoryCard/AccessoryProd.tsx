@@ -98,6 +98,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
                             className={`w-2 h-2 rounded-full flex items-center my-3 justify-center
           ${currentPage === page ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'}
           hover:bg-black hover:text-white transition`}
+          aria-label='accessories product pagination'
                         >
                             {/* {page} */}
                         </button>

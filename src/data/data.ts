@@ -205,15 +205,15 @@ export const footerItems: FooterItem[] = [
   },
   {
     bgClass: "bg-footerdeliver",
-    text: "Fastest Furniture Delivery in UAE",
-    overlayText: ["Get your order delivered in just 24 hours within Dubai and 48 hours across all Emirates."],
+    text: "Fastest Furniture Delivery In The UAE",
+    overlayText: ["Get your order delivered in just 24 hours within Dubai limits and 48 hours across all Emirates."],
     showImage: true,
     imageSrc: "/assets/images/footer/delivery.png",
   },
   {
     bgClass: "bg-footershowroom",
     text: "Visit Our Showroom",
-    overlayText: ["Experience our collection at our sister company, Two Guys Home Furnishing, located at <a class='underline' target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'> 23 22nd St - Al Quoz Industrial Area 4 - Dubai </a> - see, touch and feel the quality first-hand."],
+    overlayText: ["Experience our collection at our sister company, Two Guys Home Furnishing, located at <a class='underline' target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'> Unit 23, 22nd St - Al Quoz Industrial Area 4 - Dubai </a> - see, touch and feel the quality first-hand."],
     showImage: true,
     imageSrc: "/assets/images/footer/showroomicon.svg",
   },

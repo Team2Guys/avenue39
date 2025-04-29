@@ -88,7 +88,7 @@ const PortraitCard = ({
                                         width={600}
                                         height={600}
                                         className={
-                                            `${!displayTag && 'h-full'} w-full ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
+                                            `${!displayTag && 'h-full'} w-full min-w-[270px] ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
                                         }
                                         loading='lazy'
                                     />

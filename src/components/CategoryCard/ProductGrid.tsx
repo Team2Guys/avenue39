@@ -89,6 +89,7 @@ const ProductGrid = ({
       pagination={{ dynamicBullets: true, clickable: true }}
       slidesPerView={accessoriesSlider ? 5 : 1}
       loop
+      scrollbar={{ draggable: true }}
       modules={[Pagination]}
       speed={1500}
       breakpoints={breakpoints}

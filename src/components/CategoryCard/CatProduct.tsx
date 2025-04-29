@@ -87,7 +87,7 @@ const CatProduct = ({
             <ProductGrid
               products={mainProducts}
               productImages={categoryImages}
-              imageHeight="h-[270px] xl:h-[290px]"
+              imageHeight="h-[270px] xl:h-[290px] "
               isHomepage
               calculateHeight={sofaHeight}
               redirect={redirect}

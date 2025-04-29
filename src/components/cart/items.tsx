@@ -137,7 +137,7 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
             </div>
           </div>
           <div
-            className={`w-72 xsm:w-80 z-[200] border absolute ${isMoblie ? 'bottom-[55px] -right-[113px] xsm:-right-[125] xs:-right-[135px] h-[300px] p-3' : 'top-[60px] h-[500px] p-5'} ${!isMoblie && (userDetails ? '-right-[140px] xl:-right-[135px]' : '-right-[30px]')} border-[#0000002e] rounded-md flex flex-col bg-white ${drawerState ? 'block' : 'hidden'}`}
+            className={`w-72 xsm:w-96 z-[200] border absolute ${isMoblie ? 'bottom-[55px] -right-[113px] xsm:-right-[125] xs:-right-[135px] h-[300px] p-3' : 'top-[60px] h-[500px] p-5'} ${!isMoblie && (userDetails ? '-right-[140px] xl:-right-[135px]' : '-right-[30px]')} border-[#0000002e] rounded-md flex flex-col bg-white ${drawerState ? 'block' : 'hidden'}`}
             onMouseEnter={handleEnterDrawer}
             onMouseLeave={handleLeaveDrawer}
           >
@@ -251,11 +251,11 @@ const CartItems = ({ isCartPage, isCheckoutPage, isMoblie }: ICartItems) => {
                           </div>
                           {(item.selectedfilter || item.selectedSize) &&
                             <div className='flex flex-nowrap items-center justify-between gap-2'>
-                              <div className='flex items-center gap-1 text-13'>
+                              <div className='flex items-center gap-1 text-11  xs:text-13'>
                                 <span className='capitalize'>{item.filter?.at(0)?.heading}</span>
                                 <span className='capitalize'>{item.selectedfilter?.name}</span>
                               </div>
-                              <span className='text-13'>{item.selectedSize?.name}</span>
+                              <span className='text-11  xs:text-13'>{item.selectedSize?.name}</span>
                             </div>}
                           <div
                             className="absolute top-2 right-2 cursor-pointer"

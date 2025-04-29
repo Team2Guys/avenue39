@@ -90,7 +90,7 @@ export const homeProducts: IHomeProducts[] = [
       },
       {
         name: 'Nordic Coffee Table with the Side Table',
-        posterImageUrl: '/images/HomeProducts/Living/nordic.webp',
+        posterImageUrl: '/images/HomeProducts/Living/nordic.avif',
       },
       {
         name: 'Finestra Side Table',
@@ -172,6 +172,10 @@ export const homeProducts: IHomeProducts[] = [
       {
         name: 'Cipriani Floor Lamp',
         posterImageUrl: '/images/HomeProducts/Bedroom/Ciprianifinal.webp',
+      },
+      {
+        name: 'Moderno Bedside Table',
+        posterImageUrl: '/images/HomeProducts/Bedroom/Moderno.webp',
       },
     ],
   },

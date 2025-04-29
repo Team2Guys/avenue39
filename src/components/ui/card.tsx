@@ -153,6 +153,7 @@ const Card = ({
   ) : (
     <LandScapeCard
       card={card}
+      isOutStock={isOutStock}
       finalUrl={generateFinalUrl(itemToAdd, card ,SubcategoryName, mainCatgory)}
       handleAddToWishlist={handleAddToWishlist}
       averageRating={0}

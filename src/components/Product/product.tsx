@@ -101,7 +101,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
       ),
     },
     {
-      label: "Additional Information",
+      label: "Dimensions",
       content:
         dataSource && dataSource.length > 0 ? (
           <Table
@@ -119,7 +119,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
   const filteredTabs = tabs.filter(
     (tab) =>
       !(
-        tab.label === "Additional Information" &&
+        tab.label === "Dimensions" &&
         (!dataSource || dataSource.length === 0)
       )
   );

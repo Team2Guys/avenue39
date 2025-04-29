@@ -34,9 +34,9 @@ const Services: React.FC<servicesProps> = ({ className }) => {
               onClick={() => showModal(item)}
             >
               <Image src={item.icon} width={100} height={100} alt="icon" className="w-auto" />
-              <div className="text-xs xs:text-16 md:text-18 lg:text-14 2xl:text-20 text-center">
+              <p className="text-xs xs:text-16 md:text-18 lg:text-14 2xl:text-20 text-center font-Helveticalight">
                 {item.title}
-              </div>
+              </p>
             </div>
           ))}
         </div>

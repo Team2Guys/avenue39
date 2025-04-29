@@ -117,7 +117,7 @@ const Footer = () => {
         )
       ) : null}
       {item.overlayText.map((line, idx) => (
-        <div className='leading-4 lg:leading-6' key={idx} dangerouslySetInnerHTML={{ __html: line }} />
+        <div className='leading-4 lg:leading-6 font-light text-gray-600' key={idx} dangerouslySetInnerHTML={{ __html: line }} />
       ))}
     </div>
   </div>
@@ -296,13 +296,13 @@ const Footer = () => {
          
             <div className="xs:w-full max-w-full mt-2 py-2 text-[#686868]">
               <Link
-                className='flex gap-2  text-14 hover:font-semibold'
+                className='flex gap-2  text-13 hover:font-semibold'
                 href="https://maps.app.goo.gl/v5g7KWR9C3RQL8vh7"
                 rel="noreferrer"
                 target="_blank"
               >
                 <FaMapMarkerAlt size={22} />
-                23 22nd St - Al Quoz <br/> Industrial Area 4 - Dubai
+                 Unit 23, 22nd St - Al Quoz <br/> Industrial Area 4-Dubai
               </Link>
             </div>
 

@@ -18,7 +18,7 @@ const Address = () => {
         </p>
         <p className='text-18 xsm:text-[19px] text-[#666666] font-bold mb-2'>Two Guys Home Furnishings (Partnered Showroom)</p>
         <p className="text-18 xsm:text-[19px] text-[#666666] font-medium">
-          23 22nd St - Al Quoz Industrial Area 4 - Dubai–{' '}
+          Unit 23, 22nd St - Al Quoz Industrial Area 4 - Dubai–{' '}
           <Link
             target="_blank"
             href={

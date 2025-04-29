@@ -9,9 +9,10 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import dynamic from 'next/dynamic'
 import { IProduct } from '@/types/prod'
 import { CartItem } from '@/redux/slices/cart/types'
+import { BsCartX } from 'react-icons/bs'
 const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false })
 
-const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , averageRating , handleEventProbation , handleAddToCard , itemToAdd , uniqueSizes}: {
+const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , averageRating , handleEventProbation , handleAddToCard , itemToAdd , uniqueSizes,isOutStock}: {
     card: IProduct,
     finalUrl: string,
     handleAddToWishlist: any,
@@ -21,6 +22,7 @@ const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , aver
     handleAddToCard: any,
     itemToAdd: CartItem | any,
     uniqueSizes: any,
+    isOutStock: boolean
 
 }) => {
   return (
@@ -42,7 +44,7 @@ const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , aver
           alt={card.posterImageAltText || card.name}
           width={320}
           height={200}
-          className="object-conatin rounded-xl mx-auto w-full h-[250px] sm:h-[300px] xl:h-[400px]"
+          className="object-contain rounded-xl mx-auto w-full h-[250px] sm:h-[300px] xl:h-[400px]"
         />
       </Link>
 
@@ -71,9 +73,15 @@ const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , aver
       ) : (
         <p className="text-md font-semibold  pt-2"><span className="font-currency font-semibold"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}</p>
       )}
-      <div className="flex gap-1 mt-2 items-center justify-center sm:justify-start h-8">
-        {averageRating && averageRating > 1 && renderStars({ star: averageRating })}
-      </div>
+      {(averageRating ?? 0) > 0 && (
+        <div className="flex gap-1 mt-2 items-center justify-center sm:justify-start h-8">
+          {renderStars({ star: averageRating })}
+        </div>
+      )}
+      {
+        isOutStock ? <button className='bg-red-500 text-white text-12 font-medium uppercase w-full max-w-52 mt-2  bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
+        <BsCartX size={18} /> Out of Stock</button> :
+
       <div
         className="text-center flex flex-none justify-center sm:justify-start gap-3"
         onClick={(e) => handleEventProbation(e)}
@@ -111,6 +119,7 @@ const LandScapeCard = ({card , finalUrl ,handleAddToWishlist, displayName , aver
           </DialogContent>
         </Dialog>
       </div>
+      }
     </div>
   </div>
   )

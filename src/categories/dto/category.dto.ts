@@ -52,8 +52,8 @@ export class UpdateCategoryDto {
 
 export class UpdateCategoryHomeProductsDto {
   home_product: {
-    dining: [[], [], [], []],
-    living: [[], [], [], []],
-    bedroom: [[], [], []],
+    dining: [number[]][], 
+    living: [number[]][], 
+    bedroom: [number[]][], 
   }
 }

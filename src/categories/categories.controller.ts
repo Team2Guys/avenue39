@@ -26,6 +26,11 @@ export class CategoriesController {
     return this.categoriesService.getHeaderCategories();
   }
 
+  @Get('get-home-products')
+  getHomeProductCategories() {
+    return this.categoriesService.getHomeProductCategories();
+  }
+
   @Get('getAllCategories')
   getAllCategories() {
     return this.categoriesService.getAllCategories();

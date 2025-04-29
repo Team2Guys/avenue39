@@ -4,7 +4,7 @@ import { AddCategoryDto, UpdateCategoryDto, UpdateCategoryHomeProductsDto } from
 import { customHttpException } from '../utils/helper';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { CHACHE_CATEGORY_KEY } from '../../src/utils/CacheKeys';
+import { CHACHE_CATEGORY_KEY, CHACHE_CATEGORY_PRODUCTS_KEY } from '../../src/utils/CacheKeys';
 
 @Injectable()
 export class CategoriesService {
@@ -33,42 +33,42 @@ export class CategoriesService {
         //     },
         //   }
         // },
-        select:{
-          id:true,
-          name:true,
-          description:true,
-          short_description:true,
-          posterImageUrl:true,
-          subcategories:{
-            select:{
-              name:true,
-              custom_url:true,
-              products:{
-                select:{
-                  name:true,
-                  custom_url:true
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          short_description: true,
+          posterImageUrl: true,
+          subcategories: {
+            select: {
+              name: true,
+              custom_url: true,
+              products: {
+                select: {
+                  name: true,
+                  custom_url: true
                 }
               }
             }
           },
-          products:{
-            select:{
-              name:true,
-              posterImageUrl:true,
-              custom_url:true,
-              stock:true,
-              price:true,
-              hoverImageUrl:true,
-              categories:{
-                select:{
-                  custom_url:true,
-                  name:true
+          products: {
+            select: {
+              name: true,
+              posterImageUrl: true,
+              custom_url: true,
+              stock: true,
+              price: true,
+              hoverImageUrl: true,
+              categories: {
+                select: {
+                  custom_url: true,
+                  name: true
                 }
               },
-              subcategories:{
-                select:{
-                  custom_url:true,
-                  name:true
+              subcategories: {
+                select: {
+                  custom_url: true,
+                  name: true
                 }
               }
             }
@@ -91,7 +91,7 @@ export class CategoriesService {
   async getAllCategories() {
     try {
       const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
-console.log(cachedCategories, "cachec categories")
+      console.log(cachedCategories, "cachec categories")
       if (cachedCategories) {
         console.log('Returning categories from cache')
         return cachedCategories;
@@ -125,7 +125,7 @@ console.log(cachedCategories, "cachec categories")
   async getHeaderCategories() {
     try {
       const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
-console.log(cachedCategories, "cachec categories")
+      console.log(cachedCategories, "cachec categories")
       if (cachedCategories) {
         console.log('Returning categories from cache')
         return cachedCategories;
@@ -141,13 +141,13 @@ console.log(cachedCategories, "cachec categories")
         //     },
         //   }
         // },
-        select:{
-          id:true,
-          name:true,
-          subcategories:{
-            select:{
-              name:true,
-              custom_url:true,
+        select: {
+          id: true,
+          name: true,
+          subcategories: {
+            select: {
+              name: true,
+              custom_url: true,
             }
           },
         }
@@ -274,7 +274,7 @@ console.log(cachedCategories, "cachec categories")
   }
 
 
-  async getSingleCategory(categoryName:string) {
+  async getSingleCategory(categoryName: string) {
     try {
       console.log(categoryName, "category name")
       const cachedCategories = await this.cacheManager.get("signleCategory");
@@ -294,11 +294,11 @@ console.log(cachedCategories, "cachec categories")
           meta_title: true,
           meta_description: true,
           posterImageUrl: true,
-          canonical_tag:true,
-          images_alt_text:true
-    
+          canonical_tag: true,
+          images_alt_text: true
+
         }
-    
+
       });
 
       // @ts-ignore
@@ -315,62 +315,71 @@ console.log(cachedCategories, "cachec categories")
   async updateCategoryHomeProduct(categoryData: UpdateCategoryHomeProductsDto, userEmail: string) {
     console.log('Update product category triggered');
     console.log('User Email:', userEmail);
-  
+
     try {
       const { home_product } = categoryData;
-  
-      // Iterate through the categories in home_product (like 'dining', 'living', 'bedroom')
+
       for (const categoryName in home_product) {
         if (Object.prototype.hasOwnProperty.call(home_product, categoryName)) {
-          // Find the category by name (e.g., 'bedroom', 'dining', 'living')
           const existingCategory = await this.prisma.categories.findFirst({
-            where: { name: categoryName.toUpperCase() }, // Search by category name
+            where: { name: categoryName.toUpperCase() },
           });
-  
+
           if (!existingCategory) {
             return {
               message: `Category "${categoryName}" not found!`,
               status: HttpStatus.NOT_FOUND,
             };
           }
-  
-          // Get the product IDs for this category from the home_product array
+
           const productIdArrays = home_product[categoryName];
-  
-          // Fetch the products based on the product IDs (flattening the array of arrays)
           const allProductIds = productIdArrays.flat();
-          
+
           const products = await this.prisma.products.findMany({
-            where: {
-              id: { in: allProductIds },
-            },
+            where: { id: { in: allProductIds } },
+            select: {
+              id: true,
+              name: true,
+              posterImageUrl: true,
+              hoverImageUrl: true,
+              description: true,
+              custom_url: true,
+              stock: true,
+              price: true,
+              discountPrice: true,
+              sizes: true,
+              filter: true,
+              productImages: true,
+              categories: {
+                select: {
+                  custom_url: true,
+                  name: true
+                }
+              },
+              subcategories: {
+                select: {
+                  custom_url: true,
+                  name: true
+                }
+              }
+            }
           });
-  
-          // Ensure all the product IDs exist
-          const foundProductIds = products.map(product => product.id);
-          const missingProductIds = allProductIds.filter(id => !foundProductIds.includes(id));
-          if (missingProductIds.length > 0) {
-            return {
-              message: `Products with IDs ${missingProductIds.join(', ')} not found!`,
-              status: HttpStatus.NOT_FOUND,
-            };
-          }
-  
-          // Map the product ID arrays to actual product objects
+
+
           const updatedHomeProduct = productIdArrays.map(productIds => {
             return productIds.map(id => products.find(product => product.id === id));
           });
-  
-          // Update the category's home_product field
+
+          await this.cacheManager.del(CHACHE_CATEGORY_PRODUCTS_KEY);
           await this.prisma.categories.update({
-            where: { name: categoryName }, // Update based on category name
+            where: { id: existingCategory.id },
             data: {
-              home_product: JSON.stringify(updatedHomeProduct),  // Storing as JSON
+              home_product: updatedHomeProduct,
             },
           });
         }
       }
-  
+
       return {
         message: 'Categories updated successfully 🎉',
         status: HttpStatus.OK,
@@ -383,4 +392,36 @@ console.log(cachedCategories, "cachec categories")
       };
     }
   }
+
+
+
+  async getHomeProductCategories() {
+    try {
+      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_PRODUCTS_KEY);
+      console.log(cachedCategories, "cachec categories")
+      if (cachedCategories) {
+        console.log('Returning categories from cache')
+        return cachedCategories;
+      }
+
+      let categories = await this.prisma.categories.findMany({
+        select: {
+          id: true,
+          name: true,
+          home_product: true,
+          short_description: true
+        }
+      });
+
+      // @ts-ignore
+      await this.cacheManager.set(CHACHE_CATEGORY_PRODUCTS_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+
+      return categories;
+
+
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
 }

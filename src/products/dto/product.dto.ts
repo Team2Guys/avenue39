@@ -94,10 +94,10 @@ export class AddProductDto {
   @IsOptional()
   @IsArray()
   spacification: [];
-  
+
   @IsOptional()
   @IsArray()
-  shippingOptions:[];
+  shippingOptions: [];
 
   @IsNotEmpty()
   @IsArray()
@@ -134,10 +134,10 @@ export class AddProductDto {
   @IsOptional()
   @IsArray()
   sizes: any[]
-  
+
   @IsOptional()
   @IsString()
-  custom_url:string
+  custom_url: string
 }
 
 export class UpdateProductDto extends AddProductDto {
@@ -147,7 +147,18 @@ export class UpdateProductDto extends AddProductDto {
 
   @IsOptional()
   @IsString()
-  custom_url:string
+  custom_url: string
 
 
+}
+
+
+
+export class PaginatedPrducts {
+  @IsString()
+  categoryname: string
+  @IsNumber()
+  page: number
+  @IsNumber()
+  pageSize: number
 }

@@ -256,7 +256,7 @@ export class ProductsService {
         );
       });
 
-      console.log(matchedProduct, "matchedProduct")
+      console.log(productSlug, "matchedProduct")
       if (!matchedProduct) {
         return customHttpException('Product Not Found!', 'NOT_FOUND');
       }
@@ -266,5 +266,55 @@ export class ProductsService {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
+
+
+
+
+
+  getPaginatedProducts = async (categoryname: string, page = 1, pageSize = 5) => {
+    const skip = (page - 1) * pageSize;
+    const otherProducts = await this.prisma.products.findMany({
+      where: {
+        categories: {
+          some: {
+            name: categoryname,
+          },
+        },
+      },
+      skip: skip,
+      take: pageSize,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        name: true,
+        posterImageUrl: true,
+        posterImageAltText: true,
+        stock: true,
+        price: true,
+        discountPrice: true
+      }
+    });
+
+
+
+    const totalProductsCount = await this.prisma.products.count({
+      where: {
+        categories: {
+          some: {
+            name: categoryname,
+          },
+        },
+      },
+    });
+
+    const totalPages = Math.ceil(totalProductsCount / pageSize);
+
+    return {
+      products: otherProducts,
+      totalPages,
+      totalAccessoryProducts:totalProductsCount
+    };
+  };
+
 
 }

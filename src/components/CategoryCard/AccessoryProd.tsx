@@ -45,7 +45,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
             setCurrentPage(page);
         }
     };
-    console.log(paginatedProducts[0], "paginatedProducts")
+    console.log(totalPages, "paginatedProducts")
 
 
     return (
@@ -55,7 +55,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
 
 
 
-            <div className='flex'>
+            <div className='flex md:flex-nowrap flex-wrap'>
                 {/* Render products */}
 
 
@@ -88,7 +88,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
 
             </div>
 
-            <div className="flex items-center justify-center space-x-2 mt-4">
+            <div className="flex items-center justify-center space-x-2 mt-4 ">
                 {Array.from({ length: totalPages }, (_, index) => {
                     const page = index + 1;
                     return (

@@ -133,54 +133,13 @@ export const SaleBannerData = [
   },
 ];
 
-export const Dining = [
-  'Trulli Dining Chair',
-  'Korla Dining Chair',
-  'Parisio Dining Chair',
-  'Asana Dining Chair',
-  // 'Savio Dining Chair',
-  'Flavia Dining Chair',
-  'Sapori Dining Table',
-  'Ricordi Dining Table',
-  'Fiori Side Cabinet',
-  'Serenita Side Cabinet',
-  'Floki Barstool',
-  'Venice Barstool',
-  'Trattori Barstool',
-];
-export const Living = [
-  'Lincoln Leather Chair & Footstool',
-  'Bentley Black Crescent Swivel Chair',
-  'Marlin Rocking Chair',
-  'Capri Leather Swivel Chair',
-  'Braga Armchair',
-  'Lisbon Sofa',
-  'Hallie Sofa',
-  'Nordic Coffee Table with the Side Table',
-  'Torino Coffee Table',
-  'Arti Side Table',
-  'Finestra Side Table',
-  'Vaunchy Side Table',
-];
-export const Bedroom = [
-  'Yakuba Side Table',
-  'Moderno Bedside Table',
-  'Tavola Bedside Table',
-  'Ombra Bedside Table',
-  'Accenti Bedside Table',
-  'Vista Sofa Bed',
-  'Melodia Sofa Bed',
-  'Sexton Floor Lamp',
-  'Florento Floor Lamp',
-  'Cipriani Floor Lamp',
-];
-export const Accessories = [
-  'Droplet Stand ',
-  'Monolith Sphere Towers',
-  'Layered Elegance',
-  'Rooted Egg Stands',
-  'Abstract Vase',
-];
+// export const Accessories = [
+//   'Droplet Stand ',
+//   'Monolith Sphere Towers',
+//   'Layered Elegance',
+//   'Rooted Egg Stands',
+//   'Abstract Vase',
+// ];
 export const newArrivals = [
   {
     title: 'NEW ARRIVALS',

@@ -1,4 +1,5 @@
 import { DashboardfetchProducts, fetchCategories } from '@/config/fetch';
+import { convertHomeProductToInitialValues } from '@/config/HelperFunctions';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 const Product = dynamic(() => import('./Products'), {
@@ -10,25 +11,7 @@ const Productspage = async () => {
     fetchCategories('get-home-products'),
     DashboardfetchProducts(),
   ]);
-
-  const convertHomeProductToInitialValues = (categories: any[]) => {
-    const structure: any = {
-      dining: [[], [], [], []],
-      living: [[], [], [], []],
-      bedroom: [[], [], []],
-    };
-  
-    categories.forEach((category) => {
-      const name = category.name.toLowerCase();
-      if (structure[name]) {
-        structure[name] = category.home_product.map((row: any[]) =>
-          row.map((product: any) => product.id)
-        );
-      }
-    });
-  
-    return structure;
-  };
+  console.log(cetagories,'cetagories')
 
   const initialValues = convertHomeProductToInitialValues(cetagories);
 

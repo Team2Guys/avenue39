@@ -15,6 +15,7 @@ export interface ICategory {
   Canonical_Tag?: string;
   subcategories?: ICategory[];
   custom_url?:string
+  home_product?: IProduct[][]
 }
 
 

@@ -39,6 +39,10 @@ const ProductSelect = ({
         style={{ width: '100%' }}
         maxTagCount={5}
         maxTagTextLength={20}
+        showSearch
+        filterOption={(input, option) =>
+          (option?.children as any).toLowerCase().includes(input.toLowerCase())
+        }
       >
         {productsData.map((product) => (
           <Option key={product.id} value={product.id}>

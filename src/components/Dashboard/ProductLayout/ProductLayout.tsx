@@ -60,7 +60,7 @@ const ProductLayout = ({ productsData, initialProductsValues }: { productsData: 
          const payload = {
             home_product: values,
          };
-
+         console.log(values,'values')
          const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/category/update-category-home-products`, payload, {
             headers: {
                token: finalToken,

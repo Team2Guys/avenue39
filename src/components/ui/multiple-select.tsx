@@ -23,7 +23,6 @@ const ProductSelect = ({
       toast.warning(`You can only select up to ${productLimit} products.`);
     } else {
       setSelectedProducts(value);
-      console.log('Form Submitted' , value)
       form.setFieldValue(field.name, value); 
     }
   };

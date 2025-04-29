@@ -2,19 +2,18 @@
 import Breadcrumb from '@components/Dashboard/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@components/Dashboard/Layouts/DefaultLayout';
 import ProtectedRoute from '@/hooks/AuthHookAdmin';
-import { ICategory } from '@/types/cat';
 import { IProduct } from '@/types/prod';
 import ProductLayout from '@/components/Dashboard/ProductLayout/ProductLayout';
+import { IHomeProductsCategory } from '@/types/cat';
 
-const HomeProducts = ({cetagories,productsData}: {
-  cetagories: ICategory[];
+const HomeProducts = ({initialValues,productsData}: {
+  initialValues: IHomeProductsCategory;
   productsData: IProduct[];
 }) => {
-  console.log(cetagories,productsData)
   return (
     <DefaultLayout>
       <Breadcrumb pageName='Home Products' />
-      <ProductLayout productsData={productsData} />
+      <ProductLayout productsData={productsData} initialProductsValues={initialValues}  />
     </DefaultLayout>
   );
 };

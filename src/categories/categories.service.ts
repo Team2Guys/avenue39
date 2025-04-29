@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AddCategoryDto, UpdateCategoryDto } from './dto/category.dto';
+import { AddCategoryDto, UpdateCategoryDto, UpdateCategoryHomeProductsDto } from './dto/category.dto';
 import { customHttpException } from '../utils/helper';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -309,6 +309,78 @@ console.log(cachedCategories, "cachec categories")
 
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async updateCategoryHomeProduct(categoryData: UpdateCategoryHomeProductsDto, userEmail: string) {
+    console.log('Update product category triggered');
+    console.log('User Email:', userEmail);
+  
+    try {
+      const { home_product } = categoryData;
+  
+      // Iterate through the categories in home_product (like 'dining', 'living', 'bedroom')
+      for (const categoryName in home_product) {
+        if (Object.prototype.hasOwnProperty.call(home_product, categoryName)) {
+          // Find the category by name (e.g., 'bedroom', 'dining', 'living')
+          const existingCategory = await this.prisma.categories.findFirst({
+            where: { name: categoryName.toUpperCase() }, // Search by category name
+          });
+  
+          if (!existingCategory) {
+            return {
+              message: `Category "${categoryName}" not found!`,
+              status: HttpStatus.NOT_FOUND,
+            };
+          }
+  
+          // Get the product IDs for this category from the home_product array
+          const productIdArrays = home_product[categoryName];
+  
+          // Fetch the products based on the product IDs (flattening the array of arrays)
+          const allProductIds = productIdArrays.flat();
+          
+          const products = await this.prisma.products.findMany({
+            where: {
+              id: { in: allProductIds },
+            },
+          });
+  
+          // Ensure all the product IDs exist
+          const foundProductIds = products.map(product => product.id);
+          const missingProductIds = allProductIds.filter(id => !foundProductIds.includes(id));
+          if (missingProductIds.length > 0) {
+            return {
+              message: `Products with IDs ${missingProductIds.join(', ')} not found!`,
+              status: HttpStatus.NOT_FOUND,
+            };
+          }
+  
+          // Map the product ID arrays to actual product objects
+          const updatedHomeProduct = productIdArrays.map(productIds => {
+            return productIds.map(id => products.find(product => product.id === id));
+          });
+  
+          // Update the category's home_product field
+          await this.prisma.categories.update({
+            where: { name: categoryName }, // Update based on category name
+            data: {
+              home_product: JSON.stringify(updatedHomeProduct),  // Storing as JSON
+            },
+          });
+        }
+      }
+  
+      return {
+        message: 'Categories updated successfully 🎉',
+        status: HttpStatus.OK,
+      };
+    } catch (error) {
+      console.error('Error updating categories:', error.message);
+      return {
+        message: 'Something went wrong!',
+        status: HttpStatus.BAD_REQUEST,
+      };
     }
   }
 }

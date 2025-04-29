@@ -49,3 +49,11 @@ export class UpdateCategoryDto {
   @IsOptional()
   posterImageUrl?: any;
 }
+
+export class UpdateCategoryHomeProductsDto {
+  home_product: {
+    dining: [[], [], [], []],
+    living: [[], [], [], []],
+    bedroom: [[], [], []],
+  }
+}

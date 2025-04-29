@@ -10,7 +10,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { AddCategoryDto, UpdateCategoryDto } from './dto/category.dto';
+import { AddCategoryDto, UpdateCategoryDto, UpdateCategoryHomeProductsDto } from './dto/category.dto';
 
 @Controller('category')
 export class CategoriesController {
@@ -41,6 +41,12 @@ export class CategoriesController {
   updateCategory(@Body() addCategoryData: UpdateCategoryDto,@Req() req:Request) {
     const user=req['user'];
     return this.categoriesService.updateCategory(addCategoryData,user.email);
+  }
+
+  @Post('update-category-home-products')
+  updateCategoryHomeProduct(@Body() addCategoryData: UpdateCategoryHomeProductsDto,@Req() req:Request) {
+    const user=req['user'];
+    return this.categoriesService.updateCategoryHomeProduct(addCategoryData ,user.email);
   }
 
   @Delete('delete-category')

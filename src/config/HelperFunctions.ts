@@ -37,31 +37,6 @@ export const filterByCategoryAndTitle = (products: IProduct[], titles: string[])
     .sort((a, b) => (titleIndexMap.get(a.name) ?? 0) - (titleIndexMap.get(b.name) ?? 0));
 };
 
-  
-
-export const filterAccessories = (products: IProduct[], titles: string[]) => {
-  const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
-
-  const matching: IProduct[] = [];
-  const nonMatching: IProduct[] = [];
-
-  for (const product of products) {
-    const isAccessory = product.categories?.some(
-      (cat) => cat.name.toLowerCase() === 'accessories'
-    );
-    if (!isAccessory) continue;
-
-    (titleIndexMap.has(product.name) ? matching : nonMatching).push(product);
-  }
-
-  console.log(titleIndexMap, "titleIndexMap")
-
-  matching.sort((a, b) =>
-    (titleIndexMap.get(a.name) ?? 0) - (titleIndexMap.get(b.name) ?? 0)
-  );
-
-  return [...matching, ...nonMatching];
-};
 
 export const getCategoryDescription = (categoryName: string, products: IProduct[]) => {
   const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));

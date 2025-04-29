@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
 import Container from '../ui/Container';
 import ProductSkeleton from '../Skaleton/productSkeleton';
-import Link from 'next/link';
 import { homeProducts } from '@/data/products';
 import { IProduct } from '@/types/prod';
+import CategoryWrapper from './CategoryWrapper';
 
 const ProductGrid = dynamic(() => import('./ProductGrid'));
 
@@ -53,27 +53,8 @@ const CatProduct = ({
   const showSkeleton = (fromIndex: number) => products.length <= fromIndex;
 
   return (
-    <Container className="my-10">
-      <div className="relative px-2 md:px-8 border-2 border-[#707070] rounded-[40px] sm:rounded-[87px]">
-        <Link
-          href={`/${redirect}`}
-          className="absolute -top-3 xsm:-top-5 left-1/2 transform -translate-x-1/2 rounded-xl border bg-main xs:left-20 xs:transform-none hover:font-bold hover:bg-black text-white hover:text-white"
-        >
-          <h2 className="px-2 text-13 xsm:text-16 md:text-3xl font-Helveticalight capitalize text-center text-shadow">
-            {CategoryName}
-          </h2>
-        </Link>
 
-        <div className="max-w-screen-xl mx-auto mt-10 text-center font-Helveticalight px-2 sm:px-4 lg:px-0">
-          {CategoryDescription ? (
-            <p className="text-14 lg:text-[22px]">{CategoryDescription}</p>
-          ) : (
-            <div className="animate-pulse">
-              <div className="h-5 lg:h-6 bg-gray-300 rounded-md w-3/4 mx-auto mb-2" />
-              <div className="h-5 lg:h-6 bg-gray-300 rounded-md w-2/4 mx-auto" />
-            </div>
-          )}
-        </div>
+    <CategoryWrapper redirect={redirect} CategoryName={CategoryName} CategoryDescription={CategoryDescription}>
 
         <div className={`mt-6 mb-0 sm:my-8 md:mt-8 md:mb-0 flex ${reverse ? 'flex-col-reverse' : 'flex-col'}`}>
           {/* Main product grid */}
@@ -93,6 +74,7 @@ const CatProduct = ({
               redirect={redirect}
             />
           </div>
+          
 
           {/* Side + mid sections */}
           <div className="grid grid-cols-12 sm:gap-8">
@@ -151,8 +133,9 @@ const CatProduct = ({
             </div>
           </div>
         </div>
-      </div>
-    </Container>
+
+    </CategoryWrapper>
+
   );
 };
 

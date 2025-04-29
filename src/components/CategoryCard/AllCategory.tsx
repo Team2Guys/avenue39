@@ -1,12 +1,13 @@
 const CatProduct = dynamic(() => import('./CatProduct'));
 const CatProduct1 = dynamic(() => import('./CatProduct1'));
-import { Accessories, Bedroom, Dining, Living } from '@/data/data';
+import { Bedroom, Dining, Living } from '@/data/data';
 import dynamic from 'next/dynamic';
 import { IProduct } from '@/types/prod';
-import { filterAccessories, filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
+import { filterByCategoryAndTitle, getCategoryDescription } from '@/config/HelperFunctions';
 import { Suspense } from 'react';
+import AccessoryProd from './AccessoryProd';
 
-const AllCategory = async({ products }: { products: IProduct[] }) => {
+const AllCategory = async ({ products }: { products: IProduct[] }) => {
 
   return (
     <Suspense>
@@ -19,7 +20,7 @@ const AllCategory = async({ products }: { products: IProduct[] }) => {
       />
       <CatProduct
         products={filterByCategoryAndTitle(products, Living)}
-        CategoryDescription={getCategoryDescription('Living',products)}
+        CategoryDescription={getCategoryDescription('Living', products)}
         CategoryName="Shop Your Living"
         reverse
         landHeight={'calc(100% - 80px)'}
@@ -31,20 +32,17 @@ const AllCategory = async({ products }: { products: IProduct[] }) => {
       />
       <CatProduct1
         products={filterByCategoryAndTitle(products, Bedroom)}
-        CategoryDescription={getCategoryDescription('Bedroom',products)}
+        CategoryDescription={getCategoryDescription('Bedroom', products)}
         CategoryName="Shop your Bedroom"
         redirect="bedroom"
       />
 
-      {/* <AccessoryProd/> */}
-      <CatProduct1
-        products={filterAccessories(products, Accessories)}
-        CategoryDescription={getCategoryDescription('Accessories',products)}
+      <AccessoryProd
+        CategoryDescription={getCategoryDescription('Accessories', products)}
         CategoryName="Complement your design with accessories"
-        reverse
         redirect="accessories"
-        accessoriesSlider={true}
       />
+
 
     </Suspense>
   );

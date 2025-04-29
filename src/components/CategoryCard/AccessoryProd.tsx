@@ -6,12 +6,13 @@ import React, { useState, useEffect } from 'react';
 import CardSkeleton from '../cardSkelton';
 import { IProduct } from '@/types/prod';
 import ProductSkeleton from '../Skaleton/productSkeleton';
+import CategoryWrapper from './CategoryWrapper';
 const Card = dynamic(() => import('../ui/card'), {
     loading: () => <CardSkeleton />,
 })
 
 
-const AccessoryProd = () => {
+const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redirect?: string, CategoryName: string, CategoryDescription: string }) => {
     const [currentPage, setCurrentPage] = useState(1); // To track the current page
     const [paginatedProducts, setPaginatedProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1); // To track the total number of pages
@@ -44,23 +45,33 @@ const AccessoryProd = () => {
             setCurrentPage(page);
         }
     };
+    console.log(totalPages, "paginatedProducts")
 
 
     return (
-        <>
 
-            <div className='flex'>
+
+        <CategoryWrapper redirect={redirect} CategoryName={CategoryName} CategoryDescription={CategoryDescription}>
+
+
+
+            <div className='flex md:flex-nowrap flex-wrap'>
                 {/* Render products */}
 
 
                 {
                     loading ?
+                        <div className='flex gap-5'>
 
-                        Array(5)
-                            .fill(null)
-                            .map((_, index) => (
-                                <ProductSkeleton imageHeight="h-[270px] xl:h-[290px]" key={index} />
-                            )) :
+                            {Array(5)
+                                .fill(null)
+                                .map((_, index) => (
+                                    <ProductSkeleton imageHeight="h-[300px] xl:h-[290px]" key={index} />
+
+                                ))}
+                        </div>
+
+                        :
 
                         paginatedProducts.length > 0 && paginatedProducts.map((product: IProduct) => (
                             <Card
@@ -70,17 +81,14 @@ const AccessoryProd = () => {
                                 isLoading={false}
                                 slider={false}
                                 isHomepage
-
+                                redirect='redirect'
                                 cardLayout="grid"
                             />
                         ))}
 
-                {/* Pagination controls */}
-
-
             </div>
 
-            <div className="flex items-center justify-center space-x-2 mt-4">
+            <div className="flex items-center justify-center space-x-2 mt-4 ">
                 {Array.from({ length: totalPages }, (_, index) => {
                     const page = index + 1;
                     return (
@@ -97,8 +105,7 @@ const AccessoryProd = () => {
                 })}
             </div>
 
-
-        </>
+        </CategoryWrapper>
 
 
     );

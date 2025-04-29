@@ -41,7 +41,7 @@ const SlugPage = async ({ params }: SlugPageProps) => {
   const findCategory = categories.find((item: ICategory) =>
     generateSlug(item.custom_url || item.name) === slug
   );
-  
+
   if (!findCategory && slug !== 'new-arrivals') {
     return notFound();
   }

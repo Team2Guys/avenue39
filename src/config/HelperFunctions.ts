@@ -2,6 +2,7 @@ import { CartItem } from "@/redux/slices/cart/types";
 import { IProduct } from "@/types/prod";
 import { generateSlug } from ".";
 import { ChangeUrlHandler } from "./fetch";
+import { ICategory } from "@/types/cat";
 
   export const product_refactor = async (product: CartItem) => {
       const { sizes, filter, ...updatedProduct } = product;
@@ -28,46 +29,6 @@ export function formatPrice(price: any) {
   return price > 1000 ? price.toLocaleString('en-US') : price;
 }
 
-
-export const filterByCategoryAndTitle = (products: IProduct[], titles: string[]): IProduct[] => {
-  const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
-
-  return products
-    .filter(product => titleIndexMap.has(product.name))
-    .sort((a, b) => (titleIndexMap.get(a.name) ?? 0) - (titleIndexMap.get(b.name) ?? 0));
-};
-
-  
-
-export const filterAccessories = (products: IProduct[], titles: string[]) => {
-  const titleIndexMap = new Map(titles.map((title, index) => [title, index]));
-
-  const matching: IProduct[] = [];
-  const nonMatching: IProduct[] = [];
-
-  for (const product of products) {
-    const isAccessory = product.categories?.some(
-      (cat) => cat.name.toLowerCase() === 'accessories'
-    );
-    if (!isAccessory) continue;
-
-    (titleIndexMap.has(product.name) ? matching : nonMatching).push(product);
-  }
-
-  console.log(titleIndexMap, "titleIndexMap")
-
-  matching.sort((a, b) =>
-    (titleIndexMap.get(a.name) ?? 0) - (titleIndexMap.get(b.name) ?? 0)
-  );
-
-  return [...matching, ...nonMatching];
-};
-
-export const getCategoryDescription = (categoryName: string, products: IProduct[]) => {
-  const matchedCategory = products.flatMap((product) => product.categories || []).find((category) => generateSlug(category.name) === generateSlug(categoryName));
-  return matchedCategory?.short_description || '';
-};
-
  export const generateFinalUrl = (itemToAdd: CartItem, card: IProduct, SubcategoryName: any, mainCatgory?: string) => {
    const baseUrl = ChangeUrlHandler(card, SubcategoryName?.name, mainCatgory);
     const params = new URLSearchParams();
@@ -82,3 +43,30 @@ export const getCategoryDescription = (categoryName: string, products: IProduct[
     const query = params.toString();
     return query ? `${baseUrl}?${query}` : baseUrl;
   };
+
+export const convertHomeProductToInitialValues = (categories: any[]) => {
+  if(!categories) return
+  const structure: any = {
+    dining: [[], [], [], []],
+    living: [[], [], [], []],
+    bedroom: [[], [], []],
+  };
+
+  categories.forEach((category) => {
+    const name = category.name.toLowerCase();
+    if (structure[name]) {
+      structure[name] = category.home_product.map((row: any[]) =>
+        row.map((product: any) => product.id)
+      );
+    }
+  });
+
+  return structure;
+};
+
+export const findCategoryProducts = (categories: ICategory[], CategoryName: string) => {
+  const findCat = categories.find((item) => item.name.toLowerCase() === CategoryName.toLowerCase());
+  if (findCat) {
+    return findCat
+  }
+} 

@@ -12,6 +12,8 @@ import dynamic from 'next/dynamic';
 import { PotraitCardProps } from '@/types/interfaces';
 import { ProductDetailSkeleton } from '../product-detail/skelton';
 import { IoEyeOutline } from 'react-icons/io5';
+import { DialogTitle } from '@radix-ui/react-dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 const ProductDetail = dynamic(() => import('../product-detail/product-detail'), { ssr: false, loading: () => <ProductDetailSkeleton /> })
 
 const PortraitCard = ({
@@ -43,7 +45,7 @@ const PortraitCard = ({
     return (
         <div
             className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
-                <span className='hidden' >{averageRating}</span>
+            <span className='hidden' >{averageRating}</span>
             <div className="relative w-full overflow-hidden rounded-t-[35px] group">
 
                 <div
@@ -186,7 +188,9 @@ const PortraitCard = ({
 
 
                                         <DialogContent className="max-w-[1400px]  w-11/12 bg-white px-0 sm:rounded-3xl   shadow-none gap-0 pb-0" >
-                                            {/* <DialogTitle>Diagloge</DialogTitle> */}
+                                            <VisuallyHidden>
+                                                <DialogTitle>Product Quick View</DialogTitle>
+                                            </VisuallyHidden>
                                             <div className="pb-6 px-5 xs:px-10 me-4 xs:me-7 mt-6 max-h-[80vh] overflow-y-auto custom-scroll">
                                                 <ProductDetail
                                                     params={card}

@@ -85,6 +85,7 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                       width={1200}
                       height={1200}
                       quality={75}
+                      priority={index === 0}
                     />
                   </div>
                 </div>

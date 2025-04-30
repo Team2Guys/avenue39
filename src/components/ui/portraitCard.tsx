@@ -42,6 +42,7 @@ const PortraitCard = ({
     fill
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false);
+    console.log(card.additionalInformation)
     return (
         <div
             className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
@@ -85,7 +86,7 @@ const PortraitCard = ({
                                     className={`${isLandscape && 'w-full'}`}
                                 >
                                     <Image
-                                        src={cardStaticData?.posterImageUrl || card.posterImageUrl}
+                                        src={cardStaticData?.imageUrl || card.posterImageUrl}
                                         alt={card.posterImageAltText || card.name}
                                         width={600}
                                         height={600}

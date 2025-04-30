@@ -63,6 +63,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       ]
       : [],
   );
+  const [homeimageUrl, sethomeimageUrl] = useState<any[] | undefined | null>(
+    (EditInitialValues && EditInitialValues.HomeProductImage) ? [EditInitialValues.HomeProductImage] 
+      : [],
+  );
   const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],
   );
   const [loading, setloading] = useState<boolean>(false);
@@ -279,6 +283,11 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
               img.imageUrl === imageSrc ? { ...img, ...newImage } : img
             )
           );
+          sethomeimageUrl((prevImages) =>
+            prevImages?.map((img) =>
+              img.imageUrl === imageSrc ? { ...img, ...newImage } : img
+            )
+          );
           setImagesUrl((prevImages) =>
             prevImages.map((img) =>
               img.imageUrl === imageSrc ? { ...img, ...newImage } : img
@@ -330,6 +339,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     try {
       setError(null);
       let posterImageUrl = posterimageUrl && posterimageUrl[0];
+      let HomeProductImage = homeimageUrl && homeimageUrl[0];
       let hoverImageUrl = hoverImage && hoverImage[0];
       if (!posterImageUrl || !(imagesUrl.length > 0)) {
         return showToast('warn', 'Please select relevant Images');
@@ -340,7 +350,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         posterImagePublicId: posterImageUrl.public_id,
         posterImageAltText: posterImageUrl.altText,
         posterImageIndex: posterImageUrl.Index,
-        hoverImageUrl: hoverImageUrl.imageUrl,
+        HomeProductImage: HomeProductImage,
         hoverImagePublicId: hoverImageUrl.public_id,
         hoverImageAltText: posterImageUrl.altText,
         productImages: imagesUrl,
@@ -378,6 +388,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       setloading(false);
       sethoverImage(null);
       setposterimageUrl(undefined);
+      sethomeimageUrl(undefined);
       setImagesUrl([]);
       setSelectedSubcategoryIds([]);
       setSelectedCategoryIds([]);
@@ -397,6 +408,8 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
       setloading(false);
     }
   };
+
+  console.log(posterimageUrl,'editProduct.HomeProductImage',homeimageUrl)
 
   return (
     <>
@@ -496,6 +509,73 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       ) : (
                         <>
                           <Imageupload setposterimageUrl={setposterimageUrl} />
+                        </>
+                      )}
+                    </div>
+
+                    <div className="rounded-sm border border-stroke bg-white dark:bg-black">
+                      <div className="border-b border-stroke py-4 px-4 ">
+                        <h3 className="font-medium text-black dark:text-white">
+                          home Product Images
+                        </h3>
+                      </div>
+
+                      {homeimageUrl && homeimageUrl?.length > 0 ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
+                          {homeimageUrl.map((item: any, index) => {
+                            return (
+                              <div key={index}>
+                                <div className="relative group rounded-lg overflow-hidden shadow-md bg-white dark:bg-black transform transition-transform duration-300 hover:scale-105">
+                                  <div className="absolute top-1 right-1 invisible group-hover:visible text-red bg-white dark:bg-black rounded-full">
+                                    <RxCross2
+                                      className="cursor-pointer text-red-500 dark:text-red-700"
+                                      size={17}
+                                      onClick={() => {
+                                        ImageRemoveHandler(
+                                          item.public_id,
+                                          sethomeimageUrl,
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="absolute top-7 right-1 bg-main rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
+                                    <FaCropSimple
+                                      className="text-white"
+                                      size={12}
+                                      onClick={() => handleCropClick(item.imageUrl)}
+                                    />
+                                  </div>
+                                  <Image
+                                    key={index}
+                                    className="object-cover w-full h-full"
+                                    width={300}
+                                    height={400}
+                                    loading='lazy'
+                                    src={item?.imageUrl}
+                                    alt={`productImage-${index}`}
+                                  />
+                                </div>
+                                <input
+                                  className="border mt-2 w-full rounded-md border-stroke px-2 text-14 py-2 focus:border-primary active:border-primary outline-none"
+                                  placeholder="altText"
+                                  type="text"
+                                  name="altText"
+                                  value={item.altText}
+                                  onChange={(e) =>
+                                    handleImageAltText(
+                                      index,
+                                      String(e.target.value),
+                                      sethomeimageUrl,
+                                    )
+                                  }
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <>
+                          <Imageupload setposterimageUrl={sethomeimageUrl} />
                         </>
                       )}
                     </div>

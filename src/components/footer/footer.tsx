@@ -312,10 +312,10 @@ const Footer = () => {
       <div className="bg-main mb-7 md:mb-0 mt-10 py-3 px-4">
         <Container className="flex md:grid grid-cols-3 flex-wrap sm:flex-nowrap justify-center sm:justify-between items-center gap-x-8 md:gap-x-0 lg:gap-x-8 gap-y-4 pb-10 md:pb-0 ">
           <p className='hidden md:block'></p>
-          <p className="text-white text-17 md:text-13 lg:text-14 xl:text-17 font-extralight text-center md:w-full font-Helveticaligh opacity-95">
+          <p className="text-white text-17 md:text-13 lg:text-14 xl:text-17 font-extralight text-center md:w-full font-Helveticaligh opacity-90">
             Copyright © 2025 avenue39 All rights reserved.
           </p>
-          <div className=" text-black text-center w-fit ms-auto">
+          <div className=" text-black text-center w-fit xs:ms-auto">
             <SocialLink socialSize="md:text-[25px]" iconColor={'text-white'} />
           </div>
         </Container>

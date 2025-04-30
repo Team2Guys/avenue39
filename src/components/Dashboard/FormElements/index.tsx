@@ -513,10 +513,10 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
                       )}
                     </div>
 
-                    <div className="rounded-sm border border-stroke bg-white dark:bg-black">
+                    <div className="rounded-sm border border-stroke bg-white dark:bg-black mt-4">
                       <div className="border-b border-stroke py-4 px-4 ">
                         <h3 className="font-medium text-black dark:text-white">
-                          home Product Images
+                          home Product Image
                         </h3>
                       </div>
 

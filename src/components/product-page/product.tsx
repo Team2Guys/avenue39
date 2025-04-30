@@ -58,7 +58,6 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
   useEffect(() => {
     const description = SubcategoryName?.description || info?.description || "";
     setDesc(description);
-    console.log(info,'description', SubcategoryName)
   }, [info, SubcategoryName]);
   
   useEffect(() => {
@@ -149,7 +148,7 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
                 {SubcategoryName?.name ? SubcategoryName?.name.toLowerCase() : info?.name.toLowerCase()}
               </h1>
               <Container>
-                <p className={`text-center font-Helveticalight text-base xs:text-18 ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: desc }}></p>
+                <p className={`text-justify font-Helveticalight text-base xs:text-18 ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: desc }}></p>
                   {/* {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description} */}
               </Container>
             </div>

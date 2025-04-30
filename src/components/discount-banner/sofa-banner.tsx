@@ -12,7 +12,7 @@ import 'swiper/css/pagination';
 // Images
 import Chroma from '@assets/images/banners/Chroma.webp';
 import Marlin from '@assets/images/banners/Marlin.webp';
-import rafael from '@assets/images/banners/rafael.webp';
+import rafael from '@assets/images/banners/Rafael.webp';
 import chair from '@assets/images/banners/chair.webp';
 import Magia from '@assets/images/banners/Magia.webp';
 import Moderno from '@assets/images/banners/Moderno.webp';

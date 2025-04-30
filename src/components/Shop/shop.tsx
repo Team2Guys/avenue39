@@ -26,7 +26,7 @@ const Shop = ({
   const [layout, Setlayout] = useState<string>('grid');
 
   return (
-    <>
+  
       <ProductPage
         layout={layout}
         Setlayout={Setlayout}
@@ -39,7 +39,7 @@ const Shop = ({
         info={info}
         SubcategoryName={SubcategoryName}
       />
-    </>
+ 
   );
 };
 

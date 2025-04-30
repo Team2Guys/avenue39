@@ -140,7 +140,7 @@ export class AddProductDto {
   custom_url: string
 
   @IsOptional()
-  HomeProductImage: string
+  HomeProductImage?: any
 
 }
 

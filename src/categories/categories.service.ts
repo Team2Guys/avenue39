@@ -347,6 +347,7 @@ export class CategoriesService {
               stock: true,
               price: true,
               discountPrice: true,
+              HomeProductImage: true,
               sizes: true,
               filter: true,
               productImages: true,

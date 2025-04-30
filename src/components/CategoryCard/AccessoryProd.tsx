@@ -55,7 +55,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
 
 
 
-            <div className='flex md:flex-nowrap flex-wrap'>
+            <div className='flex md:flex-nowrap flex-wrap mt-6 mb-0 sm:my-8 md:mt-8 md:mb-0'>
                 {/* Render products */}
 
 
@@ -102,6 +102,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
                             className={`w-2 h-2 rounded-full flex items-center my-3 justify-center
           ${currentPage === page ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'}
           hover:bg-black hover:text-white transition`}
+          aria-label='accessories product pagination'
                         >
                             {/* {page} */}
                         </button>

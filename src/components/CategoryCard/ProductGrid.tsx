@@ -17,7 +17,6 @@ interface ProductGridProps {
   isLandscape?: boolean;
   calculateHeight?: string;
   portSpace?: string;
-  productImages: any[];
   redirect?: string;
   accessoriesSlider?: boolean;
   fill?: boolean
@@ -25,7 +24,6 @@ interface ProductGridProps {
 
 const ProductGrid = ({
   products,
-  productImages,
   imageHeight,
   slider,
   isHomepage,
@@ -73,7 +71,7 @@ const ProductGrid = ({
             isLandscape={isLandscape}
             calculateHeight={calculateHeight}
             portSpace={portSpace}
-            productImages={productImages}
+            productImages={product.HomeProductImage}
             redirect={redirect}
             cardLayout="grid"
           />
@@ -107,7 +105,7 @@ const ProductGrid = ({
             isLandscape={isLandscape}
             calculateHeight={calculateHeight}
             portSpace={portSpace}
-            productImages={productImages}
+            productImages={product.HomeProductImage}
             redirect={redirect}
             cardLayout="grid"
             fill={fill}

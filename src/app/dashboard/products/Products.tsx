@@ -28,6 +28,7 @@ const Product = ({cetagories,productsData}: {
     stock: editProduct && editProduct.stock,
     posterImageUrl: editProduct && editProduct.posterImageUrl,
     posterImageAltText: editProduct && editProduct.posterImageAltText,
+    HomeProductImage: editProduct && editProduct?.HomeProductImage || {},
     hoverImageUrl: editProduct && editProduct.hoverImageUrl,
     hoverImageAltText: editProduct && editProduct.hoverImageAltText,
     imagesUrl: editProduct && editProduct.productImages,

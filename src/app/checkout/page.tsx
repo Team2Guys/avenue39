@@ -504,86 +504,7 @@ const Checkout = () => {
                       onChange={formik.handleChange}
                       value={formik.values.address}
                     />
-                    <div className='flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2'>
-                      <div className="flex-1">
-                        <LabelInput
-                          label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
-                          id="shippingDate"
-                          name="shippingDate"
-                          type="date"
-                          required={selectedShipping?.name !== 'Standard Shipping'}
-                          onChange={(e) => {
-                            const selectedDate = e.target.value;
-
-                            if (disabledDates.includes(selectedDate)) {
-                              const dayOfWeek = new Date(selectedDate).getDay();
-                              const errorMessage = dayOfWeek === 6 || dayOfWeek === 0
-                                ? "Weekend dates (Saturday & Sunday) are not available. Please choose a weekday."
-                                : "Selected date is not available. Please choose another one.";
-
-                              toast.error(errorMessage);
-                              formik.setFieldValue("shippingDate", "");
-                            } else {
-                              formik.handleChange(e);
-                            }
-                          }}
-                          value={formik.values.shippingDate}
-                          min={minDate}
-
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <Label
-                          htmlFor="country *"
-                          className="mb-1 px-2 text-sm font-semibold text-17 text-[#666666]"
-                        >
-                          Time Slot *
-                        </Label>
-                        <Select
-                          onValueChange={(value: any) => {
-
-                            formik.setFieldValue('shippingTime', value)
-
-                          }
-                          }
-                          defaultValue=" "
-                          required
-                        >
-                          <SelectTrigger className="flex-grow h-[50px] mt-3 rounded-full border-0 bg-[#F6F6F6] pl-8 pr-10 py-2   focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-3xl">
-                            <SelectGroup>
-                              <SelectItem
-                                value=" "
-                                className="rounded-3xl"
-                                disabled
-                              >
-                                Select time slot
-                              </SelectItem>
-                              <SelectItem
-                                value="9 AM  -  12 PM"
-                                className="rounded-3xl"
-                              >
-                                9 AM  -  12 PM
-                              </SelectItem>
-                              <SelectItem
-                                value="12 PM -  3 PM"
-                                className="rounded-3xl"
-                              >
-                                12 PM -  3 PM
-                              </SelectItem>
-                              <SelectItem
-                                value="3 PM  -  6 PM"
-                                className="rounded-3xl"
-                              >
-                                3 PM  -  6 PM
-                              </SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
+                    
                     <div className="flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2">
                       <div className="flex-1">
                         <Label
@@ -863,6 +784,87 @@ const Checkout = () => {
                         />
                       </div>
                     }
+
+                    <div className='flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2'>
+                      <div className="flex-1">
+                        <LabelInput
+                          label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
+                          id="shippingDate"
+                          name="shippingDate"
+                          type="date"
+                          required={selectedShipping?.name !== 'Standard Shipping'}
+                          onChange={(e) => {
+                            const selectedDate = e.target.value;
+
+                            if (disabledDates.includes(selectedDate)) {
+                              const dayOfWeek = new Date(selectedDate).getDay();
+                              const errorMessage = dayOfWeek === 6 || dayOfWeek === 0
+                                ? "Weekend dates (Saturday & Sunday) are not available. Please choose a weekday."
+                                : "Selected date is not available. Please choose another one.";
+
+                              toast.error(errorMessage);
+                              formik.setFieldValue("shippingDate", "");
+                            } else {
+                              formik.handleChange(e);
+                            }
+                          }}
+                          value={formik.values.shippingDate}
+                          min={minDate}
+
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <Label
+                          htmlFor="country *"
+                          className="mb-1 px-2 text-sm font-semibold text-17 text-[#666666]"
+                        >
+                          Time Slot *
+                        </Label>
+                        <Select
+                          onValueChange={(value: any) => {
+
+                            formik.setFieldValue('shippingTime', value)
+
+                          }
+                          }
+                          defaultValue=" "
+                          required
+                        >
+                          <SelectTrigger className="flex-grow h-[50px] mt-3 rounded-full border-0 bg-[#F6F6F6] pl-8 pr-10 py-2   focus-visible:outline-none focus-visible:ring-0 text-15 font-medium outline-none focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 ">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-3xl">
+                            <SelectGroup>
+                              <SelectItem
+                                value=" "
+                                className="rounded-3xl"
+                                disabled
+                              >
+                                Select time slot
+                              </SelectItem>
+                              <SelectItem
+                                value="9 AM  -  12 PM"
+                                className="rounded-3xl"
+                              >
+                                9 AM  -  12 PM
+                              </SelectItem>
+                              <SelectItem
+                                value="12 PM -  3 PM"
+                                className="rounded-3xl"
+                              >
+                                12 PM -  3 PM
+                              </SelectItem>
+                              <SelectItem
+                                value="3 PM  -  6 PM"
+                                className="rounded-3xl"
+                              >
+                                3 PM  -  6 PM
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

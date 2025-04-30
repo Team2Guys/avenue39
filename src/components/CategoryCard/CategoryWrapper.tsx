@@ -4,6 +4,15 @@ import Container from '../ui/Container'
 
 function CategoryWrapper({ redirect, CategoryName, CategoryDescription, children }:
     { redirect?: string, CategoryName: string, CategoryDescription?: string, children: React.ReactNode, }) {
+
+    const splitEvenly = (text: string) => {
+        const midpoint = Math.floor(text.length / 2);
+        let splitIndex = text.lastIndexOf(' ', midpoint); // avoid breaking words
+        if (splitIndex === -1) splitIndex = midpoint; // fallback if no space
+        return [text.slice(0, splitIndex), text.slice(splitIndex + 1)];
+    };
+
+    const [firstLine, secondLine] = splitEvenly(CategoryDescription || '');
     return (
         <Container className="my-10">
             <div className="relative px-2 md:px-8 border-2 border-[#707070] rounded-[40px] sm:rounded-[87px]">
@@ -16,9 +25,17 @@ function CategoryWrapper({ redirect, CategoryName, CategoryDescription, children
                     </h2>
                 </Link>
 
-                <div className="max-w-screen-xl mx-auto mt-10 text-center font-Helveticalight px-2 sm:px-4 lg:px-0">
+                <div className="max-w-screen-xl mx-auto mt-10 font-Helveticalight px-2 sm:px-4 lg:px-0">
                     {CategoryDescription ? (
-                        <p className="text-14 lg:text-[22px]">{CategoryDescription}</p>
+                        <>
+                            <p className="text-14 lg:text-18 xl:text-[22px] leading-snug text-justify w-fit mx-auto hidden md:block">
+                                {firstLine}<br />{secondLine}
+                            </p>
+                            <p className="text-14 leading-snug text-center w-fit mx-auto block md:hidden">
+                                {CategoryDescription}
+                            </p>
+                        </>
+
                     ) : (
                         <div className="animate-pulse">
                             <div className="h-5 lg:h-6 bg-gray-300 rounded-md w-3/4 mx-auto mb-2" />

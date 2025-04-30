@@ -89,6 +89,7 @@ export interface IProduct {
     custom_url?: string;
     shippingOptions?: Shipping[];
     selectedShipping?: Shipping;
+    HomeProductImage?: ProductImage
 }
 
 

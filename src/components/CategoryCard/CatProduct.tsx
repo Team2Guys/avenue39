@@ -2,8 +2,8 @@ import dynamic from 'next/dynamic';
 import Container from '../ui/Container';
 import ProductSkeleton from '../Skaleton/productSkeleton';
 import Link from 'next/link';
-import { homeProducts } from '@/data/products';
 import { IProduct } from '@/types/prod';
+import { IProductsImage } from '@/types/interfaces';
 
 const ProductGrid = dynamic(() => import('./ProductGrid'));
 
@@ -18,6 +18,7 @@ interface ICatProduct {
   redirect?: string;
   CategoryDescription?: string;
   fill?: boolean
+  productImages?: IProductsImage[];
 }
 
 const CatProduct = ({
@@ -32,8 +33,7 @@ const CatProduct = ({
   CategoryDescription,
   fill
 }: ICatProduct) => {
-  
-    const categoryImages =  homeProducts.find((item) => item.name === redirect)?.products || [];
+
 
   if (!products || products.length === 0) {
     return (
@@ -86,7 +86,6 @@ const CatProduct = ({
                 ))}
             <ProductGrid
               products={mainProducts}
-              productImages={categoryImages}
               imageHeight="h-[270px] xl:h-[290px] "
               isHomepage
               calculateHeight={sofaHeight}
@@ -102,7 +101,6 @@ const CatProduct = ({
               )}
               <ProductGrid
                 products={midProducts}
-                productImages={categoryImages}
                 slider
                 isHomepage
                 isLandscape={false}
@@ -118,7 +116,6 @@ const CatProduct = ({
               )}
               <ProductGrid
                 products={landscapeProducts}
-                productImages={categoryImages}
                 slider
                 isLandscape
                 isHomepage
@@ -141,7 +138,6 @@ const CatProduct = ({
                     ))}
                 <ProductGrid
                   products={extraProducts}
-                  productImages={categoryImages}
                   isHomepage
                   imageHeight="h-[210px] xl:h-[361.64px]"
                   calculateHeight={sideTableHeight || 'calc(100% - 10px)'}

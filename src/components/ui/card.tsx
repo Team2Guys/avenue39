@@ -1,5 +1,5 @@
 'use client';
-import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, State } from '@redux/store';
@@ -91,10 +91,6 @@ const Card = ({
   
 
 
-  const cardStaticData = useMemo(() => {
-    return productImages?.find((item) => item.name === card?.name);
-  }, [productImages, card?.name]);
-
   
   // const [averageRating, setAverageRating] = useState<number>();
   // useEffect(() => {
@@ -128,7 +124,7 @@ const Card = ({
       calculateHeight={calculateHeight}
       card={card}
       cardImageHeight={cardImageHeight}
-      cardStaticData={cardStaticData}
+      cardStaticData={productImages}
       className={className}
       displayName={displayInfo.displayName}
       displayTag={displayInfo.displayTag}

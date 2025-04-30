@@ -57,7 +57,8 @@ model Products {
   sizes                 Json[]                  @default([])
   filter                Json[]                  @default([])
   custom_url            String?
-  shippingOptions   Json[] @default([])
+  shippingOptions       Json[]                  @default([])
+  HomeProductImage      Json?
 }
 
 model Categories {
@@ -135,20 +136,20 @@ model Admins {
 }
 
 model sales_record {
-  id            Int                     @id @default(autoincrement())
-  firstName     String
-  lastName      String
-  user_email    String
-  createdAt     DateTime                @default(now())
-  address       String?
-  orderId       String                  @unique
-  paymentStatus Json?
-  phoneNumber   String?
-  products      sales_record_products[]
-  orderNote     String?
+  id             Int                     @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  user_email     String
+  createdAt      DateTime                @default(now())
+  address        String?
+  orderId        String                  @unique
+  paymentStatus  Json?
+  phoneNumber    String?
+  products       sales_record_products[]
+  orderNote      String?
   shipmentMethod Json?
-shippingDate  String?
-  shippingTime  String?
+  shippingDate   String?
+  shippingTime   String?
 }
 
 model sales_record_products {

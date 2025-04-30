@@ -138,6 +138,10 @@ export class AddProductDto {
   @IsOptional()
   @IsString()
   custom_url: string
+
+  @IsOptional()
+  HomeProductImage: string
+
 }
 
 export class UpdateProductDto extends AddProductDto {

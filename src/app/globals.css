@@ -463,3 +463,12 @@ video::cue {
     overflow: hidden;
   }
 }
+
+.slick-vertical .slick-slide{
+  border: none !important;
+  margin-top: 2px !important;
+}
+.swiper-slide{
+  outline: none !important;
+  border: none !important;
+}

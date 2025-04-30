@@ -178,7 +178,16 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
         </Container>
       </div>
       <Container className="w-full relative mt-10 pt-10  border-t-2 mb-10">
-        <FeatureSlider similarProducts={products?.slice(0, 15) || []} title={true} isBestSeller={true} />
+      <FeatureSlider
+        similarProducts={
+          products
+            ?.filter((product) => product.categories?.[0]?.name?.toUpperCase() !== 'ACCESSORIES')
+            ?.sort((a, b) => b.price - a.price)
+            ?.slice(0, 15) || []
+        }
+        title={true}
+        isBestSeller={true}
+      />
       </Container>
     </div>
   );

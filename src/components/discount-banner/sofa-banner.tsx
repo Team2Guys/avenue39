@@ -11,13 +11,13 @@ import 'swiper/css/pagination';
 
 // Images
 import Chroma from '@assets/images/banners/Chroma.webp';
-import Marlin from '@assets/images/banners/Marlin.webp';
-import rafael from '@assets/images/banners/Rafael.webp';
+import Marlin from '@assets/images/banners/Marlin.avif';
+import rafael from '@assets/images/banners/Rafael.avif';
 import chair from '@assets/images/banners/chair.webp';
 import Magia from '@assets/images/banners/Magia.webp';
 import Moderno from '@assets/images/banners/Moderno.webp';
 import sofa from '@assets/images/banners/sofa.webp';
-import MobileMagia from '@assets/images/banners/Magia_m.webp';
+import MobileMagia from '@assets/images/banners/Magia_m.avif';
 import MobileModerno from '@assets/images/banners/Moderno_m.webp';
 
 const sofaDataSlides = [
@@ -125,7 +125,7 @@ const SofaBanner: React.FC = () => {
         >
           {sofaDataSlides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="flex flex-wrap items-center justify-center px-2 pb-4 sm:ps-20 md:ps-6 lg:ps-8 min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
+              <div className="flex flex-wrap items-center justify-center px-2 pb-4 sm:ps-20 md:ps-6 lg:ps-8 min-h-[400px] sm:min-h-[500px] md:min-h-[600px] py-5 md:py-0">
                 <div className="w-full lg:w-[30%] text-center lg:text-left max-xs:pt-5">
                   <Link
                     href={slide.link}
@@ -173,7 +173,7 @@ const SofaBanner: React.FC = () => {
               <SwiperSlide key={idx}>
                 <Link
                   href={slide.link}
-                  className="h-44 xsm:h-[200px] xs:h-[290px] block rounded-2xl sofa-slider"
+                  className="h-40 xsm:h-[200px] xs:h-[290px] block rounded-2xl sofa-slider"
                   style={{
                     backgroundImage: `url(${isMobile ? slide.mobileImage : slide.backgroundImage})`,
                     backgroundSize: 'cover',

@@ -39,7 +39,8 @@ const PortraitCard = ({
     accessoriesSlider,
     displayTag,
     isOutStock,
-    fill
+    fill,
+    isAccessory
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false);
     return (
@@ -82,7 +83,7 @@ const PortraitCard = ({
                                             ? calculateHeight
                                             : 'calc(100% - 20px)',
                                     }}
-                                    className={`${isLandscape ? 'w-9/12' : 'w-full'}`}
+                                    className={`${isLandscape ? 'w-9/12' : 'w-full'} ${isAccessory ? '' : 'min-w-[270px]'}  `}
                                 >
                                     <Image
                                         src={cardStaticData?.posterImageUrl || card.posterImageUrl}
@@ -90,7 +91,7 @@ const PortraitCard = ({
                                         width={600}
                                         height={600}
                                         className={
-                                            `${!displayTag && 'h-full'} w-full min-w-[270px] ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
+                                            `${!displayTag && 'h-full'} w-full ${isAccessory ? '' : 'min-w-[270px]'} ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
                                         }
                                         loading='lazy'
                                     />
@@ -122,10 +123,10 @@ const PortraitCard = ({
                             </div>
                         )}
                     </div>
-                    <div className={`space-y-3 ${isLandscape ? 'w-9/12 text-start' : ''}`}>
+                    <div className={` space-y-2 xs:space-y-3 ${isLandscape ? 'w-9/12 text-start' : ''}`}>
                         <Link
                             href={finalUrl}
-                            className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black cursor-pointer inline-block"
+                            className="text-sm md:text-[22px] xs:h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black cursor-pointer inline-block"
                         >
                             {displayName ? displayName : card.name}
                         </Link>

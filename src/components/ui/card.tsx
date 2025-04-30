@@ -38,6 +38,7 @@ const Card = ({
   cardLayout,
   accessoriesSlider,
   fill,
+  isAccessory
 }: CardProps) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
@@ -145,6 +146,7 @@ const Card = ({
       slider={slider}
       uniqueSizes={displayInfo.uniqueSizes}
       fill={fill}
+      isAccessory={isAccessory}
     />
   ) : ''
 };

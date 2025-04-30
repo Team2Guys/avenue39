@@ -36,7 +36,7 @@ const AllCategory = async ({ categories }: { categories: ICategory[] }) => {
       />
 
       <AccessoryProd
-        CategoryDescription={findCategoryProducts(categories, 'Bedroom')?.short_description || ''}
+        CategoryDescription={findCategoryProducts(categories, 'accessories')?.short_description || ''}
         CategoryName="Complement your design with accessories"
         redirect="accessories"
       />

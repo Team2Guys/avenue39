@@ -91,24 +91,21 @@ const SlugPage = async ({ params }: SlugPageProps) => {
       }
   
       )
-  
-        .sort((a: any, b: any) => {
-          if (!a.subcategories || a.subcategories.length === 0) return 1;
-          if (!b.subcategories || b.subcategories.length === 0) return -1;
-  
-          const subcategoryA = a.subcategories?.[0]?.name || '';
-          const subcategoryB = b.subcategories?.[0]?.name || '';
-  
-  
-  
-  
-          const indexA = subcategory.findIndex((item) => item.title === subcategoryA);
-          const indexB = subcategory.findIndex((item) => item.title === subcategoryB);
-  
-          return indexA - indexB;
-        });
+      .sort((a: any, b: any) => {
+        const isAChair = a.name?.toLowerCase().includes('dining chair');
+        const isBChair = b.name?.toLowerCase().includes('dining chair');
+      
+        // Push Dining Chair items to top
+        if (isAChair && !isBChair) return -1;
+        if (!isAChair && isBChair) return 1;
+      
+        // If both are or are not Dining Chairs, use subcategory order
+        const indexA = subcategory.findIndex(item => item.title === a.subcategories?.[0]?.name);
+        const indexB = subcategory.findIndex(item => item.title === b.subcategories?.[0]?.name);
+      
+        return indexA - indexB;
+      });
   }
-
   return (
     <Shop
       ProductData={sortProducts}

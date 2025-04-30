@@ -157,22 +157,22 @@ export const footerItems: FooterItem[] = [
   {
     bgClass: "bg-footerbuy",
     text: "Try Before You Buy",
-    overlayText: ["We assemble your furniture on delivery, and you have 20 minutes to decide—if not satisfied, we'll repack and process a refund."],
+    overlayText: ["Are you unsure about the colour, size or quality? “Try before you buy” service is for you. We bring the furniture to your home, check the quality and size, our team will wait 20 minutes for you to decide. If not happy, we’ll repack and process a refund."],
     showImage: true,
     imageSrc: "/assets/images/footer/buybefore.svg",
 
   },
   {
     bgClass: "bg-footerdeliver",
-    text: "Fastest Furniture Delivery in UAE",
-    overlayText: ["Get your order delivered in just 24 hours within Dubai and 48 hours across all Emirates."],
+    text: "Fastest Furniture Delivery In The UAE",
+    overlayText: ["Get your order delivered in just 24 hours within Dubai limits and 48 hours across all Emirates."],
     showImage: true,
     imageSrc: "/assets/images/footer/delivery.png",
   },
   {
     bgClass: "bg-footershowroom",
     text: "Visit Our Showroom",
-    overlayText: ["Experience our collection at our sister company, Two Guys Home Furnishing, located at <a class='underline' target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'> 23 22nd St - Al Quoz Industrial Area 4 - Dubai </a> - see, touch and feel the quality first-hand."],
+    overlayText: ["Experience our collection at our sister company, Two Guys Home Furnishing, located at <a class='underline' target='_blank' href='https://maps.app.goo.gl/4wnLULFAwHMdfBQ99' target='_blank'> Unit 23, 22nd St - Al Quoz Industrial Area 4 - Dubai </a> - see, touch and feel the quality first-hand."],
     showImage: true,
     imageSrc: "/assets/images/footer/showroomicon.svg",
   },

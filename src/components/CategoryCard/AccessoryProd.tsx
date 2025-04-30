@@ -72,19 +72,23 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
                         </div>
 
                         :
+                        <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full mt-5'>
+                           { paginatedProducts.length > 0 && paginatedProducts.map((product: IProduct) => (
+                                <Card
+                                    key={product.id}
+                                    card={product}
+                                    category
+                                    isLoading={false}
+                                    slider={false}
+                                    isHomepage
+                                    redirect='redirect'
+                                    cardLayout="grid"
+                                    isAccessory={true}
+                                />
+                            ))}
 
-                        paginatedProducts.length > 0 && paginatedProducts.map((product: IProduct) => (
-                            <Card
-                                key={product.id}
-                                card={product}
-                                category
-                                isLoading={false}
-                                slider={false}
-                                isHomepage
-                                redirect='redirect'
-                                cardLayout="grid"
-                            />
-                        ))}
+                        </div>
+                            }
 
             </div>
 

@@ -73,13 +73,14 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
 
   const processedProducts = variationProducts({ products: productsToFilter });
 
-  const filteredSortedCards = processedProducts?.filter((card) => {
+  let filteredSortedCards = processedProducts?.filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
       }
       if (pathname === '/sale') {
         return card.discountPrice > 0;
       }
+      
       return true;
     })
     .sort((a, b) => {
@@ -117,9 +118,19 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
 
     })
 
-  let Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards?.length
-
-  const filteredCards = [...filteredSortedCards]?.slice(0, Arraylenght);
+    if (pathname === '/new-arrivals') {
+      filteredSortedCards = [
+        ...filteredSortedCards.filter(
+          (card) => card.categories?.[0]?.name?.toLowerCase() !== 'accessories'
+        ),
+        ...filteredSortedCards.filter(
+          (card) => card.categories?.[0]?.name?.toLowerCase() === 'accessories'
+        ),
+      ];
+    }
+  
+    const Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards?.length;
+    const filteredCards = [...filteredSortedCards]?.slice(0, Arraylenght);
   return (
     <>
       {
@@ -148,10 +159,10 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
               <h1 className={`text-[35px] xs:text-[45px] font-Helveticalight font-bold capitalize ${info?.name?.toLowerCase() === 'living' ? 'tracking-widest' :'tracking-[1px]'}`}>
                 {SubcategoryName?.name ? SubcategoryName?.name.toLowerCase() : info?.name.toLowerCase()}
               </h1>
-              <Container>
-                <p className={`text-center font-Helveticalight text-base xs:text-18 ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: desc }}></p>
+              <div className='max-w-screen-xl'>
+                <p className={`text-justify font-Helveticalight text-base xs:text-18 ${pathname === '/sale' && 'hidden'}`} dangerouslySetInnerHTML={{ __html: desc }}></p>
                   {/* {isMobile ? description.split(" ").slice(0, 33).join(" ") + "." : description} */}
-              </Container>
+              </div>
             </div>
           )}
           <div className="sm:mt-4 mt-10 flex items-center justify-between gap-4 py-2 px-2 flex-col md:flex-row">

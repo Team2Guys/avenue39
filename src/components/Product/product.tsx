@@ -101,7 +101,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
       ),
     },
     {
-      label: "Additional Information",
+      label: "Dimensions",
       content:
         dataSource && dataSource.length > 0 ? (
           <Table
@@ -119,7 +119,7 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
   const filteredTabs = tabs.filter(
     (tab) =>
       !(
-        tab.label === "Additional Information" &&
+        tab.label === "Dimensions" &&
         (!dataSource || dataSource.length === 0)
       )
   );
@@ -178,7 +178,20 @@ const Product = ({ similarProducts, product, products, subslug, mainslug, filter
         </Container>
       </div>
       <Container className="w-full relative mt-10 pt-10  border-t-2 mb-10">
-        <FeatureSlider similarProducts={products?.slice(0, 15) || []} title={true} isBestSeller={true} />
+      <FeatureSlider
+  similarProducts={
+    products
+      ?.filter(
+        (product) =>
+          product.categories?.[0]?.name?.toUpperCase() !== 'ACCESSORIES' &&
+          (!product.discountPrice || product.discountPrice === 0)
+      )
+      ?.sort((a, b) => b.price - a.price)
+      ?.slice(0, 15) || []
+  }
+  title={true}
+  isBestSeller={true}
+/>
       </Container>
     </div>
   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import ProductSkeleton from '../Skaleton/productSkeleton';
 const ProductGrid = dynamic(() => import('./ProductGrid'));
-import { homeProducts } from '@/data/products';
 import dynamic from 'next/dynamic';
 import { renderProductSkeletons } from '@/config';
 const CategoryWrapper = dynamic(() => import('./CategoryWrapper'));
@@ -21,7 +20,6 @@ const FlexLayout = async ({
   redirect,
   accessoriesSlider,
 }: ICatProduct) => {
-  const productImages = homeProducts.find((item) => item.name === redirect)?.products || [];
 
 
   const mainProducts = category?.home_product?.[0] || [];
@@ -57,7 +55,6 @@ const FlexLayout = async ({
                 : (
                   <ProductGrid
                     products={mainProducts}
-                    productImages={productImages}
                     isHomepage
                     redirect={redirect}
                     imageHeight="h-[210px] xl:h-[496.5px] w-full"
@@ -72,7 +69,6 @@ const FlexLayout = async ({
             ) : (
               <ProductGrid
                 products={midProducts}
-                productImages={productImages}
                 slider
                 isHomepage
                 redirect={redirect}
@@ -96,7 +92,6 @@ const FlexLayout = async ({
 
             <ProductGrid
               products={extraProducts}
-              productImages={productImages}
               isHomepage
               redirect={redirect}
               imageHeight="h-[270px] xl:h-[290px]"

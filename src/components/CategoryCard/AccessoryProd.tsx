@@ -55,7 +55,7 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
 
 
 
-            <div className='flex md:flex-nowrap flex-wrap'>
+            <div className='flex md:flex-nowrap flex-wrap mt-6 mb-0 sm:my-8 md:mt-8 md:mb-0'>
                 {/* Render products */}
 
 

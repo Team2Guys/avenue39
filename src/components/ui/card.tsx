@@ -16,7 +16,6 @@ import { handleAddToCartCard, handleAddToWishlistCard } from '@/utils/productAct
 import { generateFinalUrl } from '@/config/HelperFunctions';
 
 // Lazy load cards
-const LandScapeCard = dynamic(() => import('./landScapeCard'), { ssr: false });
 const PortraitCard = dynamic(() => import('./portraitCard'), {
   ssr: false
 });
@@ -31,7 +30,6 @@ const Card = ({
   cardImageHeight,
   slider,
   isHomepage,
-  isLandscape,
   calculateHeight,
   portSpace,
   productImages,
@@ -39,7 +37,7 @@ const Card = ({
   mainCatgory,
   cardLayout,
   accessoriesSlider,
-  fill
+  fill,
 }: CardProps) => {
   const dispatch = useDispatch<Dispatch>();
   const cartItems = useSelector((state: State | any) => state.cart.items);
@@ -112,8 +110,6 @@ const Card = ({
   // ]);
 
 
-  
-
   const handleAddToCard = (e: MouseEvent<HTMLElement>) =>
     handleAddToCartCard(e, card, itemToAdd, cartItems, totalStock, dispatch);
 
@@ -124,7 +120,7 @@ const Card = ({
     return <CardSkeleton skeletonHeight={skeletonHeight} />;
   }
 
-  return itemToAdd ? cardLayout === 'grid' ? (
+  return itemToAdd ? (
     <PortraitCard
       accessoriesSlider={accessoriesSlider}
       averageRating={0}
@@ -135,12 +131,12 @@ const Card = ({
       className={className}
       displayName={displayInfo.displayName}
       displayTag={displayInfo.displayTag}
-      finalUrl={generateFinalUrl(itemToAdd, card ,SubcategoryName, mainCatgory)}
+      finalUrl={generateFinalUrl(itemToAdd, card, SubcategoryName, mainCatgory)}
       handleAddToCard={handleAddToCard}
       handleAddToWishlist={handleAddToWishlist}
       handleEventProbation={(e: any) => e.stopPropagation()}
       isHomepage={isHomepage}
-      isLandscape={isLandscape}
+      isLandscape={cardLayout === 'list'} // 👈 show description if list
       isModel={isModel}
       isOutStock={isOutStock}
       itemToAdd={itemToAdd}
@@ -149,19 +145,6 @@ const Card = ({
       slider={slider}
       uniqueSizes={displayInfo.uniqueSizes}
       fill={fill}
-    />
-  ) : (
-    <LandScapeCard
-      card={card}
-      isOutStock={isOutStock}
-      finalUrl={generateFinalUrl(itemToAdd, card ,SubcategoryName, mainCatgory)}
-      handleAddToWishlist={handleAddToWishlist}
-      averageRating={0}
-      displayName={displayInfo.displayName}
-      handleAddToCard={handleAddToCard}
-      handleEventProbation={(e: any) => e.stopPropagation()}
-      itemToAdd={itemToAdd}
-      uniqueSizes={displayInfo.uniqueSizes}
     />
   ) : ''
 };

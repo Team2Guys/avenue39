@@ -290,7 +290,6 @@ export interface CardProps {
   cardImageHeight?: string;
   slider?: boolean;
   isHomepage?: boolean;
-  isLandscape?: boolean;
   calculateHeight?: string;
   portSpace?: string;
   productImages?: IProduct[];
@@ -299,5 +298,6 @@ export interface CardProps {
   mainCatgory?: string;
   cardLayout?: string;
   accessoriesSlider?: boolean;
-  fill?: boolean
+  fill?: boolean;
+  isLandscape?: boolean;
 }

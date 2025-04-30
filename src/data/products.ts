@@ -14,7 +14,7 @@ export const ColorBannerData = [
     imageUrl2: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1741771764/c2wiqthukzvonbdcrwx9_vgdwum.webp',
     Heading: 'luxury furniture',
     Description:"We're home to beautiful chairs that tick off all the styles, from Industrial to Minimalist, Scandi to Mid-century. You can pick the silhouette and colour that works for you.",
-    link: "/dining"  
+    link: "/dining/chairs" 
   
   },
   {

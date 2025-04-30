@@ -157,7 +157,7 @@ export const footerItems: FooterItem[] = [
   {
     bgClass: "bg-footerbuy",
     text: "Try Before You Buy",
-    overlayText: ["We assemble your furniture on delivery, and you have 20 minutes to decide—if not satisfied, we'll repack and process a refund."],
+    overlayText: ["Are you unsure about the colour, size or quality? “Try before you buy” service is for you. We bring the furniture to your home, check the quality and size, our team will wait 20 minutes for you to decide. If not happy, we’ll repack and process a refund."],
     showImage: true,
     imageSrc: "/assets/images/footer/buybefore.svg",
 

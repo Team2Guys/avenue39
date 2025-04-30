@@ -163,7 +163,7 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
             id="email"
             name="email"
             type="email"
-            placeholder="Enter Email"
+            placeholder="Email"
             onChange={Signin.handleChange}
             value={Signin.values.email}
           />
@@ -172,7 +172,7 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
             id="password"
             name="password"
             type="password"
-            placeholder="Enter Password"
+            placeholder="Password"
             onChange={Signin.handleChange}
             value={Signin.values.password}
           />
@@ -196,12 +196,12 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
 
       <TabsContent value="register">
         <form onSubmit={Signup.handleSubmit} className="mt-10">
-          <div className="space-y-5 sm:space-y-0 sm:grid grid-cols-2 custom-input-wrapper gap-5 mb-5">
+          <div className="space-y-5 sm:space-y-0 flex flex-col gap-5 mb-5">
             <Input
               id="first_name"
               name="first_name"
               type="text"
-              placeholder="Enter First Name"
+              placeholder="First Name"
               onChange={Signup.handleChange}
               value={Signup.values.first_name}
             />
@@ -209,7 +209,7 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
               id="last_name"
               name="last_name"
               type="text"
-              placeholder="Enter Last Name"
+              placeholder="Last Name"
               onChange={Signup.handleChange}
               value={Signup.values.last_name}
             />
@@ -217,7 +217,7 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
               id="email"
               name="email"
               type="email"
-              placeholder="Enter Email"
+              placeholder="Email"
               onChange={Signup.handleChange}
               value={Signup.values.email}
             />
@@ -225,7 +225,7 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
               id="phone"
               name="phone"
               type="phone"
-              placeholder="Enter Phone Number"
+              placeholder="Phone Number"
               onChange={Signup.handleChange}
               value={Signup.values.phone}
             />
@@ -233,7 +233,7 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
               id="password"
               name="password"
               type="password"
-              placeholder="Enter Password"
+              placeholder="Password"
               onChange={Signup.handleChange}
               value={Signup.values.password}
             />
@@ -245,8 +245,8 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
               onChange={Signup.handleChange}
               value={Signup.values.confirm_password}
             />
-            <div className="flex items-center space-y-3 px-2 col-span-2 flex-wrap sm:flex-nowrap">
-             <div className='flex gap-2 items-center'>
+
+             <div className='flex gap-2 items-center px-2'>
              <Checkbox
                 id="terms"
                 value={terms as any}
@@ -256,16 +256,15 @@ export default function LoginForm({ onTabChange, activeTab }: TabsProps) {
                 htmlFor="terms"
                 className="text-sm text-gray-400 space-x-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer "
               >
-                <span className='text-14'>By creating your account you agree to our</span>
-              </label>
-             </div>
-              <Link
+                <span className='text-14'>By creating your account you agree to our <Link
                 href="/terms-and-conditions"
                 className="text-black cursor-pointer"
               >
                 Terms and Conditions
-              </Link>
-            </div>
+              </Link></span>
+              </label>
+             </div>
+              
           </div>
           <Button
             type="submit"

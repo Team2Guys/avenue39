@@ -65,7 +65,7 @@ export const convertHomeProductToInitialValues = (categories: any[]) => {
 };
 
 export const findCategoryProducts = (categories: ICategory[], CategoryName: string) => {
-  const findCat = categories.find((item) => item.name.toLowerCase() === CategoryName.toLowerCase());
+  const findCat = categories?.find((item) => item.name.toLowerCase() === CategoryName.toLowerCase());
   if (findCat) {
     return findCat
   }

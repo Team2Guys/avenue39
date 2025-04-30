@@ -252,12 +252,12 @@ html {
 }
 
 .sofa_swiper .swiper-pagination-bullet {
-  background: #949494 !important;
+  background: #bfbfbf !important;
   opacity: 1;
 }
 
 .sofa_swiper .swiper-pagination-bullet-active {
-  background: #bfbfbf !important;
+  background: #949494 !important;
   opacity: 1;
 }
 
@@ -462,4 +462,13 @@ video::cue {
   .no-scroll {
     overflow: hidden;
   }
+}
+
+.slick-vertical .slick-slide{
+  border: none !important;
+  margin-top: 2px !important;
+}
+.swiper-slide{
+  outline: none !important;
+  border: none !important;
 }

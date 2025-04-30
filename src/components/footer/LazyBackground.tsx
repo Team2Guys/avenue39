@@ -35,7 +35,7 @@ const LazyBackground: React.FC<LazyBackgroundProps> = ({ style , item }) => {
            backgroundImage: isInView ? `url(${item.bgClass})` : undefined,
            transition: 'background-image 0.3s ease-in-out',
          }}>
-      <p className="group-hover:opacity-0 absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-white font-semibold text-20 xl:text-[26px] w-full">
+      <p className="group-hover:opacity-0 absolute bottom-1 left-1/2 transform -translate-x-1/2 text-center text-white font-semibold text-20 xl:text-[26px] w-full font-Helveticalight">
         {item.text}
       </p>
     </div>

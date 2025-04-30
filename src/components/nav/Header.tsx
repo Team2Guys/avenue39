@@ -10,43 +10,47 @@ import Navbar from './nav-bar';
 
 const Header = () => {
   const [sortedCategories, setSortedCategories] = useState<ICategory[]>([]);
-  const { data: categories = [] } = useQuery<ICategory[], Error>({
+  const { data: categoriesData  = [] } = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
     queryFn: () => fetchCategories('getHeaderCategories'),
   });
   useEffect(() => {
-    if (categories.length > 0) {
-      const customSortedCategories: ICategory[] = [];
-      const categoriesNotInMenuData: ICategory[] = [];
-      Object.keys(menuData).forEach((categoryKey) => {
-        const categoryItems = menuData[categoryKey];
-        const matchingCategories = categories.filter((category: ICategory) =>
-          categoryItems.some((item) => item.categoryId === category.id),
-        );
-        customSortedCategories.push(...matchingCategories);
-      });
-      const remainingCategories = categories.filter(
-        (category: ICategory) =>
-          !customSortedCategories.some(
-            (sortedCategory) => sortedCategory.id === category.id,
-          ),
-      );
-      categoriesNotInMenuData.push(...remainingCategories);
-      const newArrivalsCategory = categoriesNotInMenuData.find(
-        (category) => category.name.toLowerCase() === 'new arrivals',
-      );
-      const otherCategories = categoriesNotInMenuData.filter(
-        (category) => category.name.toLowerCase() !== 'new arrivals',
-      );
-      const finalSortedCategories = [
-        ...customSortedCategories,
-        ...otherCategories,
-        ...(newArrivalsCategory ? [newArrivalsCategory] : []),
-      ];
+    if (!Array.isArray(categoriesData)) return;
 
-      setSortedCategories(finalSortedCategories);
-    }
-  }, [categories]);
+    const customSortedCategories: ICategory[] = [];
+    const categoriesNotInMenuData: ICategory[] = [];
+
+    Object.keys(menuData).forEach((categoryKey) => {
+      const categoryItems = menuData[categoryKey];
+      const matchingCategories = categoriesData.filter((category: ICategory) =>
+        categoryItems.some((item) => item.categoryId === category.id),
+      );
+      customSortedCategories.push(...matchingCategories);
+    });
+
+    const remainingCategories = categoriesData.filter(
+      (category: ICategory) =>
+        !customSortedCategories.some(
+          (sortedCategory) => sortedCategory.id === category.id,
+        ),
+    );
+    categoriesNotInMenuData.push(...remainingCategories);
+
+    const newArrivalsCategory = categoriesNotInMenuData.find(
+      (category) => category.name.toLowerCase() === 'new arrivals',
+    );
+    const otherCategories = categoriesNotInMenuData.filter(
+      (category) => category.name.toLowerCase() !== 'new arrivals',
+    );
+
+    const finalSortedCategories = [
+      ...customSortedCategories,
+      ...otherCategories,
+      ...(newArrivalsCategory ? [newArrivalsCategory] : []),
+    ];
+
+    setSortedCategories(finalSortedCategories);
+  }, [categoriesData]);
 
   return (
     <>

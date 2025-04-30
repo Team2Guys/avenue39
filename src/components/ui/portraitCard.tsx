@@ -39,15 +39,16 @@ const PortraitCard = ({
     accessoriesSlider,
     displayTag,
     isOutStock,
-    fill
+    fill,
+    isAccessory
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false);
     console.log(card.additionalInformation)
     return (
         <div
-            className={`text-center product-card mb-2 flex flex-col ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
+            className={`text-center product-card mb-2 flex flex-col  ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
             <span className='hidden' >{averageRating}</span>
-            <div className="relative w-full overflow-hidden rounded-t-[35px] group">
+            <div className={`relative w-full overflow-hidden rounded-t-[35px] group flex ${isLandscape ? ' items-center text-center gap-4' : 'flex-col'}`}>
 
                 <div
                     onClick={(e) => handleAddToWishlist(e)}
@@ -58,7 +59,7 @@ const PortraitCard = ({
                     <IoIosHeartEmpty size={20} />
                 </div>
                 <>
-                    <div className="bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main">
+                    <div className={`bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main ${isLandscape ? 'w-3/12' : ''}`}>
                         {/* <span className='pb-10'>{card.subcategories?.map((item) => item.name)}</span> */}
                         {card.discountPrice > 0 && (
                             <p className="z-[1] absolute top-1 -left-9 px-7 transform -rotate-45 bg-red-700 text-white text-14 font-bold w-[120px] h-[40px] flex justify-center items-center">
@@ -83,7 +84,7 @@ const PortraitCard = ({
                                             ? calculateHeight
                                             : 'calc(100% - 20px)',
                                     }}
-                                    className={`${isLandscape && 'w-full'}`}
+                                    className={`${isLandscape ? 'w-9/12' : 'w-full'} ${isAccessory ? '' : 'min-w-[270px]'}  `}
                                 >
                                     <Image
                                         src={cardStaticData?.imageUrl || card.posterImageUrl}
@@ -91,7 +92,7 @@ const PortraitCard = ({
                                         width={600}
                                         height={600}
                                         className={
-                                            `${!displayTag && 'h-full'} w-full ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
+                                            `${!displayTag && 'h-full'} w-full ${isAccessory ? '' : 'min-w-[270px]'} ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
                                         }
                                         loading='lazy'
                                     />
@@ -112,7 +113,8 @@ const PortraitCard = ({
                                             className,
                                             skeletonHeight,
                                             cardImageHeight,
-                                            !isHomepage && !slider && 'border border-main'
+                                            !isHomepage && !slider && 'border border-main',
+                                            isLandscape ? 'object-contain' : ''
                                         )}
                                         onMouseEnter={() => setIsHoverImage(true)}
                                         onMouseLeave={() => setIsHoverImage(false)}
@@ -122,16 +124,21 @@ const PortraitCard = ({
                             </div>
                         )}
                     </div>
-                    <div className="space-y-3">
+                    <div className={` space-y-2 xs:space-y-3 ${isLandscape ? 'w-9/12 text-start' : ''}`}>
                         <Link
                             href={finalUrl}
-                            className="text-sm md:text-[22px] h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black cursor-pointer inline-block"
+                            className="text-sm md:text-[22px] xs:h-9 text-gray-600 font-Helveticalight mt-2 group-hover:font-bold group-hover:text-black cursor-pointer inline-block"
                         >
                             {displayName ? displayName : card.name}
                         </Link>
-
+                        {isLandscape && 
+                        <p className="mt-2 font-normal text-sm max-h-10 text-ellipsis line-clamp-2">
+                            {card.description}
+                        </p>
+                        }
+                        {/* {card.subcategories?.map((item) => item.name)} */}
                         {card.discountPrice ? (
-                            <div className="flex gap-2 justify-center">
+                            <div className={`flex gap-2  ${isLandscape ? '' : 'justify-center'}`}>
                                 <p className="text-sm md:text-18 font-bold line-through font-Helveticalight">
                                     <span className="font-currency font-normal"></span> {new Intl.NumberFormat("en-US", { style: "decimal" }).format(card.price)}
                                 </p>
@@ -153,7 +160,7 @@ const PortraitCard = ({
                             <button className='bg-red-500 text-white text-12 font-medium uppercase w-full max-w-52 mx-auto bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
                                 <BsCartX size={18} /> Out of Stock</button> : (
                                 <div
-                                    className={`text-center items-center  w-full flex justify-center gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
+                                    className={`text-center items-center  w-full flex ${isLandscape ? '' : 'justify-center'} gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}
                                     onClick={(e) => handleEventProbation(e)}
                                 >
 

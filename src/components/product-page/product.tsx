@@ -72,13 +72,14 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
 
   const processedProducts = variationProducts({ products: productsToFilter });
 
-  const filteredSortedCards = processedProducts?.filter((card) => {
+  let filteredSortedCards = processedProducts?.filter((card) => {
       if (pathname === '/products') {
         return card.discountPrice > 0 && card.stock > 0;
       }
       if (pathname === '/sale') {
         return card.discountPrice > 0;
       }
+      
       return true;
     })
     .sort((a, b) => {
@@ -116,9 +117,19 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
 
     })
 
-  let Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards?.length
-
-  const filteredCards = [...filteredSortedCards]?.slice(0, Arraylenght);
+    if (pathname === '/new-arrivals') {
+      filteredSortedCards = [
+        ...filteredSortedCards.filter(
+          (card) => card.categories?.[0]?.name?.toLowerCase() !== 'accessories'
+        ),
+        ...filteredSortedCards.filter(
+          (card) => card.categories?.[0]?.name?.toLowerCase() === 'accessories'
+        ),
+      ];
+    }
+  
+    const Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards?.length;
+    const filteredCards = [...filteredSortedCards]?.slice(0, Arraylenght);
   return (
     <>
       {

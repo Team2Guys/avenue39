@@ -37,7 +37,6 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
     });
   }, [menudata]);
 
-  // 🔁 Memoized routing function
   const routingHandler = useCallback((mainCategory: string, subCategory: string) => {
     const routed = re_Calling_products.find(
       (value) =>
@@ -45,9 +44,9 @@ const MenuLink: React.FC<MenuLinkProps> = ({ menudata, onLinkClick }) => {
         TrimUrlHandler(value.subCategory) === TrimUrlHandler(subCategory),
     );
 
-    const routedMainCategory = routed?.redirect_main_cat || mainCategory;
+    const rawMainCategory = routed?.redirect_main_cat || mainCategory;
+    const routedMainCategory = rawMainCategory.toLowerCase() === 'home office' ? 'office-furniture' : rawMainCategory;
     const routedSubCategory = routed?.redirectsubCat || subCategory;
-
     return `/${generateSlug(routedMainCategory)}/${generateSlug(routedSubCategory)}`;
   }, []);
 

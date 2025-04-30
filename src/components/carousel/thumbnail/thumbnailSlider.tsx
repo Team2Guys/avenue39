@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Slider from 'react-slick';
 import Image from 'next/image';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
@@ -71,7 +71,12 @@ const CustomThumbnailSlickSlider = ({
     ],
 
   };
-
+  // Scroll to active thumbnail when it changes
+  useEffect(() => {
+    if (slickRef.current && typeof slickRef.current.slickGoTo === 'function') {
+      slickRef.current.slickGoTo(activeSlickSlide);
+    }
+  }, [activeSlickSlide]);
   return (
     <div className="w-full md:w-3/12 lg:w-1/5 relative product-slider-wrapper">
       

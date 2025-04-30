@@ -11,13 +11,13 @@ import 'swiper/css/pagination';
 
 // Images
 import Chroma from '@assets/images/banners/Chroma.webp';
-import Marlin from '@assets/images/banners/Marlin.webp';
-import rafael from '@assets/images/banners/rafael.webp';
+import Marlin from '@assets/images/banners/Marlin.avif';
+import rafael from '@assets/images/banners/Rafael.avif';
 import chair from '@assets/images/banners/chair.webp';
 import Magia from '@assets/images/banners/Magia.webp';
 import Moderno from '@assets/images/banners/Moderno.webp';
 import sofa from '@assets/images/banners/sofa.webp';
-import MobileMagia from '@assets/images/banners/Magia_m.webp';
+import MobileMagia from '@assets/images/banners/Magia_m.avif';
 import MobileModerno from '@assets/images/banners/Moderno_m.webp';
 
 const sofaDataSlides = [
@@ -125,8 +125,8 @@ const SofaBanner: React.FC = () => {
         >
           {sofaDataSlides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="flex flex-wrap items-center justify-center px-2 pb-4 sm:ps-20 md:ps-6 lg:ps-8 min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
-                <div className="w-full lg:w-1/3 text-center lg:text-left max-xs:pt-5">
+              <div className="flex flex-wrap items-center justify-center px-2 pb-4 sm:ps-20 md:ps-6 lg:ps-8 min-h-[400px] sm:min-h-[500px] md:min-h-[600px] py-5 md:py-0">
+                <div className="w-full lg:w-[30%] text-center lg:text-left max-xs:pt-5">
                   <Link
                     href={slide.link}
                     className="py-1 px-3 block w-fit bg-white text-[14px] md:text-2xl lg:text-sm xl:text-xl 2xl:text-3xl rounded-2xl text-black border border-gray-500 hover:bg-main font-Helveticalight 2xl:whitespace-nowrap mx-auto lg:mx-0"
@@ -137,14 +137,14 @@ const SofaBanner: React.FC = () => {
                   <p className="text-lg font-bold text-black mt-1"><span className="font-currency font-bold"></span> {slide.product_price}</p>
                 </div>
 
-                <div className="w-full lg:w-2/3 relative flex justify-center xl:h-[500px]">
+                <div className="w-full lg:w-[70%] relative flex justify-center xl:h-[400px] 2xl:h-[500px]">
                   <Link href={slide.link}>
                     <Image
                       src={slide.image}
                       width={900}
                       height={500}
                       alt={slide.title}
-                      className="max-w-[900px] w-full h-full"
+                      className="max-w-[700px] xl:max-w-[900px] w-full h-full"
                       loading='lazy'
                     />
                   </Link>
@@ -173,7 +173,7 @@ const SofaBanner: React.FC = () => {
               <SwiperSlide key={idx}>
                 <Link
                   href={slide.link}
-                  className="h-44 xsm:h-[200px] xs:h-[290px] block rounded-2xl sofa-slider"
+                  className="h-40 xsm:h-[200px] xs:h-[290px] block rounded-2xl sofa-slider"
                   style={{
                     backgroundImage: `url(${isMobile ? slide.mobileImage : slide.backgroundImage})`,
                     backgroundSize: 'cover',

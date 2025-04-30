@@ -4,7 +4,7 @@ import { AddCategoryDto, UpdateCategoryDto, UpdateCategoryHomeProductsDto } from
 import { customHttpException } from '../utils/helper';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { CHACHE_CATEGORY_KEY, CHACHE_CATEGORY_PRODUCTS_KEY } from '../../src/utils/CacheKeys';
+import { CHACHE_CATEGORY_HEADER_KEY, CHACHE_CATEGORY_KEY, CHACHE_CATEGORY_PRODUCTS_KEY } from '../../src/utils/CacheKeys';
 
 @Injectable()
 export class CategoriesService {
@@ -124,7 +124,7 @@ export class CategoriesService {
 
   async getHeaderCategories() {
     try {
-      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_KEY);
+      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_HEADER_KEY);
       console.log(cachedCategories, "cachec categories")
       if (cachedCategories) {
         console.log('Returning categories from cache')
@@ -156,7 +156,7 @@ export class CategoriesService {
       });
 
       // @ts-ignore
-      await this.cacheManager.set(CHACHE_CATEGORY_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
+      await this.cacheManager.set(CHACHE_CATEGORY_HEADER_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
 
       return categories;
 

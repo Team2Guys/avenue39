@@ -25,7 +25,7 @@ export class ProductsService {
           filter: true,
           additionalInformation: true,
           productImages: true,
-
+          shippingOptions: true,
           categories: {
             select: {
               name: true,

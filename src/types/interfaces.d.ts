@@ -267,7 +267,7 @@ export interface PotraitCardProps {
     slider: boolean | undefined,
     isLandscape: boolean | undefined,
     cardImageHeight: string | undefined,
-    cardStaticData?: ProductImage,
+    productImage?: ProductImage,
     displayTag: any,
     isOutStock: boolean,
     isModel: boolean | undefined,

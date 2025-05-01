@@ -67,13 +67,17 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
     (EditInitialValues && EditInitialValues.HomeProductImage) ? [EditInitialValues.HomeProductImage] 
       : [],
   );
-  const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }] : [],
+  const [hoverImage, sethoverImage] = useState<any[] | null | undefined>(EditInitialValues ? 
+    [{ imageUrl: EditInitialValues.hoverImageUrl, public_id: EditInitialValues.hoverImagePublicId, altText: EditInitialValues.hoverImageAltText }]
+     : [],
   );
   const [loading, setloading] = useState<boolean>(false);
   const [productInitialValue, setProductInitialValue] = useState<any | null | undefined>(EditProductValue);
   const [imgError, setError] = useState<string | null | undefined>();
   const dragImage = useRef<number | null>(null);
   const draggedOverImage = useRef<number | null>(null);
+
+  console.log(hoverImage,'hoverImage')
 
   function handleSort() {
     if (dragImage.current === null || draggedOverImage.current === null) return;
@@ -351,8 +355,9 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
         posterImageAltText: posterImageUrl.altText,
         posterImageIndex: posterImageUrl.Index,
         HomeProductImage: HomeProductImage,
+        hoverImageUrl: hoverImageUrl.imageUrl,
         hoverImagePublicId: hoverImageUrl.public_id,
-        hoverImageAltText: posterImageUrl.altText,
+        hoverImageAltText: hoverImageUrl.altText,
         productImages: imagesUrl,
         sale_counter:
           values.sale_counter === '' || EditInitialValues.sale_counter == null
@@ -379,6 +384,7 @@ const FormElements: React.FC<ADDPRODUCTFORMPROPS> = ({ EditInitialValues, EditPr
 
 
       revalidateTag('products');
+      revalidateTag('categories');
       Toaster('success', updateFlag
         ? 'Product has been sucessufully Updated !'
         : response.data.message,

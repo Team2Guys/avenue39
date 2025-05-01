@@ -9,6 +9,10 @@ import { useSelector } from 'react-redux';
 import { selectTotalPrice } from '@/redux/slices/cart';
 import { State } from '@/redux/store';
 import { BsTruck } from 'react-icons/bs';
+import Image from 'next/image';
+import { shippingOption } from '@/data/data';
+import { Collapse } from 'antd';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
 const CartOrder: React.FC = () => {
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
@@ -41,24 +45,63 @@ const CartOrder: React.FC = () => {
   const progressBarPercentage =
     totalPrice > 1000 ? 100 : (totalPrice / 1000) * 100;
   const remainingAmount = 1000 - totalPrice;
+
+
+  const itemsCollapse = shippingOption.map((shipping, index) => ({
+    key: index.toString(),
+    label: <span className={`font-helvetica 
+        font-bold  text-main
+        `}>{shipping.name}</span>,
+    children: (
+      <div className="bg-white px-2 xs:px-4 py-2 mt-2 flex gap-2 xs:gap-4 items-center">
+        <Image src={shipping.icon} width={50} height={50} alt="icon" className="size-12 xs:size-16" />
+        <div className='font-helvetica'>
+          <strong className="text-14 xs:text-18">{shipping.name}</strong>
+          <p className="text-11 xs:text-15">{shipping.description}</p>
+          <p className="text-11 xs:text-15">
+            <span>Delivery Cost: </span>
+            {shipping.shippingFee > 0 ? (
+              <>
+                <span>In Dubai </span><strong><span className="font-currency font-normal"></span> {shipping.shippingFee}</strong>
+              </>
+            ) : (
+              <strong>Free of charge for all orders.</strong>
+            )}
+            {shipping.otherEmiratesFee && (
+              <>, <span>All Other Emirates</span> <strong><span className="font-currency font-normal"></span> {shipping.otherEmiratesFee}</strong>.</>
+            )}
+            {shipping.freeShippingFee && (
+              <div><span>Free shipping for all orders above</span> <strong><span className="font-currency font-normal"></span> {shipping.freeShippingFee}</strong>.</div>
+            )}
+          </p>
+        </div>
+      </div>
+    ),
+  }));
   return (
     <div className="shadow border border-gray-200 rounded-md p-2 md:p-4 w-full space-y-5 mt-5 md:mt-0">
       <p className="text-center text-[26px]">Cart</p>
       <div className="flex justify-between items-center pt-4">
         <p className="text-[#666666] font-bold text-20">Total</p>
         <p className="font-medium text-[26px]">
-        <span className="font-currency font-normal"></span>{' '}
+          <span className="font-currency font-normal"></span>{' '}
           <span>
             <SubTotal />
           </span>
         </p>
       </div>
       <div className="mt-4 space-y-3">
-        <p className="text-xs xl:text-14">
-          We offer FREE NEXT DAY delivery throughout Dubai city for any orders
-          above <span className="font-currency font-normal"></span> 1,000. For all other areas of mainland UAE, your order will
-          reach you within 2 working days.
-        </p>
+        <div className="bg-gray-200">
+          <Collapse
+            accordion
+            bordered={false}
+            defaultActiveKey={'0'}
+            expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
+            expandIconPosition="end"
+            className="w-full bg-transparent custom-collapse"
+            items={itemsCollapse}
+          />
+        </div>
         {totalPrice >= 1000 ? (
           <div className="relative w-full bg-gray-200 h-10 rounded-full">
             <div
@@ -74,7 +117,7 @@ const CartOrder: React.FC = () => {
         ) : (
           <>
             <p className="text-[#666666] text-xs font-medium">
-            <span className="font-currency font-normal"></span> {remainingAmount} away from free delivery
+              <span className="font-currency font-normal"></span> {remainingAmount} away from free delivery
             </p>
             <div className="w-full bg-gray-200 h-10 rounded-full ">
               <div

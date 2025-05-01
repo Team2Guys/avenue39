@@ -65,6 +65,7 @@
     "infinity-twist-sculpture",
     "looped-accent-bowl",
     "luce-side-table",
+    ///////////////////////////
     "lucius-coffee-table-set",
     "magia-office-desk",
     "marlin-rocking-chair",

@@ -29,7 +29,7 @@ import { Collapse } from 'antd';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { IProduct, ProductImage, Shipping, Sizes } from '@/types/prod';
 import Thumbnail from '../carousel/thumbnail';
-const TabyTamra = dynamic(() => import('./TabyTamra'), {ssr: false})
+const TabyTamra = dynamic(() => import('./TabyTamra'), { ssr: false })
 
 
 const ProductDetail = ({
@@ -92,7 +92,7 @@ const ProductDetail = ({
   const handleCollapseChange = (key: string | string[]) => {
     setActiveKey(key);
     const selected = product?.shippingOptions?.[Number(key)];
-      setSelectedShipping(selected);
+    setSelectedShipping(selected);
   };
   useEffect(() => {
     if (product?.shippingOptions && product?.shippingOptions?.length > 0) {
@@ -308,8 +308,8 @@ const ProductDetail = ({
               <>, <span>All Other Emirates</span> <strong><span className="font-currency font-normal"></span> {shipping.otherEmiratesFee}</strong>.</>
             )}
             {shipping.freeShippingFee && (
-                    <div><span>Free shipping for all orders above</span> <strong><span className="font-currency font-normal"></span> {shipping.freeShippingFee}</strong>.</div>
-                  )}
+              <div><span>Free shipping for all orders above</span> <strong><span className="font-currency font-normal"></span> {shipping.freeShippingFee}</strong>.</div>
+            )}
           </p>
         </div>
       </div>
@@ -555,23 +555,25 @@ const ProductDetail = ({
         {product?.discountPrice > 0 || productDiscPrice > 0 ? (
           <ProductPrice className="flex items-center gap-2">
             <NormalText className="font-normal text-base text-slate-400 line-through">
-            <span className="font-currency font-normal"></span>{' '}
+              <span className="font-currency text-18"></span>{' '}
               {productPrice > 0
                 ? formatPrice(productPrice)
                 : `${formatPrice(product?.price)}`}
             </NormalText>
-            <span className="font-currency font-normal"></span>{' '}
-            {productDiscPrice > 0
-              ? productDiscPrice > 1000
-                ? formatPrice(productDiscPrice.toLocaleString())
-                : formatPrice(productDiscPrice)
-              : product?.discountPrice > 1000
-                ? formatPrice(product?.discountPrice.toLocaleString())
-                : formatPrice(product?.discountPrice)}
+            <div className='mb-1'>
+              <span className="font-currency text-[22px]"></span>{' '}
+              {productDiscPrice > 0
+                ? productDiscPrice > 1000
+                  ? formatPrice(productDiscPrice.toLocaleString())
+                  : formatPrice(productDiscPrice)
+                : product?.discountPrice > 1000
+                  ? formatPrice(product?.discountPrice.toLocaleString())
+                  : formatPrice(product?.discountPrice)}
+            </div>
           </ProductPrice>
         ) : (
           <ProductPrice className="flex items-center gap-2">
-            <span className="font-currency font-normal"></span>{' '}
+            <span className="font-currency text-[22px]"></span>{' '}
             {productPrice > 0
               ? formatPrice(productPrice)
               : formatPrice(product?.price)}
@@ -645,7 +647,7 @@ const ProductDetail = ({
               <div className="py-2">
                 <h2 className="font-semibold text-[16px] font-sans Capitalize">
                   {product?.filter[0]?.heading}{' '}
-                  <span className="capitalize">{filter?.name}</span>
+                  <span>{filter?.name}</span>
                 </h2>
                 <div className="flex space-x-4 mt-2">
                   {availableFilters.map((item, index: number) => {
@@ -722,7 +724,7 @@ const ProductDetail = ({
             <Collapse
               accordion
               activeKey={activeKey}
-              onChange={handleCollapseChange} 
+              onChange={handleCollapseChange}
               bordered={false}
               expandIcon={({ isActive }) => (isActive ? <AiOutlineMinus size={18} /> : <AiOutlinePlus size={18} />)}
               expandIconPosition="end"

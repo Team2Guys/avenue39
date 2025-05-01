@@ -145,7 +145,7 @@ const MoblieSearch = ({searchText , setIsProductListOpen, isPending, error, isLo
                            <div className='flex items-center justify-center gap-3 flex-wrap'>
                              <div className='flex items-center gap-1 text-13'>
                                <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
-                               <span className='capitalize'>{product.colorName}</span>
+                               <span>{product.colorName}</span>
                              </div>
                              <span className='text-13'>{product.sizeName}</span>
                              {<span className={`text-13  ${Number(getAllStock(product)) <= 0 ? "text-red-500" : ""}`}>{Number(getAllStock(product)) <= 0 ? "Out of Stock" : "In Stock"}</span>

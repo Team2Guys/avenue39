@@ -3,7 +3,6 @@ import { generateSlug } from '@/config';
 import { fetchCategories, fetchProducts } from '@/config/fetch';
 import { Meta_handler } from '@/config/metaHanlder';
 import { menuData } from '@/data/menu';
-import { Product, Subcategory } from '@/data/new_Arrival';
 import { ICategory } from '@/types/cat';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
@@ -48,64 +47,65 @@ const SlugPage = async ({ params }: SlugPageProps) => {
 
   const categoryName =
     slug === 'lighting' ? 'Lighting' :
-    slug === 'office-furniture' ? 'homeOffice' :
-    slug;
+      slug === 'office-furniture' || slug === 'home-office' ? 'homeOffice' :
+        slug;
 
-    const subcategory = menuData[categoryName] || [];
-    let sortProducts;
-  
-  
-    if (slug === "new-arrivals") {
-      const ProductSet = new Set(Product.map(generateSlug));
-      const SubcategorySet = new Set(Subcategory.map(generateSlug));
-      const CategorySet = new Set(categories.map(generateSlug));
-      const filterProds = allProducts?.map((prods: any) => {
-        const productSlug = generateSlug(prods.name);
-        if (!ProductSet.has(productSlug)) {
-          return null;
-        }
-        const filteredSubcategories = prods.subcategories.filter((subcat: any) =>
-          SubcategorySet.has(generateSlug(subcat.name)) &&
-          subcat.categories?.some((value: any) => CategorySet.has(generateSlug(value.name)))
-        );
-  
-        return {
-          ...prods,
-          subcategory: filteredSubcategories
-        };
-      }).filter(Boolean);
-      sortProducts = filterProds
-  
-    } else {
-      sortProducts = allProducts.filter((product: any) => {
-        let hasSubCate = product.subcategories?.some((productSubcategory: any) =>
-          findCategory.subcategories.some((findSubcategory: any) =>
-            productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
-          )
-        );
-        let hasMainCategory: any;
-        if (!hasSubCate) {
-          hasMainCategory = product.categories.some((category: ICategory) => generateSlug(category.custom_url || category.name) == slug)
-        }
-        return hasSubCate ? hasSubCate : hasMainCategory
-      }
-  
+  const subcategory = menuData[categoryName] || [];
+  const sortProducts = allProducts.filter((product: any) => {
+    let hasSubCate = product.subcategories?.some((productSubcategory: any) =>
+      findCategory.subcategories.some((findSubcategory: any) =>
+        productSubcategory.name.trim().toLocaleLowerCase() === findSubcategory.name.trim().toLocaleLowerCase()
       )
-      .sort((a: any, b: any) => {
-        const isAChair = a.name?.toLowerCase().includes('dining chair');
-        const isBChair = b.name?.toLowerCase().includes('dining chair');
-      
-        // Push Dining Chair items to top
+    );
+    let hasMainCategory: any;
+    if (!hasSubCate) {
+      hasMainCategory = product.categories.some((category: ICategory) => generateSlug(category.custom_url || category.name) == slug)
+    }
+    return hasSubCate ? hasSubCate : hasMainCategory
+  }
+
+  )
+    .sort((a: any, b: any) => {
+      const isAChair = a.name?.toLowerCase().includes('dining chair');
+      const isBChair = b.name?.toLowerCase().includes('dining chair');
+      const isATable = a.name?.toLowerCase().includes('dining table');
+      const isBTable = b.name?.toLowerCase().includes('dining table');
+      const isAAccessory = a.categories?.some((category: any) => category.name.toLowerCase() === 'accessories');
+      const isBAccessory = b.categories?.some((category: any) => category.name.toLowerCase() === 'accessories');
+
+      // If the slug is "new-arrivals", perform custom sorting
+      if (slug === 'new-arrivals') {
+        // Dining Tables come first
+        if (isATable && !isBTable) return -1;
+        if (!isATable && isBTable) return 1;
+
+        // Dining Chairs come after Dining Tables
         if (isAChair && !isBChair) return -1;
         if (!isAChair && isBChair) return 1;
-      
-        // If both are or are not Dining Chairs, use subcategory order
+
+        // All other products (excluding accessories) come after Dining Chairs
+        const isAOthers = !isAChair && !isATable && !isAAccessory;
+        const isBOthers = !isBChair && !isBTable && !isBAccessory;
+        if (isAOthers && !isBOthers) return -1; // A comes before B if A is an "other" product
+        if (!isAOthers && isBOthers) return 1;  // B comes before A if B is an "other" product
+
+        // Accessories go to the end
+        if (isAAccessory && !isBAccessory) return 1;
+        if (!isAAccessory && isBAccessory) return -1;
+
+        // For products that aren't in any special categories, sort by subcategory
         const indexA = subcategory.findIndex(item => item.title === a.subcategories?.[0]?.name);
         const indexB = subcategory.findIndex(item => item.title === b.subcategories?.[0]?.name);
-      
+
         return indexA - indexB;
-      });
-  }
+      }
+
+      // Default sorting (if slug is not "new-arrivals")
+      const indexA = subcategory.findIndex(item => item.title === a.subcategories?.[0]?.name);
+      const indexB = subcategory.findIndex(item => item.title === b.subcategories?.[0]?.name);
+
+      return indexA - indexB;
+    });
   return (
     <Shop
       ProductData={sortProducts}

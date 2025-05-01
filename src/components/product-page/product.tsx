@@ -117,16 +117,7 @@ const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window
 
     })
 
-    if (pathname === '/new-arrivals') {
-      filteredSortedCards = [
-        ...filteredSortedCards.filter(
-          (card) => card.categories?.[0]?.name?.toLowerCase() !== 'accessories'
-        ),
-        ...filteredSortedCards.filter(
-          (card) => card.categories?.[0]?.name?.toLowerCase() === 'accessories'
-        ),
-      ];
-    }
+
   
     const Arraylenght = !isNaN(Number(showProd)) ? Number(showProd) : filteredSortedCards?.length;
     const filteredCards = [...filteredSortedCards]?.slice(0, Arraylenght);

@@ -102,7 +102,7 @@ const DasktopSearch = ({searchText, setSearchText , setIsProductListOpen, isPend
                                       <div className='flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 w-full pr-5'>
                                         <div className='flex items-center gap-1 text-13 lg:w-6/12'>
                                           <span className='capitalize'>{product.filter?.at(0)?.heading}</span>
-                                          <span className='capitalize'>{product.colorName}</span>
+                                          <span>{product.colorName}</span>
                                         </div>
     
                                         <span className='text-13 text-start lg:w-3/12'>{product.sizeName}</span>

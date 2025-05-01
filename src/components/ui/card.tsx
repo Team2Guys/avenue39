@@ -32,7 +32,6 @@ const Card = ({
   isHomepage,
   calculateHeight,
   portSpace,
-  productImages,
   SubcategoryName,
   mainCatgory,
   cardLayout,
@@ -124,7 +123,6 @@ const Card = ({
       calculateHeight={calculateHeight}
       card={card}
       cardImageHeight={cardImageHeight}
-      productImage={productImages}
       className={className}
       displayName={displayInfo.displayName}
       displayTag={displayInfo.displayTag}

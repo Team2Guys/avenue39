@@ -65,22 +65,6 @@ const Checkout = () => {
 
 
 
-  // useEffect(() => {
-  //   if(product) {
-  //     const findShipping = product.shippingOptions;
-  //     setUniqueShipping(findShipping ? findShipping : undefined);
-  //   }
-  //   else if (cartItems?.length) {
-  //     const allShippingOptions = cartItems.flatMap(item => item.selectedShipping || []);
-
-  //     const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
-
-  //     setUniqueShipping(uniqueOptions);
-  //   }
-  // }, [cartItems,product, selectedShipping]);
-
-
-
   useEffect(() => {
     if (product) {
       const findShipping =  (product?.shippingOptions && product?.shippingOptions?.length > 0) ?   product?.shippingOptions  :   [shippingOption[0]]  ;
@@ -139,20 +123,7 @@ const Checkout = () => {
       setSelectedShipping(selected);
     }
   };
-  // console.log(selectedShipping, "selectedShipping", uniqueShipping)
 
-
-  // useEffect(() => {
-  //   if (uniqueShipping?.length) {
-  //     const defaultOption =
-  //       uniqueShipping.find(option => option.name === "Standard Shipping") ||
-  //       uniqueShipping.find(option => option.name === "Next-day Shipping") ||
-  //       uniqueShipping.find(option => option.name === "Lightning Shipping") ||
-  //       uniqueShipping[0];
-
-  //     setSelectedShipping(defaultOption);
-  //   }
-  // }, [uniqueShipping]);
 
   useEffect(() => {
     if (selectedShipping) {
@@ -200,7 +171,7 @@ const Checkout = () => {
         setDisabledDates(disabled);
       }
     }
-  }, [selectedShipping]);
+  }, [uniqueShipping , selectedShipping]);
 
   const initialValues = {
     first_name: '',

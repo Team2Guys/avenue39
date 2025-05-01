@@ -1,7 +1,7 @@
 import React, { FormEventHandler, SetStateAction } from 'react';
 import { ICategory, Shipping } from './types';
 import { CartItem } from '@/redux/slices/cart/types';
-import { IProduct, ProductImage } from './prod';
+import { IProduct } from './prod';
 
 React.FormEvent<HTMLFormElement>;
 export interface USRPROPS {
@@ -267,7 +267,6 @@ export interface PotraitCardProps {
     slider: boolean | undefined,
     isLandscape: boolean | undefined,
     cardImageHeight: string | undefined,
-    productImage?: ProductImage,
     displayTag: any,
     isOutStock: boolean,
     isModel: boolean | undefined,
@@ -293,7 +292,6 @@ export interface CardProps {
   isHomepage?: boolean;
   calculateHeight?: string;
   portSpace?: string;
-  productImages?: ProductImage;
   redirect?: string;
   SubcategoryName?: ICategory;
   mainCatgory?: string;

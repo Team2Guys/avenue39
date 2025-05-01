@@ -11,14 +11,12 @@ interface ICatProduct {
   CategoryName: string;
   category: ICategory | undefined;
   redirect: string;
-  accessoriesSlider?: boolean;
 }
 
 const FlexLayout = async ({
   CategoryName,
   category,
   redirect,
-  accessoriesSlider,
 }: ICatProduct) => {
 
 
@@ -95,8 +93,6 @@ const FlexLayout = async ({
               isHomepage
               redirect={redirect}
               imageHeight="h-[270px] xl:h-[290px]"
-              accessoriesSlider={accessoriesSlider}
-              slider={redirect === 'accessories'}
             />
 
           )}

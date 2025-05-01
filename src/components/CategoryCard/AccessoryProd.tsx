@@ -45,7 +45,6 @@ const AccessoryProd = ({ redirect, CategoryName, CategoryDescription }: { redire
             setCurrentPage(page);
         }
     };
-    console.log(totalPages, "paginatedProducts")
 
 
     return (

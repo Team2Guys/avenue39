@@ -29,7 +29,7 @@ const PortraitCard = ({
     slider,
     isLandscape,
     cardImageHeight,
-    cardStaticData,
+    productImage,
     isModel,
     className,
     skeletonHeight,
@@ -86,8 +86,8 @@ const PortraitCard = ({
                                     className={`${isLandscape ? 'w-9/12' : 'w-full'} ${isAccessory ? '' : 'min-w-[270px]'}  `}
                                 >
                                     <Image
-                                        src={!isAccessory ? cardStaticData?.imageUrl || '' : card.posterImageUrl}
-                                        alt={!isAccessory ? cardStaticData?.altText || card.name : card.posterImageAltText || card.name}
+                                        src={!isAccessory ? productImage?.imageUrl || '' : card.posterImageUrl}
+                                        alt={!isAccessory ? productImage?.altText || card.name : card.posterImageAltText || card.name}
                                         width={600}
                                         height={600}
                                         className={cn(

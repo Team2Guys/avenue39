@@ -124,7 +124,7 @@ const Card = ({
       calculateHeight={calculateHeight}
       card={card}
       cardImageHeight={cardImageHeight}
-      cardStaticData={productImages}
+      productImage={productImages}
       className={className}
       displayName={displayInfo.displayName}
       displayTag={displayInfo.displayTag}
@@ -133,7 +133,7 @@ const Card = ({
       handleAddToWishlist={handleAddToWishlist}
       handleEventProbation={(e: any) => e.stopPropagation()}
       isHomepage={isHomepage}
-      isLandscape={cardLayout === 'list'} // 👈 show description if list
+      isLandscape={cardLayout === 'list'}
       isModel={isModel}
       isOutStock={isOutStock}
       itemToAdd={itemToAdd}
@@ -144,7 +144,7 @@ const Card = ({
       fill={fill}
       isAccessory={isAccessory}
     />
-  ) : ''
+  ) : <CardSkeleton skeletonHeight={skeletonHeight} />
 };
 
 export default Card;

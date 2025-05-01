@@ -71,7 +71,6 @@ const ProductGrid = ({
             isLandscape={isLandscape}
             calculateHeight={calculateHeight}
             portSpace={portSpace}
-            productImages={product.HomeProductImage}
             redirect={redirect}
             cardLayout="grid"
           />
@@ -105,7 +104,6 @@ const ProductGrid = ({
             isLandscape={isLandscape}
             calculateHeight={calculateHeight}
             portSpace={portSpace}
-            productImages={product.HomeProductImage}
             redirect={redirect}
             cardLayout="grid"
             fill={fill}

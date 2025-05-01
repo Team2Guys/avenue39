@@ -38,6 +38,8 @@ const SubCategoryProducts = async ({ slug, mainslug, filterParam, sizeParam }: {
       return <NotFound />;
     }
 
+    console.log(findProduct,'findProduct')
+
     const similarProducts: IProduct[] = AllProduct.filter((prod: IProduct) => {
       const hasMatchingCategory =
         prod?.categories &&

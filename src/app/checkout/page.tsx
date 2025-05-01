@@ -39,7 +39,7 @@ import { Shipping } from '@/types/prod';
 const Checkout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(selectOption[0].title);
   const [shippingfee, setShippingFee] = useState<number>(0);
-    const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
+  const cartPrice = useSelector((state: State) => selectTotalPrice(state.cart));
   const [totalPrice, setTotalPrice] = useState(0)
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [loading, setloading] = useState<boolean>(false);
@@ -65,32 +65,20 @@ const Checkout = () => {
 
 
 
-  // useEffect(() => {
-  //   if(product) {
-  //     const findShipping = product.shippingOptions;
-  //     setUniqueShipping(findShipping ? findShipping : undefined);
-  //   }
-  //   else if (cartItems?.length) {
-  //     const allShippingOptions = cartItems.flatMap(item => item.selectedShipping || []);
-
-  //     const uniqueOptions = Array.from(new Map(allShippingOptions.map(option => [option.name, option])).values());
-
-  //     setUniqueShipping(uniqueOptions);
-  //   }
-  // }, [cartItems,product, selectedShipping]);
-
-
-
   useEffect(() => {
     if (product) {
-      const findShipping =  (product?.shippingOptions && product?.shippingOptions?.length > 0) ?   product?.shippingOptions  :   [shippingOption[0]]  ;
+      const findShipping = (product?.shippingOptions && product?.shippingOptions?.length > 0) ? product?.shippingOptions : [shippingOption[0]];
 
       setUniqueShipping(findShipping ?? undefined);
-   
+      setSelectedShipping(findShipping[0])
+      setActiveKey('0')
+
     } else if (cartItems?.length) {
       if (cartItems.length === 1) {
         const singleItemShipping = cartItems[0].shippingOptions;
-        setUniqueShipping(singleItemShipping && singleItemShipping.length > 0 ? singleItemShipping : [shippingOption[0]] );
+        setUniqueShipping(singleItemShipping && singleItemShipping.length > 0 ? singleItemShipping : [shippingOption[0]]);
+        setSelectedShipping(singleItemShipping?.[0])
+        setActiveKey('0')
       } else {
         type ShippingOption = {
           name: string;
@@ -100,33 +88,44 @@ const Checkout = () => {
         const allShippingArrays: ShippingOption[][] = cartItems.map(
           item => item.shippingOptions || []
         );
-        const shippingMethods = cartItems.map(item => item.selectedShipping).filter((value)=>value);
+        const shippingMethods = cartItems.map(item => item.selectedShipping).filter((value) => value);
 
         const normalized = allShippingArrays.map(arr =>
           JSON.stringify(arr.map(opt => opt.name).sort())
         );
 
         const isAllSame = normalized.every(val => val === normalized[0]);
+        console.log(isAllSame,'isAllSame')
         if (isAllSame && (shippingMethods.length > 0)) {
           const sameShipping = cartItems[0].shippingOptions || [];
           setUniqueShipping(sameShipping);
-
-
+          setSelectedShipping(sameShipping[0])
+          setActiveKey('0')
         } else {
 
           const shippingMethods = cartItems.map(item => item.selectedShipping);
 
-          const defaultOption =
-            shippingMethods?.find(option => option?.name === "Standard Shipping") ||
+          const defaultOption = shippingMethods?.find(option => option?.name === "Standard Shipping") ||
             shippingMethods?.find(option => option?.name === "Next-day Shipping") ||
             shippingMethods?.find(option => option?.name === "Lightning Shipping") ||
             shippingOption[0]
-          
+
+          const defaultIndex =
+            shippingMethods?.findIndex(option => option?.name === "Standard Shipping") !== -1 ?
+              shippingMethods.findIndex(option => option?.name === "Standard Shipping") :
+              shippingMethods?.findIndex(option => option?.name === "Next-day Shipping") !== -1 ?
+                shippingMethods.findIndex(option => option?.name === "Next-day Shipping") :
+                shippingMethods?.findIndex(option => option?.name === "Lightning Shipping") !== -1 ?
+                  shippingMethods.findIndex(option => option?.name === "Lightning Shipping") :
+                  0;
+
           setUniqueShipping(defaultOption ? [defaultOption] : []);
+          setSelectedShipping(defaultOption)
+          setActiveKey(`${defaultIndex}`)
         }
       }
     }
-  }, [cartItems, product, selectedShipping]);
+  }, [cartItems, product]);
 
 
   const handleCollapseChange = (key: string | string[]) => {
@@ -139,20 +138,7 @@ const Checkout = () => {
       setSelectedShipping(selected);
     }
   };
-  // console.log(selectedShipping, "selectedShipping", uniqueShipping)
 
-
-  // useEffect(() => {
-  //   if (uniqueShipping?.length) {
-  //     const defaultOption =
-  //       uniqueShipping.find(option => option.name === "Standard Shipping") ||
-  //       uniqueShipping.find(option => option.name === "Next-day Shipping") ||
-  //       uniqueShipping.find(option => option.name === "Lightning Shipping") ||
-  //       uniqueShipping[0];
-
-  //     setSelectedShipping(defaultOption);
-  //   }
-  // }, [uniqueShipping]);
 
   useEffect(() => {
     if (selectedShipping) {
@@ -176,6 +162,7 @@ const Checkout = () => {
           setMinDate(currentTime.toISOString().split('T')[0]);
         }
       } else if (selectedShipping?.name === 'Standard Shipping') {
+
         const currentDate = new Date();
 
         // Move forward by 3 days to disable the next 3 days
@@ -201,6 +188,8 @@ const Checkout = () => {
       }
     }
   }, [selectedShipping]);
+
+  console.log(selectedShipping, 'minDate')
 
   const initialValues = {
     first_name: '',
@@ -251,15 +240,17 @@ const Checkout = () => {
       const onlyAccessoriesInProduct = product?.categories?.every((category) => category.name.toLowerCase().trim() === "accessories");
 
       const productPrice = product ? totalPrice : cartPrice;
-      let totalPricesFlag = productPrice  > 1000  ?  true : false
+      let totalPricesFlag = productPrice > 1000 ? true : false
 
-      const shippingMethod = selectedShipping.name === "Lightning Shipping" ||  selectedShipping.name === "Next-day Shipping";
+      const shippingMethod = selectedShipping.name === "Lightning Shipping" || selectedShipping.name === "Next-day Shipping";
 
       const accessoryFlag = product ? onlyAccessoriesInProduct : onlyAccessoriesInCart;
-      setShippingFee(totalPricesFlag ? 0 : accessoryFlag &&  shippingMethod ? 30  : (option ? option[state] ?? 0 : 50));
+      setShippingFee(totalPricesFlag ? 0 : accessoryFlag && shippingMethod ? 30 : (option ? option[state] ?? 0 : 50));
 
     }
   }, [selectedShipping, selectedState]);
+
+  console.log(minDate, 'minDate')
 
   let shipingOptionsArray = uniqueShipping?.map((selectedShipping, index) => {
     return ({
@@ -351,9 +342,9 @@ const Checkout = () => {
 
 
   const handlePayment = async (values: any) => {
-    if(!selectedShipping){
+    if (!selectedShipping) {
       toast.error("Please select shipping method")
-      return ;
+      return;
     }
 
     const cartItems_refactor = await Promise.all(cartItems.map((item) => {
@@ -504,7 +495,7 @@ const Checkout = () => {
                       onChange={formik.handleChange}
                       value={formik.values.address}
                     />
-                    
+
                     <div className="flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2">
                       <div className="flex-1">
                         <Label
@@ -635,7 +626,7 @@ const Checkout = () => {
                                   {(product.selectedfilter || product.selectedSize) ?
                                     <ProductPrice className="flex gap-2 flex-wrap !text-[13px] text-nowrap">
                                       <span>
-                                      <span className="font-currency font-normal"></span>{' '}
+                                        <span className="font-currency font-normal"></span>{' '}
                                         {(
                                           (Number(product.selectedSize?.price) || (Number(product.selectedfilter?.price) === 0) && product.discountPrice ? product.discountPrice : product.price) * product.quantity
                                         ).toLocaleString()}
@@ -644,16 +635,16 @@ const Checkout = () => {
                                     (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
                                       <>
                                         <p className="text-16 xs:text-18 font-bold text-nowrap">
-                                        <span className="font-currency font-normal"></span> <span>{product?.discountPrice * product.quantity}</span>
+                                          <span className="font-currency font-normal"></span> <span>{product?.discountPrice * product.quantity}</span>
                                         </p>
                                         <p className="text-14 font-normal text-nowrap line-through text-[#A5A5A5] w-16">
-                                        <span className="font-currency font-normal"></span> <span>{product?.price * product.quantity}</span>
+                                          <span className="font-currency font-normal"></span> <span>{product?.price * product.quantity}</span>
                                         </p>
                                       </>
                                     ) : (
                                       <>
                                         <p className="text-16 xs:text-18 font-bold text-nowrap">
-                                        <span className="font-currency font-normal"></span> <span>{product?.price * product.quantity}</span>
+                                          <span className="font-currency font-normal"></span> <span>{product?.price * product.quantity}</span>
                                         </p>
                                         <p className="text-[18px] font-bold w-16"></p>
                                       </>
@@ -666,7 +657,7 @@ const Checkout = () => {
                                   {(product.selectedfilter || product.selectedSize) ?
                                     <ProductPrice className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
                                       <span>
-                                      <span className="font-currency font-normal"></span>{' '}
+                                        <span className="font-currency font-normal"></span>{' '}
                                         {
                                           (
                                             product.selectedSize?.price || product.selectedSize?.discountPrice
@@ -687,13 +678,13 @@ const Checkout = () => {
                                     : (product.discountPrice !== product.price) && product.discountPrice > 0 ? (
                                       <>
                                         <p className="text-12 xl:text-14 text-nowrap font-normal text-end w-16 line-through text-[#A5A5A5]">
-                                        <span className="font-currency font-normal"></span>{' '}
+                                          <span className="font-currency font-normal"></span>{' '}
                                           <span>
                                             {(product?.price * product.quantity).toLocaleString()}
                                           </span>
                                         </p>
                                         <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap">
-                                        <span className="font-currency font-normal"></span>{' '}
+                                          <span className="font-currency font-normal"></span>{' '}
                                           <span>
                                             {(
                                               product?.discountPrice * product.quantity
@@ -704,7 +695,7 @@ const Checkout = () => {
                                     ) : (
                                       <>
                                         <p className="text-14 xs:text-16 xl:text-[20px] font-bold text-nowrap w-full text-end">
-                                        <span className="font-currency font-normal"></span>{' '}
+                                          <span className="font-currency font-normal"></span>{' '}
                                           <span>
                                             {(product?.price * product.quantity).toLocaleString()}
                                           </span>
@@ -724,7 +715,7 @@ const Checkout = () => {
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-sm">
                         <p>Subtotal</p>
                         <p>
-                        <span className="font-currency font-normal"></span> <span>{product ? totalPrice.toLocaleString() : cartPrice.toLocaleString()}</span>
+                          <span className="font-currency font-normal"></span> <span>{product ? totalPrice.toLocaleString() : cartPrice.toLocaleString()}</span>
                         </p>
                       </div>
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-sm">
@@ -740,7 +731,7 @@ const Checkout = () => {
                       <div className="border-t-4 pt-6 flex justify-between items-center text-[#666666] text-18 font-bold">
                         <p>Total</p>
                         <p className="text-black text-[25px]">
-                        <span className="font-currency font-bold"></span>{' '}
+                          <span className="font-currency font-bold"></span>{' '}
                           <span>
                             {((product ? totalPrice : cartPrice) > 1000
                               ? product ? totalPrice : cartPrice
@@ -784,8 +775,7 @@ const Checkout = () => {
                         />
                       </div>
                     }
-
-                    <div className='flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2'>
+                    {minDate && (<div className='flex flex-wrap sm:flex-nowrap md:flex-wrap  xl:flex-nowrap gap-2'>
                       <div className="flex-1">
                         <LabelInput
                           label={`Shipping Date ${selectedShipping?.name !== 'Standard Shipping' ? '*' : ""}`}
@@ -864,7 +854,8 @@ const Checkout = () => {
                           </SelectContent>
                         </Select>
                       </div>
-                    </div>
+                    </div>)}
+
 
                     <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-4 w-full">
                       {/* <div className="flex gap-4 items-center">

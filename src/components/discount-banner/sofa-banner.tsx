@@ -145,7 +145,7 @@ const SofaBanner: React.FC = () => {
                       height={500}
                       alt={slide.title}
                       className="max-w-[700px] xl:max-w-[900px] w-full h-full"
-                      loading='lazy'
+                      priority={slide.id === 1}
                     />
                   </Link>
                 </div>

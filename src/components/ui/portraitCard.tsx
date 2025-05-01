@@ -43,7 +43,6 @@ const PortraitCard = ({
     isAccessory
 }: PotraitCardProps) => {
     const [isHoverImage, setIsHoverImage] = useState<boolean>(false);
-    console.log(card.additionalInformation)
     return (
         <div
             className={`text-center product-card mb-2 flex flex-col  ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
@@ -87,13 +86,18 @@ const PortraitCard = ({
                                     className={`${isLandscape ? 'w-9/12' : 'w-full'} ${isAccessory ? '' : 'min-w-[270px]'}  `}
                                 >
                                     <Image
-                                        src={cardStaticData?.imageUrl || card.posterImageUrl}
-                                        alt={card.posterImageAltText || card.name}
+                                        src={!isAccessory ? cardStaticData?.imageUrl || '' : card.posterImageUrl}
+                                        alt={!isAccessory ? cardStaticData?.altText || card.name : card.posterImageAltText || card.name}
                                         width={600}
                                         height={600}
-                                        className={
-                                            `${!displayTag && 'h-full'} w-full ${isAccessory ? '' : 'min-w-[270px]'} ${slider ? portSpace || 'px-0' : 'px-4 xs:px-6'} ${fill ? 'object-fill' : 'object-contain'} cursor-pointer`
-                                        }
+                                        className={cn(
+                                            !displayTag && 'h-full',
+                                            'w-full',
+                                            !isAccessory && 'min-w-[270px]',
+                                            slider ? portSpace || 'px-0' : 'px-4 xs:px-6',
+                                            fill ? 'object-fill' : 'object-contain',
+                                            'cursor-pointer'
+                                          )}
                                         loading='lazy'
                                     />
                                 </Link>

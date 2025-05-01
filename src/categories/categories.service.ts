@@ -4,7 +4,7 @@ import { AddCategoryDto, UpdateCategoryDto, UpdateCategoryHomeProductsDto } from
 import { customHttpException } from '../utils/helper';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { CHACHE_CATEGORY_HEADER_KEY, CHACHE_CATEGORY_KEY, CHACHE_CATEGORY_PRODUCTS_KEY } from '../../src/utils/CacheKeys';
+import { CHACHE_CATEGORY_HEADER_KEY, CHACHE_CATEGORY_KEY } from '../../src/utils/CacheKeys';
 
 @Injectable()
 export class CategoriesService {
@@ -361,7 +361,6 @@ export class CategoriesService {
             return productIds.map(id => products.find(product => product.id === id));
           });
 
-          await this.cacheManager.del(CHACHE_CATEGORY_PRODUCTS_KEY);
           await this.prisma.categories.update({
             where: { id: existingCategory.id },
             data: {
@@ -388,13 +387,6 @@ export class CategoriesService {
 
   async getHomeProductCategories() {
     try {
-      const cachedCategories = await this.cacheManager.get(CHACHE_CATEGORY_PRODUCTS_KEY);
-      console.log(cachedCategories, "cachec categories")
-      if (cachedCategories) {
-        console.log('Returning categories from cache')
-        return cachedCategories;
-      }
-
       let categories = await this.prisma.categories.findMany({
         select: {
           id: true,
@@ -403,10 +395,6 @@ export class CategoriesService {
           short_description: true
         }
       });
-
-      // @ts-ignore
-      await this.cacheManager.set(CHACHE_CATEGORY_PRODUCTS_KEY, categories, { ttl: 3600 }); // Set expiration to 1 hour
-
       return categories;
 
 

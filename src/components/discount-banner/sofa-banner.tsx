@@ -50,6 +50,7 @@ const SofaBanner = ({sofaDataSlides}: SofaBannerProps) => {
                       className="w-full h-full"
                       priority
                       sizes="(max-width: 1024px) 100vw, 50vw"
+                      layout='responsive'
                     />
 
                   </Link>

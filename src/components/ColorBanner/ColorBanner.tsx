@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import chairMobileImg from '@assets/images/banners/design_chair1_x8u.webp'
 import sofaMobileImg from '@assets/images/banners/b8tp5qiqyifyp1b8meer_tyxde5.webp'
-import Head from 'next/head';
 
 const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -49,14 +48,6 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
     <ContainerFluid
       className={`py-3 xs:py-5 md:pt-10 md:pb-6 bg-white sofa_swiper`}
     >
-      <Head>
-        <link
-          rel="preload"
-          as="image"
-          href={sofaMobileImg.src}
-          type="image/webp"
-        />
-      </Head>
        <Swiper
         modules={[Pagination]}
         spaceBetween={0}

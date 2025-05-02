@@ -140,13 +140,14 @@ const SofaBanner: React.FC = () => {
                 <div className="w-full lg:w-[70%] relative flex justify-center h-72 xs:h-[400px] 2xl:h-[500px]">
                   <Link href={slide.link} className='lg:w-full xl:w-fit'>
                     <Image
-                      src={slide.image}
+                      src={slide.image.src}
                       width={500}
                       height={500}
                       alt={slide.title}
                       className="w-full h-full"
                       loading='eager'
                       priority={index === 0}
+                      fetchPriority='high'
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </Link>

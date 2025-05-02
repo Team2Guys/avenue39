@@ -33,3 +33,24 @@ export const cardProductTags = [
   {name: 'Hallie Sofa', tagPara: 'Simple But Significant' , displayName: 'Hallie Sofa'},
   {name: 'Lisbon Sofa', tagPara: 'get The Best Sofa In The House' , displayName: 'Lisbon Sofa'},
 ]
+
+export const sofaDataSlides = [
+  {
+    title: 'Marlin Tub Swivel Chair',
+    product_price: '1,800',
+    image: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1746179908/Marlin_kjcs1u.webp',
+    link: '/chairs/accent-chairs/marlin-tub-swivel-chair',
+  },
+  {
+    title: 'Rafael Office Desk',
+    product_price: '5,500',
+    image: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1746179914/Rafael_qga4nl.avif',
+    link: '/office-furniture/desks/rafael-office-desk',
+  },
+  {
+    title: 'Chroma Petal Pod Chair',
+    product_price: '4,500',
+    image: 'https://res.cloudinary.com/dckxfl2yn/image/upload/v1746179933/Chroma_v3zk8o.webp',
+    link: '/chairs/accent-chairs/chroma-petal-pod-chair',
+  },
+];

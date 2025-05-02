@@ -68,7 +68,7 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                     <p className="text-18 font-extralight h-32 xsm:h-28 xs:h-[170px] sm:h-32 font-Helveticalight">
                       {slide.Description}
                     </p>
-                  <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-6 px-2 mx-auto">
+                  <div className="w-fit lg:h-full xl:mt-20 md:mt-10 mt-7 px-2 mx-auto">
                     <Image
                       src={slide.imageUrl2}
                       className="w-full h-16 md:h-20"
@@ -81,7 +81,7 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                   </div>
                 </div>
               </div>
-              <div className="w-full lg:w-[70%]">
+              <div className="w-full lg:w-[70%] mt-8 lg:mt-0">
                 <Link href={slide.link} className="block w-full h-full">
                   <Image
                     src={windowWidth < 500 ? index === 0 ? sofaMobileImg.src : chairMobileImg.src : slide.imageUrl}

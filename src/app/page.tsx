@@ -32,7 +32,6 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const categories = await fetchCategories('get-home-products');
-  console.log(categories,'categories')
   return (
     <>
 

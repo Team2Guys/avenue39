@@ -210,7 +210,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
     const params = new URLSearchParams();
 
     if (product.colorName) {
-      params.set('filter', generateSlug(product.colorName));
+      params.set('variant', generateSlug(product.colorName));
     }
 
     if (product.sizeName) {

@@ -160,7 +160,7 @@ const PortraitCard = ({
                             </div>
                         )} */}
                         {isModel ? null : isOutStock ?
-                            <button className='bg-red-500 text-white text-12 font-medium uppercase w-full max-w-52 mx-auto bg-main border cursor-default rounded-full h-9 my-1 flex justify-center items-center gap-2'>
+                            <button className={`bg-red-500 text-white text-12 font-medium uppercase w-full max-w-52 bg-main border cursor-default rounded-full h-9 my-1 flex ${isLandscape ? 'me-auto' :'mx-auto'} justify-center items-center gap-2`}>
                                 <BsCartX size={18} /> Out of Stock</button> : (
                                 <div
                                     className={`text-center items-center  w-full flex ${isLandscape ? '' : 'justify-center'} gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}

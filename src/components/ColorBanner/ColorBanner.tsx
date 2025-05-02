@@ -81,7 +81,7 @@ const ColorBanner = ({ Bannerclas, ColorBannerData }: any) => {
                   </div>
                 </div>
               </div>
-              <div className="w-full lg:w-[70%] mt-8 lg:mt-0">
+              <div className="w-full lg:w-[70%] mt-9 lg:mt-0">
                 <Link href={slide.link} className="block w-full h-full">
                   <Image
                     src={windowWidth < 500 ? index === 0 ? sofaMobileImg.src : chairMobileImg.src : slide.imageUrl}

@@ -2,7 +2,7 @@ import Container from '../ui/Container';
 
 const HeroVideo = () => {
   return (
-    <div className="relative h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]">
+    <div className="relative  h-[250px] xs:h-full lg:h-[80vh] xl:h-[80vh] 2xl:h-[83vh]">
       <video
         className="w-full object-cover h-full"
         loop

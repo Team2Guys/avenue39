@@ -47,15 +47,15 @@ const PortraitCard = ({
             className={`text-center product-card mb-2 flex flex-col  ${slider ? '' : ' justify-between'} h-auto  p-1 rounded-[35px] w-full`}>
             <span className='hidden' >{averageRating}</span>
             <div className={`relative w-full overflow-hidden rounded-t-[35px] group flex ${isLandscape ? ' items-center text-center gap-4' : 'flex-col'}`}>
-
-                <div
+                {!isLandscape && (<div
                     onClick={(e) => handleAddToWishlist(e)}
                     onMouseEnter={() => setIsHoverImage(true)}
                     onMouseLeave={() => setIsHoverImage(false)}
                     className="absolute z-10 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
                 >
                     <IoIosHeartEmpty size={20} />
-                </div>
+                </div>)}
+                
                 <>
                     <div className={`bg-[#E3E4E6] rounded-[35px] border-2 border-transparent group-hover:border-main ${isLandscape ? 'w-3/12' : ''}`}>
                         {/* <span className='pb-10'>{card.subcategories?.map((item) => item.name)}</span> */}
@@ -85,8 +85,8 @@ const PortraitCard = ({
                                     className={`${isLandscape ? 'w-9/12' : 'w-full'} ${isAccessory ? '' : 'min-w-[270px]'}  `}
                                 >
                                     <Image
-                                        src={ card.HomeProductImage ? card.HomeProductImage.imageUrl : card.posterImageUrl}
-                                        alt={ card.HomeProductImage ? card.HomeProductImage.altText || card.name : card.posterImageAltText || card.name}
+                                        src={card.HomeProductImage ? card.HomeProductImage.imageUrl : card.posterImageUrl}
+                                        alt={card.HomeProductImage ? card.HomeProductImage.altText || card.name : card.posterImageAltText || card.name}
                                         width={600}
                                         height={600}
                                         className={cn(
@@ -96,13 +96,22 @@ const PortraitCard = ({
                                             slider ? portSpace || 'px-0' : 'px-4 xs:px-6',
                                             fill ? 'object-fill' : 'object-contain',
                                             'cursor-pointer'
-                                          )}
+                                        )}
                                         loading='lazy'
                                     />
                                 </Link>
                             </div>
                         ) : (
-                            <div className="relative">
+                            <div className={`relative ${isLandscape ? 'overflow-hidden' : '' }`}>
+                                {isLandscape && (<div
+                                    onClick={(e) => handleAddToWishlist(e)}
+                                    onMouseEnter={() => setIsHoverImage(true)}
+                                    onMouseLeave={() => setIsHoverImage(false)}
+                                    className="absolute z-10 top-4 right-4 md:-right-10 group-hover:right-4 md:opacity-0 group-hover:opacity-100 w-10 h-10 rounded-xl flex justify-center items-center border bg-white hover:border-main hover:bg-main hover:text-white  cursor-pointer  duration-300 transition-all"
+                                >
+                                    <IoIosHeartEmpty size={20} />
+                                </div>)}
+                                
 
                                 <Link href={finalUrl}>
                                     <Image
@@ -134,10 +143,10 @@ const PortraitCard = ({
                         >
                             {displayName ? displayName : card.name}
                         </Link>
-                        {isLandscape && 
-                        <p className="mt-2 font-normal text-sm max-h-10 text-ellipsis line-clamp-2">
-                            {card.description}
-                        </p>
+                        {isLandscape &&
+                            <p className="mt-2 font-normal text-sm max-h-10 text-ellipsis line-clamp-2">
+                                {card.description}
+                            </p>
                         }
                         {/* {card.subcategories?.map((item) => item.name)} */}
                         {card.discountPrice ? (
@@ -160,7 +169,7 @@ const PortraitCard = ({
                             </div>
                         )} */}
                         {isModel ? null : isOutStock ?
-                            <button className={`bg-red-500 text-white text-12 font-medium uppercase w-full max-w-52 bg-main border cursor-default rounded-full h-9 my-1 flex ${isLandscape ? 'me-auto' :'mx-auto'} justify-center items-center gap-2`}>
+                            <button className={`bg-red-500 text-white text-12 font-medium uppercase w-full max-w-52 bg-main border cursor-default rounded-full h-9 my-1 flex ${isLandscape ? 'me-auto' : 'mx-auto'} justify-center items-center gap-2`}>
                                 <BsCartX size={18} /> Out of Stock</button> : (
                                 <div
                                     className={`text-center items-center  w-full flex ${isLandscape ? '' : 'justify-center'} gap-1 md:space-y-0 ${slider ? 'w-fit  mx-auto flex-wrap md:flex-nowrap' : 'w-fit mb-4 flex-wrap 2xl:flex-nowrap'}`}

@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 
 // Images
 import Chroma from '@assets/images/banners/Chroma.webp';
-import Marlin from '@assets/images/banners/Marlin.avif';
+import Marlin from '@assets/images/banners/Marlin.webp';
 import rafael from '@assets/images/banners/Rafael.avif';
 import chair from '@assets/images/banners/chair.webp';
 import Magia from '@assets/images/banners/Magia.webp';
@@ -123,8 +123,8 @@ const SofaBanner: React.FC = () => {
           pagination={{ clickable: true }}
           loop
         >
-          {sofaDataSlides.map((slide) => (
-            <SwiperSlide key={slide.id}>
+          {sofaDataSlides.map((slide ,index) => (
+            <SwiperSlide key={index}>
               <div className="flex flex-wrap items-center justify-center px-2 pb-4 sm:ps-20 md:ps-6 lg:ps-8 min-h-[400px] sm:min-h-[500px] md:min-h-[600px] py-5 md:py-0">
                 <div className="w-full lg:w-[30%] text-center lg:text-left max-xs:pt-5">
                   <Link
@@ -137,15 +137,16 @@ const SofaBanner: React.FC = () => {
                   <p className="text-lg font-bold text-black mt-1"><span className="font-currency font-bold"></span> {slide.product_price}</p>
                 </div>
 
-                <div className="w-full lg:w-[70%] relative flex justify-center xl:h-[400px] 2xl:h-[500px]">
-                  <Link href={slide.link}>
+                <div className="w-full lg:w-[70%] relative flex justify-center h-72 xs:h-[400px] 2xl:h-[500px]">
+                  <Link href={slide.link} className='lg:w-full xl:w-fit'>
                     <Image
                       src={slide.image}
-                      width={900}
+                      width={500}
                       height={500}
                       alt={slide.title}
-                      className="max-w-[700px] xl:max-w-[900px] w-full h-full"
-                      priority={slide.id === 1}
+                      className="w-full h-full"
+                      priority={index === 0}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </Link>
                 </div>

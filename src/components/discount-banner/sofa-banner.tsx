@@ -48,7 +48,7 @@ const SofaBanner = ({sofaDataSlides}: SofaBannerProps) => {
                       height={500}
                       alt={slide.title}
                       className="w-full h-full"
-                      priority={index === 0}
+                      loading='lazy'
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
 

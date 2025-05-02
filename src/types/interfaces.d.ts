@@ -61,7 +61,7 @@ export interface Category {
   canonical_tag?: string;
   images_alt_text?: string;
   posterImageUrl?: IMAGE_INTERFACE;
-  custom_url?:string
+  custom_url?: string
 }
 export interface SubCategory {
   name: string;
@@ -71,7 +71,7 @@ export interface SubCategory {
   canonical_tag?: string;
   images_alt_text?: string;
   categoriesId: number[];
-  custom_url? :string
+  custom_url?: string
 }
 
 interface CloudinaryImage {
@@ -92,7 +92,7 @@ interface Images {
   imageUrl: CloudinaryImage[];
 }
 
-export interface ProductWithImages extends Product, Images {}
+export interface ProductWithImages extends Product, Images { }
 
 export interface FormValues {
   name: string;
@@ -231,7 +231,7 @@ declare module 'react-qr-scanner' {
     onScan?: (data: string | null) => void;
     style?: React.CSSProperties;
   }
-  class QrReader extends Component<QrReaderProps, {}> {}
+  class QrReader extends Component<QrReaderProps, {}> { }
   export default QrReader;
 }
 /* eslint-enable */
@@ -255,29 +255,29 @@ export interface FooterItem {
 }
 
 export interface PotraitCardProps {
-    card: IProduct,
-    finalUrl: string,
-    handleAddToWishlist: any,
-    displayName: string | undefined,
-    averageRating: number | undefined,
-    handleEventProbation: any,
-    handleAddToCard: any,
-    itemToAdd: CartItem | any,
-    uniqueSizes: any,
-    slider: boolean | undefined,
-    isLandscape: boolean | undefined,
-    cardImageHeight: string | undefined,
-    displayTag: any,
-    isOutStock: boolean,
-    isModel: boolean | undefined,
-    className: string | undefined,
-    skeletonHeight: string | undefined,
-    isHomepage: boolean | undefined,
-    calculateHeight: string | undefined,
-    portSpace: string | undefined,
-    accessoriesSlider: boolean | undefined,
-    fill?: boolean,
-    isAccessory?: boolean,
+  card: IProduct,
+  finalUrl: string,
+  handleAddToWishlist: any,
+  displayName: string | undefined,
+  averageRating: number | undefined,
+  handleEventProbation: any,
+  handleAddToCard: any,
+  itemToAdd: CartItem | any,
+  uniqueSizes: any,
+  slider: boolean | undefined,
+  isLandscape: boolean | undefined,
+  cardImageHeight: string | undefined,
+  displayTag: any,
+  isOutStock: boolean,
+  isModel: boolean | undefined,
+  className: string | undefined,
+  skeletonHeight: string | undefined,
+  isHomepage: boolean | undefined,
+  calculateHeight: string | undefined,
+  portSpace: string | undefined,
+  accessoriesSlider: boolean | undefined,
+  fill?: boolean,
+  isAccessory?: boolean,
 }
 
 export interface CardProps {
@@ -300,4 +300,14 @@ export interface CardProps {
   fill?: boolean;
   isLandscape?: boolean;
   isAccessory?: boolean;
+}
+
+
+export interface SofaBannerProps {
+  sofaDataSlides: {
+    title: string,
+    product_price: string,
+    image: string,
+    link: string,
+  }[],
 }

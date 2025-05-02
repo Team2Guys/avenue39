@@ -15,8 +15,6 @@ import {
 import WhatsIcon from '@/components/Icons/Whatsapp';
 import Head from 'next/head';
 import GoToTop from '@/components/GoToTop/go-to-top';
-import Marlin from '@assets/images/banners/Marlin.webp';
-import sofaMobileImg from '@assets/images/banners/b8tp5qiqyifyp1b8meer_tyxde5.webp'
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,18 +29,6 @@ export default function RootLayout({
 
       <Head>
         <meta name="google-site-verification" content="zWttI0koSPy3RVDUFeuucyAT02aJoEnX5ZTO_BM_0H0" />
-        <link
-          rel="preload"
-          as="image"
-          href={sofaMobileImg.src}
-          type="image/webp"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href={Marlin.src}
-          type="image/webp"
-        />
         {/* <noscript><Image alt='facebook' height="1" width="1" style={{ display: 'none' }}
           src="https://www.facebook.com/tr?id=548519410929159&ev=PageView&noscript=1"
         /></noscript> */}
